@@ -1,4 +1,5 @@
 ru\ancap\framework\api\loader\YamlLocaleLoader.class
+ru\ancap\framework\api\additional\LAPICommunicator.class
 ru\ancap\framework\api\LAPI.class
 ru\ancap\framework\api\language\PlayersLanguageSettings.class
 ru\ancap\framework\api\locale\MapLocales.class

@@ -7,7 +7,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>CommandAPI</artifactId>
-  <version>2.3</version>
+  <version>2.6</version>
   <dependencies>
     <dependency>
       <groupId>com.destroystokyo.paper</groupId>
@@ -16,15 +16,21 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>ru.ancap</groupId>
+      <artifactId>EventAPI</artifactId>
+      <version>LATEST</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
-      <version>23.0.0</version>
+      <version>LATEST</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.24</version>
+      <version>LATEST</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

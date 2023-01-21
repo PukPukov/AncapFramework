@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="BUILD_PROCESS_HEAP_SIZE" value="2048" />
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="MaterialAPI" />
         <module name="CommandAPI" />
+        <module name="MaterialAPI" />
         <module name="LanguageAPI" />
         <module name="WorldIteratorAPI" />
+        <module name="Artifex" />
         <module name="AncapPluginAPI" />
-        <module name="AncapPlugin" />
+        <module name="AncapCommons" />
+        <module name="MenuAPI" />
+        <module name="BukkitUtil" />
+        <module name="NumberUnitsAPI" />
         <module name="DatabaseAPI" />
         <module name="EventAPI" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="AncapMisc" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>

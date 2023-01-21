@@ -23,7 +23,7 @@ public class MapLocales implements Locales {
         var languageMap = this.map.get(language);
         String oldMapData = languageMap.get(id);
         languageMap.put(id, localized);
-        if (oldMapData != null) {
+        if (oldMapData != null && !oldMapData.equals(localized)) {
             Logger.getGlobal().warning("Replaced "+id+"'s locale \""+oldMapData+"\" with "+localized);
         }
     }
@@ -33,10 +33,15 @@ public class MapLocales implements Locales {
         this.fillLanguage(language);
         var languageMap = this.map.get(language);
         String localized = languageMap.get(id);
-        if (localized == null) {
-            localized = languageMap.getOrDefault(id, id);
+        if (localized != null) {
+            return localized;
         }
-        return localized;
+        languageMap = this.map.get(defaultLanguage);
+        localized = languageMap.get(id);
+        if (localized != null) {
+            return localized;
+        }
+        return id;
     }
 
     private void fillLanguage(Language language) {

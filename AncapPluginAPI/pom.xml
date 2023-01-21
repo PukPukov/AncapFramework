@@ -2,6 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
     <parent>
         <artifactId>AncapFramework</artifactId>
         <groupId>ru.ancap</groupId>
@@ -13,7 +14,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>AncapPluginAPI</artifactId>
-    <version>3.4.1</version>
+    <version>3.4.2</version>
+    
+    <repositories>
+        <repository>
+            <id>sonatype-oss-snapshots1</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -24,38 +32,45 @@
         </dependency>
 
         <dependency>
-            <groupId>ru.ancap</groupId>
-            <artifactId>AncapMisc</artifactId>
-            <version>1.0.1</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
             <version>3.0.0</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>CommandAPI</artifactId>
-            <version>2.3</version>
-            <scope>compile</scope>
+            <version>LATEST</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>DatabaseAPI</artifactId>
-            <version>1.0.0</version>
-            <scope>compile</scope>
+            <version>LATEST</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>LanguageAPI</artifactId>
-            <version>1.0.0</version>
+            <version>LATEST</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>ru.ancap</groupId>
+            <artifactId>AncapCommons</artifactId>
+            <version>LATEST</version>
             <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>ru.ancap</groupId>
+            <artifactId>BukkitUtil</artifactId>
+            <version>LATEST</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

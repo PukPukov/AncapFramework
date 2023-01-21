@@ -1,31 +1,28 @@
 package ru.ancap.framework.api.plugin.plugins;
 
-import javafx.util.Pair;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.Listener;
 import ru.ancap.framework.api.command.commands.command.executor.CommandOperator;
 import ru.ancap.framework.api.plugin.plugins.commands.CommandCenter;
 import ru.ancap.framework.api.plugin.plugins.config.StreamConfig;
 import ru.ancap.framework.api.plugin.plugins.info.AncapPluginSettings;
+import ru.ancap.framework.api.plugin.plugins.info.RegisterStage;
 import ru.ancap.framework.api.plugin.plugins.language.locale.loader.LocaleLoader;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
-import java.util.ArrayList;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public abstract class AncapPlugin extends AncapMinimalisticPlugin {
 
-    public static final String MESSAGE_DOMAIN = "ru.ancap.framework.messages.";
-
     private static final Map<String, AncapPlugin> plugins = new HashMap<>();
     private static CommandCenter commandCenter;
-
     private Metrics metrics;
     private AncapPluginSettings settings;
-
-
     protected Metrics getMetrics() {
         return this.metrics;
     }
@@ -34,12 +31,11 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     @Override
     public void onEnable() {
         super.onEnable();
-        this.registerAutoRegisteredListeners();
         this.onCoreLoad();
         this.loadPluginSettings();
         this.registerMetrics();
         this.initializeInCommandCenter();
-        this.registerAutoRegisteredCommandExecutors();
+        this.autoRegisterIntegrators();
         this.register();
     }
 
@@ -55,14 +51,31 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     }
 
     protected void registerExecutor(String commandName, CommandOperator executor) {
-        Bukkit.broadcastMessage(
-                "Registering command: " +commandName+" with executor "+executor.getClass().getName()
-        );
         commandCenter.setExecutor(commandName, executor);
     }
+    
+    protected void registerIntegrators() {
+        this.registerListeners();
+        this.registerCommandExecutors();
+    }
+    
+    private void autoRegisterIntegrators() {
+        if (this.getSettings().getCommandExecutorRegisterStage() == RegisterStage.ANCAP_PLUGIN_ENABLE) {
+            this.registerCommandExecutors();
+        }
+        if (this.getSettings().getListenerRegisterStage() == RegisterStage.ANCAP_PLUGIN_ENABLE) {
+            this.registerListeners();
+        }
+    }
 
-    private void registerAutoRegisteredCommandExecutors() {
-        for (Pair<String, CommandOperator> command : this.commands()) {
+    protected void registerListeners() {
+        for (Listener listener : this.listeners()) {
+            this.registerEventsListener(listener);
+        }
+    }
+
+    protected void registerCommandExecutors() {
+        for (Map.Entry<String, CommandOperator> command : this.commands().entrySet()) {
             this.registerExecutor(
                     command.getKey(),
                     command.getValue()
@@ -105,6 +118,14 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
                 )
         );
     }
+    
+    protected ConfigurationSection getConfig(String fileName) {
+        return YamlConfiguration.loadConfiguration(
+                new InputStreamReader(
+                        this.getResourceSource().getResource(fileName)
+                )
+        );
+    }
 
     protected void registerMetrics() {
         this.metrics = new Metrics(this, this.getPluginId());
@@ -115,8 +136,13 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         return this.getSettings().getPluginId();
     }
 
-    protected List<Pair<String, CommandOperator>> commands() {
-        return new ArrayList<>();
+    @Deprecated
+    protected Map<String, CommandOperator> commands() {
+        return Map.of();
+    }
+
+    protected List<Listener> listeners() {
+        return List.of();
     }
 
 }

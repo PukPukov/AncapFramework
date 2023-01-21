@@ -11,6 +11,8 @@ public class AncapPluginSettings {
 
     protected static class Path {
         public static final String PLUGIN_ID = "id";
+        public static final String LISTENERS_REGISTER_STAGE = "auto-register-stage.listeners";
+        public static final String COMMAND_EXECUTORS_REGISTER_STAGE = "auto-register-stage.command-executors";
         public static final String COMMAND_LIST = "commands.list";
         public static final String ALIASES_DOMAIN = "commands.aliases";
     }
@@ -31,6 +33,22 @@ public class AncapPluginSettings {
         ConfigurationSection section = this.section.getConfigurationSection(Path.ALIASES_DOMAIN);
         if (section == null) return Collections.emptyList();
         return section.getStringList(commandName);
+    }
+    
+    public RegisterStage getCommandExecutorRegisterStage() {
+        return this.registerStageOf(Path.COMMAND_EXECUTORS_REGISTER_STAGE);
+    }
+
+    public RegisterStage getListenerRegisterStage() {
+        return this.registerStageOf(Path.LISTENERS_REGISTER_STAGE);
+    }
+
+    private RegisterStage registerStageOf(String path) {
+        return RegisterStage.valueOf(
+                this.section.getString(
+                        path, "ANCAP_PLUGIN_ENABLE"
+                ).toUpperCase()
+        );
     }
 
 }

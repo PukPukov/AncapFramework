@@ -1,0 +1,32 @@
+language: en
+
+ru:
+  ancap:
+    types:
+      java:
+        lang:
+          Long: "an integer value"
+          Double: "a rational number"
+          Boolean: "a logical value"
+          Character: "a symbol"
+    
+    framework:
+      api:
+        command:
+          description:
+            default: "no description available"
+      messages:
+        command-operate-is-impossible:
+          - "§cThe command entered cannot be processed."
+          - "%DESCRIPTION%"
+        not-enough-arguments: "§c§n%COUNT%§r§c Not enough arguments. You need §c§n%COUNT%§r§c more than entered to continue."
+        unknown-command: "§cCommand \"§c§n%COMMAND%§r§c\" does not exist."
+        not-enough-permissions: "§cThe authorisation \"§c§n%PERMISSION%§r§c\" must be in place for this action."
+        incorrect-argument: "\"§c§n%ARGUMENT%§r§c\" wrong argument."
+        cannot-transform-argument: "\"§c§n%ARGUMENT%§r§c\" - is not §c§n%TYPE%§r§c."
+        enter-language: "The command §n/language§r§f is used to select the server language. Use it like this: §n/language set <language code>§r§f, where the language code can be any of the ISO 639-1 standard."
+        plugin-info:
+          - "Artifex v%VERSION%."
+          - "Authors: %AUTHORS%. "
+        language:
+          setup: "Your language has been changed to English."

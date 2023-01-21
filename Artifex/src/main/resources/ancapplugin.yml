@@ -1,0 +1,13 @@
+id: 14261
+
+auto-register-stage:
+  listeners: MANUAL
+  command-executors: MANUAL
+
+commands:
+  list:
+    - language
+    - artifex
+  aliases:
+    language:
+      - lang

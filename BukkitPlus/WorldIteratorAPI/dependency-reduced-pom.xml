@@ -8,6 +8,15 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>WorldIteratorAPI</artifactId>
   <version>1.0.0</version>
+  <repositories>
+    <repository>
+      <snapshots>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+      <id>ScalarContainers-mvn-repo</id>
+      <url>https://raw.github.com/ancap-dev/ScalarContainers/mvn-repo/</url>
+    </repository>
+  </repositories>
   <dependencies>
     <dependency>
       <groupId>com.destroystokyo.paper</groupId>
@@ -18,13 +27,13 @@
     <dependency>
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
-      <version>23.0.0</version>
+      <version>LATEST</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.24</version>
+      <version>LATEST</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

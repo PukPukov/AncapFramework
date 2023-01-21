@@ -23,15 +23,11 @@ public class ChunkIterator implements Iterable<Block> {
                         .add(DiscreteRange.of(Axis.Y, 0, 15))
                         .add(DiscreteRange.of(Axis.Z, chunk.getWorld().getMinHeight(), chunk.getWorld().getMaxHeight()))
                         .build(),
-                new DiscretePositionConsumer<Block>() {
-                    @Override
-                    public Block forThe(DiscretePosition discretePosition) {
-                        return chunk.getBlock(
-                                (int) discretePosition.coordinate(Axis.X),
-                                (int) discretePosition.coordinate(Axis.Z),
-                                (int) discretePosition.coordinate(Axis.Y));
-                    }
-                }
+                discretePosition -> chunk.getBlock(
+                        (int) discretePosition.coordinate(Axis.X),
+                        (int) discretePosition.coordinate(Axis.Z),
+                        (int) discretePosition.coordinate(Axis.Y)
+                )
         ).iterator();
     }
 }

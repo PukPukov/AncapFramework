@@ -5,5 +5,4 @@ public enum DatabaseType {
     FILE,
     REMOTE
 
-
 }

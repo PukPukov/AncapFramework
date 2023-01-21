@@ -2,6 +2,8 @@ package ru.ancap.framework.api.material.materials;
 
 import org.bukkit.TreeType;
 
+import static org.bukkit.Material.CRIMSON_HYPHAE;
+
 public interface Wood {
 
     static Type typeOf(TreeType type) throws NotAWoodException {

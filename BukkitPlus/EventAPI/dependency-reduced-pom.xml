@@ -10,6 +10,12 @@
   <version>1.4.0</version>
   <dependencies>
     <dependency>
+      <groupId>com.destroystokyo.paper</groupId>
+      <artifactId>paper-api</artifactId>
+      <version>1.16.5-R0.1-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
       <version>23.0.0</version>
@@ -18,7 +24,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.24</version>
+      <version>LATEST</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

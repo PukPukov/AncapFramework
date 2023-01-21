@@ -1,10 +1,13 @@
-ru\ancap\framework\api\plugin\plugins\commands\CommandCenter.class
-ru\ancap\framework\api\plugin\plugins\info\AncapPluginSettings$Path.class
+ru\ancap\framework\api\plugin\plugins\info\RegisterStage.class
 ru\ancap\framework\api\plugin\plugins\language\locale\loader\LocaleStreamExtractor.class
-ru\ancap\framework\api\plugin\plugins\ResourceSource.class
 ru\ancap\framework\api\plugin\plugins\Ancap.class
 ru\ancap\framework\api\plugin\plugins\AncapMinimalisticPlugin.class
+ru\ancap\framework\api\plugin\plugins\commands\CommandCenter.class
+ru\ancap\framework\api\plugin\plugins\info\AncapPluginSettings$Path.class
+ru\ancap\framework\api\plugin\plugins\util\LAPIAdviceProvider.class
+ru\ancap\framework\api\plugin\plugins\ResourceSource.class
 ru\ancap\framework\api\plugin\plugins\AncapPlugin.class
+ru\ancap\framework\api\plugin\plugins\AncapBukkit.class
 ru\ancap\framework\api\plugin\plugins\config\StreamConfig.class
 ru\ancap\framework\api\plugin\plugins\exception\CommandNotRegisteredException.class
 ru\ancap\framework\api\plugin\plugins\info\AncapPluginSettings.class

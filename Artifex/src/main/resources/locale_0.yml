@@ -1,0 +1,32 @@
+language: ru
+
+ru:
+  ancap:
+    types:
+      java:
+        lang: 
+          Long: "целочисленное значение"
+          Double: "рациональное число"
+          Boolean: "логическое значение"
+          Character: "символ"
+          
+    framework:
+      api:
+        command:
+          description:
+            default: "описание отсутствует"
+      messages:
+        command-operate-is-impossible: 
+          - "§cВведённая команда не может быть обработана."
+          - "%DESCRIPTION%"
+        not-enough-arguments: "§cНедостаточно аргументов. Необходимо на §c§n%COUNT%§r§c больше, чем введено, чтобы продолжить."
+        unknown-command: "§cКоманды \"§c§n%COMMAND%§r§c\" не существует."
+        not-enough-permissions: "§cДля выполнения этого действия нужно иметь разрешение \"§c§n%PERMISSION%§r§c\"."
+        incorrect-argument: "§cНеверный аргумент \"§c§n%ARGUMENT%§r§c\""
+        cannot-transform-argument: "§c\"§c§n%ARGUMENT%§r§c\" - не §c§n%TYPE%§r§c."
+        enter-language: "Команда §n/language§r§f предназначена для выбора серверного языка. Используйте её так: §n/language set <код языка>§r§f, где код языка может быть любым из стандарта ISO 639-1."
+        plugin-info: 
+          - "Artifex v%VERSION%."
+          - "Авторы: %AUTHORS%. "
+        language:
+          setup: "Твой язык изменён на русский."

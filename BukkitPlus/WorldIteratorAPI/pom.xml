@@ -12,6 +12,17 @@
     <artifactId>WorldIteratorAPI</artifactId>
     <version>1.0.0</version>
 
+    <repositories>
+        <repository>
+            <id>ScalarContainers-mvn-repo</id>
+            <url>https://raw.github.com/ancap-dev/ScalarContainers/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>ru.ancap</groupId>

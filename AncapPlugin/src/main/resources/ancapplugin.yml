@@ -1,8 +1,0 @@
-id: 14261
-
-commands:
-  list:
-    - language
-  aliases:
-    language:
-      - lang

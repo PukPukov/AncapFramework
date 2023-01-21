@@ -2,16 +2,18 @@ package ru.ancap.framework.api.command.commands.command.executor.conversation;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import ru.ancap.framework.api.command.commands.command.tab.TabCompletion;
 
 import java.util.List;
 
 public interface CommandLineSpeaker extends CommandSender {
 
-    Player getPerson();
+    CommandSender getSender();
 
     void sendTabs(List<String> tabs);
+    void sendDescriptionTab(String argumentTab);
+
+    void sendDescriptionTab(TabCompletion completion);
 
     void sendTooltipTabs(List<TabCompletion> tabs);
 

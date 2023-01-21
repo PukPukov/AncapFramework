@@ -1,10 +1,14 @@
 package ru.ancap.framework.api.world.iterator;
 
 import lombok.AllArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
-import ru.ancap.lib.scalar.containers.*;
+import ru.ancap.lib.scalar.containers.Axis;
+import ru.ancap.lib.scalar.containers.ContainerIterator;
+import ru.ancap.lib.scalar.containers.DiscretePositionContainer;
+import ru.ancap.lib.scalar.containers.DiscreteRange;
 
 import java.util.Iterator;
 
@@ -32,14 +36,22 @@ public class WorldIterator implements Iterable<Chunk> {
                         .add(DiscreteRange.of(Axis.X, leftDownCorner.getX(), rightUpCorner.getX()))
                         .add(DiscreteRange.of(Axis.Y, rightUpCorner.getZ(), leftDownCorner.getZ()))
                         .build(),
-                new DiscretePositionConsumer<Chunk>() {
-                    @Override
-                    public Chunk forThe(DiscretePosition discretePosition) {
-                        Chunk chunk = world.getChunkAt((int) discretePosition.coordinate(Axis.X), (int) discretePosition.coordinate(Axis.Y));
-                        chunk.load(true);
-                        return chunk;
-                    }
+                discretePosition -> {
+                    Chunk chunk = world.getChunkAt((int) discretePosition.coordinate(Axis.X), (int) discretePosition.coordinate(Axis.Y));
+                    chunk.load(true);
+                    return chunk;
                 }
         ).iterator();
+    }
+
+    public void on() {
+        World world = Bukkit.getWorld("world");
+        new WorldIterator(
+                world,
+                world.getChunkAt(-100, -100),
+                world.getChunkAt(100, 100)
+        ).iterator().forEachRemaining(chunk -> {
+            // doing something with every chunk
+        });
     }
 }

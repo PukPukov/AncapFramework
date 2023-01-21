@@ -7,7 +7,18 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>LanguageAPI</artifactId>
-  <version>1.0.0</version>
+  <version>1.2.1</version>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>16</source>
+          <target>16</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>com.destroystokyo.paper</groupId>
@@ -21,9 +32,15 @@
       <version>23.0.0</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>LATEST</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
   <properties>
-    <maven.compiler.target>18</maven.compiler.target>
-    <maven.compiler.source>18</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
   </properties>
 </project>

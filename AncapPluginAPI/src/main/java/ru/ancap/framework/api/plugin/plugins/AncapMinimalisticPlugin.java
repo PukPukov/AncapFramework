@@ -7,8 +7,6 @@ import ru.ancap.framework.api.loader.YamlLocaleLoader;
 import ru.ancap.framework.api.plugin.plugins.config.StreamConfig;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class AncapMinimalisticPlugin extends JavaPlugin {
 
@@ -58,12 +56,6 @@ public abstract class AncapMinimalisticPlugin extends JavaPlugin {
         ).run();
     }
 
-    protected void registerAutoRegisteredListeners() {
-        for (Listener listener : this.listeners()) {
-            this.registerEventsListener(listener);
-        }
-    }
-
     protected void registerEventsListener(Listener listener) {
         Bukkit.getPluginManager().registerEvents(
                 listener,
@@ -77,9 +69,5 @@ public abstract class AncapMinimalisticPlugin extends JavaPlugin {
 
     protected ResourceSource getSoftResourceSource() {
         return ancap.newResourceSource(this, false);
-    }
-
-    protected List<Listener> listeners() {
-        return new ArrayList<>();
     }
 }

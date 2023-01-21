@@ -1,0 +1,26 @@
+name: Artifex
+description: "Runtime part of AncapFramework"
+authors: [ PukPukov ]
+website: framework.ancap-eco.ru
+
+depend:
+  - ProtocolLib
+
+softdepend:
+  - ProtocolSupport
+  - ViaVersion
+  - ViaBackwards
+  - ViaRewind
+  - Geyser-Spigot
+
+main: ru.ancap.framework.plugin.Artifex
+
+commands:
+  artifex:
+  language:
+    aliases:
+      - lang
+
+version: '${project.version}'
+prefix: Artifex
+load: POSTWORLD

@@ -4,10 +4,16 @@ import ru.ancap.framework.api.language.Language;
 import ru.ancap.framework.api.language.LanguageSettings;
 import ru.ancap.framework.api.locale.Locales;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class LAPI {
 
     private static Locales locales;
     private static LanguageSettings settings;
+
+    private LAPI() {
+    }
 
     /**
      * It sets up the LAPI
@@ -43,6 +49,10 @@ public class LAPI {
      */
     public static String localized(String id, String playerID) {
         return locales.localized(id, settings.getLanguage(playerID));
+    }
+
+    public static List<String> localizedList(String id, String playerID) {
+        return Arrays.stream(localized(id, playerID).split("\n")).toList();
     }
 
     public static void setupLanguage(String playerID, Language language) {

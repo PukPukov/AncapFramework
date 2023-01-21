@@ -14,8 +14,6 @@ import ru.ancap.framework.api.command.commands.command.event.CommandDispatch;
  */
 public interface CommandExecutor {
 
-    default void on(CommandDispatch dispatch) {
-
-    }
+    void on(CommandDispatch dispatch);
 
 }

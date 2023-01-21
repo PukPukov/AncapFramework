@@ -2,8 +2,8 @@ package ru.ancap.framework.api.command.commands.command.executor;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
-import ru.ancap.framework.api.command.commands.command.tab.TabCompletion;
 import ru.ancap.framework.api.command.commands.command.event.CommandWrite;
+import ru.ancap.framework.api.command.commands.command.tab.TabCompletion;
 import ru.ancap.framework.api.command.commands.command.tab.TooltipTab;
 
 /**
@@ -24,8 +24,8 @@ public interface CommandSpeaker {
     class Empty implements CommandSpeaker {
 
         public void on(CommandWrite write) {
-
         }
+        
     }
 
     class Players implements CommandSpeaker {
@@ -34,10 +34,16 @@ public interface CommandSpeaker {
             write.getSpeaker().sendTooltipTabs(
                     Bukkit.getOnlinePlayers()
                             .stream()
-                            .map(player -> (TabCompletion) new TooltipTab(
-                                    player.getName(),
-                                    Component.text(player.getHealth()+" §c♥")
-                            ))
+                            .map(player -> {
+                                try {
+                                    return (TabCompletion) new TooltipTab(
+                                            player.getName(),
+                                            Component.text(player.getHealth() + " §c♥")
+                                    );
+                                } catch (Throwable throwable) {
+                                    throw new RuntimeException(throwable);
+                                }
+                            })
                             .toList()
             );
         }

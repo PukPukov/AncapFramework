@@ -1,6 +1,7 @@
 package ru.ancap.framework.api.reader;
 
 import lombok.AllArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -71,7 +72,7 @@ public class ConfigDatabaseLoader implements DatabaseLoader {
             String query = """
                     CREATE TABLE IF NOT EXISTS AncapDatabaseProperties (
                                                 property VARCHAR(255) PRIMARY KEY,
-                                                value BOOL
+                                                value INTEGER
                     );
                     """;
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -84,7 +85,7 @@ public class ConfigDatabaseLoader implements DatabaseLoader {
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        if (resultSet.getBoolean("value")) {
+                        if (resultSet.getInt("value") == 1) {
                             initialize = false;
                         }
                     } else {
@@ -100,9 +101,13 @@ public class ConfigDatabaseLoader implements DatabaseLoader {
         }
         if (setInitialized) {
             String  query = """
-                            INSERT INTO AncapDatabaseProperties VALUES ("initialized", true);
+                            INSERT INTO AncapDatabaseProperties (property, value) VALUES ("initialized", 1);
                             """;
-            try (PreparedStatement statement = provider.get().prepareStatement(query)) {
+            try (
+                    PreparedStatement statement = provider
+                    .get()
+                    .prepareStatement(query)
+            ) {
                 statement.execute();
             } catch (SQLException exception) {
                 throw new RuntimeException(exception);

@@ -1,0 +1,32 @@
+language: uk
+
+ru:
+  ancap:
+    types:
+      java:
+        lang:
+          Long: "цілочисельне значення"
+          Double: "раціональне число"
+          Boolean: "логічне значення"
+          Character: "символ"
+    
+    framework:
+      api:
+        command:
+          description:
+            default: "опис відсутній"
+      messages:
+        command-operate-is-impossible:
+          - "§cВведена команда не може бути оброблена."
+          - "%DESCRIPTION%"
+        not-enough-arguments: "§cНедостатньо аргументів. Необхідно на §c§n%COUNT%§r§c більше, ніж введено, щоб продовжити."
+        unknown-command: "§cКоманди \"§c§n%COMMAND%§r§c\" не існує."
+        not-enough-permissions: "§cДля виконання цієї дії потрібно мати дозвіл \"§c§n%PERMISSION%§r§c\"."
+        incorrect-argument: "§cНеправильний аргумент \"§c§n%ARGUMENT%§r§c\"."
+        cannot-transform-argument: "§c\"§c§n%ARGUMENT%§r§c\" - не §c§n%TYPE%§r§c."
+        enter-language: "Команда §n/language§r§f призначена для вибору серверної мови. Використовуйте її так: §n/language set <код мови>§r§f, де код мови може бути будь-яким зі стандарту ISO 639-1."
+        plugin-info:
+          - "Artifex v%VERSION%."
+          - "Автори: %AUTHORS%. "
+        language:
+          setup: "Твою мову змінено на українську."

@@ -16,7 +16,7 @@ public abstract class OperableEvent extends AncapEvent {
     public boolean operate() {
         boolean old = operated;
         this.operated = true;
-        return old;
+        return !old;
     }
 
 }
