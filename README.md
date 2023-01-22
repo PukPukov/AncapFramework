@@ -29,7 +29,7 @@ Vi is Anglii? [Check English readme!](https://github.com/ancap-dev/AncapFramewor
 <dependency>  
     <groupId>com.github.ancap-dev</groupId>  
     <artifactId>AncapFramework</artifactId>  
-    <version>1.4.1</version>  
+    <version>v1.4.1</version>  
     <scope>provided</scope>  
 </dependency>
 ```
