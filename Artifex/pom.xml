@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <artifactId>Artifex</artifactId>
-    <version>1.4.3</version>
+    <version>1.4.2</version>
 
     <name>Artifex</name>
 
@@ -44,10 +44,6 @@
                         <relocation>
                             <pattern>io.github.retrooper.packetevents</pattern>
                             <shadedPattern>ru.ancap.artifex.shade.packetevents.implementation</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>net.kyori</pattern>
-                            <shadedPattern>ru.ancap.artifex.shade.net.kyori</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.bstats</pattern>
