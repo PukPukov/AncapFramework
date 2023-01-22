@@ -12,27 +12,7 @@ Vi is Anglii? [Check English readme!](https://github.com/ancap-dev/AncapFramewor
 Фреймворк решает большинство рутинных задач, возникающих при создании плагина для Bukkit - с особым акцентом на высоконагруженные, многофункциональные, многоязыковые плагины с большим количеством кода и логики.
 
 # Подключение
-## Maven
-### Repository
-
-```xml
-<repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-</repository>
-```
-
-### Dependency
-
-
-```xml
-<dependency>  
-    <groupId>com.github.ancap-dev</groupId>  
-    <artifactId>AncapFramework</artifactId>  
-    <version>1.4.1</version>  
-    <scope>provided</scope>  
-</dependency>
-```
+Пока что репозитория у AncapFramework нет. Скачайте jar-ник из релизов и подключите как локальную библиотеку через Maven.
 
 # Вики
 
