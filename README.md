@@ -1,4 +1,4 @@
-Vi is Anglii? Check English readme!
+Vi is Anglii? [Check English readme!](https://github.com/ancap-dev/AncapFramework/wiki/English-Readme)
 
 # AncapFramework
 
@@ -15,25 +15,24 @@ Vi is Anglii? Check English readme!
 ## Maven
 ### Repository
 
-     <repository>  
-	     <id>AncapFramework-mvn-repo</id>  
-	     <url>https://raw.github.com/ancap-dev/AncapFramework/mvn-repo/</url>  
-	     <snapshots> 
-		     <enabled>true</enabled>  
-		     <updatePolicy>always</updatePolicy>  
-	     </snapshots>
-	 </repository>
+```xml
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+```
 
 ### Dependency
 
-Каждый модуль имеет свою зависимость. Подключайте только то, что вам необходимо. Например:
 
-     <dependency>  
-	     <groupId>ru.ancap</groupId>  
-	     <artifactId>EventAPI</artifactId>  
-	     <version>1.4.0</version>  
-	     <scope>provided</scope>  
-     </dependency>
+```xml
+<dependency>  
+    <groupId>com.github.ancap-dev</groupId>  
+    <artifactId>AncapFramework</artifactId>  
+    <version>1.4.1</version>  
+    <scope>provided</scope>  
+</dependency>
+```
 
 # Вики
 
