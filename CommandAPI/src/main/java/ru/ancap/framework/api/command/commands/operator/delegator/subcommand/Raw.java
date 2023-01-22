@@ -8,9 +8,6 @@ import ru.ancap.framework.api.command.commands.operator.finite.pattern.ArgumentC
 
 import java.util.List;
 
-/**
- * It's a command delegate rule that delegates to a command executor if the command is raw
- */
 public class Raw implements CommandDelegateRule {
 
     private final CommandOperator delegated;

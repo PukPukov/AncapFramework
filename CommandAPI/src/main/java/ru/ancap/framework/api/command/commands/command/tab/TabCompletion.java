@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface TabCompletion {
 
-    String completion();
+    String getCompletion();
     Optional<Component> getTooltipState();
 
 }

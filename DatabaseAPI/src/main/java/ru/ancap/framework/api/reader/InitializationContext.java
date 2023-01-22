@@ -1,7 +1,12 @@
 package ru.ancap.framework.api.reader;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import java.sql.Connection;
 
-public record InitializationContext(Connection connection) {
-
+@AllArgsConstructor
+@Data
+public class InitializationContext {
+    private final Connection connection;
 }

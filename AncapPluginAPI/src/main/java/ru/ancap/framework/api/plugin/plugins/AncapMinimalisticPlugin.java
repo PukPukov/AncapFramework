@@ -3,16 +3,15 @@ package ru.ancap.framework.api.plugin.plugins;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import ru.ancap.framework.api.loader.YamlLocaleLoader;
 import ru.ancap.framework.api.plugin.plugins.config.StreamConfig;
-
-import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 public abstract class AncapMinimalisticPlugin extends JavaPlugin {
 
     private static Ancap ancap;
 
-    @OverridingMethodsMustInvokeSuper
+    @MustBeInvokedByOverriders
     @Override
     public void onEnable() {
         super.onEnable();

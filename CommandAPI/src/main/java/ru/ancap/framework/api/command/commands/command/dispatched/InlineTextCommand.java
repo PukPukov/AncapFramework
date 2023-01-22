@@ -1,10 +1,13 @@
 package ru.ancap.framework.api.command.commands.command.dispatched;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Delegate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @EqualsAndHashCode
 public final class InlineTextCommand implements LeveledCommand {
@@ -31,8 +34,8 @@ public final class InlineTextCommand implements LeveledCommand {
             }
             this.completedCommand = new TextCommand(lexems
                     .stream()
-                    .map(ParseLexem::lexem)
-                    .toList()
+                    .map(ParseLexem::getLexem)
+                    .collect(Collectors.toList())
             );
         }
         return completedCommand;
@@ -85,7 +88,10 @@ public final class InlineTextCommand implements LeveledCommand {
     }
 
 
-    private record ParseLexem(String lexem, boolean finished) {
-
+    @Data
+    @AllArgsConstructor
+    private static class ParseLexem {
+        private final String lexem;
+        private final boolean finished;
     }
 }

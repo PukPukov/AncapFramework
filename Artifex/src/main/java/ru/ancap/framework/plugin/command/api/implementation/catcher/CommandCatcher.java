@@ -5,6 +5,7 @@ import com.comphenix.protocol.events.*;
 import com.github.retrooper.packetevents.event.CancellableEvent;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.experimental.Delegate;
 import org.bukkit.command.CommandSender;
@@ -122,14 +123,33 @@ public class CommandCatcher implements Listener, PacketListener {
         );
     }
 
-    private record RawForm(CommandSender sender, String command) {}
+    @AllArgsConstructor
+    @Data
+    private static class RawForm {
+        private final CommandSender sender;
+        private final String command;
+    }
 
-    private record Form(CommandSender sender, List<String> arguments) {}
+    @AllArgsConstructor
+    @Data
+    private static class Form {
+        private final CommandSender sender;
+        private final List<String> arguments;
+    }
 
-    private record EventCommandForm(Cancellable event, CommandSender sender, LeveledCommand command) {}
+    @AllArgsConstructor
+    @Data
+    private static class EventCommandForm {
+        private final Cancellable event;
+        private final CommandSender sender;
+        private final LeveledCommand command;
+    }
 
-    private record CancellableAbstraction(@Delegate CancellableEvent event) implements Cancellable {
-
+    @AllArgsConstructor
+    @Data
+    private static class CancellableAbstraction implements Cancellable {
+        @Delegate
+        private final CancellableEvent event;
     }
 
 }

@@ -13,6 +13,7 @@ import ru.ancap.framework.api.command.commands.command.tab.Tab;
 import ru.ancap.framework.api.command.commands.command.tab.TabCompletion;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PacketLineSpeaker implements CommandLineSpeaker {
 
@@ -33,7 +34,7 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
     @Override
     public void sendTabs(@NotNull List<String> tabs) {
         this.sendTooltipTabs(
-                tabs.stream().map(string -> (TabCompletion) new Tab(string)).toList(),
+                tabs.stream().map(string -> (TabCompletion) new Tab(string)).collect(Collectors.toList()),
                 true
         );
     }
@@ -56,8 +57,8 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
     private void sendTooltipTabs(List<TabCompletion> tabs, boolean filter) {
         if (filter) {
             tabs = tabs.stream()
-                    .filter(s -> s.completion().startsWith(command.getHotArgument()))
-                    .toList();
+                    .filter(s -> s.getCompletion().startsWith(command.getHotArgument()))
+                    .collect(Collectors.toList());
         }
         this.sendTab(
                 tabs.stream()
@@ -65,16 +66,16 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
                             WrapperPlayServerTabComplete.CommandMatch[] match = new WrapperPlayServerTabComplete.CommandMatch[1];
                             tabCompletion.getTooltipState().ifPresentOrElse(
                                     component -> match[0] = new WrapperPlayServerTabComplete.CommandMatch(
-                                            tabCompletion.completion(),
+                                            tabCompletion.getCompletion(),
                                             component
                                     ),
                                     () -> match[0] = new WrapperPlayServerTabComplete.CommandMatch(
-                                            tabCompletion.completion()
+                                            tabCompletion.getCompletion()
                                     )
                             );
                             return match[0];
                         })
-                        .toList()
+                        .collect(Collectors.toList())
         );
     }
 

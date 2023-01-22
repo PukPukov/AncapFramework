@@ -13,7 +13,7 @@ public class Adviser implements CommandOperator {
 
     @Override
     public void on(CommandDispatch dispatch) {
-        new Communicator(dispatch.sender()).send(this.provider.advice(dispatch.sender()));
+        new Communicator(dispatch.getSender()).send(this.provider.advice(dispatch.getSender()));
     }
 
     public interface AdviseProvider {

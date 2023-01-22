@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import ru.ancap.util.AudienceProvider;
 import ru.ancap.util.Replacement;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ public class Communicator {
         String[] split = operated.split("\n");
         var miniMessageApi = MiniMessage.miniMessage();
         for (String finalMessage : split) {
-            receiver.sendMessage(miniMessageApi.deserialize(finalMessage));
+            AudienceProvider.getBukkitAudiences().sender(receiver).sendMessage(miniMessageApi.deserialize(finalMessage));
         }
     }
     

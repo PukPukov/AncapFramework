@@ -11,9 +11,6 @@ import ru.ancap.framework.api.command.commands.operator.delegator.subcommand.rul
 
 import java.util.List;
 
-/**
- * `CommandDelegator` is a `CommandExecutor` that delegates commands to other `CommandExecutor`s based on a set of rules
- */
 public class CommandDelegator implements CommandOperator {
 
     private final CommandProvidePattern defaultRule;
@@ -40,11 +37,11 @@ public class CommandDelegator implements CommandOperator {
 
     @Override
     public void on(CommandDispatch dispatch) {
-        CommandProvidePattern pattern = this.ruleFor(dispatch.dispatched());
+        CommandProvidePattern pattern = this.ruleFor(dispatch.getCommand());
         pattern.delegated().on(
                 new CommandDispatch(
-                        pattern.convert(dispatch.sender()),
-                        pattern.convert(dispatch.dispatched())
+                        pattern.convert(dispatch.getSender()),
+                        pattern.convert(dispatch.getCommand())
                 )
         );
     }

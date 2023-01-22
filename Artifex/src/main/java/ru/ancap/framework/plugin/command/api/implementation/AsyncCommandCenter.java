@@ -1,5 +1,7 @@
 package ru.ancap.framework.plugin.command.api.implementation;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import ru.ancap.framework.api.command.commands.command.dispatched.LeveledCommand;
 import ru.ancap.framework.api.command.commands.command.event.CommandDispatch;
@@ -53,10 +55,10 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
     @Override
     public void on(CommandDispatch dispatch) {
         this.operate(
-                dispatch.dispatched(),
-                commandForm -> commandForm.executor.on(
+                dispatch.getCommand(),
+                commandForm -> commandForm.commandOperator.on(
                         new CommandDispatch(
-                                dispatch.sender(),
+                                dispatch.getSender(),
                                 commandForm.command
                 ))
         );
@@ -67,7 +69,7 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
         this.operate(
                 write.getWritten(),
                 commandForm -> {
-                    commandForm.executor.on(
+                    commandForm.commandOperator.on(
                             new CommandWrite(
                                     write.getSpeaker(),
                                     commandForm.command
@@ -100,5 +102,10 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
         return this.executeRules.containsKey(command.nextArgument());
     }
 
-    private record CommandForm(LeveledCommand command, CommandOperator executor) {}
+    @AllArgsConstructor
+    @Data
+    private static class CommandForm {
+        private final LeveledCommand command;
+        private final CommandOperator commandOperator;
+    }
 }

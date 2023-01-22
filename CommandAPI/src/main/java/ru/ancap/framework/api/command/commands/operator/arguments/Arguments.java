@@ -42,12 +42,12 @@ public class Arguments implements CommandOperator {
 
     @Override
     public void on(CommandDispatch dispatch) {
-        LeveledCommand command = dispatch.dispatched();
+        LeveledCommand command = dispatch.getCommand();
         if (command.isRaw()) {
             if (rawDelegate == null) {
                 Bukkit.getPluginManager().callEvent(
                         new NotEnoughArgumentsEvent(
-                                dispatch.sender(), 
+                                dispatch.getSender(), 
                                 this.arguments.size()
                         )
                 );
@@ -68,7 +68,9 @@ public class Arguments implements CommandOperator {
             try {
                 map.put(argument.getArgumentName(), argument.getTransformer().transform(nextArgument));
             } catch (TransformationException e) {
-                new CannotTransformArgumentEvent(dispatch.sender(), e.getArgument(), e.getType()).callEvent();
+                Bukkit.getPluginManager().callEvent(
+                        new CannotTransformArgumentEvent(dispatch.getSender(), e.getArgument(), e.getType())
+                );
                 return;
             }
             command = command.withoutArgument();
@@ -76,7 +78,9 @@ public class Arguments implements CommandOperator {
         }
         if (argumentIndex+1 < arguments.size()) {
             if (!arguments.get(argumentIndex + 1).isOptional()) {
-                new NotEnoughArgumentsEvent(dispatch.sender(), arguments.size() - argumentIndex).callEvent();
+                Bukkit.getPluginManager().callEvent(
+                        new NotEnoughArgumentsEvent(dispatch.getSender(), arguments.size() - argumentIndex)
+                );
                 return;
             }
             arguments.stream()
@@ -84,7 +88,7 @@ public class Arguments implements CommandOperator {
                     .forEach(argument -> map.put(argument.getArgumentName(), null));
         }
         ArgumentsBundle bundle = new ArgumentsMap(Map.copyOf(map));
-        dispatchConsumer.accept(new ArgumentCommandDispatch(dispatch.sender(), bundle));
+        dispatchConsumer.accept(new ArgumentCommandDispatch(dispatch.getSender(), bundle));
     }
 
     @Override

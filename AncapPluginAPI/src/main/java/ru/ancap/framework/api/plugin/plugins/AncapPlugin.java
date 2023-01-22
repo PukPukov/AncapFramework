@@ -4,6 +4,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import ru.ancap.framework.api.command.commands.command.executor.CommandOperator;
 import ru.ancap.framework.api.plugin.plugins.commands.CommandCenter;
 import ru.ancap.framework.api.plugin.plugins.config.StreamConfig;
@@ -11,7 +12,6 @@ import ru.ancap.framework.api.plugin.plugins.info.AncapPluginSettings;
 import ru.ancap.framework.api.plugin.plugins.info.RegisterStage;
 import ru.ancap.framework.api.plugin.plugins.language.locale.loader.LocaleLoader;
 
-import javax.annotation.OverridingMethodsMustInvokeSuper;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +27,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         return this.metrics;
     }
 
-    @OverridingMethodsMustInvokeSuper
+    @MustBeInvokedByOverriders
     @Override
     public void onEnable() {
         super.onEnable();
@@ -69,13 +69,13 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     }
 
     protected void registerListeners() {
-        for (Listener listener : this.listeners()) {
+        for (Listener listener : this.getListeners()) {
             this.registerEventsListener(listener);
         }
     }
 
     protected void registerCommandExecutors() {
-        for (Map.Entry<String, CommandOperator> command : this.commands().entrySet()) {
+        for (Map.Entry<String, CommandOperator> command : this.getCommands().entrySet()) {
             this.registerExecutor(
                     command.getKey(),
                     command.getValue()
@@ -135,13 +135,12 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     protected int getPluginId() {
         return this.getSettings().getPluginId();
     }
-
-    @Deprecated
-    protected Map<String, CommandOperator> commands() {
+    
+    protected Map<String, CommandOperator> getCommands() {
         return Map.of();
     }
 
-    protected List<Listener> listeners() {
+    protected List<Listener> getListeners() {
         return List.of();
     }
 

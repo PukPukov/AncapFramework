@@ -1,7 +1,6 @@
 package ru.ancap.framework.api.reader;
 
 import lombok.AllArgsConstructor;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -32,12 +31,13 @@ public class ConfigDatabaseLoader implements DatabaseLoader {
         @NotNull DatabaseConnectionProperty property = dbsProperties.get(databaseTypeName);
         DatabaseDriverProperty drivers = property.drivers();
         try {
-            Class.forName(property.driverClass());
+            Class.forName(property.getDriverClass());
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        ConnectionProvider provider = switch (property.type()) {
-            case FILE -> {
+        ConnectionProvider provider;
+        switch (property.getDatabaseType()) {
+            case FILE:
                 String dbName = connectionConfig.getString("file.name");
                 File file = new File(plugin.getDataFolder() + File.separator + dbName);
                 if(!file.exists()) {
@@ -47,41 +47,39 @@ public class ConfigDatabaseLoader implements DatabaseLoader {
                         throw new RuntimeException(e);
                     }
                 }
-                yield new LocalConnectionProvider(drivers.domain(), file);
-            }
-            case REMOTE -> {
+                provider = new LocalConnectionProvider(drivers.getDomain(), file);
+                break;
+            case REMOTE:
                 String host = connectionConfig.getString("remote.host");
                 String databaseName = connectionConfig.getString("remote.name");
                 String user = connectionConfig.getString("remote.user");
                 String password = connectionConfig.getString("remote.password");
                 int port = connectionConfig.getInt("remote.port");
-                yield new RemoteConnectionProvider(
-                        new RemoteConnectionProvider.Domain(drivers.domain()),
+                provider = new RemoteConnectionProvider(
+                        new RemoteConnectionProvider.Domain(drivers.getDomain()),
                         new RemoteConnectionProvider.Host(host),
                         new RemoteConnectionProvider.Port(port),
                         new RemoteConnectionProvider.DatabaseName(databaseName),
                         new RemoteConnectionProvider.User(user),
                         new RemoteConnectionProvider.Password(password)
                 );
-            }
-        };
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + property.getDatabaseType());
+        }
         boolean initialize = true;
         boolean setInitialized = false;
         try {
             Connection connection = provider.get();
-            String query = """
-                    CREATE TABLE IF NOT EXISTS AncapDatabaseProperties (
-                                                property VARCHAR(255) PRIMARY KEY,
-                                                value INTEGER
-                    );
-                    """;
+            String query = "CREATE TABLE IF NOT EXISTS AncapDatabaseProperties (\n" +
+                           "                            property VARCHAR(255) PRIMARY KEY,\n" +
+                           "                            value INTEGER\n" +
+                           ");\n";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.execute();
             }
-            query = """
-                    SELECT property, value FROM AncapDatabaseProperties 
-                    WHERE property = 'initialized';
-                    """;
+            query = "SELECT property, value FROM AncapDatabaseProperties\n" +
+                    "WHERE property = 'initialized';\n";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     if (resultSet.next()) {
@@ -100,9 +98,7 @@ public class ConfigDatabaseLoader implements DatabaseLoader {
             consumer.accept(new InitializationContext(provider.get()));
         }
         if (setInitialized) {
-            String  query = """
-                            INSERT INTO AncapDatabaseProperties (property, value) VALUES ("initialized", 1);
-                            """;
+            String  query = "INSERT INTO AncapDatabaseProperties (property, value) VALUES (\"initialized\", 1);\n";
             try (
                     PreparedStatement statement = provider
                     .get()

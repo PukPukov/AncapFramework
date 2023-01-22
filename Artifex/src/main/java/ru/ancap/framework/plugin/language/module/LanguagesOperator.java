@@ -17,7 +17,7 @@ public class LanguagesOperator implements LanguagesData {
         if (model == null) {
             return defaultCode;
         }
-        return model.languageCode();
+        return model.getLanguageCode();
     }
 
     @Override

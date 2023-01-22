@@ -12,7 +12,7 @@ public class TooltipTab implements TabCompletion {
     private final Component tooltip;
 
     @Override
-    public String completion() {
+    public String getCompletion() {
         return completion;
     }
 

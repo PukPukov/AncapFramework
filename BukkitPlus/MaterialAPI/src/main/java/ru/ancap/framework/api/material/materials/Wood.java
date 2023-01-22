@@ -30,6 +30,6 @@ public interface Wood {
     }
 
     class NotAWoodException extends Exception {
-
+        
     }
 }

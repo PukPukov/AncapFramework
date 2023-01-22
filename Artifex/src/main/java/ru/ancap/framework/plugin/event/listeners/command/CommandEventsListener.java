@@ -1,6 +1,7 @@
 package ru.ancap.framework.plugin.event.listeners.command;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -74,24 +75,34 @@ public class CommandEventsListener implements Listener {
     }
 
     private void operateForm(Form form, String id, Placeholder... placeholders) {
-        if (form.event().operate()) {
-            CommandSender sender = form.sender();
-            if (sender instanceof Player player) {
+        if (form.getEvent().operate()) {
+            CommandSender sender = form.getSender();
+            if (sender instanceof Player) {
+                Player player = (Player) sender; 
                 player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 2, 0);
             }
             String mainMessage = LAPI.localized(Artifex.MESSAGE_DOMAIN+"command-operate-is-impossible", sender.getName());
             String message = LAPI.localized(id, sender.getName());
             for (Placeholder placeholder : placeholders) {
-                message = message.replace(placeholder.placeholder(), placeholder.replaceTo);
+                message = message.replace(placeholder.getPlaceholder(), placeholder.replaceTo);
             }
             mainMessage = mainMessage.replace("%DESCRIPTION%", message);
             new Communicator(sender).send(mainMessage);
         }
     }
-    private record Form(OperableEvent event, CommandSender sender) {}
 
-    private record Placeholder(String placeholder, String replaceTo) {
+    @AllArgsConstructor
+    @Data
+    private static class Form {
+        private final OperableEvent event;
+        private final CommandSender sender;
+    }
 
+    @Data
+    private static class Placeholder {
+        private final String placeholder;
+        private final String replaceTo;
+        
         private Placeholder(String placeholder, String replaceTo) {
             this.placeholder = "%" + placeholder + "%";
             this.replaceTo = replaceTo;

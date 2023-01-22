@@ -1,6 +1,11 @@
 package ru.ancap.framework.plugin;
 
 import com.comphenix.protocol.ProtocolLibrary;
+import com.github.retrooper.packetevents.PacketEvents;
+import com.github.retrooper.packetevents.manager.server.ServerVersion;
+import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
+import lombok.Getter;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import ru.ancap.framework.api.LAPI;
@@ -29,6 +34,7 @@ import ru.ancap.framework.plugin.language.module.LanguageBase;
 import ru.ancap.framework.plugin.language.module.LanguagesOperator;
 import ru.ancap.framework.plugin.language.module.repository.SQLSpeakerModelRepository;
 import ru.ancap.framework.plugin.language.module.repository.SpeakerModelRepository;
+import ru.ancap.util.AudienceProvider;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -40,16 +46,21 @@ public final class Artifex extends AncapPlugin {
     public static PluginDescriptionFile INFO;
     public static final String MESSAGE_DOMAIN = "ru.ancap.framework.messages.";
 
+    @Getter
     private final List<Listener> listeners = List.of(
-            new ProtectListener(),
-            new SelfDestructListener(),
-            new ExplodeListener(),
-            new VillagerHealListener(),
-            new BlockClickListener(),
             new ArtifexTimerEventListener(),
             new LanguageChangeListener()
     );
     
+    private final List<Listener> eventApiListeners = List.of(
+            new ProtectListener(),
+            new SelfDestructListener(),
+            new ExplodeListener(),
+            new VillagerHealListener(),
+            new BlockClickListener()
+    );
+    
+    @Getter
     private final Map<String, CommandOperator> commands = Map.of(
             "language", new LanguageCommandExecutor()
     );
@@ -63,8 +74,10 @@ public final class Artifex extends AncapPlugin {
     public void onCoreLoad() {
         this.loadConfig();
         this.loadAncap();
+        this.loadBukkitToKyori();
         this.registerCommandCenter();
         this.startHeartbeat();
+        this.registerPacketEvents();
     }
 
     @Override
@@ -72,10 +85,34 @@ public final class Artifex extends AncapPlugin {
         super.onEnable();
         this.loadCommandCatcher();
         this.registerIntegrators();
+        this.registerEventAPI();
         this.loadListeners();
+        this.initializePacketEventsApi();
         this.loadDatabase();
         this.loadLAPI();
         this.loadLocales();
+    }
+
+    private void initializePacketEventsApi() {
+        PacketEvents.getAPI().init();
+    }
+
+    private void registerPacketEvents() {
+        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(this));
+        PacketEvents.getAPI().getSettings().readOnlyListeners(false)
+                .checkForUpdates(true)
+                .bStats(true);
+        PacketEvents.getAPI().load();
+    }
+
+    private void registerEventAPI() {
+        if (PacketEvents.getAPI().getServerManager().getVersion().isNewerThanOrEquals(ServerVersion.V_1_16_5)) {
+            this.eventApiListeners.forEach(this::registerEventsListener);
+        }
+    }
+
+    private void loadBukkitToKyori() {
+        AudienceProvider.setBukkitAudiences(BukkitAudiences.create(this));
     }
 
     private void loadCommandCatcher() {
@@ -119,13 +156,11 @@ public final class Artifex extends AncapPlugin {
                 this.getAncap().getGlobalDatabaseProperties(),
                 ArtifexConfig.loaded().getDatabaseConnectionSection(),
                 context -> {
-                    String sql = """
-                                 CREATE TABLE IF NOT EXISTS Languages (
-                                 name VARCHAR(32) PRIMARY KEY,
-                                 language_code VARCHAR(8) 
-                                 );
-                                 """;
-                    try (PreparedStatement statement = context.connection().prepareStatement(sql)) {
+                    String sql = "CREATE TABLE IF NOT EXISTS Languages (\n" +
+                                 "name VARCHAR(32) PRIMARY KEY,\n" +
+                                 "language_code VARCHAR(8)\n" +
+                                 ");\n";
+                    try (PreparedStatement statement = context.getConnection().prepareStatement(sql)) {
                         statement.execute();
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
@@ -159,15 +194,5 @@ public final class Artifex extends AncapPlugin {
     private void startHeartbeat() {
         ArtifexHeartbeat heartbeat = new ArtifexHeartbeat(this);
         heartbeat.start();
-    }
-
-    @Override
-    public List<Listener> listeners() {
-        return this.listeners;
-    }
-
-    @Override
-    public Map<String, CommandOperator> commands() {
-        return this.commands;
     }
 }

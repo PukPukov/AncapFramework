@@ -2,6 +2,7 @@ package ru.ancap.framework.api.command.commands.operator.finite;
 
 import lombok.AllArgsConstructor;
 import lombok.experimental.Delegate;
+import org.bukkit.Bukkit;
 import ru.ancap.framework.api.command.commands.command.event.CommandDispatch;
 import ru.ancap.framework.api.command.commands.command.executor.CommandOperator;
 import ru.ancap.framework.api.command.commands.command.executor.CommandSpeaker;
@@ -21,7 +22,9 @@ public class FiniteCommandTarget implements CommandOperator {
 
     @Override
     public void on(CommandDispatch dispatch) {
-        patternalizer.patternalize(dispatch.sender(), dispatch.dispatched()).callEvent();
+        Bukkit.getPluginManager().callEvent(
+                patternalizer.patternalize(dispatch.getSender(), dispatch.getCommand())
+        );
     }
     
 }

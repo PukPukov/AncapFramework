@@ -1,5 +1,7 @@
 package ru.ancap.framework.api.command.commands.operator.delegator.subcommand.rule.delegate.operate;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.api.command.commands.command.dispatched.LeveledCommand;
 import ru.ancap.framework.api.command.commands.command.dispatched.exception.NoNextArgumentException;
@@ -17,7 +19,11 @@ public class ArgumentsOperateRule implements OperateRule {
         return new ArgumentsOperatedCommand(command).hasArgument(key);
     }
 
-    private record ArgumentsOperatedCommand(LeveledCommand command) {
+    @AllArgsConstructor
+    @Data
+    private static class ArgumentsOperatedCommand {
+        
+        private final LeveledCommand command;
 
         boolean hasArgument(String key) {
             try {

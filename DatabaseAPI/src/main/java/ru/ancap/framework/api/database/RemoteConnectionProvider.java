@@ -1,6 +1,7 @@
 package ru.ancap.framework.api.database;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.SneakyThrows;
 import ru.ancap.framework.api.function.Holder;
 import ru.ancap.framework.api.function.InitializedHolder;
@@ -35,10 +36,40 @@ public class RemoteConnectionProvider implements ConnectionProvider {
         });
     }
 
-    public record Domain(String domain) {}
-    public record Host(String host) {}
-    public record Port(int port) {}
-    public record DatabaseName(String name) {}
-    public record User(String name) {}
-    public record Password(String password) {}
+    @AllArgsConstructor
+    @Data
+    public static class Domain {
+        private final String domain;
+    }
+    
+    @AllArgsConstructor
+    @Data
+    public static class Host {
+        private final String host;
+    }
+    
+    @AllArgsConstructor
+    @Data
+    public static class Port {
+        private final int port;
+    }
+
+    @AllArgsConstructor
+    @Data
+    public static class DatabaseName {
+        private final String name;
+    }
+
+    @AllArgsConstructor
+    @Data
+    public static class User {
+        private final String name;
+    }
+
+    @AllArgsConstructor
+    @Data
+    public static class Password {
+        private final String password;
+    }
+    
 }

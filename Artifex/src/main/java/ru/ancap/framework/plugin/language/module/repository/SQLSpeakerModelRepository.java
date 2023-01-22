@@ -15,10 +15,8 @@ public class SQLSpeakerModelRepository implements SpeakerModelRepository {
 
     @Override
     public SpeakerModel read(String name) {
-        String query = """
-                       SELECT * FROM Languages
-                       WHERE name = ?;
-                       """;
+        String query = "SELECT * FROM Languages\n" +
+                       "WHERE name = ?;\n";
         try (PreparedStatement statement = connectionProvider.get().prepareStatement(query)) {
             statement.setString(1, name);
             ResultSet set = statement.executeQuery();
@@ -33,26 +31,22 @@ public class SQLSpeakerModelRepository implements SpeakerModelRepository {
 
     @Override
     public void create(SpeakerModel model) {
-        String query = """
-                       INSERT INTO Languages (name, language_code) VALUES (?, ?);
-                       """;
+        String query = "INSERT INTO Languages (name, language_code) VALUES (?, ?);\n";
         this.operate(query, model, 1, 2);
     }
 
     @Override
     public void update(SpeakerModel model) {
-        String query = """
-                       UPDATE Languages 
-                       SET language_code = ?
-                       WHERE name = ?;
-                       """;
+        String query = "UPDATE Languages\n" +
+                       "SET language_code = ?\n" +
+                       "WHERE name = ?;\n";
         this.operate(query, model, 2, 1);
     }
 
     private void operate(String query, SpeakerModel model, int nameIndex, int codeIndex) {
         try (PreparedStatement statement = connectionProvider.get().prepareStatement(query)) {
-            statement.setString(nameIndex, model.name());
-            statement.setString(codeIndex, model.languageCode());
+            statement.setString(nameIndex, model.getName());
+            statement.setString(codeIndex, model.getLanguageCode());
             statement.execute();
         } catch (SQLException exception) {
             throw new RuntimeException(exception);
