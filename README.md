@@ -6,13 +6,28 @@ Vi is Anglii? [Check English readme!](https://github.com/ancap-dev/AncapFramewor
 
 Грамотно спроектированный фреймворк для Minecraft-разработки.
 
-
 # Обзор
 
 Фреймворк решает большинство рутинных задач, возникающих при создании плагина для Bukkit - с особым акцентом на высоконагруженные, многофункциональные, многоязыковые плагины с большим количеством кода и логики.
 
 # Подключение
-Пока что репозитория у AncapFramework нет. Скачайте jar-ник из релизов и подключите как локальную библиотеку через Maven.
+![Release](https://jitpack.io/v/ancap-dev/AncapFramework.svg?style=flat-square)
+
+По задумке AncapFramework - модульный проект, и для того, чтобы работать с ним, надо каждый модуль подключать отдельно, в большом проекте собирая десяток зависимостей. Но репозиторий, где хостится AncapFramework, имеет другое мнение на этот счёт, и свалил всё в кучу, поэтому всё сразу можно подключить следующим кодом в Maven:
+
+```xml
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+
+<dependency>
+    <groupId>com.github.ancap-dev</groupId>
+    <artifactId>AncapFramework</artifactId>
+    <version>смотри выше</version>
+    <scope>provided</scope>
+</dependency>
+```
 
 # Вики
 
