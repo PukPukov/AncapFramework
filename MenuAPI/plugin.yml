@@ -1,0 +1,4 @@
+name: MenuAPI
+version: '${project.version}'
+main: ru.ancap.menuapi.MenuAPI
+api-version: 1.19
