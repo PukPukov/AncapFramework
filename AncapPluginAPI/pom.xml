@@ -76,13 +76,6 @@
         
         <dependency>
             <groupId>ru.ancap</groupId>
-            <artifactId>AncapCommons</artifactId>
-            <version>1.2</version>
-            <scope>provided</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>ru.ancap</groupId>
             <artifactId>BukkitUtil</artifactId>
             <version>1.2.1</version>
             <scope>provided</scope>
@@ -92,6 +85,13 @@
             <groupId>ru.ancap</groupId>
             <artifactId>CommunicatorAPI</artifactId>
             <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.ancap-kun</groupId>
+            <artifactId>AncapCommons</artifactId>
+            <version>1.2</version>
             <scope>provided</scope>
         </dependency>
 
