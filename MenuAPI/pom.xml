@@ -17,6 +17,7 @@
     <name>MenuAPI</name>
 
     <properties>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -34,7 +35,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.0</version>
+                <version>3.2.4</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -74,17 +75,13 @@
     </repositories>
 
     <dependencies>
+        
         <dependency>
             <groupId>com.github.seal-island.sealmenus</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.0.8</version>
+            <version>1.0.9</version>
+            <scope>compile</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
-            <scope>provided</scope>
-        </dependency>
+        
     </dependencies>
 </project>

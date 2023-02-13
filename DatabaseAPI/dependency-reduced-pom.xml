@@ -7,8 +7,25 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>DatabaseAPI</artifactId>
-  <version>1.2-test</version>
+  <version>1.4</version>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
   <dependencies>
+    <dependency>
+      <groupId>ru.ancap</groupId>
+      <artifactId>BukkitUtil</artifactId>
+      <version>1.2.1</version>
+      <scope>provided</scope>
+    </dependency>
     <dependency>
       <groupId>org.jetbrains</groupId>
       <artifactId>annotations</artifactId>
@@ -24,8 +41,37 @@
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
-      <version>1.12.2-R0.1-SNAPSHOT</version>
+      <version>1.8-R0.1-SNAPSHOT</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.12.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.kyori</groupId>
+      <artifactId>adventure-text-minimessage</artifactId>
+      <version>4.12.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.kyori</groupId>
+      <artifactId>adventure-text-serializer-plain</artifactId>
+      <version>4.12.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>net.kyori</groupId>
+      <artifactId>adventure-platform-bukkit</artifactId>
+      <version>4.2.0</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
+  <properties>
+    <ormlite.version>6.1</ormlite.version>
+    <java.version>11</java.version>
+    <querydsl.version>5.0.0</querydsl.version>
+  </properties>
 </project>
