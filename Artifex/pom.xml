@@ -193,7 +193,7 @@
         </dependency>
 
         <dependency>
-            <groupId>ru.ancap</groupId>
+            <groupId>com.github.ancap-kun</groupId>
             <artifactId>AncapCommons</artifactId>
             <version>1.2</version>
             <scope>compile</scope>
