@@ -28,6 +28,7 @@ Vi is Anglii? [Check English readme!](https://github.com/ancap-dev/AncapFramewor
     <scope>provided</scope>
 </dependency>
 ```
+(на самом деле джитпак позволяет подключать только некоторые модули, но в этом не особо много смысла, так как версионирование все еще идет по версии релиза, а не модуля)
 
 # Вики
 
