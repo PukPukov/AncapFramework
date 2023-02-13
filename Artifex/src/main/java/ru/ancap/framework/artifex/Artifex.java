@@ -7,6 +7,7 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+import ru.ancap.commons.Day;
 import ru.ancap.communicate.Communicator;
 import ru.ancap.framework.artifex.configuration.ArtifexConfig;
 import ru.ancap.framework.artifex.implementation.ancap.ArtifexAncap;
@@ -32,6 +33,7 @@ import ru.ancap.framework.artifex.implementation.scheduler.SchedulerSilencer;
 import ru.ancap.framework.artifex.implementation.timer.EveryDayTask;
 import ru.ancap.framework.artifex.implementation.timer.TimerExecutor;
 import ru.ancap.framework.artifex.implementation.timer.heartbeat.ArtifexHeartbeat;
+import ru.ancap.framework.artifex.test.KyoriTester;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.database.sql.SQLDatabase;
 import ru.ancap.framework.database.sql.connection.reader.DatabaseFromConfig;
@@ -80,6 +82,7 @@ public final class Artifex extends AncapPlugin {
 
     @Override
     public void onCoreLoad() {
+        this.test();
         this.loadBukkitToKyori();
         this.loadAncap();
         this.loadConfiguration();
@@ -101,6 +104,10 @@ public final class Artifex extends AncapPlugin {
         this.loadSchedulerAPI();
         this.loadTimerApi();
         this.loadListeners();
+    }
+
+    private void test() {
+        new KyoriTester().run();
     }
 
     private void loadAuthorsSupplier() {
@@ -133,7 +140,7 @@ public final class Artifex extends AncapPlugin {
                 () -> AncapPlugin.scheduler().repeat(
                         EveryDayTask.class, 
                         ArtifexConfig.loaded().dayTimerAbsolute(),
-                        Artifex.MILLISECONDS_IN_DAY
+                        Day.MILLISECONDS
                 )
         );
     }
