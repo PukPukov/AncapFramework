@@ -33,7 +33,6 @@ import ru.ancap.framework.artifex.implementation.scheduler.SchedulerSilencer;
 import ru.ancap.framework.artifex.implementation.timer.EveryDayTask;
 import ru.ancap.framework.artifex.implementation.timer.TimerExecutor;
 import ru.ancap.framework.artifex.implementation.timer.heartbeat.ArtifexHeartbeat;
-import ru.ancap.framework.artifex.test.KyoriTester;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.database.sql.SQLDatabase;
 import ru.ancap.framework.database.sql.connection.reader.DatabaseFromConfig;
@@ -82,7 +81,6 @@ public final class Artifex extends AncapPlugin {
 
     @Override
     public void onCoreLoad() {
-        this.test();
         this.loadBukkitToKyori();
         this.loadAncap();
         this.loadConfiguration();
@@ -104,10 +102,6 @@ public final class Artifex extends AncapPlugin {
         this.loadSchedulerAPI();
         this.loadTimerApi();
         this.loadListeners();
-    }
-
-    private void test() {
-        new KyoriTester().run();
     }
 
     private void loadAuthorsSupplier() {
