@@ -14,7 +14,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>AncapPluginAPI</artifactId>
-    <version>3.4.2</version>
+    <version>3.4.4</version>
     
     <build>
         <plugins>
@@ -38,6 +38,7 @@
     </repositories>
 
     <dependencies>
+        
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
@@ -48,37 +49,59 @@
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>CommandAPI</artifactId>
-            <version>LATEST</version>
+            <version>2.6.3</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>DatabaseAPI</artifactId>
-            <version>LATEST</version>
+            <version>1.4</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>LanguageAPI</artifactId>
-            <version>LATEST</version>
+            <version>1.4.3</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ru.ancap</groupId>
+            <artifactId>ConfigurationAPI</artifactId>
+            <version>1.0</version>
             <scope>provided</scope>
         </dependency>
         
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>AncapCommons</artifactId>
-            <version>LATEST</version>
-            <scope>compile</scope>
+            <version>1.2</version>
+            <scope>provided</scope>
         </dependency>
         
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>BukkitUtil</artifactId>
-            <version>LATEST</version>
+            <version>1.2.1</version>
             <scope>provided</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>ru.ancap</groupId>
+            <artifactId>CommunicatorAPI</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.ancap-kun</groupId>
+            <artifactId>StableScheduler</artifactId>
+            <version>1.2.1</version>
+            <scope>compile</scope>
+        </dependency>
+        
     </dependencies>
 
 </project>

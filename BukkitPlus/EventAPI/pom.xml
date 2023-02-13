@@ -13,7 +13,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>EventAPI</artifactId>
-    <version>1.4.0</version>
+    <version>1.6</version>
 
     <build>
         <plugins>

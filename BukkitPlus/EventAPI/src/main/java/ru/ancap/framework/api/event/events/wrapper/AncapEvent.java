@@ -8,5 +8,4 @@ public abstract class AncapEvent extends Event {
         super(isAsync);
     }
 
-
 }

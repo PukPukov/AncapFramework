@@ -1,4 +1,4 @@
-id: 14261
+identifier: 14261
 
 auto-register-stage:
   listeners: MANUAL
@@ -8,6 +8,3 @@ commands:
   list:
     - language
     - artifex
-  aliases:
-    language:
-      - lang

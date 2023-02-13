@@ -7,19 +7,14 @@ depend:
   - ProtocolLib
 
 softdepend:
-  - ProtocolSupport
-  - ViaVersion
-  - ViaBackwards
-  - ViaRewind
-  - Geyser-Spigot
+  - Kyori
+  - ArtifexDatabaseDrivers
 
-main: ru.ancap.framework.plugin.Artifex
+main: ru.ancap.framework.artifex.Artifex
 
 commands:
   artifex:
   language:
-    aliases:
-      - lang
 
 version: '${project.version}'
 prefix: Artifex

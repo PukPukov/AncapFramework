@@ -9,10 +9,7 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Calling, when some player tries to heal villager
  */
-
 public class VillagerHealEvent extends AncapWrapperPlayerEvent implements Cancellable {
-
-    public static final HandlerList handlers = new HandlerList();
 
     private final @NotNull Villager villager;
 
@@ -20,20 +17,13 @@ public class VillagerHealEvent extends AncapWrapperPlayerEvent implements Cancel
         super(event, player);
         this.villager = villager;
     }
-
-    @NotNull
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    @NotNull
-    public Villager getVillager() {
+    
+    public Villager villager() {
         return this.villager;
     }
+
+    public static final HandlerList handlers = new HandlerList();
+    public static HandlerList getHandlerList() {return handlers;}
+    @NotNull @Override public HandlerList getHandlers() {return handlers;}
 
 }

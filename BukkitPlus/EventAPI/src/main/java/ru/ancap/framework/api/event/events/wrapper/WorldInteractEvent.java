@@ -6,33 +6,26 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * Calling, when some player interacts with the world
  */
-
 public class WorldInteractEvent extends AncapWrapperPlayerEvent implements Cancellable {
 
-    public static final HandlerList handlers = new HandlerList();
+    private final @NotNull List<Location> locations;
 
-    private final @NotNull Location loc;
-
-    public WorldInteractEvent(@NotNull Cancellable event, @NotNull Player player, @NotNull Location loc) {
+    public WorldInteractEvent(@NotNull Cancellable event, @NotNull Player player, @NotNull List<Location> locations) {
         super(event, player);
-        this.loc = loc;
+        this.locations = locations;
+    }
+    
+    public List<Location> locations() {
+        return this.locations;
     }
 
-    @NotNull
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    @NotNull
-    public Location getLocation() {
-        return this.loc;
-    }
+    public static final HandlerList handlers = new HandlerList();
+    public static HandlerList getHandlerList() {return handlers;}
+    @NotNull @Override public HandlerList getHandlers() {return handlers;}
+    
 }

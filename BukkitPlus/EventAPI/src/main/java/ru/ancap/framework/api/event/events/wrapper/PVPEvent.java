@@ -5,33 +5,33 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * Calling, when some player attacks other player(s).
  */
 
 public class PVPEvent extends AncapWrapperCancellableEvent implements Cancellable {
 
-    public static final HandlerList handlers = new HandlerList();
+    private final @NotNull Player attacker;
+    private final @NotNull List<Player> attacked;
 
-    private final @NotNull Player[] players;
-
-    public PVPEvent(@NotNull Cancellable event, @NotNull Player... players) {
+    public PVPEvent(@NotNull Cancellable event, @NotNull Player attacker, @NotNull List<Player> attacked) {
         super(event);
-        this.players = players;
+        this.attacker = attacker;
+        this.attacked = attacked;
+    }
+    
+    public Player attacker() {
+        return this.attacker;
+    }
+    
+    public List<Player> attacked() {
+        return this.attacked;
     }
 
-    public static HandlerList getHandlerList() {
-        return handlers;
-    }
-
-    @NotNull
-    @Override
-    public HandlerList getHandlers() {
-        return handlers;
-    }
-
-    @NotNull
-    public Player[] getPlayers() {
-        return this.players;
-    }
+    public static final HandlerList handlers = new HandlerList();
+    public static HandlerList getHandlerList() {return handlers;}
+    @NotNull @Override public HandlerList getHandlers() {return handlers;}
+    
 }
