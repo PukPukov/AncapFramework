@@ -1,3 +1,0 @@
-name: Kyori
-version: '${project.version}'
-main: ru.ancap.kyori.Kyori

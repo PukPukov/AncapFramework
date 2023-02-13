@@ -1,3 +1,0 @@
-name: ArtifexDatabaseDrivers
-version: '${project.version}'
-main: ru.ancap.database.ArtifexDatabaseDrivers
