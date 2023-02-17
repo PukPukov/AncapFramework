@@ -5,10 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.Nullable;
 import ru.ancap.commons.AncapDebug;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
 @AllArgsConstructor
@@ -40,9 +37,10 @@ public class BuiltTransferMap implements TransferMap {
         });
         fullMap.forEach((key, value) -> {if (key <= fromVersion) fullMap.remove(key);});
         if (fullMap.size() < 1) return new BuiltTransferMap(Map.of());
-        AncapDebug.debug(fromVersion + 1);
-        Map<String, String> first = fullMap.get(fromVersion + 1);
-        fullMap.remove(fromVersion + 1);
+        int firstTransfer = Math.max(fromVersion + 1, fullMap.keySet().stream().min(Integer::compareTo).orElse(0));
+        Map<String, String> first = fullMap.get(firstTransfer);
+        if (first == null) return BuiltTransferMap.EMPTY;
+        fullMap.remove(firstTransfer);
         fullMap.forEach((version, next) -> first.forEach((old, target) -> {
             if (next.containsKey(target)) first.put(old, next.get(target));
         }));

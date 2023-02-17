@@ -148,7 +148,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     
     private final Cache<FileConfiguration> configCache = new Cache<>(1_000_000_000);
     
-    private ConfigurationSection getConfiguration() {
+    protected ConfigurationSection getConfiguration() {
         return this.getConfiguration("configuration.yml");
     }
     
