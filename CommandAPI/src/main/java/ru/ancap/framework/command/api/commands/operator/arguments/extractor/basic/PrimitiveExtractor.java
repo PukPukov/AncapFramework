@@ -1,6 +1,8 @@
 package ru.ancap.framework.command.api.commands.operator.arguments.extractor.basic;
 
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.bukkit.command.CommandSender;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.tab.Tab;
@@ -13,6 +15,8 @@ import java.util.List;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
+@ToString
+@EqualsAndHashCode
 public abstract class PrimitiveExtractor<T> implements ArgumentExtractor<T> {
     
     private final Class<T> type;

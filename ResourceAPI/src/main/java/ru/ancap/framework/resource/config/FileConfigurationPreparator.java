@@ -8,6 +8,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
+import ru.ancap.commons.AncapDebug;
 import ru.ancap.framework.resource.ResourcePreparator;
 
 import java.io.File;
@@ -21,7 +22,7 @@ import java.util.function.Function;
 public class FileConfigurationPreparator implements ResourcePreparator<FileConfiguration> {
     
     private final Function<Integer, TransferMap> versionToMap;
-    private final String versionFieldName;
+    private String versionFieldName;
     private final boolean saveFiles;
     
     public static Builder builder() {
@@ -77,6 +78,7 @@ public class FileConfigurationPreparator implements ResourcePreparator<FileConfi
             case CONFLICT:
                 FileConfiguration userData = this.extract(new FileInputStream(target));
                 FileConfiguration softwareData = this.extract(base);
+                if (this.versionFieldName == null) this.versionFieldName = "dummy";
                 Function<ConfigurationSection, Integer> versionExtractor = new VersionExtractor(this.versionFieldName);
                 if (versionExtractor.apply(userData) == versionExtractor.apply(softwareData)) {
                     finalConfig = userData;

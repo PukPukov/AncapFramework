@@ -44,7 +44,8 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
     public void setExecutor(String commandName, CommandOperator executor) throws CommandNotRegisteredException {
         CommandOperator previous = this.executeRules.get(commandName);
         if (previous == null) {
-            throw new CommandNotRegisteredException("Command "+commandName+" must be registered in ancapplugin.yml to set its executor!");
+            throw new CommandNotRegisteredException(
+                "Command " + commandName + " must be registered in ancapplugin.yml to set its executor!");
         }
         for (String alias : this.aliasesMap.get(commandName)) {
             this.executeRules.put(alias, executor);
@@ -55,11 +56,11 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
     @Override
     public void on(CommandDispatch dispatch) {
         this.operate(
-                dispatch.command(),
-                commandForm -> commandForm.commandOperator.on(
-                        new CommandDispatch(
-                                dispatch.source(),
-                                commandForm.command
+            dispatch.command(),
+            commandForm -> commandForm.commandOperator.on(
+                new CommandDispatch(
+                    dispatch.source(),
+                    commandForm.command
                 ))
         );
     }
@@ -67,15 +68,13 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
     @Override
     public void on(CommandWrite write) {
         this.operate(
-                write.line(),
-                commandForm -> {
-                    commandForm.commandOperator.on(
-                            new CommandWrite(
-                                    write.speaker(),
-                                    commandForm.command
-                            )
-                    );
-                }
+            write.line(),
+            commandForm -> commandForm.commandOperator.on(
+                new CommandWrite(
+                    write.speaker(),
+                    commandForm.command
+                )
+            )
         );
     }
 
@@ -86,10 +85,10 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
         new Thread(() -> {
             CommandOperator rule = this.executeRules.get(key);
             commandFormConsumer.accept(
-                    new CommandForm(
-                            finalCommand,
-                            rule
-                    )
+                new CommandForm(
+                    finalCommand,
+                    rule
+                )
             );
         }).start();
 

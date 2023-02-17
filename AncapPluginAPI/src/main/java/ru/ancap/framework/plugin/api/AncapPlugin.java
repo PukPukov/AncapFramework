@@ -109,14 +109,13 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     }
 
     protected void loadLocales() {
-        VersionExtractor versionExtractor = new VersionExtractor("version");
         new LocaleLoader(
                 this.getLogger(),
                 this.newResourceSource(FileConfigurationPreparator.resolveConflicts(
                         (version) -> this.valueTransferMap() != null ?
                                 BuiltTransferMap.makeFor(this.valueTransferMap().getConfigurationSection("custom.LanguageAPI"), version) :
                                 BuiltTransferMap.EMPTY,
-                        versionExtractor.versionFieldName()
+                        "version"
                 ))
         ).run();
     }
@@ -146,19 +145,18 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         this.settings = new AncapPluginSettings(this.newResourceSource(FileConfigurationPreparator.internal()).getResource("ancapplugin.yml"));
     }
     
-    private final Cache<FileConfiguration> configCache = new Cache<>(1_000_000_000);
-    
     protected ConfigurationSection getConfiguration() {
         return this.getConfiguration("configuration.yml");
     }
+
+    private final Cache<FileConfiguration> configCache = new Cache<>(1_000_000_000);
     
     protected ConfigurationSection getConfiguration(String fileName) {
-        VersionExtractor versionExtractor = new VersionExtractor("config-version");
         return this.configCache.get(() -> this.newResourceSource(FileConfigurationPreparator.resolveConflicts(
                 (version) -> this.valueTransferMap() != null ? 
                         BuiltTransferMap.makeFor(this.valueTransferMap().getConfigurationSection("main-domain."+fileName), version) :
                         BuiltTransferMap.EMPTY,
-                versionExtractor.versionFieldName()
+                "configuration-version"
         )).getResource(fileName));
     }
     

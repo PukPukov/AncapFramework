@@ -1,9 +1,13 @@
 package ru.ancap.framework.command.api.commands.operator.arguments;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import ru.ancap.framework.command.api.commands.operator.arguments.extractor.ArgumentExtractor;
 
 @AllArgsConstructor
+@ToString
+@EqualsAndHashCode
 public class Argument {
     
     private final String argumentName;

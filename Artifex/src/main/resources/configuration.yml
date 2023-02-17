@@ -1,5 +1,5 @@
 # не менять, отвечает за обновление конфига и автоперенос значений
-config-version: 1
+configuration-version: 1
 
 default-language: ru
 

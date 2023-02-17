@@ -1,9 +1,12 @@
 package ru.ancap.framework.command.api.commands.operator.arguments;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import ru.ancap.commons.AncapDebug;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNextArgumentException;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
@@ -34,8 +37,8 @@ public class Arguments implements CommandOperator {
     private final int requiredLiterals;
     private final Consumer<ArgumentCommandDispatch> dispatchConsumer;
 
-    public Arguments(BiConsumer<CommandSender, Integer> onNotEnough, List<Argument> arguments, Consumer<ArgumentCommandDispatch> dispatchConsumer) {
-        this(onNotEnough, Arguments.bindingsFor(arguments), arguments, Arguments.requiredLiteralsAmountFor(arguments), dispatchConsumer);
+    public Arguments(BiConsumer<CommandSender, Integer> onNotEnough, Accept accept, Consumer<ArgumentCommandDispatch> dispatchConsumer) {
+        this(onNotEnough, Arguments.bindingsFor(accept), accept, Arguments.requiredLiteralsAmountFor(accept), dispatchConsumer);
     }
     
     public Arguments(Accept accept, Consumer<ArgumentCommandDispatch> dispatchConsumer) {
@@ -51,6 +54,7 @@ public class Arguments implements CommandOperator {
             int endIndex = lastStartIndex + size;
             ArgumentsShard shard = new ArgumentsShard(lastStartIndex, endIndex, argument);
             for (int cursor = lastStartIndex; cursor < endIndex; cursor++) map.put(cursor, shard);
+            lastStartIndex = endIndex + 1;
         }
         return map;
     }
@@ -152,6 +156,8 @@ public class Arguments implements CommandOperator {
     }
     
     @AllArgsConstructor
+    @ToString
+    @EqualsAndHashCode
     private static class ArgumentsShard {
         
         private final int firstLiteralIndex;
