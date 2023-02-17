@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
@@ -93,11 +94,10 @@ public class FileConfigurationPreparator implements ResourcePreparator<FileConfi
                 Set<String> userKeys = userData.getKeys(true);
                 userKeys.remove(this.versionFieldName);
                 for (String key : userKeys) {
-                    AncapDebug.debug("key", key);
                     Object value = userData.get(key);
+                    if (value instanceof MemorySection) continue;
                     String transferTarget = transferMap.getTarget(key);
                     if (transferTarget == null) transferTarget = key;
-                    AncapDebug.debug("setting it to", transferMap);
                     finalConfig.set(transferTarget, value);
                 } break;
             default: throw new IllegalStateException("Unexpected value: " + this.resolveStateFrom(base, target));

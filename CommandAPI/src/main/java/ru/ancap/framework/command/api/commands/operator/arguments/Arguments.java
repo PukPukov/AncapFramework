@@ -127,6 +127,7 @@ public class Arguments implements CommandOperator {
         
         // -1, потому что written - размер, а не индекс, +1, потому что надо получить следующий аргумент от последнего написанного
         ArgumentsShard shard = this.argumentBindings.get(written - 1 + 1);
+        if (shard == null) return;
         
         ArgumentBounding bounding = this.optionalityBounding.get(shard.node().optional());
         
