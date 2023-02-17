@@ -3,10 +3,11 @@ package ru.ancap.framework.resource.config;
 import lombok.AllArgsConstructor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.Nullable;
-import ru.ancap.commons.AncapDebug;
 
-import java.util.*;
-import java.util.function.Function;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @AllArgsConstructor
 public class BuiltTransferMap implements TransferMap {

@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import ru.ancap.commons.AncapDebug;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNextArgumentException;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
@@ -14,6 +13,7 @@ import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.command.api.commands.object.tab.OptionalTab;
 import ru.ancap.framework.command.api.commands.object.tab.TabBundle;
+import ru.ancap.framework.command.api.commands.object.tab.TabCompletion;
 import ru.ancap.framework.command.api.commands.operator.arguments.bundle.ArgumentsBundle;
 import ru.ancap.framework.command.api.commands.operator.arguments.bundle.ArgumentsMap;
 import ru.ancap.framework.command.api.commands.operator.arguments.command.ArgumentCommandDispatch;
@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -83,7 +84,7 @@ public class Arguments implements CommandOperator {
         }
         
         while (!command.isRaw() && argumentIndex <= this.arguments.size() - 1) {
-            Argument argument = this.arguments.get(0);
+            Argument argument = this.arguments.get(argumentIndex);
             Object extracted;
             try {
                 extracted = argument.extractor().extract(command);
@@ -102,6 +103,7 @@ public class Arguments implements CommandOperator {
                 else throw new IllegalStateException();
             }
             map.put(argument.argumentName(), extracted);
+            argumentIndex ++;
         }
         
         ArgumentsBundle bundle = new ArgumentsMap(Map.copyOf(map));
@@ -130,9 +132,13 @@ public class Arguments implements CommandOperator {
         if (shard == null) return;
         
         ArgumentBounding bounding = this.optionalityBounding.get(shard.node().optional());
+
+        Function<CommandSender, List<TabCompletion>> tabFunction = shard.node().help() != null ? 
+            shard.node().help() :
+            shard.node().extractor().help();
         
         write.speaker().sendTab(TabBundle.builder()
-                .tooltiped(shard.node().extractor().help().apply(write.speaker().source().sender()).stream()
+                .tooltiped(tabFunction.apply(write.speaker().source().sender()).stream()
                         .map(tabCompletion -> new OptionalTab(bounding.opening + tabCompletion.completion() + bounding.closing, tabCompletion.tooltipState()))
                         .collect(Collectors.toList()))
                 .replace((written - 1) - shard.firstLiteralIndex())
