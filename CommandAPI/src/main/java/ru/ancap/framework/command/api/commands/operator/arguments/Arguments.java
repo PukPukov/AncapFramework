@@ -53,8 +53,10 @@ public class Arguments implements CommandOperator {
             int size = argument.extractor().size();
             int endIndex = lastStartIndex + size;
             ArgumentsShard shard = new ArgumentsShard(lastStartIndex, endIndex, argument);
-            for (int cursor = lastStartIndex; cursor < endIndex; cursor++) map.put(cursor, shard);
-            lastStartIndex = endIndex + 1;
+            for (int cursor = lastStartIndex; cursor < endIndex; cursor++) {
+                map.put(cursor, shard);
+            }
+            lastStartIndex = endIndex;
         }
         return map;
     }
@@ -75,7 +77,10 @@ public class Arguments implements CommandOperator {
         
         int argumentIndex = 0;
         
-        if (dispatch.command().arguments().size() < this.requiredLiterals) this.onNotEnough.accept(dispatch.source().sender(), this.requiredLiterals - dispatch.command().arguments().size());
+        if (dispatch.command().arguments().size() < this.requiredLiterals) {
+            this.onNotEnough.accept(dispatch.source().sender(), this.requiredLiterals - dispatch.command().arguments().size());
+            return;
+        }
         
         while (!command.isRaw() && argumentIndex <= this.arguments.size() - 1) {
             Argument argument = this.arguments.get(0);

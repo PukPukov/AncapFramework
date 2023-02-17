@@ -91,11 +91,13 @@ public class FileConfigurationPreparator implements ResourcePreparator<FileConfi
                         FilenameUtils.getBaseName(target.getName())+"_"+System.currentTimeMillis()+".old"
                 ), userData);
                 Set<String> userKeys = userData.getKeys(true);
+                userKeys.remove(this.versionFieldName);
                 for (String key : userKeys) {
-                    if (key.equals(this.versionFieldName)) continue;
+                    AncapDebug.debug("key", key);
                     Object value = userData.get(key);
                     String transferTarget = transferMap.getTarget(key);
                     if (transferTarget == null) transferTarget = key;
+                    AncapDebug.debug("setting it to", transferMap);
                     finalConfig.set(transferTarget, value);
                 } break;
             default: throw new IllegalStateException("Unexpected value: " + this.resolveStateFrom(base, target));

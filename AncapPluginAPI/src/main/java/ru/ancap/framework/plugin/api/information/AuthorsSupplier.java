@@ -1,4 +1,4 @@
-package ru.ancap.framework.artifex.implementation.plugin;
+package ru.ancap.framework.plugin.api.information;
 
 import lombok.AllArgsConstructor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -6,11 +6,10 @@ import ru.ancap.framework.communicate.Communicator;
 import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.communicate.message.Message;
 import ru.ancap.framework.communicate.replacement.Placeholder;
-import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
-import ru.ancap.framework.language.additional.LAPIDomain;
 import ru.ancap.framework.language.additional.LAPIMessage;
+import ru.ancap.framework.plugin.api.common.CommonMessageDomains;
 
 @AllArgsConstructor
 public class AuthorsSupplier implements CommandOperator {
@@ -19,7 +18,7 @@ public class AuthorsSupplier implements CommandOperator {
     private final String domain;
 
     public AuthorsSupplier(JavaPlugin plugin) {
-        this(plugin, LAPIDomain.of(Artifex.class, "plugin-info"));
+        this(plugin, CommonMessageDomains.pluginInfo);
     }
 
     @Override

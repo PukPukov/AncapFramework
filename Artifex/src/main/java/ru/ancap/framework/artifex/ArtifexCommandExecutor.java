@@ -2,7 +2,7 @@ package ru.ancap.framework.artifex;
 
 import ru.ancap.framework.communicate.replacement.Placeholder;
 import ru.ancap.framework.command.api.commands.CommandTarget;
-import ru.ancap.framework.artifex.implementation.plugin.AuthorsSupplier;
+import ru.ancap.framework.plugin.api.information.AuthorsSupplier;
 import ru.ancap.framework.command.api.commands.operator.communicate.Reply;
 import ru.ancap.framework.command.api.commands.operator.delegate.Delegate;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.Raw;

@@ -29,7 +29,7 @@ ru:
             enter-language: "Команда §n/language§r§f предназначена для выбора серверного языка. Используйте её так: §n/language set <код языка>§r§f, где код языка может быть любым из стандарта ISO 639-1."
             setup: "Твой язык изменён на русский."
         plugin-info:
-          - "Artifex v%VERSION%."
+          - "%PLUGIN% v%VERSION%."
           - "Авторы: %AUTHORS%. "
         console:
           notify:
