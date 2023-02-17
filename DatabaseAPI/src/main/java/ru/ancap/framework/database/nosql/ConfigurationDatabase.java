@@ -8,7 +8,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import ru.ancap.util.resource.PluginResourceSource;
+import ru.ancap.framework.resource.PluginResourceSource;
+import ru.ancap.framework.resource.config.FileConfigurationPreparator;
 
 import java.io.*;
 import java.util.List;
@@ -42,7 +43,7 @@ public class ConfigurationDatabase implements PathDatabase {
     @AllArgsConstructor(access = AccessLevel.PACKAGE)
     public static class Builder {
         
-        protected InputStreamReader reader;
+        protected FileConfiguration config;
         protected File file;
         protected boolean autoSave = true;
         protected long autoSavePeriod = 5L;
@@ -70,7 +71,7 @@ public class ConfigurationDatabase implements PathDatabase {
         @SneakyThrows
         protected PathDatabase build() {
             return new ConfigurationDatabase(
-                    YamlConfiguration.loadConfiguration(this.reader),
+                    this.config,
                     this.file,
                     "",
                     this.autoSave,
@@ -98,9 +99,9 @@ public class ConfigurationDatabase implements PathDatabase {
             }
             
             public PathDatabase build() {
-                InputStreamReader reader = new InputStreamReader(new PluginResourceSource(this.plugin, true).getResource(this.name));
+                FileConfiguration config = new PluginResourceSource<>(this.plugin, FileConfigurationPreparator.plain()).getResource(this.name);
                 this.base.file = new File(this.plugin.getDataFolder(), this.name);
-                this.base.reader = reader;
+                this.base.config = config;
                 return this.base.build();
             }
             
@@ -125,7 +126,7 @@ public class ConfigurationDatabase implements PathDatabase {
 
             public PathDatabase build() {
                 this.base.file = this.file;
-                this.base.reader = this.reader;
+                this.base.config = YamlConfiguration.loadConfiguration(this.reader);
                 return this.base.build();
             }
 

@@ -1,4 +1,5 @@
 language: ru
+version: 1
 
 ru:
   ancap:
@@ -14,6 +15,7 @@ ru:
     framework:
       artifex:
         command:
+          tps: "&aTPS сервера: %TPS%"
           api:
             error:
               operate-is-impossible:

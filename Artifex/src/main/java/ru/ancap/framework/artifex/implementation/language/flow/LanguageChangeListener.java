@@ -2,7 +2,7 @@ package ru.ancap.framework.artifex.implementation.language.flow;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import ru.ancap.communicate.Communicator;
+import ru.ancap.framework.communicate.Communicator;
 import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.language.additional.LAPIMessage;

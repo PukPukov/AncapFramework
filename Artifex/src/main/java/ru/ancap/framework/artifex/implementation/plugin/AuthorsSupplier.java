@@ -2,10 +2,10 @@ package ru.ancap.framework.artifex.implementation.plugin;
 
 import lombok.AllArgsConstructor;
 import org.bukkit.plugin.java.JavaPlugin;
-import ru.ancap.communicate.Communicator;
-import ru.ancap.communicate.message.CallableMessage;
-import ru.ancap.communicate.message.Message;
-import ru.ancap.communicate.replacement.Placeholder;
+import ru.ancap.framework.communicate.Communicator;
+import ru.ancap.framework.communicate.message.CallableMessage;
+import ru.ancap.framework.communicate.message.Message;
+import ru.ancap.framework.communicate.replacement.Placeholder;
 import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;

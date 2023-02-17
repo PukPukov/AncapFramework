@@ -1,9 +1,9 @@
 package ru.ancap.framework.language.additional;
 
-import ru.ancap.communicate.message.CallableMessage;
-import ru.ancap.communicate.message.Message;
-import ru.ancap.communicate.message.WrapperMessage;
-import ru.ancap.communicate.replacement.Replacement;
+import ru.ancap.framework.communicate.message.CallableMessage;
+import ru.ancap.framework.communicate.message.Message;
+import ru.ancap.framework.communicate.message.WrapperMessage;
+import ru.ancap.framework.communicate.replacement.Replacement;
 import ru.ancap.framework.language.LAPI;
 
 public class LAPIMessage extends WrapperMessage implements CallableMessage {

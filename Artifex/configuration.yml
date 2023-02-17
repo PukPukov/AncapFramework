@@ -1,3 +1,6 @@
+# не менять, отвечает за обновление конфига и автоперенос значений
+config-version: 1
+
 default-language: ru
 
 database:

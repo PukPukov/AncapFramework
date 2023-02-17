@@ -22,7 +22,7 @@ import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.dispatched.TextCommand;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
-import ru.ancap.framework.command.api.commands.operator.delegator.subcommand.rule.delegate.operate.OperateRule;
+import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate.OperateRule;
 import ru.ancap.framework.plugin.api.Ancap;
 
 import java.util.*;

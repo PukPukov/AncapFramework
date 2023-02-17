@@ -7,7 +7,7 @@ import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
-import ru.ancap.framework.command.api.commands.operator.delegator.subcommand.rule.delegate.operate.OperateRule;
+import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate.OperateRule;
 import ru.ancap.framework.plugin.api.AncapPlugin;
 import ru.ancap.framework.plugin.api.commands.CommandCenter;
 import ru.ancap.framework.plugin.api.exception.CommandNotRegisteredException;

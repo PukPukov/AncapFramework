@@ -1,5 +1,7 @@
 identifier: 14261
 
+do-not-init-resource-api: true
+
 auto-register-stage:
   listeners: MANUAL
   command-executors: MANUAL

@@ -21,8 +21,8 @@ public class ServerTPSCounter implements Runnable {
     @Override
     public void run() {
         final long current = System.currentTimeMillis();
-        long timeSpent = (current - this.last) / 1000L;
-        if (timeSpent == 0L) timeSpent = 1L;
+        long timeSpent = current - this.last;
+        if (timeSpent <= 0L) timeSpent = 1L;
         final double tps = (1000000D / timeSpent) * this.thinning;
         if (tps <= 22.0) this.history.addLast(tps);
         this.last = current;

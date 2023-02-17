@@ -4,11 +4,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
-import ru.ancap.commons.Cache;
+import ru.ancap.commons.resource.ResourceSource;
 import ru.ancap.framework.language.loader.YamlLocaleLoader;
 import ru.ancap.framework.plugin.api.configuration.StreamConfig;
-import ru.ancap.util.resource.PluginResourceSource;
-import ru.ancap.util.resource.ResourceSource;
+import ru.ancap.framework.resource.PluginResourceSource;
+import ru.ancap.framework.resource.ResourcePreparator;
 
 public abstract class AncapMinimalisticPlugin extends JavaPlugin {
 
@@ -63,16 +63,9 @@ public abstract class AncapMinimalisticPlugin extends JavaPlugin {
                 this
         );
     }
+
+    protected <T> ResourceSource<T> newResourceSource(ResourcePreparator<T> resourcePreparator) {
+        return new PluginResourceSource<>(this, resourcePreparator);
+    }
     
-    private final Cache<ResourceSource> hard = new Cache<>(1_000_000_000_000L);
-
-    protected ResourceSource getResourceSource() {
-        return this.hard.get(() -> new PluginResourceSource(this, true));
-    }
-
-    private final Cache<ResourceSource> soft = new Cache<>(1_000_000_000_000L);
-
-    protected ResourceSource getSoftResourceSource() {
-        return this.soft.get(() -> new PluginResourceSource(this, false));
-    }
 }

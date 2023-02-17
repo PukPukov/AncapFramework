@@ -1,14 +1,15 @@
 package ru.ancap.framework.artifex;
 
 import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.utility.MinecraftVersion;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-import ru.ancap.commons.Day;
-import ru.ancap.communicate.Communicator;
+import ru.ancap.commons.time.Day;
+import ru.ancap.framework.communicate.Communicator;
 import ru.ancap.framework.artifex.configuration.ArtifexConfig;
 import ru.ancap.framework.artifex.implementation.ancap.ArtifexAncap;
 import ru.ancap.framework.artifex.implementation.command.center.AsyncCommandCenter;
@@ -23,10 +24,9 @@ import ru.ancap.framework.artifex.implementation.language.data.repository.SQLSpe
 import ru.ancap.framework.artifex.implementation.language.data.repository.SpeakerModelRepository;
 import ru.ancap.framework.artifex.implementation.language.flow.LanguageChangeListener;
 import ru.ancap.framework.artifex.implementation.language.input.LAPIJoinListener;
-import ru.ancap.framework.artifex.implementation.language.input.LanguageCommandExecutor;
+import ru.ancap.framework.artifex.implementation.language.input.LanguageChangeInput;
 import ru.ancap.framework.artifex.implementation.language.module.LanguageBase;
 import ru.ancap.framework.artifex.implementation.language.module.LanguagesOperator;
-import ru.ancap.framework.artifex.implementation.plugin.AuthorsSupplier;
 import ru.ancap.framework.artifex.implementation.plugin.ServerTPSCounter;
 import ru.ancap.framework.artifex.implementation.scheduler.SchedulerAPILoader;
 import ru.ancap.framework.artifex.implementation.scheduler.SchedulerSilencer;
@@ -42,7 +42,8 @@ import ru.ancap.framework.language.locale.MapLocales;
 import ru.ancap.framework.plugin.api.AncapBukkit;
 import ru.ancap.framework.plugin.api.AncapPlugin;
 import ru.ancap.framework.plugin.api.PluginLoadTask;
-import ru.ancap.util.AudienceProvider;
+import ru.ancap.framework.plugin.api.common.CommonMessageDomains;
+import ru.ancap.framework.util.AudienceProvider;
 
 import java.util.List;
 import java.util.Map;
@@ -51,8 +52,6 @@ import java.util.Scanner;
 public final class Artifex extends AncapPlugin {
 
     public static JavaPlugin PLUGIN;
-    
-    private static final long MILLISECONDS_IN_DAY = 86400000;
 
     @Getter
     private final List<Listener> listeners = List.of(
@@ -69,8 +68,8 @@ public final class Artifex extends AncapPlugin {
     
     @Getter
     private final Map<String, CommandOperator> commands = Map.of(
-            "language", new LanguageCommandExecutor(),
-            "artifex", new ArtifexCommandExecutor()
+            "language", new LanguageChangeInput(),
+            "artifex", new ArtifexCommandExecutor(this.ancap)
     );
     
     @Getter
@@ -82,6 +81,7 @@ public final class Artifex extends AncapPlugin {
     @Override
     public void onCoreLoad() {
         this.loadBukkitToKyori();
+        this.loadCommonMessageDomains();
         this.loadAncap();
         this.loadConfiguration();
         this.loadDatabase();
@@ -96,17 +96,20 @@ public final class Artifex extends AncapPlugin {
     public void onEnable() {
         super.onEnable();
         this.loadInstance();
-        this.loadAuthorsSupplier();
-        this.loadCommandCatcher();
         this.registerIntegrators();
         this.loadSchedulerAPI();
-        this.loadTimerApi();
-        this.loadListeners();
+        this.loadTimers();
+        this.loadCommandAPI();
+        this.loadEventAPI();
     }
 
-    private void loadAuthorsSupplier() {
-        AncapPlugin.authorsSupplierFactory(AuthorsSupplier::new);
-        AncapPlugin.customAuthorsSupplierFactory(AuthorsSupplier::new);
+    private void loadEventAPI() {
+        if (ProtocolLibrary.getProtocolManager().getMinecraftVersion().compareTo(new MinecraftVersion("1.16.5")) < 0) return;
+        this.eventApiListeners.forEach(this::registerEventsListener);
+    }
+
+    private void loadCommonMessageDomains() {
+        CommonMessageDomains.pluginInfo = LAPIDomain.of(Artifex.class, "plugin-info");
     }
 
     private void loadInstance() {
@@ -127,7 +130,7 @@ public final class Artifex extends AncapPlugin {
         ));
     }
 
-    private void loadTimerApi() {
+    private void loadTimers() {
         new TimerExecutor(this).run();
         AncapPlugin.scheduleSupport().upreg(
                 "everyday-timer", 
@@ -143,7 +146,8 @@ public final class Artifex extends AncapPlugin {
         this.commandCatcher = new CommandCatcher(this.ancap, this, this.asyncCommandCenter, this.asyncCommandCenter);
     }
 
-    private void loadListeners() {
+    private void loadCommandAPI() {
+        this.loadCommandCatcher();
         this.registerEventsListener(this.commandCatcher);
         this.registerEventsListener(new PlayerCommandFallback());
         ProtocolLibrary.getProtocolManager().addPacketListener(this.commandCatcher);
@@ -189,7 +193,7 @@ public final class Artifex extends AncapPlugin {
     }
 
     private void loadConfiguration() {
-        new ArtifexConfig(this.getConfig("configuration.yml")).load();
+        new ArtifexConfig(this.getConfiguration("configuration.yml")).load();
     }
 
     @SneakyThrows

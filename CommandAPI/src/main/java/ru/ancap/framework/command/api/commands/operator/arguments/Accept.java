@@ -14,4 +14,5 @@ public class Accept implements List<Argument> {
     public Accept(Argument... arguments) {
         this(List.of(arguments));
     }
+    
 }

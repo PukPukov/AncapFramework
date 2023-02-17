@@ -38,8 +38,8 @@ public class Arguments implements CommandOperator {
         this(onNotEnough, Arguments.bindingsFor(arguments), arguments, Arguments.requiredLiteralsAmountFor(arguments), dispatchConsumer);
     }
     
-    public Arguments(List<Argument> arguments, Consumer<ArgumentCommandDispatch> dispatchConsumer) {
-        this((sender, lacked) -> Bukkit.getPluginManager().callEvent(new NotEnoughArgumentsEvent(sender, lacked)), arguments, dispatchConsumer);
+    public Arguments(Accept accept, Consumer<ArgumentCommandDispatch> dispatchConsumer) {
+        this((sender, lacked) -> Bukkit.getPluginManager().callEvent(new NotEnoughArgumentsEvent(sender, lacked)), accept, dispatchConsumer);
     }
 
     private static Map<Integer, ArgumentsShard> bindingsFor(List<Argument> arguments) {

@@ -2,7 +2,7 @@ package ru.ancap.framework.artifex.configuration;
 
 import lombok.Getter;
 import org.bukkit.configuration.ConfigurationSection;
-import ru.ancap.commons.Day;
+import ru.ancap.commons.time.Day;
 import ru.ancap.framework.language.language.Language;
 
 import java.util.Calendar;

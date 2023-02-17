@@ -8,9 +8,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.ancap.commons.MeteredTask;
-import ru.ancap.communicate.Communicator;
-import ru.ancap.communicate.message.CallableMessage;
-import ru.ancap.communicate.replacement.Placeholder;
+import ru.ancap.framework.communicate.Communicator;
+import ru.ancap.framework.communicate.message.CallableMessage;
+import ru.ancap.framework.communicate.replacement.Placeholder;
 import ru.ancap.framework.language.additional.LAPIMessage;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

@@ -2,29 +2,29 @@ package ru.ancap.framework.plugin.api;
 
 import org.bstats.bukkit.Metrics;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
+import ru.ancap.commons.Cache;
 import ru.ancap.commons.TriFunction;
-import ru.ancap.communicate.message.CallableMessage;
-import ru.ancap.communicate.message.Message;
-import ru.ancap.config.AnnotationConfig;
+import ru.ancap.framework.communicate.message.CallableMessage;
+import ru.ancap.framework.communicate.message.Message;
+import ru.ancap.framework.configuration.AnnotationConfiguration;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.plugin.api.commands.CommandCenter;
-import ru.ancap.framework.plugin.api.configuration.StreamConfig;
 import ru.ancap.framework.plugin.api.information.AncapPluginSettings;
 import ru.ancap.framework.plugin.api.information.RegisterStage;
 import ru.ancap.framework.plugin.api.language.locale.loader.LocaleLoader;
 import ru.ancap.scheduler.Scheduler;
 import ru.ancap.scheduler.support.ScheduleSupport;
+import ru.ancap.framework.resource.config.BuiltTransferMap;
+import ru.ancap.framework.resource.config.VersionExtractor;
+import ru.ancap.framework.resource.config.FileConfigurationPreparator;
 
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public abstract class AncapPlugin extends AncapMinimalisticPlugin {
 
@@ -33,9 +33,6 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     private static Scheduler scheduler;
     private static ScheduleSupport scheduleSupport;
     private static TriFunction<JavaPlugin, CallableMessage, Runnable, PluginLoadTask> pluginLoadTaskProvider;
-
-    private static Function<JavaPlugin, CommandOperator> authorsSupplierFactory;
-    private static BiFunction<JavaPlugin, String, CommandOperator> customAuthorsSupplierFactory;
     private Metrics metrics;
     private AncapPluginSettings settings;
 
@@ -48,9 +45,6 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     public static ScheduleSupport scheduleSupport() {return AncapPlugin.scheduleSupport;}
     public static void scheduleSupport(ScheduleSupport scheduleSupport) {AncapPlugin.scheduleSupport = scheduleSupport;}
     public static TriFunction<JavaPlugin, CallableMessage, Runnable, PluginLoadTask> pluginLoadTaskProvider() {return AncapPlugin.pluginLoadTaskProvider;}
-    public static void authorsSupplierFactory(Function<JavaPlugin, CommandOperator> factory) {AncapPlugin.authorsSupplierFactory = factory;}
-    public static void customAuthorsSupplierFactory(BiFunction<JavaPlugin, String, CommandOperator> factory) {AncapPlugin.customAuthorsSupplierFactory = factory;}
-    
     public static void pluginLoadTaskProvider(TriFunction<JavaPlugin, CallableMessage, Runnable, PluginLoadTask> pluginLoadTaskProvider) {AncapPlugin.pluginLoadTaskProvider = pluginLoadTaskProvider;}
 
     @MustBeInvokedByOverriders
@@ -67,7 +61,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     
     protected void loadAnnotationConfig(Class<?> config) {
         this.saveDefaultConfig();
-        AnnotationConfig.load(config, this.getConfig());
+        AnnotationConfiguration.load(config, this.getConfig());
     }
 
     private void initializeInCommandCenter() {
@@ -115,9 +109,15 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     }
 
     protected void loadLocales() {
+        VersionExtractor versionExtractor = new VersionExtractor("version");
         new LocaleLoader(
                 this.getLogger(),
-                this.getResourceSource()
+                this.newResourceSource(FileConfigurationPreparator.resolveConflicts(
+                        (version) -> this.valueTransferMap() != null ?
+                                BuiltTransferMap.makeFor(this.valueTransferMap().getConfigurationSection("custom.LanguageAPI"), version) :
+                                BuiltTransferMap.EMPTY,
+                        versionExtractor.versionFieldName()
+                ))
         ).run();
     }
 
@@ -143,23 +143,29 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     }
 
     private void loadPluginSettings() {
-        this.settings = new AncapPluginSettings(
-                new StreamConfig(
-                        this.getSoftResourceSource().getResource("ancapplugin.yml")
-                )
-        );
+        this.settings = new AncapPluginSettings(this.newResourceSource(FileConfigurationPreparator.internal()).getResource("ancapplugin.yml"));
     }
     
-    protected CommandOperator authorsSupplier() {
-        return AncapPlugin.authorsSupplierFactory.apply(this);
+    private final Cache<FileConfiguration> configCache = new Cache<>(1_000_000_000);
+    
+    private ConfigurationSection getConfiguration() {
+        return this.getConfiguration("configuration.yml");
     }
+    
+    protected ConfigurationSection getConfiguration(String fileName) {
+        VersionExtractor versionExtractor = new VersionExtractor("config-version");
+        return this.configCache.get(() -> this.newResourceSource(FileConfigurationPreparator.resolveConflicts(
+                (version) -> this.valueTransferMap() != null ? 
+                        BuiltTransferMap.makeFor(this.valueTransferMap().getConfigurationSection("main-domain."+fileName), version) :
+                        BuiltTransferMap.EMPTY,
+                versionExtractor.versionFieldName()
+        )).getResource(fileName));
+    }
+    
+    private final Cache<ConfigurationSection> valueTransferMapCache = new Cache<>(1_000_000_000);
 
-    protected CommandOperator authorsSupplier(String customMessage) {
-        return AncapPlugin.customAuthorsSupplierFactory.apply(this, customMessage);
-    }
-    
-    protected ConfigurationSection getConfig(String fileName) {
-        return YamlConfiguration.loadConfiguration(new InputStreamReader(this.getResourceSource().getResource(fileName)));
+    protected ConfigurationSection valueTransferMap() {
+        return this.valueTransferMapCache.get(() -> this.newResourceSource(FileConfigurationPreparator.internal()).getResource("value-transfer-map.yml"));
     }
 
     protected void registerMetrics() {
@@ -192,4 +198,5 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     protected void task(String taskName, Runnable task) {
         this.task(new Message(taskName), task);
     }
+    
 }

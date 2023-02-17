@@ -6,7 +6,7 @@ import lombok.ToString;
 import net.kyori.adventure.audience.Audience;
 import org.bukkit.command.CommandSender;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandSource;
-import ru.ancap.util.AudienceProvider;
+import ru.ancap.framework.util.AudienceProvider;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
