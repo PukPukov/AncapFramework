@@ -28,8 +28,6 @@ public class DatabaseFromConfig {
             Map.entry("maria-db", new DatabaseInfo("mariadb", "org.mariadb.jdbc.Driver", new MariaDbDatabaseType(), DatabaseLocation.PUBLIC)),
             Map.entry("postgresql", new DatabaseInfo("postgresql", "org.postgresql.Driver", new PostgresDatabaseType(), DatabaseLocation.PUBLIC)),
             Map.entry("oracle", new DatabaseInfo("oracle", "oracle.jdbc.driver.OracleDriver", new OracleDatabaseType(), DatabaseLocation.PUBLIC)),
-            Map.entry("sql-server", new DatabaseInfo("sqlserver", "com.microsoft.sqlserver.jdbc.SQLServerDriver", new SqlServerDatabaseType(), DatabaseLocation.PUBLIC)),
-            Map.entry("sql-server-jtdc", new DatabaseInfo("jtds", "net.sourceforge.jtds.jdbc.Driver", new SqlServerJtdsDatabaseType(), DatabaseLocation.PUBLIC)),
             Map.entry("derby-local", new DatabaseInfo("derby", "org.apache.derby.jdbc.EmbeddedDriver", new DerbyEmbeddedDatabaseType(), DatabaseLocation.LOCAL)),
             Map.entry("derby-server", new DatabaseInfo("derby", "org.apache.derby.jdbc.ClientDriver", new DerbyClientServerDatabaseType(), DatabaseLocation.PUBLIC)),
             Map.entry("hsqldb", new DatabaseInfo("hsqldb", "org.hsqldb.jdbcDriver", new HsqldbDatabaseType(), DatabaseLocation.PUBLIC)),

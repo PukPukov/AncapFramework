@@ -56,7 +56,7 @@
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>DatabaseAPI</artifactId>
-            <version>1.4</version>
+            <version>1.4.1</version>
             <scope>provided</scope>
         </dependency>
 

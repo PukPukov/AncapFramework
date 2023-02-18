@@ -15,24 +15,25 @@ public class AnnotationConfiguration {
     
     @Getter(value = AccessLevel.PRIVATE)
     private static final Map<Class<?>, TriFunction<Field, ConfigurationSection, String, ?>> specialExtractors = Map.of(
-            List.class, (field, section, path) -> {
+            List.class, (field, master, path) -> {
                 Class<?> type = field.getAnnotation(GenericType.class).value();
-                List<String> list = section.getStringList(path);
+                List<String> list = master.getStringList(path);
                 List<Object> returnList = new ArrayList<>();
                 Function<String, ?> converter = AnnotationConfiguration.getConverters().get(type);
                 list.forEach((string) -> returnList.add(converter.apply(string)));
                 return returnList;
             },
-            Map.class, (field, section, path) -> {
+            Map.class, (field, master, path) -> {
+                ConfigurationSection mapSection = master.getConfigurationSection(path);
                 Map<String, Object> map = new HashMap<>();
-                Set<String> keys = section.getKeys(false);
+                Set<String> keys = mapSection.getKeys(false);
                 Class<?> type = field.getAnnotation(GenericType.class).value();
                 for (String key : keys) {
-                    map.put(key, AnnotationConfiguration.getConverters().get(type).apply(key));
+                    map.put(key, AnnotationConfiguration.getConverters().get(type).apply(mapSection.getString(key)));
                 }
                 return map;
             },
-            ConfigurationSection.class, (field, section, path) -> section.getConfigurationSection(path)
+            ConfigurationSection.class, (field, master, path) -> master.getConfigurationSection(path)
     );
     
     @Getter(value = AccessLevel.PRIVATE)
@@ -40,8 +41,8 @@ public class AnnotationConfiguration {
             Material.class, (string) -> Material.getMaterial(string.toUpperCase()),
             Long.class, Long::valueOf,
             Boolean.class, Boolean::valueOf,
-            Double.class, Double::valueOf
-            
+            Double.class, Double::valueOf,
+            String.class, string -> string
     );
     
     @SneakyThrows
@@ -49,9 +50,9 @@ public class AnnotationConfiguration {
         Field[] fields = config.getDeclaredFields();
         for (Field field : fields) {
             Configure configure = field.getAnnotation(Configure.class);
-            if (configure == null) continue;
             Class<?> type = field.getType();
-            String path = configure.value().equals("") ? field.getName() : configure.value();
+            String path = (configure == null || configure.value().equals("")) ? field.getName() : configure.value();
+            path = Case.camelToKebab(path);
             field.setAccessible(true);
             Object value;
             var extractor = AnnotationConfiguration.getSpecialExtractors().get(type);

@@ -6,7 +6,6 @@ import lombok.ToString;
 import org.bukkit.command.CommandSender;
 import ru.ancap.framework.command.api.commands.object.tab.TabCompletion;
 import ru.ancap.framework.command.api.commands.operator.arguments.extractor.ArgumentExtractor;
-import ru.ancap.framework.communicate.message.CallableMessage;
 
 import java.util.List;
 import java.util.function.Function;
@@ -44,5 +43,6 @@ public class Argument {
     public Function<CommandSender, List<TabCompletion>> help() {
         return this.help;
     }
-    
+
+
 }
