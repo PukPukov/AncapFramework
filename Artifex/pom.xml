@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <artifactId>Artifex</artifactId>
-    <version>1.6.7</version>
+    <version>1.6.8</version>
 
     <name>Artifex</name>
 
@@ -117,7 +117,7 @@
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>AncapPluginAPI</artifactId>
-            <version>3.4.4</version>
+            <version>3.4.5</version>
             <scope>compile</scope>
         </dependency>
 

@@ -8,19 +8,18 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import ru.ancap.commons.Cache;
 import ru.ancap.commons.TriFunction;
+import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.communicate.message.Message;
 import ru.ancap.framework.configuration.AnnotationConfiguration;
-import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.plugin.api.commands.CommandCenter;
 import ru.ancap.framework.plugin.api.information.AncapPluginSettings;
 import ru.ancap.framework.plugin.api.information.RegisterStage;
 import ru.ancap.framework.plugin.api.language.locale.loader.LocaleLoader;
+import ru.ancap.framework.resource.config.BuiltTransferMap;
+import ru.ancap.framework.resource.config.FileConfigurationPreparator;
 import ru.ancap.scheduler.Scheduler;
 import ru.ancap.scheduler.support.ScheduleSupport;
-import ru.ancap.framework.resource.config.BuiltTransferMap;
-import ru.ancap.framework.resource.config.VersionExtractor;
-import ru.ancap.framework.resource.config.FileConfigurationPreparator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,9 +58,8 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         this.register();
     }
     
-    protected void loadAnnotationConfig(Class<?> config) {
-        this.saveDefaultConfig();
-        AnnotationConfiguration.load(config, this.getConfig());
+    protected void loadAnnotationConfiguration(Class<?> config) {
+        AnnotationConfiguration.load(config, this.getConfiguration());
     }
 
     private void initializeInCommandCenter() {
