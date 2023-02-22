@@ -40,7 +40,7 @@ public class LAPI {
 
     /**
      * It returns the localized string for the given id, using the language of the player with the given playerID.
-     *
+     * <p>
      * Please note that a remote database can be accessed to get a localized string.
      * It is recommended to run the code for sending a message to the player in a separate thread!
      *

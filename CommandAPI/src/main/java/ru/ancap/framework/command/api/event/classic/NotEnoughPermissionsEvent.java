@@ -5,9 +5,6 @@ import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.command.api.event.CommandEvent;
 
-/**
- * It's an event that is called when a user doesn't have enough permissions to execute a command
- */
 public class NotEnoughPermissionsEvent extends CommandEvent {
 
     private final String lackedPermission;

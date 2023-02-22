@@ -63,6 +63,11 @@ public class PlayerCommandFallback implements Listener {
             )
         );
     }
+    
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void on(UnexsecutableCommandEvent event) {
+        this.operateForm(new Form(event, event.sender()), event.description());
+    }
 
     private void operateForm(Form form, CallableMessage message) {
         if (form.getEvent().operate()) {
