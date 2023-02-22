@@ -63,12 +63,12 @@ public class CommandCatcher implements Listener, PacketListener {
         }
         event.setCancelled(true);
         this.getGlobal().on(
-                new PacketCommandWrite(
-                        transactionID,
-                        inlineTextCommand,
-                        event.getPlayer(),
-                        inlineTextCommand
-                )
+            new PacketCommandWrite(
+                transactionID,
+                inlineTextCommand,
+                event.getPlayer(),
+                inlineTextCommand
+            )
         );
     };
 
@@ -82,6 +82,7 @@ public class CommandCatcher implements Listener, PacketListener {
 
     public CommandCatcher(Ancap ancap, JavaPlugin plugin, CommandOperator global, OperateRule rule) {
         this.ancap = ancap;
+        var onTabComplete = this.onTabComplete;
         this.delegate = new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Client.TAB_COMPLETE) {
             @Override
             public void onPacketReceiving(PacketEvent event) {
