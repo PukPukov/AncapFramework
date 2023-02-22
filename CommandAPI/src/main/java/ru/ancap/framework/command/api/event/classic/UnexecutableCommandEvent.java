@@ -6,11 +6,11 @@ import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.command.api.event.CommandEvent;
 import ru.ancap.framework.communicate.message.CallableMessage;
 
-public class UnexsecutableCommandEvent extends CommandEvent {
+public class UnexecutableCommandEvent extends CommandEvent {
 
     private final CallableMessage description;
 
-    public UnexsecutableCommandEvent(@NotNull CommandSender sender, @NotNull CallableMessage description) {
+    public UnexecutableCommandEvent(@NotNull CommandSender sender, @NotNull CallableMessage description) {
         super(sender);
         this.description = description;
     }
