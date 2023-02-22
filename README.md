@@ -13,7 +13,7 @@ Vi is Anglii? [Check English readme!](https://github.com/ancap-dev/AncapFramewor
 # Подключение
 ![Release](https://jitpack.io/v/ancap-dev/AncapFramework.svg?style=flat-square)
 
-По задумке AncapFramework - модульный проект, и для того, чтобы работать с ним, надо каждый модуль подключать отдельно, в большом проекте собирая десяток зависимостей. Но репозиторий, где хостится AncapFramework, имеет другое мнение на этот счёт, и свалил всё в кучу (даже вместе с internal-логикой, ироды!), поэтому всё сразу можно подключить следующим кодом в Maven:
+Подключить всё сразу:
 
 ```xml
 <repository>
@@ -28,7 +28,23 @@ Vi is Anglii? [Check English readme!](https://github.com/ancap-dev/AncapFramewor
     <scope>provided</scope>
 </dependency>
 ```
-(на самом деле джитпак позволяет подключать только некоторые модули, но в этом не особо много смысла, так как версионирование все еще идет по версии релиза, а не модуля)
+
+Подключать по модулям:
+
+```xml
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
+</repository>
+
+<dependency>
+    <groupId>com.github.ancap-dev.AncapFramework</groupId>
+    <artifactId>AncapPluginAPI</artifactId>
+    <version>смотри выше</version>
+    <scope>provided</scope>
+</dependency>
+```
+Рекомендуется подключать по модулям, по задумке AncapFramework - модульный проект.
 
 # Вики
 
