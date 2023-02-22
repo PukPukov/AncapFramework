@@ -4,17 +4,24 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.command.api.event.CommandEvent;
+import ru.ancap.framework.communicate.message.CallableMessage;
+import ru.ancap.framework.communicate.message.Message;
 
 public class NotEnoughPermissionsEvent extends CommandEvent {
 
-    private final String lackedPermission;
-
+    private final CallableMessage lackedPermission;
+    
     public NotEnoughPermissionsEvent(CommandSender sender, String lackedPermission) {
+        super(sender);
+        this.lackedPermission = new Message(lackedPermission);
+    }
+
+    public NotEnoughPermissionsEvent(CommandSender sender, CallableMessage lackedPermission) {
         super(sender);
         this.lackedPermission = lackedPermission;
     }
     
-    public String lackedPermission() {
+    public CallableMessage lackedPermission() {
         return this.lackedPermission;
     }
 
