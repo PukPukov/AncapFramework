@@ -46,8 +46,7 @@ public class PlayerCommandFallback implements Listener {
         this.operateForm(
             new Form(event, event.sender()),
             new LAPIMessage(
-                Artifex.class, "command.api.error.not-enough-permissions",
-                new Placeholder("PERMISSION", event.lackedPermission())
+                Artifex.class, "command.api.error.not-enough-permissions"
             )
         );
     }

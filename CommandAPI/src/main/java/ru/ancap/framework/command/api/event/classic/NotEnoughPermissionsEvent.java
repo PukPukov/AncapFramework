@@ -8,21 +8,24 @@ import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.communicate.message.Message;
 
 public class NotEnoughPermissionsEvent extends CommandEvent {
-
-    private final CallableMessage lackedPermission;
     
+    public NotEnoughPermissionsEvent(CommandSender sender) {
+        super(sender);
+    }
+    
+    @Deprecated
     public NotEnoughPermissionsEvent(CommandSender sender, String lackedPermission) {
         super(sender);
-        this.lackedPermission = new Message(lackedPermission);
     }
 
+    @Deprecated
     public NotEnoughPermissionsEvent(CommandSender sender, CallableMessage lackedPermission) {
         super(sender);
-        this.lackedPermission = lackedPermission;
     }
     
+    @Deprecated
     public CallableMessage lackedPermission() {
-        return this.lackedPermission;
+        return new Message("Deprecated");
     }
 
     private static final HandlerList handlers = new HandlerList();

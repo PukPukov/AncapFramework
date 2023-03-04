@@ -108,13 +108,13 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
 
     protected void loadLocales() {
         new LocaleLoader(
-                this.getLogger(),
-                this.newResourceSource(FileConfigurationPreparator.resolveConflicts(
-                        (version) -> this.valueTransferMap() != null ?
-                                BuiltTransferMap.makeFor(this.valueTransferMap().getConfigurationSection("custom.LanguageAPI"), version) :
-                                BuiltTransferMap.EMPTY,
-                        "version"
-                ))
+            this.getLogger(),
+            this.newResourceSource(FileConfigurationPreparator.resolveConflicts(
+                (version) -> this.valueTransferMap() != null ?
+                    BuiltTransferMap.makeFor(this.valueTransferMap().getConfigurationSection("custom.LanguageAPI"), version) :
+                    BuiltTransferMap.EMPTY,
+                "version"
+            ))
         ).run();
     }
 
@@ -151,10 +151,10 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     
     protected ConfigurationSection getConfiguration(String fileName) {
         return this.configCache.get(() -> this.newResourceSource(FileConfigurationPreparator.resolveConflicts(
-                (version) -> this.valueTransferMap() != null ? 
-                        BuiltTransferMap.makeFor(this.valueTransferMap().getConfigurationSection("main-domain."+fileName), version) :
-                        BuiltTransferMap.EMPTY,
-                "configuration-version"
+            (version) -> this.valueTransferMap() != null ? 
+                BuiltTransferMap.makeFor(this.valueTransferMap().getConfigurationSection("main-domain."+fileName), version) :
+                BuiltTransferMap.EMPTY,
+            "configuration-version"
         )).getResource(fileName));
     }
     
