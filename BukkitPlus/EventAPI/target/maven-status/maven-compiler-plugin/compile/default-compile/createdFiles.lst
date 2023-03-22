@@ -1,0 +1,14 @@
+ru\ancap\framework\api\event\events\wrapper\AncapWrapperCancellableEvent.class
+ru\ancap\framework\api\event\events\time\classic\SafeTimerOneDayEvent.class
+ru\ancap\framework\api\event\events\additions\BlockClickEvent.class
+ru\ancap\framework\api\event\events\time\classic\FastTimerTenMinutesEvent.class
+ru\ancap\framework\api\event\events\time\classic\FastTimerTenSecondEvent.class
+ru\ancap\framework\api\event\events\time\heartbeat\AncapHeartbeatEvent.class
+ru\ancap\framework\api\event\events\additions\BlockNullifyEvent.class
+ru\ancap\framework\api\event\events\wrapper\AncapWrapperPlayerEvent.class
+ru\ancap\framework\api\event\events\wrapper\PVPEvent.class
+ru\ancap\framework\api\event\events\wrapper\VillagerHealEvent.class
+ru\ancap\framework\api\event\events\time\TimerEvent.class
+ru\ancap\framework\api\event\events\wrapper\WorldSelfDestructEvent.class
+ru\ancap\framework\api\event\events\wrapper\AncapEvent.class
+ru\ancap\framework\api\event\events\wrapper\WorldInteractEvent.class

@@ -1,0 +1,19 @@
+main-domain:
+  file.yml:
+    to-version-2:
+      transfer:
+        - "hui:ochko"
+        - "gnida:mraz"
+      invalidate:
+        - "manda"
+    to-version-3:
+      invalidate:
+        - "pinus"
+        - "shalava"
+        - "elda"
+        - "kopro"
+
+custom:
+  LanguageAPI:
+    to-version-2:
+      invalidate: "ru.ancap.hui"

@@ -1,6 +1,21 @@
-identifier: 14261
+file-version: 1
 
-do-not-init-resource-api: true
+update:
+  strategy:
+    # IGNORE, NOTIFY, FORCE
+    install: FORCE
+    # UPDATE_IF_LATEST_VERSION_STRING_NOT_EQUAL, UPDATE_IF_LATEST_RELEASE_TIME_NEWER, EVERYTIME
+    check: UPDATE_IF_LATEST_RELEASE_TIME_NEWER
+  # Only spigotmc.org with spiget now, something else maybe in the future
+  source: spiget
+
+integration:
+  bstats: 
+    identifier: 14261
+    enabled: true
+  spigotmc: 
+    identifier: 101858
+    enabled: true
 
 auto-register-stage:
   listeners: MANUAL

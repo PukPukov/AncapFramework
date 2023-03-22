@@ -1,0 +1,10 @@
+ru\ancap\framework\language\locale\Locales.class
+ru\ancap\framework\language\language\LanguageSettings.class
+ru\ancap\framework\language\LAPI.class
+ru\ancap\framework\language\language\Language.class
+ru\ancap\framework\language\additional\LAPIDomain.class
+ru\ancap\framework\language\additional\LAPIMessage.class
+ru\ancap\framework\language\language\PlayersLanguageSettings.class
+ru\ancap\framework\language\loader\YamlLocaleLoader.class
+ru\ancap\framework\language\loader\exception\LocaleLoaderException.class
+ru\ancap\framework\language\locale\MapLocales.class

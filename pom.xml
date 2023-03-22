@@ -20,6 +20,7 @@
         <module>ConfigurationAPI</module>
         <module>CommunicatorAPI</module>
         <module>ResourceAPI</module>
+        <module>UpdaterAPI</module>
     </modules>
 
     <properties>

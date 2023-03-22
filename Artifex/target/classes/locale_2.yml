@@ -1,0 +1,57 @@
+language: en
+version: 1
+
+ru:
+  ancap:
+    types:
+      java:
+        lang:
+          Long: "an integer value"
+          Double: "a rational number"
+          Boolean: "a logical value"
+          Character: "a character"
+          String: "a string"
+    
+    framework:
+      artifex:
+        command:
+          api:
+            error:
+              operate-is-impossible:
+                - "§cThe command entered cannot be processed."
+                - "%DESCRIPTION%"
+              not-enough-arguments: "§cNot enough arguments. You need §c§n%COUNT%§r§c more than entered to continue."
+              unknown: "§cCommand \"§c§n%COMMAND%§r§c\" does not exist."
+              not-enough-permissions: "§cYou have not enough permissions to do that."
+              cannot-transform-argument: "§c\"§c§n%ARGUMENT%§r§c\" is not §c§n%TYPE%§r§c."
+          language:
+            enter-language: "The §n/language§r§f command is for selecting a server language. Use it this way: §n/language set <language code>§r§f, where the language code can be anything from the ISO 639-1 standard."
+            setup: "Your language has been changed to English."
+        plugin-info:
+          - "Artifex v%VERSION%."
+          - "Authors: %AUTHORS%. "
+        console:
+          notify:
+            task:
+              status:
+                start: "%PLUGIN% has started loading %TASK%."
+                end: "%PLUGIN% has finished loading %TASK%. It took %TIME% milliseconds to load."
+              names:
+                ancap: "framework kernel"
+          scheduler-api:
+            task-cannot-be-loaded:
+              - "Failed to load task class %TASK_CLASS% created by plugin %PLUGIN%. It appears that you deleted the plugin that created this task, or it failed to load."
+              - "Do you want to continue? Press the number corresponding to the action:"
+              - " (1) - continue loading the server and delete the task"
+              - " (2) - hide the task - the message will no longer appear, but once the plugin that created the task is returned, the task will start running again."
+              - " (3) - loading, but don't delete or silence the task"
+              - " (4) - shut down."
+            incorrect-task: "Invalid task number %NUMBER%. Write number in console that matches task number."
+            executing-chosen-task: "Execute %NUMBER% task."
+            chosen-task-executed: "Selected actions successfully applied."
+        literals:
+          nobody: "nobody"
+        api:
+          command:
+            description:
+              default: "no description"

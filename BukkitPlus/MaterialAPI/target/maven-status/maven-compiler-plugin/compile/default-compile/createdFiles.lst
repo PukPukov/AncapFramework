@@ -1,0 +1,7 @@
+ru\ancap\framework\api\material\materials\Ore.class
+ru\ancap\framework\api\material\materials\Flower.class
+ru\ancap\framework\api\material\materials\Log.class
+ru\ancap\framework\api\material\materials\Wood$NotAWoodException.class
+ru\ancap\framework\api\material\materials\Wood.class
+ru\ancap\framework\api\material\materials\Wood$1.class
+ru\ancap\framework\api\material\materials\Wood$Type.class

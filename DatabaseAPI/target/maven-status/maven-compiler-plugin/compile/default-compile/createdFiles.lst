@@ -1,0 +1,10 @@
+ru\ancap\framework\database\sql\connection\data\DatabaseInfo.class
+ru\ancap\framework\database\nosql\ConfigurationDatabase$Builder$PluginBased.class
+ru\ancap\framework\database\nosql\PathDatabase.class
+ru\ancap\framework\database\sql\SQLDatabase.class
+ru\ancap\framework\database\nosql\ConfigurationDatabase$Builder$FileBased.class
+ru\ancap\framework\database\sql\connection\data\DatabaseLocation.class
+ru\ancap\framework\database\sql\connection\reader\DatabaseFromConfig$1.class
+ru\ancap\framework\database\sql\connection\reader\DatabaseFromConfig.class
+ru\ancap\framework\database\nosql\ConfigurationDatabase.class
+ru\ancap\framework\database\nosql\ConfigurationDatabase$Builder.class

@@ -1,0 +1,15 @@
+ru\ancap\framework\plugin\api\AncapMinimalisticPlugin.class
+ru\ancap\framework\plugin\api\common\CommonMessageDomains.class
+ru\ancap\framework\plugin\api\information\AncapPluginSettings.class
+ru\ancap\framework\plugin\api\language\locale\loader\LocaleLoader.class
+ru\ancap\framework\plugin\api\PluginLoadTask.class
+ru\ancap\framework\plugin\api\information\AuthorsSupplier.class
+ru\ancap\framework\plugin\api\language\locale\loader\LocaleStreamExtractor.class
+ru\ancap\framework\plugin\api\commands\CommandCenter.class
+ru\ancap\framework\plugin\api\exception\CommandNotRegisteredException.class
+ru\ancap\framework\plugin\api\information\AncapPluginSettings$Path.class
+ru\ancap\framework\plugin\api\AncapBukkit.class
+ru\ancap\framework\plugin\api\configuration\StreamConfig.class
+ru\ancap\framework\plugin\api\Ancap.class
+ru\ancap\framework\plugin\api\AncapPlugin.class
+ru\ancap\framework\plugin\api\information\RegisterStage.class

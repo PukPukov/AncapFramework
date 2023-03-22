@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
+import org.jetbrains.annotations.Nullable;
 import ru.ancap.commons.Cache;
 import ru.ancap.commons.TriFunction;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
@@ -83,10 +84,10 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     }
     
     private void autoRegisterIntegrators() {
-        if (this.getSettings().getCommandExecutorRegisterStage() == RegisterStage.ANCAP_PLUGIN_ENABLE) {
+        if (this.getSettings().commandExecutorRegisterStage() == RegisterStage.ANCAP_PLUGIN_ENABLE) {
             this.registerCommandExecutors();
         }
-        if (this.getSettings().getListenerRegisterStage() == RegisterStage.ANCAP_PLUGIN_ENABLE) {
+        if (this.getSettings().listenerRegisterStage() == RegisterStage.ANCAP_PLUGIN_ENABLE) {
             this.registerListeners();
         }
     }
@@ -165,12 +166,13 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     }
 
     protected void registerMetrics() {
-        this.metrics = new Metrics(this, this.getPluginIdentifier());
-        // metrics.enable();
+        String identifier = this.getPluginIdentifier("bstats");
+        if (identifier != null) this.metrics = new Metrics(this, Integer.parseInt(identifier));
     }
 
-    protected int getPluginIdentifier() {
-        return this.getSettings().getPluginIdentifier();
+    @Nullable
+    protected String getPluginIdentifier(String service) {
+        return this.getSettings().pluginIdentifier(service);
     }
     
     protected Map<String, CommandOperator> getCommands() {

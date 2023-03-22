@@ -1,0 +1,9 @@
+ru\ancap\framework\communicate\message\CallableMessage.class
+ru\ancap\framework\communicate\message\WrapperMessage.class
+ru\ancap\framework\communicate\replacement\Replacement.class
+ru\ancap\framework\communicate\replacement\Placeholder.class
+ru\ancap\framework\communicate\Communicator.class
+ru\ancap\framework\communicate\message\EnumerationMessage.class
+ru\ancap\framework\communicate\message\Message.class
+ru\ancap\framework\communicate\MiniMessageMapper.class
+ru\ancap\framework\communicate\replacement\BaseReplacement.class

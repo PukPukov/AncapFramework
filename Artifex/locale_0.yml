@@ -23,7 +23,7 @@ ru:
                 - "%DESCRIPTION%"
               not-enough-arguments: "§cНедостаточно аргументов. Необходимо на §c§n%COUNT%§r§c больше, чем введено, чтобы продолжить."
               unknown: "§cКоманды \"§c§n%COMMAND%§r§c\" не существует."
-              not-enough-permissions: "§cДля выполнения этого действия нужно иметь разрешение \"§c§n%PERMISSION%§r§c\"."
+              not-enough-permissions: "§cУ тебя недостаточно прав."
               cannot-transform-argument: "§c\"§c§n%ARGUMENT%§r§c\" - не §c§n%TYPE%§r§c."
           language:
             enter-language: "Команда §n/language§r§f предназначена для выбора серверного языка. Используйте её так: §n/language set <код языка>§r§f, где код языка может быть любым из стандарта ISO 639-1."
