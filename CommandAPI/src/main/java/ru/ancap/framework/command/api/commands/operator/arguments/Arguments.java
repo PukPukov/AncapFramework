@@ -30,6 +30,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
+@ToString @EqualsAndHashCode
 public class Arguments implements CommandOperator {
 
     private final BiConsumer<CommandSender, Integer> onNotEnough;

@@ -1,11 +1,14 @@
 package ru.ancap.framework.command.api.commands.operator.delegate.subcommand;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.CommandDelegateRule;
 
 import java.util.List;
 
+@ToString @EqualsAndHashCode
 public class Raw implements CommandDelegateRule {
 
     private final CommandOperator delegated;

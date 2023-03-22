@@ -18,6 +18,7 @@ import java.util.Set;
 @With(value = AccessLevel.PACKAGE)
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
+@ToString @EqualsAndHashCode
 public class ConfigurationDatabase implements PathDatabase {
 
     private final FileConfiguration configuration;

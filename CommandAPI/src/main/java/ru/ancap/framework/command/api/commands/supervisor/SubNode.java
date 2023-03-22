@@ -1,10 +1,13 @@
 package ru.ancap.framework.command.api.commands.supervisor;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 
 import java.util.List;
 
+@ToString @EqualsAndHashCode
 public class SubNode implements SupervisedRule {
 
     @Override

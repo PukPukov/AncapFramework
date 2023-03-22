@@ -4,12 +4,12 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.utility.MinecraftVersion;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import lombok.ToString;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.ancap.commons.time.Day;
-import ru.ancap.framework.communicate.Communicator;
 import ru.ancap.framework.artifex.configuration.ArtifexConfig;
 import ru.ancap.framework.artifex.implementation.ancap.ArtifexAncap;
 import ru.ancap.framework.artifex.implementation.command.center.AsyncCommandCenter;
@@ -34,6 +34,7 @@ import ru.ancap.framework.artifex.implementation.timer.EveryDayTask;
 import ru.ancap.framework.artifex.implementation.timer.TimerExecutor;
 import ru.ancap.framework.artifex.implementation.timer.heartbeat.ArtifexHeartbeat;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
+import ru.ancap.framework.communicate.Communicator;
 import ru.ancap.framework.database.sql.SQLDatabase;
 import ru.ancap.framework.database.sql.connection.reader.DatabaseFromConfig;
 import ru.ancap.framework.language.LAPI;
@@ -49,6 +50,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+@ToString
 public final class Artifex extends AncapPlugin {
 
     public static JavaPlugin PLUGIN;

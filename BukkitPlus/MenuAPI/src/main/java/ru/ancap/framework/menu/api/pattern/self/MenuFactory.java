@@ -4,6 +4,8 @@ import com.focamacho.sealmenus.bukkit.ChestMenu;
 import com.focamacho.sealmenus.bukkit.PageableChestMenu;
 import com.focamacho.sealmenus.bukkit.SealMenus;
 import com.focamacho.sealmenus.bukkit.item.MenuItem;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.List;
 import java.util.Map;
 
+@ToString @EqualsAndHashCode
 public class MenuFactory {
     
     private static JavaPlugin holderPlugin;

@@ -1,10 +1,13 @@
 package ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNextArgumentException;
 
+@ToString @EqualsAndHashCode
 public class ArgumentsOperateRule implements OperateRule {
 
     private final String key;

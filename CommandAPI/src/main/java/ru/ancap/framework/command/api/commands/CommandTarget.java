@@ -3,6 +3,7 @@ package ru.ancap.framework.command.api.commands;
 import lombok.experimental.Delegate;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 
+
 public class CommandTarget implements CommandOperator {
 
     @Delegate

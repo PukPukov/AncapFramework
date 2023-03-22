@@ -1,8 +1,6 @@
 package ru.ancap.framework.artifex.implementation.command.center;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
@@ -19,6 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
+@ToString @EqualsAndHashCode
 public class AsyncCommandCenter implements CommandCenter, CommandOperator, OperateRule {
 
     private final Map<String, CommandOperator> executeRules = new ConcurrentHashMap<>();

@@ -1,8 +1,12 @@
 package ru.ancap.framework.communicate;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@ToString @EqualsAndHashCode
 public class MiniMessageMapper {
     
     private static final Map<String, String> fromLegacyMap = Map.ofEntries(

@@ -1,6 +1,8 @@
 package ru.ancap.framework.language.loader;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.bukkit.configuration.ConfigurationSection;
 import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.language.language.Language;
@@ -10,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
+@ToString @EqualsAndHashCode
 public class YamlLocaleLoader implements Runnable {
 
     private final ConfigurationSection section;

@@ -9,6 +9,7 @@ import com.mojang.brigadier.LiteralMessage;
 import com.mojang.brigadier.context.StringRange;
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.suggestion.Suggestions;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
@@ -20,7 +21,7 @@ import ru.ancap.framework.command.api.commands.object.tab.TabBundle;
 
 import java.util.stream.Collectors;
 
-@ToString
+@ToString @EqualsAndHashCode
 public class PacketLineSpeaker implements CommandLineSpeaker {
 
     private final int transactionID;

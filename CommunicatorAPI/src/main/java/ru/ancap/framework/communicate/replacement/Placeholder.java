@@ -1,10 +1,13 @@
 package ru.ancap.framework.communicate.replacement;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Delegate;
 import ru.ancap.framework.communicate.message.CallableMessage;
 
 @AllArgsConstructor
+@ToString @EqualsAndHashCode
 public class Placeholder implements Replacement {
 
     @Delegate

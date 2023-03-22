@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@EqualsAndHashCode
-@ToString
+@ToString @EqualsAndHashCode
 public final class InlineTextCommand implements LeveledCommand {
 
     private final String line;

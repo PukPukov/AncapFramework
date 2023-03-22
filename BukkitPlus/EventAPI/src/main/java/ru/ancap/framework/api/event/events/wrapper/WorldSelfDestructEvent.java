@@ -1,5 +1,7 @@
 package ru.ancap.framework.api.event.events.wrapper;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.bukkit.Location;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -14,6 +16,8 @@ import java.util.List;
  * <p> 
  * For example, it called, when piston extracts or entity attacks other entity.
  */
+
+@ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
 public class WorldSelfDestructEvent extends AncapWrapperCancellableEvent implements Cancellable {
     
     private final @NotNull Location destructorPosition;

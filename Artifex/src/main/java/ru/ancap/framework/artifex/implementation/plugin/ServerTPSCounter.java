@@ -1,10 +1,13 @@
 package ru.ancap.framework.artifex.implementation.plugin;
 
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.util.LinkedList;
 import java.util.List;
 
+@ToString @EqualsAndHashCode
 public class ServerTPSCounter implements Runnable {
     
     private final int thinning;

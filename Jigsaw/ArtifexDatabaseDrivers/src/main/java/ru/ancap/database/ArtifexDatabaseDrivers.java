@@ -1,7 +1,9 @@
 package ru.ancap.database;
 
+import lombok.ToString;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@ToString
 public final class ArtifexDatabaseDrivers extends JavaPlugin {
 
     @Override

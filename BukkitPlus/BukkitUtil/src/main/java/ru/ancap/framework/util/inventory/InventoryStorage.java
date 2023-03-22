@@ -1,11 +1,14 @@
 package ru.ancap.framework.util.inventory;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 @AllArgsConstructor
+@ToString @EqualsAndHashCode
 public class InventoryStorage {
     
     private final PlayerInventory inventory;

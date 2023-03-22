@@ -1,5 +1,7 @@
 package ru.ancap.framework.language.locale;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.language.language.Language;
 
@@ -7,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+@ToString @EqualsAndHashCode
 public class MapLocales implements Locales {
 
     private final Map<Language, Map<String, String>> map;

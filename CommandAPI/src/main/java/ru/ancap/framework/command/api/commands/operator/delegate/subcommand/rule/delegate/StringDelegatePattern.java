@@ -1,5 +1,7 @@
 package ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate.ArgumentsOperateRule;
 
@@ -7,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@ToString @EqualsAndHashCode
 public class StringDelegatePattern implements DelegatePattern {
 
     private final String mainCommand;

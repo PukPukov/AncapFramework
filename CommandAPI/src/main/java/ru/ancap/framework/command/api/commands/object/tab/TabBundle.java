@@ -1,13 +1,12 @@
 package ru.ancap.framework.command.api.commands.object.tab;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.With;
+import lombok.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor(access = AccessLevel.PACKAGE) @With
+@ToString @EqualsAndHashCode
 public class TabBundle {
     
     private final List<TabCompletion> tabCompletions;

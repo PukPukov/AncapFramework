@@ -1,6 +1,8 @@
 package ru.ancap.framework.communicate;
 
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.command.CommandSender;
@@ -10,6 +12,7 @@ import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.util.AudienceProvider;
 
 @RequiredArgsConstructor
+@ToString @EqualsAndHashCode
 public class Communicator {
     
     private final Audience audience;

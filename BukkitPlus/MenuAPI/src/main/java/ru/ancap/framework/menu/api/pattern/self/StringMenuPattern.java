@@ -2,6 +2,8 @@ package ru.ancap.framework.menu.api.pattern.self;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Delegate;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -9,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@ToString @EqualsAndHashCode
 public class StringMenuPattern implements MenuPattern {
 
     @Delegate

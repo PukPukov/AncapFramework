@@ -1,11 +1,14 @@
 package ru.ancap.framework.artifex.implementation.language.module;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.language.language.Language;
 import ru.ancap.framework.language.language.LanguageSettings;
 
 @AllArgsConstructor
+@ToString @EqualsAndHashCode
 public class LanguageBase implements LanguageSettings {
 
     private final LanguagesData database;

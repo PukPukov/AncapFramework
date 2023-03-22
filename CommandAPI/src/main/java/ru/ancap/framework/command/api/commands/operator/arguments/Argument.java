@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.function.Function;
 
 @AllArgsConstructor
-@ToString
-@EqualsAndHashCode
+@ToString @EqualsAndHashCode
 public class Argument {
     
     private final String argumentName;

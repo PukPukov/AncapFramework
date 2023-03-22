@@ -1,5 +1,7 @@
 package ru.ancap.framework.api.event.events.additions;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.experimental.Delegate;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -8,6 +10,7 @@ import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
+@ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
 public class BlockClickEvent extends Event implements Cancellable {
 
     @Delegate

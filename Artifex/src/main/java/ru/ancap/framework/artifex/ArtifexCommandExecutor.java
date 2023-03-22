@@ -1,5 +1,7 @@
 package ru.ancap.framework.artifex;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import ru.ancap.framework.communicate.replacement.Placeholder;
 import ru.ancap.framework.command.api.commands.CommandTarget;
 import ru.ancap.framework.plugin.api.information.AuthorsSupplier;
@@ -11,6 +13,7 @@ import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule
 import ru.ancap.framework.language.additional.LAPIMessage;
 import ru.ancap.framework.plugin.api.Ancap;
 
+@ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
 public class ArtifexCommandExecutor extends CommandTarget {
     public ArtifexCommandExecutor(Ancap ancap) {
         super(new Delegate(

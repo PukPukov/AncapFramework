@@ -1,10 +1,13 @@
 package ru.ancap.framework.command.api.commands.operator.delegate.settings;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.bukkit.Bukkit;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.provide.CommandProvidePattern;
 import ru.ancap.framework.command.api.event.classic.UnknownCommandEvent;
 
+@ToString @EqualsAndHashCode
 public class ClassicDelegatorSettings implements DelegatorSettings {
 
     private final CommandProvidePattern spareRule;

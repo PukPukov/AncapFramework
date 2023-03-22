@@ -1,6 +1,8 @@
 package ru.ancap.framework.artifex.implementation.scheduler;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.ancap.framework.communicate.Communicator;
@@ -19,6 +21,7 @@ import java.util.concurrent.Executors;
 import java.util.function.BiConsumer;
 
 @AllArgsConstructor
+@ToString @EqualsAndHashCode
 public class SchedulerAPILoader implements Runnable {
     
     private final Communicator uiOutput;

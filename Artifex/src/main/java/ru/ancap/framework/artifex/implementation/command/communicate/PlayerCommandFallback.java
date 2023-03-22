@@ -2,6 +2,8 @@ package ru.ancap.framework.artifex.implementation.command.communicate;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,6 +19,7 @@ import ru.ancap.framework.communicate.replacement.Placeholder;
 import ru.ancap.framework.language.additional.LAPIMessage;
 
 @AllArgsConstructor
+@ToString @EqualsAndHashCode
 public class PlayerCommandFallback implements Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)

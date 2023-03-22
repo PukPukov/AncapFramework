@@ -3,14 +3,13 @@ package ru.ancap.framework.artifex.implementation.scheduler;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.table.TableUtils;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
+import lombok.*;
 import ru.ancap.framework.database.sql.SQLDatabase;
 
 import java.sql.SQLException;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@ToString @EqualsAndHashCode
 public class SchedulerSilencer {
     
     private final SQLDatabase sql;

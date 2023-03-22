@@ -1,5 +1,7 @@
 package ru.ancap.framework.api.event.events.additions;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.bukkit.block.Block;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -11,6 +13,7 @@ import java.util.List;
 /**
  * Called, when blocks disappears.
  */
+@ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
 public class BlockNullifyEvent extends AncapWrapperCancellableEvent implements Cancellable {
     
     private final @NotNull List<Block> disappeared;

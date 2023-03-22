@@ -1,5 +1,7 @@
 package ru.ancap.framework.api.event.events.wrapper;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -11,6 +13,7 @@ import java.util.List;
  * Calling, when some player attacks other player(s).
  */
 
+@ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
 public class PVPEvent extends AncapWrapperCancellableEvent implements Cancellable {
 
     private final @NotNull Player attacker;

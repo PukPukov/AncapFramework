@@ -1,5 +1,7 @@
 package ru.ancap.framework.command.api.commands.operator.delegate;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
@@ -12,6 +14,7 @@ import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString @EqualsAndHashCode
 public class Delegate implements CommandOperator {
 
     private final CommandProvidePattern defaultRule;

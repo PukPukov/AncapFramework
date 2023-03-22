@@ -1,6 +1,8 @@
 package ru.ancap.framework.command.api.commands.operator.delegate.subcommand;
 
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.CommandDelegateRule;
@@ -10,6 +12,7 @@ import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule
 import java.util.List;
 
 @RequiredArgsConstructor
+@ToString @EqualsAndHashCode
 public class SubCommand implements CommandDelegateRule {
 
     private final OperateRule operateRule;

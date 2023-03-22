@@ -1,12 +1,13 @@
 package ru.ancap.framework.command.api.commands.object.event;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandLineSpeaker;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 
 @AllArgsConstructor
-@ToString
+@ToString @EqualsAndHashCode
 public class CommandWrite {
 
     private final CommandLineSpeaker speaker;

@@ -4,9 +4,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.*;
 import com.comphenix.protocol.utility.MinecraftVersion;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 import lombok.experimental.Delegate;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
@@ -29,6 +27,7 @@ import java.util.*;
 import java.util.function.Consumer;
 
 @Getter(value = AccessLevel.PRIVATE)
+@ToString @EqualsAndHashCode
 public class CommandCatcher implements Listener, PacketListener {
     
     private final Ancap ancap;

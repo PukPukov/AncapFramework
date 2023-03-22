@@ -1,10 +1,13 @@
 package ru.ancap.framework.language.language;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@ToString @EqualsAndHashCode
 public class PlayersLanguageSettings implements LanguageSettings {
 
     private final Map<String, Language> map;

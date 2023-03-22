@@ -1,6 +1,8 @@
 package ru.ancap.framework.iterator.world;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
@@ -16,6 +18,7 @@ import java.util.Iterator;
  * It's an iterator that iterates over all chunks in a rectangular area
  */
 @AllArgsConstructor
+@ToString @EqualsAndHashCode
 public class WorldIterator implements Iterable<Chunk> {
 
     private final World world;
