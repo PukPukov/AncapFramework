@@ -16,4 +16,5 @@ public final class ArtifexDatabaseDrivers extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
     }
+    
 }
