@@ -53,7 +53,7 @@
     <dependency>
       <groupId>com.github.ancap-kun</groupId>
       <artifactId>AncapCommons</artifactId>
-      <version>1.4.1</version>
+      <version>1.5.7</version>
       <scope>provided</scope>
     </dependency>
     <dependency>

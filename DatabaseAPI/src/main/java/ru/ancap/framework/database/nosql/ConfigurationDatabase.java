@@ -242,7 +242,7 @@ public class ConfigurationDatabase implements PathDatabase {
             if (string != null) strings = List.of(string);
             else strings = List.of();
         }
-        return strings;
+        return List.copyOf(strings);
     }
 
     @Override

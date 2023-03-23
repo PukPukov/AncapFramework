@@ -5,7 +5,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 public interface PathDatabase {
@@ -39,14 +41,14 @@ public interface PathDatabase {
     void delete(String castle);
     
     default void add(String path, String value) {
-        List<String> list = this.getStrings(path);
+        List<String> list = new ArrayList<>(this.getStrings(path));
         list.add(value);
         this.write(path, list);
     }
 
-    default void remove(String path, String value) {
-        if (!this.contains(path, value)) throw new IllegalStateException();
-        List<String> list = this.getStrings(path);
+    default void remove(String path, String value) throws NoSuchElementException {
+        if (!this.contains(path, value)) throw new NoSuchElementException();
+        List<String> list = new ArrayList<>(this.getStrings(path));
         list.remove(value);
         this.write(path, list);
     }

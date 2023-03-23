@@ -6,8 +6,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
-import ru.ancap.commons.Cache;
 import ru.ancap.commons.TriFunction;
+import ru.ancap.commons.cache.Cache;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.communicate.message.Message;
@@ -147,7 +147,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         return this.getConfiguration("configuration.yml");
     }
 
-    private final Cache<FileConfiguration> configCache = new Cache<>(1_000_000_000);
+    private final Cache<FileConfiguration> configCache = new Cache<>();
     
     protected ConfigurationSection getConfiguration(String fileName) {
         return this.configCache.get(() -> this.newResourceSource(FileConfigurationPreparator.resolveConflicts(
@@ -158,7 +158,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         )).getResource(fileName));
     }
     
-    private final Cache<ConfigurationSection> valueTransferMapCache = new Cache<>(1_000_000_000);
+    private final Cache<ConfigurationSection> valueTransferMapCache = new Cache<>();
 
     protected ConfigurationSection valueTransferMap() {
         return this.valueTransferMapCache.get(() -> this.newResourceSource(FileConfigurationPreparator.internal()).getResource("value-transfer-map.yml"));

@@ -13,8 +13,7 @@ public class LAPI {
     private static Locales locales;
     private static LanguageSettings settings;
 
-    private LAPI() {
-    }
+    private LAPI() {}
 
     /**
      * It sets up the LAPI
