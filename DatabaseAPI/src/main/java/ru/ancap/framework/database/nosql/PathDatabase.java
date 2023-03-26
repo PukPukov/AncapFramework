@@ -19,6 +19,7 @@ public interface PathDatabase {
     void save();
 
     void nullify();
+    void delete(String path);
     void write(String path, double value);
     void write(String path, long value);
     void write(String path, String value);
@@ -27,33 +28,37 @@ public interface PathDatabase {
 
     @NotNull PathDatabase inner(String path);
 
-    @Nullable String getString(String path);
-    @Nullable ItemStack getItemStack(String path);
-
-    boolean getBoolean(String path);
-    long getNumber(String path);
-    double getDouble(String path);
-    @NotNull List<String> getStrings(String path);
-    @NotNull Set<String> getKeys(String path);
+    @Nullable String       readString(String path);
+    @Nullable ItemStack    readItemStack(String path);
+    @Nullable Boolean      readBoolean(String path);
+    @Nullable Long         readInteger(String path);
+    @Nullable Double       readNumber(String path);
+    @Nullable List<String> readStrings(String path);
+    @Nullable Set<String>  readKeys(String path);
 
     boolean isSet(String path);
     
-    void delete(String castle);
-    
     default void add(String path, String value) {
-        List<String> list = new ArrayList<>(this.getStrings(path));
+        List<String> retrieved = this.readStrings(path);
+        if (retrieved == null) throw new IllegalStateException("Tried to add to null section");
+        List<String> list = new ArrayList<>(retrieved);
         list.add(value);
         this.write(path, list);
     }
 
     default void remove(String path, String value) throws NoSuchElementException {
+        List<String> retrieved = this.readStrings(path);
+        if (retrieved == null) throw new IllegalStateException("Tried to remove from null section");
         if (!this.contains(path, value)) throw new NoSuchElementException();
-        List<String> list = new ArrayList<>(this.getStrings(path));
+        List<String> list = new ArrayList<>(retrieved);
         list.remove(value);
         this.write(path, list);
     }
 
     default boolean contains(String path, String value) {
-        return this.getStrings(path).stream().anyMatch(s -> s.equals(value));
+        List<String> retrieved = this.readStrings(path);
+        if (retrieved == null) throw new IllegalStateException("Tried to get information about null section");
+        return retrieved.stream()
+            .anyMatch(s -> s.equals(value));
     }
 }

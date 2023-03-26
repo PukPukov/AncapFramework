@@ -6,14 +6,19 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NonBlocking;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import ru.ancap.commons.aware.Aware;
+import ru.ancap.commons.aware.ContextAware;
+import ru.ancap.commons.aware.InsecureContextHandle;
 import ru.ancap.framework.resource.PluginResourceSource;
 import ru.ancap.framework.resource.config.FileConfigurationPreparator;
 
 import java.io.*;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 @With(value = AccessLevel.PACKAGE)
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
@@ -29,7 +34,11 @@ public class ConfigurationDatabase implements PathDatabase {
     
     private boolean timerStarted = false;
     private boolean updated = false;
-    
+    private Timer timer;
+    private Executor modifyExecutor = Executors.newSingleThreadExecutor();
+    private boolean isScheduled;
+    private long lastSave;
+
     public static PathDatabase plugin(JavaPlugin plugin) {
         return ConfigurationDatabase.builder()
                 .plugin(plugin)
@@ -134,128 +143,130 @@ public class ConfigurationDatabase implements PathDatabase {
         }
         
     }
+    
+    /* MODIFY */
 
-    @Override
-    public void save() {
-        try {
-            this.configuration.save(file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void nullify() {
-        this.configuration.set(this.currentPath, null);
-        this.scheduleSave();
-    }
-
-    @Override
-    public void delete(String path) {
-        this.set(path, null);
-    }
-
-    @Override
-    public void write(String path, double value) {
-        this.set(path, value);
-    }
-
-    @Override
-    public void write(String path, long value) {
-        this.set(path, value);
-    }
-
-    @Override
-    public void write(String path, String value) {
-        this.set(path, value);
-    }
-
-    @Override
-    public void write(String path, List<String> value) {
-        this.set(path, value);
-    }
-
-    @Override
-    public void write(String path, ItemStack value) {
-        this.set(path, value);
+    @NonBlocking
+    private void set(String path, Object object) {
+        this.modifyExecutor.execute(() -> {
+            this.configuration.set(this.currentPath+"."+path, object);
+            this.performActionsAtModify();
+        });
     }
     
-    private void set(String path, Object object) {
-        this.configuration.set(this.currentPath+"."+path, object);
-        this.scheduleSave();
+    @NonBlocking
+    @Override public void nullify() {
+        this.modifyExecutor.execute(() -> {
+            this.configuration.set(this.currentPath, null);
+            this.performActionsAtModify();
+        });
     }
-
+    
+    @NonBlocking
+    @Override public void save() {
+        this.modifyExecutor.execute(() -> {
+            try {
+                this.configuration.save(this.file);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+    
+    @ContextAware(handle = InsecureContextHandle.NO_HANDLE, awareOf = Aware.THREAD)
     private void scheduleSave() {
-        if (!this.autoSave) return;
-        if (!this.timerStarted) new Thread(() -> {
-            this.timerStarted = true;
-            while (true) {
-                if (this.updated) {
-                    save();
-                    this.updated = false;
-                }
-                try {
-                    Thread.sleep(this.autoSavePeriod*1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
+        if (ConfigurationDatabase.this.isScheduled) return;
+        this.next(
+            ConfigurationDatabase.this.autoSavePeriod - (System.currentTimeMillis() - ConfigurationDatabase.this.lastSave),
+            new TimerTask() {
+                @Override public void run() {
+                    ConfigurationDatabase.this.modifyExecutor.execute(() -> {
+                        ConfigurationDatabase.this.isScheduled = false;
+                        ConfigurationDatabase.this.save();
+                        ConfigurationDatabase.this.lastSave = System.currentTimeMillis();
+                    });
                 }
             }
-        }).start();
-        this.updated = true;
+        );
     }
 
-    @Override
-    public @NotNull PathDatabase inner(String path) {
-        return this.withCurrentPath(this.currentPath+"."+path);
+    
+    private void next(long waitTime, TimerTask timerTask) {
+        if (waitTime <= 0) timerTask.run();
+        else ConfigurationDatabase.this.timer.schedule(timerTask, waitTime);
     }
 
-    @Override
-    public String getString(String path) {
-        return this.configuration.getString(this.currentPath+"."+path);
+    private void performActionsAtModify() {
+        if (this.autoSave) this.scheduleSave();
+    }
+    
+    /* WRITE */
+
+    @NonBlocking @Override public void delete(String path)                    { this.set(path, null);  }
+    @NonBlocking @Override public void write(String path, double value)       { this.set(path, value); }
+    @NonBlocking @Override public void write(String path, long value)         { this.set(path, value); }
+    @NonBlocking @Override public void write(String path, String value)       { this.set(path, value); }
+    @NonBlocking @Override public void write(String path, List<String> value) { this.set(path, value); }
+    @NonBlocking @Override public void write(String path, ItemStack value)    { this.set(path, value); }
+    
+    /* READ */
+
+    @Override public @NotNull PathDatabase inner(String path) {
+        return this.withCurrentPath(this.currentPath + "." + path);
     }
 
-    @Override
-    public @Nullable ItemStack getItemStack(String path) {
-        return this.configuration.getItemStack(this.currentPath+"."+path);
+    @Override public @Nullable String readString(String path) {
+        Object value = this.configuration.get(this.currentPath + "." + path);
+        if (value == null) return null;
+        if (!(value instanceof String)) throw new DifferentDatatypeException();
+        return (String) value;
     }
 
-    @Override
-    public boolean getBoolean(String path) {
-        return this.configuration.getBoolean(this.currentPath+"."+path, false);
+    @Override public @Nullable ItemStack readItemStack(String path) {
+        Object value = this.configuration.get(this.currentPath + "." + path);
+        if (value == null) return null;
+        if (!(value instanceof ItemStack)) throw new DifferentDatatypeException();
+        return (ItemStack) value;
     }
 
-    @Override
-    public long getNumber(String path) {
-        return this.configuration.getLong(this.currentPath+"."+path);
+    @Override public @Nullable Boolean readBoolean(String path) {
+        Object value = this.configuration.get(this.currentPath + "." + path);
+        if (value == null) return null;
+        if (!(value instanceof Boolean)) throw new DifferentDatatypeException();
+        return (Boolean) value;
     }
 
-    @Override
-    public double getDouble(String path) {
-        return this.configuration.getDouble(this.currentPath+"."+path);
+    @Override public @Nullable Long readInteger(String path) {
+        Object value = this.configuration.get(this.currentPath + "." + path);
+        if (value == null) return null;
+        if (!(value instanceof Long)) throw new DifferentDatatypeException();
+        return (Long) value;
     }
-
-    @Override
-    public @NotNull List<String> getStrings(String path) {
+    
+    @Override public @Nullable Double readNumber(String path) {
+        Object value = this.configuration.get(this.currentPath + "." + path);
+        if (value == null) return null;
+        if (!(value instanceof Double)) throw new DifferentDatatypeException();
+        return (Double) value;
+    }
+    
+    @Override public @NotNull List<String> readStrings(String path) {
         List<String> strings = this.configuration.getStringList(this.currentPath+"."+path);
         if (strings.size() == 0) {
-            String string = this.configuration.getString(path);
-            if (string != null) strings = List.of(string);
-            else strings = List.of();
+            var value = this.configuration.get(path);
+            if (value instanceof String) strings = List.of((String) value);
         }
         return List.copyOf(strings);
     }
 
-    @Override
-    public @NotNull Set<String> getKeys(String path) {
+    @Override public @Nullable Set<String> readKeys(String path) {
         ConfigurationSection section = this.configuration.getConfigurationSection(this.currentPath+"."+path);
-        if (section == null) {
-            return Set.of();
-        }
+        if (section == null) return null;
         return section.getKeys(false);
     }
 
-    @Override
-    public boolean isSet(String path) {
+    @Override public boolean isSet(String path) {
         return this.configuration.isSet(this.currentPath+"."+path);
     }
+    
 }
