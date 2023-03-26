@@ -36,39 +36,51 @@ public interface PathDatabase {
     @Nullable List<String> readStrings(String path);
     @Nullable Set<String>  readKeys(String path);
 
-    default List<String> readStrings(String path, boolean safe) { 
+    default List<String> readStrings(String path, boolean nullIsEmpty) { 
         List<String> strings = this.readStrings(path);
-        if (strings == null && safe) strings = List.of();
+        if (strings == null && nullIsEmpty) strings = List.of();
         return strings;
     }
     
-    default Set<String> readKeys(String path, boolean safe) {
+    default Set<String> readKeys(String path, boolean nullIsEmpty) {
         Set<String> keys = this.readKeys(path);
-        if (keys == null && safe) keys = Set.of();
+        if (keys == null && nullIsEmpty) keys = Set.of();
         return keys;
     }
 
     boolean isSet(String path);
     
     default void add(String path, String value) {
-        List<String> retrieved = this.readStrings(path);
+        this.add(path, value, false);
+    }
+    
+    default void add(String path, String value, boolean nullIsEmpty) {
+        List<String> retrieved = this.readStrings(path, nullIsEmpty);
         if (retrieved == null) throw new IllegalStateException("Tried to add to null section");
         List<String> list = new ArrayList<>(retrieved);
         list.add(value);
         this.write(path, list);
     }
+    
+    default void remove(String path, String value) {
+        this.remove(path, value, false);
+    }
 
-    default void remove(String path, String value) throws NoSuchElementException {
-        List<String> retrieved = this.readStrings(path);
+    default void remove(String path, String value, boolean nullIsEmpty) throws NoSuchElementException {
+        List<String> retrieved = this.readStrings(path, nullIsEmpty);
         if (retrieved == null) throw new IllegalStateException("Tried to remove from null section");
         if (!this.contains(path, value)) throw new NoSuchElementException();
         List<String> list = new ArrayList<>(retrieved);
         list.remove(value);
         this.write(path, list);
     }
-
+    
     default boolean contains(String path, String value) {
-        List<String> retrieved = this.readStrings(path);
+        return this.contains(path, value, false);
+    }
+
+    default boolean contains(String path, String value, boolean nullIsEmpty) {
+        List<String> retrieved = this.readStrings(path, nullIsEmpty);
         if (retrieved == null) throw new IllegalStateException("Tried to get information about null section");
         return retrieved.stream()
             .anyMatch(s -> s.equals(value));
