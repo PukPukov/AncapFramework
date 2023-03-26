@@ -36,6 +36,18 @@ public interface PathDatabase {
     @Nullable List<String> readStrings(String path);
     @Nullable Set<String>  readKeys(String path);
 
+    default List<String> readStrings(String path, boolean safe) { 
+        List<String> strings = this.readStrings(path);
+        if (strings == null && safe) strings = List.of();
+        return strings;
+    }
+    
+    default Set<String> readKeys(String path, boolean safe) {
+        Set<String> keys = this.readKeys(path);
+        if (keys == null && safe) keys = Set.of();
+        return keys;
+    }
+
     boolean isSet(String path);
     
     default void add(String path, String value) {
