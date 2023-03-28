@@ -208,6 +208,7 @@ public class ConfigurationDatabase implements PathDatabase {
     @NonBlocking @Override public void write(String path, String value)       { this.set(path, value); }
     @NonBlocking @Override public void write(String path, List<String> value) { this.set(path, value); }
     @NonBlocking @Override public void write(String path, ItemStack value)    { this.set(path, value); }
+    @NonBlocking @Override public void write(String path, boolean value)      { this.set(path, value); }
     
     /* READ */
 

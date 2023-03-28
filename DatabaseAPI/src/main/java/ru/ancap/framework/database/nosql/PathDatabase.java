@@ -20,9 +20,10 @@ public interface PathDatabase {
 
     void nullify();
     void delete(String path);
+    void write(String path, String value);
+    void write(String path, boolean value);
     void write(String path, double value);
     void write(String path, long value);
-    void write(String path, String value);
     void write(String path, List<String> value);
     void write(String path, ItemStack value);
 
