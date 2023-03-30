@@ -149,11 +149,11 @@ public class ConfigurationDatabase implements PathDatabase {
     @NonBlocking
     private void set(String path, Object object) {
         this.modifyExecutor.execute(() -> {
-            this.configuration.set(this.currentPath+"."+path, object);
+            this.configuration.set(this.attachedPath(path), object);
             this.performActionsAtModify();
         });
     }
-    
+
     @NonBlocking
     @Override public void nullify() {
         this.modifyExecutor.execute(() -> {
@@ -213,46 +213,46 @@ public class ConfigurationDatabase implements PathDatabase {
     /* READ */
 
     @Override public @NotNull PathDatabase inner(String path) {
-        return this.withCurrentPath(this.currentPath + "." + path);
+        return this.withCurrentPath(this.attachedPath(path));
     }
 
     @Override public @Nullable String readString(String path) {
-        Object value = this.configuration.get(this.currentPath + "." + path);
+        Object value = this.configuration.get(this.attachedPath(path));
         if (value == null) return null;
         if (!(value instanceof String)) throw new DifferentDatatypeException();
         return (String) value;
     }
 
     @Override public @Nullable ItemStack readItemStack(String path) {
-        Object value = this.configuration.get(this.currentPath + "." + path);
+        Object value = this.configuration.get(this.attachedPath(path));
         if (value == null) return null;
         if (!(value instanceof ItemStack)) throw new DifferentDatatypeException();
         return (ItemStack) value;
     }
 
     @Override public @Nullable Boolean readBoolean(String path) {
-        Object value = this.configuration.get(this.currentPath + "." + path);
+        Object value = this.configuration.get(this.attachedPath(path));
         if (value == null) return null;
         if (!(value instanceof Boolean)) throw new DifferentDatatypeException();
         return (Boolean) value;
     }
 
     @Override public @Nullable Long readInteger(String path) {
-        Object value = this.configuration.get(this.currentPath + "." + path);
+        Object value = this.configuration.get(this.attachedPath(path));
         if (value == null) return null;
         if (!(value instanceof Long)) throw new DifferentDatatypeException();
         return (Long) value;
     }
     
     @Override public @Nullable Double readNumber(String path) {
-        Object value = this.configuration.get(this.currentPath + "." + path);
+        Object value = this.configuration.get(this.attachedPath(path));
         if (value == null) return null;
         if (!(value instanceof Double)) throw new DifferentDatatypeException();
         return (Double) value;
     }
     
     @Override public @NotNull List<String> readStrings(String path) {
-        List<String> strings = this.configuration.getStringList(this.currentPath+"."+path);
+        List<String> strings = this.configuration.getStringList(this.attachedPath(path));
         if (strings.size() == 0) {
             var value = this.configuration.get(path);
             if (value instanceof String) strings = List.of((String) value);
@@ -261,13 +261,17 @@ public class ConfigurationDatabase implements PathDatabase {
     }
 
     @Override public @Nullable Set<String> readKeys(String path) {
-        ConfigurationSection section = this.configuration.getConfigurationSection(this.currentPath+"."+path);
+        ConfigurationSection section = this.configuration.getConfigurationSection(this.attachedPath(path));
         if (section == null) return null;
         return section.getKeys(false);
     }
 
     @Override public boolean isSet(String path) {
-        return this.configuration.isSet(this.currentPath+"."+path);
+        return this.configuration.isSet(this.attachedPath(path));
+    }
+
+    private String attachedPath(@NotNull String path) {
+        return path.equals("") ? this.currentPath : this.currentPath+"."+path;
     }
     
 }
