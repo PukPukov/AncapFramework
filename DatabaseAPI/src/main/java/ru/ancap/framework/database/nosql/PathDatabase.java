@@ -28,14 +28,15 @@ public interface PathDatabase {
     void write(String path, ItemStack value);
 
     @NotNull PathDatabase inner(String path);
+    boolean isSet(String path);
+    @NotNull Set<String> keys();
 
-    @Nullable String       readString(String path);
-    @Nullable ItemStack    readItemStack(String path);
-    @Nullable Boolean      readBoolean(String path);
-    @Nullable Long         readInteger(String path);
-    @Nullable Double       readNumber(String path);
-    @Nullable List<String> readStrings(String path);
-    @Nullable Set<String>  readKeys(String path);
+    @Nullable String       readString    (String path);
+    @Nullable ItemStack    readItemStack (String path);
+    @Nullable Boolean      readBoolean   (String path);
+    @Nullable Long         readInteger   (String path);
+    @Nullable Double       readNumber    (String path);
+    @Nullable List<String> readStrings   (String path);
 
     default List<String> readStrings(String path, boolean nullIsEmpty) { 
         List<String> strings = this.readStrings(path);
@@ -43,17 +44,7 @@ public interface PathDatabase {
         return strings;
     }
     
-    default Set<String> readKeys(String path, boolean nullIsEmpty) {
-        Set<String> keys = this.readKeys(path);
-        if (keys == null && nullIsEmpty) keys = Set.of();
-        return keys;
-    }
-
-    boolean isSet(String path);
-    
-    default void add(String path, String value) {
-        this.add(path, value, false);
-    }
+    default void add(String path, String value) { this.add(path, value, false); }
     
     default void add(String path, String value, boolean nullIsEmpty) {
         List<String> retrieved = this.readStrings(path, nullIsEmpty);
@@ -63,9 +54,7 @@ public interface PathDatabase {
         this.write(path, list);
     }
     
-    default void remove(String path, String value) {
-        this.remove(path, value, false);
-    }
+    default void remove(String path, String value) { this.remove(path, value, false); }
 
     default void remove(String path, String value, boolean nullIsEmpty) throws NoSuchElementException {
         List<String> retrieved = this.readStrings(path, nullIsEmpty);
@@ -76,9 +65,7 @@ public interface PathDatabase {
         this.write(path, list);
     }
     
-    default boolean contains(String path, String value) {
-        return this.contains(path, value, false);
-    }
+    default boolean contains(String path, String value) { return this.contains(path, value, false); }
 
     default boolean contains(String path, String value, boolean nullIsEmpty) {
         List<String> retrieved = this.readStrings(path, nullIsEmpty);

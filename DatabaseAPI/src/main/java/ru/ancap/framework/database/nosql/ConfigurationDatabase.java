@@ -41,8 +41,8 @@ public class ConfigurationDatabase implements PathDatabase {
 
     public static PathDatabase plugin(JavaPlugin plugin) {
         return ConfigurationDatabase.builder()
-                .plugin(plugin)
-                .build();
+            .plugin(plugin)
+            .build();
     }
     
     public static Builder builder() {
@@ -81,11 +81,11 @@ public class ConfigurationDatabase implements PathDatabase {
         @SneakyThrows
         protected PathDatabase build() {
             return new ConfigurationDatabase(
-                    this.config,
-                    this.file,
-                    "",
-                    this.autoSave,
-                    this.autoSavePeriod
+                this.config,
+                this.file,
+                "",
+                this.autoSave,
+                this.autoSavePeriod
             );
         }
         
@@ -165,18 +165,15 @@ public class ConfigurationDatabase implements PathDatabase {
     @NonBlocking
     @Override public void save() {
         this.modifyExecutor.execute(() -> {
-            try {
-                this.configuration.save(this.file);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            try { this.configuration.save(this.file); }
+            catch (IOException e) { throw new RuntimeException(e); }
         });
     }
     
     @ContextAware(handle = InsecureContextHandle.NO_HANDLE, awareOf = Aware.THREAD)
     private void scheduleSave() {
         if (ConfigurationDatabase.this.isScheduled) return;
-        this.next(
+        this.scheduleTask(
             ConfigurationDatabase.this.autoSavePeriod - (System.currentTimeMillis() - ConfigurationDatabase.this.lastSave),
             new TimerTask() {
                 @Override public void run() {
@@ -191,7 +188,7 @@ public class ConfigurationDatabase implements PathDatabase {
     }
 
     
-    private void next(long waitTime, TimerTask timerTask) {
+    private void scheduleTask(long waitTime, TimerTask timerTask) {
         if (waitTime <= 0) timerTask.run();
         else ConfigurationDatabase.this.timer.schedule(timerTask, waitTime);
     }
@@ -214,6 +211,16 @@ public class ConfigurationDatabase implements PathDatabase {
 
     @Override public @NotNull PathDatabase inner(String path) {
         return this.withCurrentPath(this.attachedPath(path));
+    }
+
+    @Override public boolean isSet(String path) {
+        return this.configuration.isSet(this.attachedPath(path));
+    }
+
+    @Override public @NotNull Set<String> keys() {
+        ConfigurationSection section = this.configuration.getConfigurationSection(this.currentPath);
+        if (section == null) return Set.of();
+        return section.getKeys(false);
     }
 
     @Override public @Nullable String readString(String path) {
@@ -258,16 +265,6 @@ public class ConfigurationDatabase implements PathDatabase {
             if (value instanceof String) strings = List.of((String) value);
         }
         return List.copyOf(strings);
-    }
-
-    @Override public @Nullable Set<String> readKeys(String path) {
-        ConfigurationSection section = this.configuration.getConfigurationSection(this.attachedPath(path));
-        if (section == null) return null;
-        return section.getKeys(false);
-    }
-
-    @Override public boolean isSet(String path) {
-        return this.configuration.isSet(this.attachedPath(path));
     }
 
     private String attachedPath(@NotNull String path) {
