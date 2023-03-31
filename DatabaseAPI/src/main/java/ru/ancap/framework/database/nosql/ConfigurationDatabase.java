@@ -31,13 +31,13 @@ public class ConfigurationDatabase implements PathDatabase {
     private final String currentPath;
     private final boolean autoSave;
     private final long autoSavePeriod;
-    
+
+    private Timer timer = new Timer();
+    private Executor modifyExecutor = Executors.newSingleThreadExecutor();
     private boolean timerStarted = false;
     private boolean updated = false;
-    private Timer timer;
-    private Executor modifyExecutor = Executors.newSingleThreadExecutor();
-    private boolean isScheduled;
-    private long lastSave;
+    private boolean isScheduled = false;
+    private long lastSave = 0;
 
     public static PathDatabase plugin(JavaPlugin plugin) {
         return ConfigurationDatabase.builder()
