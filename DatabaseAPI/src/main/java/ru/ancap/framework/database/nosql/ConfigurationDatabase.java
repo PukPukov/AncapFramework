@@ -239,21 +239,21 @@ public class ConfigurationDatabase implements PathDatabase {
 
     @Override public @Nullable Boolean readBoolean(String path) {
         Object value = this.configuration.get(this.attachedPath(path));
-        if (value == null) return null;
+        if (value == null) return false;
         if (!(value instanceof Boolean)) throw new DifferentDatatypeException();
         return (Boolean) value;
     }
 
     @Override public @Nullable Long readInteger(String path) {
         Object value = this.configuration.get(this.attachedPath(path));
-        if (value == null) return null;
+        if (value == null) return 0L;
         if (!(value instanceof Long)) throw new DifferentDatatypeException();
         return (Long) value;
     }
     
     @Override public @Nullable Double readNumber(String path) {
         Object value = this.configuration.get(this.attachedPath(path));
-        if (value == null) return null;
+        if (value == null) return 0D;
         if (!(value instanceof Double)) throw new DifferentDatatypeException();
         return (Double) value;
     }

@@ -8,7 +8,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>Artifex</artifactId>
   <name>Artifex</name>
-  <version>1.6.21</version>
+  <version>1.6.22</version>
   <description>AncapAPI runtime part</description>
   <build>
     <finalName>artifex-v${version}</finalName>

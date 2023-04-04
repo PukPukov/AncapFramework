@@ -7,7 +7,7 @@ import ru.ancap.framework.communicate.MiniMessageMapper;
 import ru.ancap.framework.communicate.replacement.Replacement;
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
-public class Message extends WrapperMessage implements CallableMessage {
+public class Message extends CacheMessage implements CallableMessage {
 
     public Message(final String base, final Replacement... replacements) {
         super((caller) -> {

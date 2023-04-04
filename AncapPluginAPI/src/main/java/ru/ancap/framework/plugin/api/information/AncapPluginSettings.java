@@ -44,11 +44,7 @@ public class AncapPluginSettings {
     }
 
     private RegisterStage registerStageOf(String path) {
-        return RegisterStage.valueOf(
-                this.section.getString(
-                        path, "ANCAP_PLUGIN_ENABLE"
-                ).toUpperCase()
-        );
+        return RegisterStage.valueOf(this.section.getString(path, "ANCAP_PLUGIN_ENABLE").toUpperCase());
     }
 
 }

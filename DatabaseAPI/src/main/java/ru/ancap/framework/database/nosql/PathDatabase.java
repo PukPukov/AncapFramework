@@ -38,6 +38,8 @@ public interface PathDatabase {
     @Nullable Double       readNumber    (String path);
     @Nullable List<String> readStrings   (String path);
 
+    default boolean isSet() { return this.isSet(""); }
+
     default List<String> readStrings(String path, boolean nullIsEmpty) { 
         List<String> strings = this.readStrings(path);
         if (strings == null && nullIsEmpty) strings = List.of();
@@ -73,4 +75,5 @@ public interface PathDatabase {
         return retrieved.stream()
             .anyMatch(s -> s.equals(value));
     }
+    
 }

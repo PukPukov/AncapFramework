@@ -4,12 +4,12 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.communicate.message.Message;
-import ru.ancap.framework.communicate.message.WrapperMessage;
+import ru.ancap.framework.communicate.message.CacheMessage;
 import ru.ancap.framework.communicate.replacement.Replacement;
 import ru.ancap.framework.language.LAPI;
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
-public class LAPIMessage extends WrapperMessage implements CallableMessage {
+public class LAPIMessage extends CacheMessage implements CallableMessage {
     
     public LAPIMessage(String id, Replacement... replacements) {
         super(nameIdentifier -> new Message(LAPI.localized(id, nameIdentifier), replacements).call(nameIdentifier));
