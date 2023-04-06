@@ -1,5 +1,5 @@
 language: uk
-version: 1
+version: 4
 
 ru:
   ancap:
@@ -17,13 +17,17 @@ ru:
         command:
           tps: "&aTPS сервера: %TPS%"
           api:
+            info:
+              injecting: "Artifex здійснює ін'єкцію байткоду в CraftServer"
+              issued-server-command: "%SOURCE% відправив серверу команду \"%COMMAND%\"."
             error:
+              internal: "&cПід час виконання команди сталася внутрішня непередбачена помилка."
               operate-is-impossible:
                 - "§cВведена команда не може бути оброблена."
                 - "%DESCRIPTION%"
               not-enough-arguments: "§cНедостатньо аргументів. Необхідно на §c§n%COUNT%§r§c більше, ніж введено, щоб продовжити."
               unknown: "§cКоманди \"§c§n%COMMAND%§r§c\" не існує."
-              not-enough-permissions: "§cДля виконання цієї дії потрібно мати дозвіл \"§c§n%PERMISSION%§r§c\"."
+              not-enough-permissions: "§cУ тебе недостатньо прав."
               cannot-transform-argument: "§c\"§c§n%ARGUMENT%§r§c\" - не §c§n%TYPE%§r§c."
           language:
             enter-language: "Команда §n/language§r§f призначена для вибору серверної мови. Використовуйте її так: §n/language set <код мови>§r§f, де код мови може бути будь-яким зі стандарту ISO 639-1."

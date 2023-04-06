@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
+@Deprecated(forRemoval = true)
 public interface PathDatabase {
     
     static PathDatabase configuration(JavaPlugin plugin) {

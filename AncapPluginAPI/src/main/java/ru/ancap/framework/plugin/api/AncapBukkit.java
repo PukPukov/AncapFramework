@@ -9,11 +9,12 @@ public class AncapBukkit {
 
     public static void sendConsoleCommand(String command) {
         Bukkit.getScheduler().callSyncMethod(
-                CORE_PLUGIN,
-                () -> {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-                    return Void.TYPE;
-                }
+            CORE_PLUGIN,
+            () -> {
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+                return Void.TYPE;
+            }
         );
     }
+    
 }

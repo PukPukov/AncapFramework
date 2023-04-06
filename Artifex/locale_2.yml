@@ -1,5 +1,5 @@
 language: en
-version: 1
+version: 4
 
 ru:
   ancap:
@@ -15,14 +15,19 @@ ru:
     framework:
       artifex:
         command:
+          tps: "&aServer TPS: %TPS%"
           api:
+            info:
+              injecting: "Artifex injects bytecode into CraftServer"
+              issued-server-command: "%SOURCE% sent a command to the server \"%COMMAND%\"."
             error:
+              internal: "&cAn internal unexpected error occurred during the execution of the command."
               operate-is-impossible:
                 - "§cThe command entered cannot be processed."
                 - "%DESCRIPTION%"
               not-enough-arguments: "§cNot enough arguments. You need §c§n%COUNT%§r§c more than entered to continue."
               unknown: "§cCommand \"§c§n%COMMAND%§r§c\" does not exist."
-              not-enough-permissions: "\"§c§n%PERMISSION%§r§c\" permission is required to perform this action."
+              not-enough-permissions: "§cYou have not enough permissions to do that."
               cannot-transform-argument: "§c\"§c§n%ARGUMENT%§r§c\" is not §c§n%TYPE%§r§c."
           language:
             enter-language: "The §n/language§r§f command is for selecting a server language. Use it this way: §n/language set <language code>§r§f, where the language code can be anything from the ISO 639-1 standard."

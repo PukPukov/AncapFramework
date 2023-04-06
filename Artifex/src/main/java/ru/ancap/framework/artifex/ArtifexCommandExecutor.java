@@ -2,6 +2,8 @@ package ru.ancap.framework.artifex;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import ru.ancap.framework.command.api.commands.operator.exclusive.Exclusive;
+import ru.ancap.framework.command.api.commands.operator.exclusive.OP;
 import ru.ancap.framework.communicate.replacement.Placeholder;
 import ru.ancap.framework.command.api.commands.CommandTarget;
 import ru.ancap.framework.plugin.api.information.AuthorsSupplier;
@@ -15,16 +17,40 @@ import ru.ancap.framework.plugin.api.Ancap;
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
 public class ArtifexCommandExecutor extends CommandTarget {
+    
     public ArtifexCommandExecutor(Ancap ancap) {
         super(new Delegate(
-                new Raw(new AuthorsSupplier(Artifex.PLUGIN)),
-                new SubCommand(
-                        new StringDelegatePattern("tps"),
-                        new Reply(() -> new LAPIMessage(
-                                Artifex.class, "command.tps",
-                                new Placeholder("tps", ancap.getServerTPS())
-                        ))
+            new Raw(new AuthorsSupplier(Artifex.PLUGIN)),
+            new SubCommand(
+                new StringDelegatePattern("tps"),
+                new Reply(() -> new LAPIMessage(
+                    Artifex.class, "command.tps",
+                    new Placeholder("tps", ancap.getServerTPS())
+                ))
+            ),
+            new SubCommand(
+                new StringDelegatePattern("benchmark"),
+                new Exclusive(
+                    new OP(),
+                    new Delegate(
+                        new SubCommand(
+                            new StringDelegatePattern("command-api"),
+                            dispatch -> {
+                                long start = System.currentTimeMillis();
+                                for (int i = 0; i < 10000; i++) {
+                                    
+                                }
+                                long end = System.currentTimeMillis();
+                            }
+                        ),
+                        new SubCommand(
+                            new StringDelegatePattern("dummy"),
+                            dispatch -> {}
+                        )
+                    )
                 )
+            )
         ));
     }
+    
 }

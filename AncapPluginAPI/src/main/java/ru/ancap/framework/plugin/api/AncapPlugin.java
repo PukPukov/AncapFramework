@@ -1,6 +1,8 @@
 package ru.ancap.framework.plugin.api;
 
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
@@ -28,6 +30,7 @@ import java.util.Map;
 public abstract class AncapPlugin extends AncapMinimalisticPlugin {
 
     private static final Map<String, AncapPlugin> plugins = new HashMap<>();
+    protected static CommandExecutor proxy;
     private static CommandCenter commandCenter;
     private static Scheduler scheduler;
     private static ScheduleSupport scheduleSupport;
@@ -39,12 +42,12 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         return this.metrics;
     }
     
-    public static Scheduler scheduler() {return AncapPlugin.scheduler;}
-    public static void scheduler(Scheduler scheduler) {AncapPlugin.scheduler = scheduler;}
-    public static ScheduleSupport scheduleSupport() {return AncapPlugin.scheduleSupport;}
-    public static void scheduleSupport(ScheduleSupport scheduleSupport) {AncapPlugin.scheduleSupport = scheduleSupport;}
-    public static TriFunction<JavaPlugin, CallableMessage, Runnable, PluginLoadTask> pluginLoadTaskProvider() {return AncapPlugin.pluginLoadTaskProvider;}
-    public static void pluginLoadTaskProvider(TriFunction<JavaPlugin, CallableMessage, Runnable, PluginLoadTask> pluginLoadTaskProvider) {AncapPlugin.pluginLoadTaskProvider = pluginLoadTaskProvider;}
+    public static Scheduler scheduler() { return AncapPlugin.scheduler; }
+    public static void scheduler(Scheduler scheduler) { AncapPlugin.scheduler = scheduler; }
+    public static ScheduleSupport scheduleSupport() { return AncapPlugin.scheduleSupport; }
+    public static void scheduleSupport(ScheduleSupport scheduleSupport) { AncapPlugin.scheduleSupport = scheduleSupport; }
+    public static TriFunction<JavaPlugin, CallableMessage, Runnable, PluginLoadTask> pluginLoadTaskProvider() { return AncapPlugin.pluginLoadTaskProvider; }
+    public static void pluginLoadTaskProvider(TriFunction<JavaPlugin, CallableMessage, Runnable, PluginLoadTask> pluginLoadTaskProvider) { AncapPlugin.pluginLoadTaskProvider = pluginLoadTaskProvider; }
 
     @MustBeInvokedByOverriders
     @Override
@@ -63,18 +66,17 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     }
 
     private void initializeInCommandCenter() {
-        commandCenter.initialize(this);
+        AncapPlugin.commandCenter.initialize(this);
     }
 
     protected void registerCommandCenter(CommandCenter commandCenter) {
-        if (AncapPlugin.commandCenter != null) {
-            throw new IllegalStateException("Command center is already registered!");
-        }
+        if (AncapPlugin.commandCenter != null) throw new IllegalStateException("Command center is already registered!");
         AncapPlugin.commandCenter = commandCenter;
     }
 
     protected void registerExecutor(String commandName, CommandOperator executor) {
         AncapPlugin.commandCenter.setExecutor(commandName, executor);
+        if (AncapPlugin.proxy != null) Bukkit.getPluginCommand(commandName).setExecutor(AncapPlugin.proxy);
     }
     
     protected void registerIntegrators() {
@@ -99,10 +101,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
 
     protected void registerCommandExecutors() {
         for (Map.Entry<String, CommandOperator> command : this.getCommands().entrySet()) {
-            this.registerExecutor(
-                    command.getKey(),
-                    command.getValue()
-            );
+            this.registerExecutor(command.getKey(), command.getValue());
         }
     }
 

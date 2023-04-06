@@ -15,6 +15,7 @@ main: ru.ancap.framework.artifex.Artifex
 commands:
   artifex:
   language:
+  command-proxy:
 
 version: '${project.version}'
 prefix: Artifex

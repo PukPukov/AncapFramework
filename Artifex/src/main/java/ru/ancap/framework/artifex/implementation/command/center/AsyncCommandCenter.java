@@ -1,11 +1,15 @@
 package ru.ancap.framework.artifex.implementation.command.center;
 
 import lombok.*;
+import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate.OperateRule;
+import ru.ancap.framework.communicate.Communicator;
+import ru.ancap.framework.communicate.message.CallableMessage;
+import ru.ancap.framework.language.additional.LAPIMessage;
 import ru.ancap.framework.plugin.api.AncapPlugin;
 import ru.ancap.framework.plugin.api.commands.CommandCenter;
 import ru.ancap.framework.plugin.api.exception.CommandNotRegisteredException;
@@ -42,13 +46,8 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
     @Override
     public void setExecutor(String commandName, CommandOperator executor) throws CommandNotRegisteredException {
         CommandOperator previous = this.executeRules.get(commandName);
-        if (previous == null) {
-            throw new CommandNotRegisteredException(
-                "Command " + commandName + " must be registered in ancapplugin.yml to set its executor!");
-        }
-        for (String alias : this.aliasesMap.get(commandName)) {
-            this.executeRules.put(alias, executor);
-        }
+        if (previous == null) throw new CommandNotRegisteredException("Command " + commandName + " must be registered in ancapplugin.yml to set its executor!");
+        for (String alias : this.aliasesMap.get(commandName)) this.executeRules.put(alias, executor);
         this.executeRules.put(commandName, executor);
     }
 
@@ -56,11 +55,11 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
     public void on(CommandDispatch dispatch) {
         this.operate(
             dispatch.command(),
-            commandForm -> commandForm.commandOperator.on(
-                new CommandDispatch(
-                    dispatch.source(),
-                    commandForm.command
-                ))
+            commandForm -> commandForm.commandOperator.on(new CommandDispatch(
+                dispatch.source(),
+                commandForm.command
+            )),
+            message -> new Communicator(dispatch.source().sender()).send(message)
         );
     }
 
@@ -68,27 +67,29 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
     public void on(CommandWrite write) {
         this.operate(
             write.line(),
-            commandForm -> commandForm.commandOperator.on(
-                new CommandWrite(
-                    write.speaker(),
-                    commandForm.command
-                )
-            )
+            commandForm -> commandForm.commandOperator.on(new CommandWrite(
+                write.speaker(),
+                commandForm.command
+            )),
+            message -> new Communicator(write.speaker().source().sender()).send(message)
         );
     }
 
 
-    private void operate(LeveledCommand command, Consumer<CommandForm> commandFormConsumer) {
+    private void operate(LeveledCommand command, Consumer<CommandForm> commandFormConsumer, Consumer<CallableMessage> fallback) {
         String key = command.nextArgument();
         LeveledCommand finalCommand = command.withoutArgument();
         new Thread(() -> {
-            CommandOperator rule = this.executeRules.get(key);
-            commandFormConsumer.accept(
-                new CommandForm(
+            try {
+                CommandOperator rule = this.executeRules.get(key);
+                commandFormConsumer.accept(new CommandForm(
                     finalCommand,
                     rule
-                )
-            );
+                ));
+            } catch (Throwable throwable) {
+                fallback.accept(new LAPIMessage(Artifex.class, "command.api.error.internal"));
+                throwable.printStackTrace();
+            }
         }).start();
 
     }
@@ -103,7 +104,9 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
     @AllArgsConstructor
     @Data
     private static class CommandForm {
+        
         private final LeveledCommand command;
         private final CommandOperator commandOperator;
+        
     }
 }

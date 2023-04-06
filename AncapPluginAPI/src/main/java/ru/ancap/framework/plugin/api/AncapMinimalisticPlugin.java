@@ -30,38 +30,25 @@ public abstract class AncapMinimalisticPlugin extends JavaPlugin {
     }
 
     protected void unloadAncap() {
-        if (AncapMinimalisticPlugin.ancap == null) {
-            throw new IllegalStateException("Ancap isn't loaded!");
-        }
+        if (AncapMinimalisticPlugin.ancap == null) throw new IllegalStateException("Ancap isn't loaded!");
         AncapMinimalisticPlugin.ancap = null;
     }
 
     protected void loadAncap(Ancap ancap) {
-        if (AncapMinimalisticPlugin.ancap != null) {
-            throw new IllegalStateException("Ancap already loaded!");
-        }
+        if (AncapMinimalisticPlugin.ancap != null) throw new IllegalStateException("Ancap already loaded!");
         AncapMinimalisticPlugin.ancap = ancap;
     }
 
     private void createPluginFolder() {
-        if (!this.getDataFolder().exists()) {
-            this.getDataFolder().mkdirs();
-        }
+        if (!this.getDataFolder().exists()) this.getDataFolder().mkdirs();
     }
 
     protected void loadLocale(String fileName) {
-        new YamlLocaleLoader(
-                new StreamConfig(
-                        this.getResource(fileName)
-                )
-        ).run();
+        new YamlLocaleLoader(new StreamConfig(this.getResource(fileName))).run();
     }
 
     protected void registerEventsListener(Listener listener) {
-        Bukkit.getPluginManager().registerEvents(
-                listener,
-                this
-        );
+        Bukkit.getPluginManager().registerEvents(listener, this);
     }
 
     protected <T> ResourceSource<T> newResourceSource(ResourcePreparator<T> resourcePreparator) {

@@ -13,7 +13,7 @@ import ru.ancap.commons.time.Day;
 import ru.ancap.framework.artifex.configuration.ArtifexConfig;
 import ru.ancap.framework.artifex.implementation.ancap.ArtifexAncap;
 import ru.ancap.framework.artifex.implementation.command.center.AsyncCommandCenter;
-import ru.ancap.framework.artifex.implementation.command.center.CommandCatcher;
+import ru.ancap.framework.artifex.implementation.command.center.CommandProxy;
 import ru.ancap.framework.artifex.implementation.command.communicate.PlayerCommandFallback;
 import ru.ancap.framework.artifex.implementation.event.addition.BlockClickListener;
 import ru.ancap.framework.artifex.implementation.event.addition.VillagerHealListener;
@@ -57,26 +57,25 @@ public final class Artifex extends AncapPlugin {
 
     @Getter
     private final List<Listener> listeners = List.of(
-            new LanguageChangeListener()
+        new LanguageChangeListener()
     );
     
     private final List<Listener> eventApiListeners = List.of(
-            new ProtectListener(),
-            new SelfDestructListener(),
-            new ExplodeListener(),
-            new VillagerHealListener(),
-            new BlockClickListener()
+        new ProtectListener(),
+        new SelfDestructListener(),
+        new ExplodeListener(),
+        new VillagerHealListener(),
+        new BlockClickListener()
     );
     
     @Getter
     private final Map<String, CommandOperator> commands = Map.of(
-            "language", new LanguageChangeInput(),
-            "artifex", new ArtifexCommandExecutor(this.ancap)
+        "language", new LanguageChangeInput(),
+        "artifex", new ArtifexCommandExecutor(this.ancap)
     );
     
     @Getter
     private ArtifexAncap ancap;
-    private CommandCatcher commandCatcher;
     private AsyncCommandCenter asyncCommandCenter;
     private SQLDatabase database;
 
@@ -124,35 +123,30 @@ public final class Artifex extends AncapPlugin {
 
     private void loadTaskMeter() {
         AncapPlugin.pluginLoadTaskProvider((plugin, callableMessage, runnable) -> new PluginLoadTask(
-                plugin,
-                callableMessage, 
-                runnable, 
-                LAPIDomain.of(Artifex.class, "console.notify.task.status.start"),
-                LAPIDomain.of(Artifex.class, "console.notify.task.status.end")
+            plugin,
+            callableMessage, 
+            runnable, 
+            LAPIDomain.of(Artifex.class, "console.notify.task.status.start"),
+            LAPIDomain.of(Artifex.class, "console.notify.task.status.end")
         ));
     }
 
     private void loadTimers() {
         new TimerExecutor(this).run();
         AncapPlugin.scheduleSupport().upreg(
-                "everyday-timer", 
-                () -> AncapPlugin.scheduler().repeat(
-                        EveryDayTask.class, 
-                        ArtifexConfig.loaded().dayTimerAbsolute(),
-                        Day.MILLISECONDS
-                )
+            "everyday-timer", 
+            () -> AncapPlugin.scheduler().repeat(
+                EveryDayTask.class, 
+                ArtifexConfig.loaded().dayTimerAbsolute(),
+                Day.MILLISECONDS
+            )
         );
     }
 
-    private void loadCommandCatcher() {
-        this.commandCatcher = new CommandCatcher(this.ancap, this, this.asyncCommandCenter, this.asyncCommandCenter);
-    }
-
     private void loadCommandAPI() {
-        this.loadCommandCatcher();
-        this.registerEventsListener(this.commandCatcher);
+        this.ancap.installGlobalCommandOperator(this, this.asyncCommandCenter, this.asyncCommandCenter);
+        AncapPlugin.proxy = new CommandProxy();
         this.registerEventsListener(new PlayerCommandFallback());
-        ProtocolLibrary.getProtocolManager().addPacketListener(this.commandCatcher);
     }
 
     private void registerCommandCenter() {
@@ -171,26 +165,26 @@ public final class Artifex extends AncapPlugin {
     @SneakyThrows
     private void loadSchedulerAPI() {
         SQLDatabase schedulerDatabase = new DatabaseFromConfig(
-                this,
-                ArtifexConfig.loaded().getSection().getConfigurationSection("database.scheduler-database")
+            this,
+            ArtifexConfig.loaded().getSection().getConfigurationSection("database.scheduler-database")
         ).load();
         this.task("SchedulerAPI", new SchedulerAPILoader(
-                new Communicator(Bukkit.getConsoleSender()),
-                this,
-                new Scanner(System.in),
-                schedulerDatabase,
-                new SchedulerSilencer(schedulerDatabase).load(),
+            new Communicator(Bukkit.getConsoleSender()),
+            this,
+            new Scanner(System.in),
+            schedulerDatabase,
+            new SchedulerSilencer(schedulerDatabase).load(),
                 (scheduler, scheduleSupport) -> {
-                    AncapPlugin.scheduler(scheduler);
-                    AncapPlugin.scheduleSupport(scheduleSupport);
-                }
+                AncapPlugin.scheduler(scheduler);
+                AncapPlugin.scheduleSupport(scheduleSupport);
+            }
         ));
     }
 
     private void loadDatabase() {
         this.database = new DatabaseFromConfig(
-                this,
-                ArtifexConfig.loaded().getSection().getConfigurationSection("database.main-database")
+            this,
+            ArtifexConfig.loaded().getSection().getConfigurationSection("database.main-database")
         ).load();
     }
 
@@ -202,14 +196,14 @@ public final class Artifex extends AncapPlugin {
     private void loadLAPI() {
         SpeakerModelRepository repository = new SQLSpeakerModelRepository(this.database).load();
         this.registerEventsListener(
-                new LAPIJoinListener(repository)
+            new LAPIJoinListener(repository)
         );
         LAPI.setup(
-                new MapLocales(ArtifexConfig.loaded().defaultLanguage()), 
-                new LanguageBase(
-                        new LanguagesOperator(repository),
-                        ArtifexConfig.loaded().defaultLanguage()
-                )
+            new MapLocales(ArtifexConfig.loaded().defaultLanguage()), 
+            new LanguageBase(
+                new LanguagesOperator(repository),
+                ArtifexConfig.loaded().defaultLanguage()
+            )
         );
     }
 

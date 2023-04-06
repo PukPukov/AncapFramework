@@ -1,5 +1,5 @@
 language: ru
-version: 1
+version: 4
 
 ru:
   ancap:
@@ -17,7 +17,11 @@ ru:
         command:
           tps: "&aTPS сервера: %TPS%"
           api:
+            info:
+              injecting: "Artifex производит инъекцию байткода в CraftServer"
+              issued-server-command: "%SOURCE% отправил серверу команду \"%COMMAND%\"."
             error:
+              internal: "&cВо время выполнения команды произошла внутренняя непредвиденная ошибка."
               operate-is-impossible:
                 - "§cВведённая команда не может быть обработана."
                 - "%DESCRIPTION%"

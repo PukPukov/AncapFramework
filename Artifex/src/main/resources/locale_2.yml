@@ -1,5 +1,5 @@
 language: en
-version: 1
+version: 4
 
 ru:
   ancap:
@@ -15,8 +15,13 @@ ru:
     framework:
       artifex:
         command:
+          tps: "&aServer TPS: %TPS%"
           api:
+            info:
+              injecting: "Artifex injects bytecode into CraftServer"
+              issued-server-command: "%SOURCE% sent a command to the server \"%COMMAND%\"."
             error:
+              internal: "&cAn internal unexpected error occurred during the execution of the command."
               operate-is-impossible:
                 - "§cThe command entered cannot be processed."
                 - "%DESCRIPTION%"

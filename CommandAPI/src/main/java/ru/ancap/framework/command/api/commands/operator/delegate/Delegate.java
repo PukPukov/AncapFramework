@@ -47,10 +47,10 @@ public class Delegate implements CommandOperator {
     public void on(CommandDispatch dispatch) {
         CommandProvidePattern pattern = this.ruleFor(dispatch.command());
         pattern.delegated().on(
-                new CommandDispatch(
-                        dispatch.source(),
-                        pattern.convert(dispatch.command())
-                )
+            new CommandDispatch(
+                dispatch.source(),
+                pattern.convert(dispatch.command())
+            )
         );
     }
 
@@ -62,12 +62,7 @@ public class Delegate implements CommandOperator {
             return;
         }
         CommandProvidePattern pattern = this.ruleFor(command);
-        pattern.delegated().on(
-                new CommandWrite(
-                        write.speaker(),
-                        pattern.convert(command)
-                )
-        );
+        pattern.delegated().on(new CommandWrite(write.speaker(), pattern.convert(command)));
     }
 
     private CommandProvidePattern ruleFor(LeveledCommand command) {
