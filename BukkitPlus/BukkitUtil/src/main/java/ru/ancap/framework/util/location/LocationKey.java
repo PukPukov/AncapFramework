@@ -6,7 +6,7 @@ import org.bukkit.Location;
 public class LocationKey {
     
     public static String get(Location location) {
-        return location.getWorld()+";"+location.getBlockX()+";"+location.getBlockY()+";"+location.getBlockZ();
+        return location.getWorld().getName()+";"+location.getBlockX()+";"+location.getBlockY()+";"+location.getBlockZ();
     }
     
     public static Location ofKey(String key) {

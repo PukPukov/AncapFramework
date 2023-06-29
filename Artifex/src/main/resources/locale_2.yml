@@ -1,12 +1,12 @@
 language: en
-version: 4
+version: 13
 
 ru:
   ancap:
     types:
       java:
         lang:
-          Long: "an integer value"
+          Long: "an integer"
           Double: "a rational number"
           Boolean: "a logical value"
           Character: "a character"
@@ -14,26 +14,66 @@ ru:
     
     framework:
       artifex:
+        yes-no: "{YES:<green><u>[YES]<u></green>% %NO:<red><u>[NO]</u></red>}"
+        click-to-select: "Click to select"
+        test:
+          error-output-form:
+            - "  <dark_red>-</dark_red> Exception: %EXCEPTION%"
+            - "  <dark_red>-</dark_red> Message: %MESSAGE%"
+            - "{STACK_TRACE:  <dark_gray>-</dark_gray> {STACK_TRACE_ELEMENT}}"
+          base:
+            interact: "Please %ACTION%. The expected result is %EXPECTED%. Is everything working right?"
+            inspect: "%EXPECTED%. Is everything working correctly?"
+          checks:
+            action:
+              command: "enter command <u>/%COMMAND%</u>"
+            expected:
+              interact:
+                ok: "response \"<u>OK [%IDENTITY%]</u>\" from system"
+                unknown: "message that such command does not exist"
+              inspect:
+                ok: "You should have received a \"<u>OK [%IDENTITY%]</u>\" message"
+          ok-response: "<green>OK [%IDENTITY%]</green>"
+        modules:
+          configuration-database:
+            name: "ConfigurationDatabase module"
+          command-center:
+            name: "command-center"
+          command-api:
+            name: "command API"
+        status:
+          top: "<blue>Status of modules and services %SYSTEM_NAME%</blue>"
+          working: "<green>working</green>"
+          down: "<dark_red><u>down</u><dark_red>"
+          test-skipped: "<gray>not tested</gray>"
+          press-to-print-description: "Click to display a description of the problem"
+          test-form: "%MODULE_NAME%: %STATUS%"
+          skip:
+            not-that-tester: "Invalid tester type. The test must perform a tester of type \"<u>%REQUIRED%</u>\"."
+            tester-types:
+              player: "player"
+              console: "console"
+              command-block: "command block"
         command:
-          tps: "&aServer TPS: %TPS%"
+          tps: "<green>TPS server: %TPS%</green>"
           api:
             info:
               injecting: "Artifex injects bytecode into CraftServer"
-              issued-server-command: "%SOURCE% sent a command to the server \"%COMMAND%\"."
+              issued-server-command: "%SOURCE% sent server command \"%COMMAND%\"."
             error:
-              internal: "&cAn internal unexpected error occurred during the execution of the command."
-              operate-is-impossible:
-                - "§cThe command entered cannot be processed."
+              internal: "<red>There was an internal unforeseen error during command execution.</red>"
+              operation-is-impossible:
+                - "<red>The command entered cannot be processed.</red>"
                 - "%DESCRIPTION%"
-              not-enough-arguments: "§cNot enough arguments. You need §c§n%COUNT%§r§c more than entered to continue."
-              unknown: "§cCommand \"§c§n%COMMAND%§r§c\" does not exist."
-              not-enough-permissions: "§cYou have not enough permissions to do that."
-              cannot-transform-argument: "§c\"§c§n%ARGUMENT%§r§c\" is not §c§n%TYPE%§r§c."
+              not-enough-arguments: "<red>Not enough arguments. Need <u>%COUNT%</u> more than entered to continue.</red>"
+              unknown: "<red>The command \"<u>%COMMAND%</u>\" does not exist.</red>"
+              not-enough-permissions: "<red>You don't have enough permissions.</red>"
+              cannot-transform-argument: "<red>\"<u>%ARGUMENT%</u>\" is not <u>%TYPE%</u>.</red>"
           language:
-            enter-language: "The §n/language§r§f command is for selecting a server language. Use it this way: §n/language set <language code>§r§f, where the language code can be anything from the ISO 639-1 standard."
-            setup: "Your language has been changed to English."
+            enter-language: "The <u>/language</u> command is for selecting the server language. Use it like this: <u>/language set <language code></u>, where the language code can be anything from the ISO 639-1 standard."
+            setup: "Your language has been changed to Russian."
         plugin-info:
-          - "Artifex v%VERSION%."
+          - "%PLUGIN% v%VERSION%."
           - "Authors: %AUTHORS%. "
         console:
           notify:
@@ -42,7 +82,7 @@ ru:
                 start: "%PLUGIN% has started loading %TASK%."
                 end: "%PLUGIN% has finished loading %TASK%. It took %TIME% milliseconds to load."
               names:
-                ancap: "framework kernel"
+                ancap: "framework kernels"
           scheduler-api:
             task-cannot-be-loaded:
               - "Failed to load task class %TASK_CLASS% created by plugin %PLUGIN%. It appears that you deleted the plugin that created this task, or it failed to load."
@@ -54,9 +94,8 @@ ru:
             incorrect-task: "Invalid task number %NUMBER%. Write number in console that matches task number."
             executing-chosen-task: "Execute %NUMBER% task."
             chosen-task-executed: "Selected actions successfully applied."
-        literals:
-          nobody: "nobody"
+        nobody: "nobody."
         api:
           command:
             description:
-              default: "no description"
+              default: "no description."

@@ -17,12 +17,12 @@ public class SQLSpeakerModelRepository implements SpeakerModelRepository {
     private final Dao<SpeakerModel, String> data;
     
     public SQLSpeakerModelRepository(SQLDatabase sql) throws SQLException {
-        this(sql, DaoManager.createDao(sql.getConnectionSource(), SpeakerModel.class));
+        this(sql, DaoManager.createDao(sql.orm(), SpeakerModel.class));
     }
     
     @SneakyThrows
     public SQLSpeakerModelRepository load() {
-        TableUtils.createTableIfNotExists(this.sql.getConnectionSource(), SpeakerModel.class);
+        TableUtils.createTableIfNotExists(this.sql.orm(), SpeakerModel.class);
         return this;
     }
 

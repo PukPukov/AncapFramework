@@ -6,7 +6,7 @@ import org.bukkit.block.Block;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
-import ru.ancap.framework.api.event.events.wrapper.AncapWrapperCancellableEvent;
+import ru.ancap.framework.api.event.events.wrapper.AncapWrapperInterventableEvent;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * Called, when blocks disappears.
  */
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
-public class BlockNullifyEvent extends AncapWrapperCancellableEvent implements Cancellable {
+public class BlockNullifyEvent extends AncapWrapperInterventableEvent implements Cancellable {
     
     private final @NotNull List<Block> disappeared;
 

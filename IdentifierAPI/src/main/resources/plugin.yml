@@ -1,0 +1,4 @@
+name: IdentifierAPI
+version: '${project.version}'
+main: ru.ancap.identifierapi.IdentifierAPI
+api-version: 1.19

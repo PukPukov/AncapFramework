@@ -1,0 +1,101 @@
+language: en
+version: 13
+
+ru:
+  ancap:
+    types:
+      java:
+        lang:
+          Long: "an integer"
+          Double: "a rational number"
+          Boolean: "a logical value"
+          Character: "a character"
+          String: "a string"
+    
+    framework:
+      artifex:
+        yes-no: "{YES:<green><u>[YES]<u></green>% %NO:<red><u>[NO]</u></red>}"
+        click-to-select: "Click to select"
+        test:
+          error-output-form:
+            - "  <dark_red>-</dark_red> Exception: %EXCEPTION%"
+            - "  <dark_red>-</dark_red> Message: %MESSAGE%"
+            - "{STACK_TRACE:  <dark_gray>-</dark_gray> {STACK_TRACE_ELEMENT}}"
+          base:
+            interact: "Please %ACTION%. The expected result is %EXPECTED%. Is everything working right?"
+            inspect: "%EXPECTED%. Is everything working correctly?"
+          checks:
+            action:
+              command: "enter command <u>/%COMMAND%</u>"
+            expected:
+              interact:
+                ok: "response \"<u>OK [%IDENTITY%]</u>\" from system"
+                unknown: "message that such command does not exist"
+              inspect:
+                ok: "You should have received a \"<u>OK [%IDENTITY%]</u>\" message"
+          ok-response: "<green>OK [%IDENTITY%]</green>"
+        modules:
+          configuration-database:
+            name: "ConfigurationDatabase module"
+          command-center:
+            name: "command-center"
+          command-api:
+            name: "command API"
+        status:
+          top: "<blue>Status of modules and services %SYSTEM_NAME%</blue>"
+          working: "<green>working</green>"
+          down: "<dark_red><u>down</u><dark_red>"
+          test-skipped: "<gray>not tested</gray>"
+          press-to-print-description: "Click to display a description of the problem"
+          test-form: "%MODULE_NAME%: %STATUS%"
+          skip:
+            not-that-tester: "Invalid tester type. The test must perform a tester of type \"<u>%REQUIRED%</u>\"."
+            tester-types:
+              player: "player"
+              console: "console"
+              command-block: "command block"
+        command:
+          tps: "<green>TPS server: %TPS%</green>"
+          api:
+            info:
+              injecting: "Artifex injects bytecode into CraftServer"
+              issued-server-command: "%SOURCE% sent server command \"%COMMAND%\"."
+            error:
+              internal: "<red>There was an internal unforeseen error during command execution.</red>"
+              operation-is-impossible:
+                - "<red>The command entered cannot be processed.</red>"
+                - "%DESCRIPTION%"
+              not-enough-arguments: "<red>Not enough arguments. Need <u>%COUNT%</u> more than entered to continue.</red>"
+              unknown: "<red>The command \"<u>%COMMAND%</u>\" does not exist.</red>"
+              not-enough-permissions: "<red>You don't have enough permissions.</red>"
+              cannot-transform-argument: "<red>\"<u>%ARGUMENT%</u>\" is not <u>%TYPE%</u>.</red>"
+          language:
+            enter-language: "The <u>/language</u> command is for selecting the server language. Use it like this: <u>/language set <language code></u>, where the language code can be anything from the ISO 639-1 standard."
+            setup: "Your language has been changed to Russian."
+        plugin-info:
+          - "%PLUGIN% v%VERSION%."
+          - "Authors: %AUTHORS%. "
+        console:
+          notify:
+            task:
+              status:
+                start: "%PLUGIN% has started loading %TASK%."
+                end: "%PLUGIN% has finished loading %TASK%. It took %TIME% milliseconds to load."
+              names:
+                ancap: "framework kernels"
+          scheduler-api:
+            task-cannot-be-loaded:
+              - "Failed to load task class %TASK_CLASS% created by plugin %PLUGIN%. It appears that you deleted the plugin that created this task, or it failed to load."
+              - "Do you want to continue? Press the number corresponding to the action:"
+              - " (1) - continue loading the server and delete the task"
+              - " (2) - hide the task - the message will no longer appear, but once the plugin that created the task is returned, the task will start running again."
+              - " (3) - loading, but don't delete or silence the task"
+              - " (4) - shut down."
+            incorrect-task: "Invalid task number %NUMBER%. Write number in console that matches task number."
+            executing-chosen-task: "Execute %NUMBER% task."
+            chosen-task-executed: "Selected actions successfully applied."
+        nobody: "nobody."
+        api:
+          command:
+            description:
+              default: "no description."

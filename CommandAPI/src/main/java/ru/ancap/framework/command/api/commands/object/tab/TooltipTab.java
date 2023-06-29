@@ -16,11 +16,12 @@ public class TooltipTab implements TabCompletion {
 
     @Override
     public String completion() {
-        return completion;
+        return this.completion;
     }
 
     @Override
     public Optional<Component> tooltipState() {
-        return Optional.of(tooltip);
+        return Optional.of(this.tooltip);
     }
+    
 }

@@ -28,7 +28,7 @@ public class ArtifexConfig {
     }
 
     public Language defaultLanguage() {
-        return Language.of(this.section.getString("default-language"));
+        return Language.of(this.section.getString("language.default"));
     }
 
     public String getDatabaseDataAccessKey() {

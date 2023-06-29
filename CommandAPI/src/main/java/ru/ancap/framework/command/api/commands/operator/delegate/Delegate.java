@@ -30,17 +30,11 @@ public class Delegate implements CommandOperator {
     }
 
     public Delegate(DelegatorSettings settings, CommandDelegateRule... provideRules) {
-        this(
-                settings.getDefaultRule(),
-                List.of(provideRules)
-        );
+        this(settings.getDefaultRule(), List.of(provideRules));
     }
 
     public Delegate(CommandDelegateRule... provideRules) {
-        this(
-                new ClassicDelegatorSettings(),
-                provideRules
-        );
+        this(new ClassicDelegatorSettings(), provideRules);
     }
 
     @Override
@@ -66,11 +60,7 @@ public class Delegate implements CommandOperator {
     }
 
     private CommandProvidePattern ruleFor(LeveledCommand command) {
-        for (CommandDelegateRule rule : this.rules) {
-            if (rule.isOperate(command)) {
-                return rule;
-            }
-        }
+        for (CommandDelegateRule rule : this.rules) if (rule.isOperate(command)) return rule;
         return this.defaultRule;
     }
 

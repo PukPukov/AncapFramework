@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <artifactId>Artifex</artifactId>
-    <version>1.6.25</version>
+    <version>1.6.30</version>
 
     <name>Artifex</name>
 
@@ -22,46 +22,40 @@
     <properties>
         <adventure-api.version>4.12.0</adventure-api.version>
         <adventure-platform.version>4.2.0</adventure-platform.version>
-        <adventure-platform.version>4.2.0</adventure-platform.version>
     </properties>
 
     <build>
         <finalName>artifex-v${version}</finalName>
         <plugins>
-            
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.4.1</version>
+
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>ru.ancap.framework.artifex.shaded.bstats</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
+                        <configuration>
+                            <artifactSet>
+                                <excludes>
+                                </excludes>
+                            </artifactSet>
+                        </configuration>
                     </execution>
                 </executions>
-                <configuration>
-                    <minimizeJar>false</minimizeJar>
-                    <relocations>
-                        <relocation>
-                            <pattern>org.bstats</pattern>
-                            <shadedPattern>ru.ancap</shadedPattern>
-                        </relocation>
-                    </relocations>
-                </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-            
         </plugins>
     </build>
 
@@ -104,135 +98,124 @@
     </repositories>
 
     <dependencies>
-        
-        <!-- Модули BukkitPlus более требовательны к версии сервера -->
-
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.16.5-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
+        <!-- FRAMEWORK -->
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>AncapPluginAPI</artifactId>
             <version>3.4.5</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>CommandAPI</artifactId>
             <version>2.6.6</version>
             <scope>compile</scope>
         </dependency>
-
-        <dependency>
-            <groupId>ru.ancap</groupId>
-            <artifactId>ResourceAPI</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
-        </dependency>
-
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>BukkitUtil</artifactId>
             <version>1.3</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>DatabaseAPI</artifactId>
             <version>1.4.1</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>MenuAPI</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
         </dependency>
-        
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>LanguageAPI</artifactId>
             <version>1.4.3</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>MaterialAPI</artifactId>
             <version>1.19-1.0</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>WorldIteratorAPI</artifactId>
             <version>1.0.1</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>EventAPI</artifactId>
             <version>1.6</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
-            <groupId>com.github.ancap-kun</groupId>
-            <artifactId>AncapCommons</artifactId>
-            <version>1.6</version>
+            <groupId>ru.ancap</groupId>
+            <artifactId>SpeakAPI</artifactId>
+            <version>1.0</version>
             <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>ru.ancap</groupId>
+            <artifactId>StatusAPI</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>ConfigurationAPI</artifactId>
             <version>1.0.1</version>
             <scope>compile</scope>
         </dependency>
-        
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>CommunicatorAPI</artifactId>
             <version>1.0</version>
             <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>ru.ancap</groupId>
+            <artifactId>IdentifierAPI</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        <!-- LOGIC -->
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>3.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <!-- LOGIC.KYORI -->
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-platform-bukkit</artifactId>
             <version>${adventure-platform.version}</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-minimessage</artifactId>
             <version>${adventure-api.version}</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-serializer-plain</artifactId>
             <version>${adventure-api.version}</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-serializer-gson</artifactId>
             <version>${adventure-api.version}</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-serializer-legacy</artifactId>
@@ -240,40 +223,58 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- COMMONS -->
         <dependency>
-            <groupId>org.bstats</groupId>
-            <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.0</version>
+            <groupId>ru.ancap</groupId>
+            <artifactId>DependencyDummy</artifactId>
+            <version>1.0</version>
             <scope>compile</scope>
         </dependency>
-
-        <dependency>
-            <groupId>com.mojang</groupId>
-            <artifactId>brigadier</artifactId>
-            <version>1.0.18</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>com.comphenix.protocol</groupId>
-            <artifactId>ProtocolLib</artifactId>
-            <version>5.0.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version>
             <scope>compile</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.4</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.11.0</version>
             <scope>compile</scope>
         </dependency>
-
+        
+        <!-- PARENT -->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>5.0.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.mojang</groupId>
+            <artifactId>brigadier</artifactId>
+            <version>1.0.18</version>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!-- TEST -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.8.2</version>
+            <scope>compile</scope>
+        </dependency> <!-- Used in StatusAPI in runtime -->
     </dependencies>
 </project>

@@ -13,9 +13,9 @@ import org.bukkit.event.Listener;
 import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.command.api.event.OperableEvent;
 import ru.ancap.framework.command.api.event.classic.*;
-import ru.ancap.framework.communicate.Communicator;
+import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.communicate.message.CallableMessage;
-import ru.ancap.framework.communicate.replacement.Placeholder;
+import ru.ancap.framework.communicate.modifier.Placeholder;
 import ru.ancap.framework.language.additional.LAPIMessage;
 
 @AllArgsConstructor
@@ -78,7 +78,7 @@ public class PlayerCommandFallback implements Listener {
                 Player player = (Player) sender; 
                 player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 2, 0);
             }
-            new Communicator(sender).send(message);
+            Communicator.of(sender).message(message);
         }
     }
 

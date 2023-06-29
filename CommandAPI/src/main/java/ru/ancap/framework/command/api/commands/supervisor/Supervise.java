@@ -21,4 +21,5 @@ public class Supervise extends Delegate {
     // 1. Создавать GUI (/<command> gui)
     // 2. Создавать /<command> help
     // 3. Обрабатывать сырые команды и по выбору отдавать либо gui, либо help, либо не обрабатывать
+    
 }

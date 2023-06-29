@@ -1,8 +1,10 @@
 package ru.ancap.framework.language.locale;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.language.language.Language;
 
+@ApiStatus.Internal
 public interface Locales {
 
     /**
@@ -22,4 +24,5 @@ public interface Locales {
      */
     @NotNull
     String localized(@NotNull String id, @NotNull Language language);
+    
 }

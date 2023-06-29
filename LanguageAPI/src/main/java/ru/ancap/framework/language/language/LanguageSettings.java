@@ -15,4 +15,5 @@ public interface LanguageSettings {
      * @param language
      */
     void setLanguage(@NotNull String playerName, @NotNull Language language);
+    
 }

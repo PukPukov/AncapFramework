@@ -1,7 +1,25 @@
 # не менять, отвечает за обновление конфига и автоперенос значений
-configuration-version: 1
+configuration-version: 2
 
 default-language: ru
+
+# Will work in 1.7.
+language:
+  # Setup here languages, that your server localized for.
+  supported-by-server: [ru, uk, en]
+  # Most complete localization. 
+  server-native: ru
+  
+  # If a localized resource isn't found, fallback module can try to find it in another language. Lists ([code1, code2]) are supported in the whole section.
+  fallback-module:
+    base: en
+    # Some languages are similar, or speakers of one may be mainly familiar with another language, 
+    # so it will make much more sense to make per-language fallback orders.
+    special:
+      uk: ru
+      kk: ru
+      be: ru
+      pt: es
 
 database:
   

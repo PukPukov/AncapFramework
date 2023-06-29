@@ -7,7 +7,7 @@ import org.bukkit.event.Cancellable;
 import org.jetbrains.annotations.NotNull;
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
-public abstract class AncapWrapperPlayerEvent extends AncapWrapperCancellableEvent {
+public abstract class AncapWrapperPlayerEvent extends AncapWrapperInterventableEvent {
 
     private final @NotNull Player player;
     

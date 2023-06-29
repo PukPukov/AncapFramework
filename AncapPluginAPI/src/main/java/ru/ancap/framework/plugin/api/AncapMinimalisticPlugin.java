@@ -21,20 +21,28 @@ public abstract class AncapMinimalisticPlugin extends JavaPlugin {
         this.createPluginFolder();
     }
 
-    protected void onCoreLoad() {
+    public void onCoreLoad() {
         // to override it in core plugin
     }
 
-    protected Ancap getAncap() {
+    /**
+     * <b>Deprecated</b>; use {@link ru.ancap.framework.plugin.api.AncapMinimalisticPlugin#ancap()}
+     */
+    @Deprecated
+    public Ancap getAncap() {
+        return ancap;
+    }
+    
+    public Ancap ancap() {
         return ancap;
     }
 
-    protected void unloadAncap() {
+    public void unloadAncap() {
         if (AncapMinimalisticPlugin.ancap == null) throw new IllegalStateException("Ancap isn't loaded!");
         AncapMinimalisticPlugin.ancap = null;
     }
 
-    protected void loadAncap(Ancap ancap) {
+    public void loadAncap(Ancap ancap) {
         if (AncapMinimalisticPlugin.ancap != null) throw new IllegalStateException("Ancap already loaded!");
         AncapMinimalisticPlugin.ancap = ancap;
     }
@@ -43,15 +51,15 @@ public abstract class AncapMinimalisticPlugin extends JavaPlugin {
         if (!this.getDataFolder().exists()) this.getDataFolder().mkdirs();
     }
 
-    protected void loadLocale(String fileName) {
+    public void loadLocale(String fileName) {
         new YamlLocaleLoader(new StreamConfig(this.getResource(fileName))).run();
     }
 
-    protected void registerEventsListener(Listener listener) {
+    public void registerEventsListener(Listener listener) {
         Bukkit.getPluginManager().registerEvents(listener, this);
     }
 
-    protected <T> ResourceSource<T> newResourceSource(ResourcePreparator<T> resourcePreparator) {
+    public <T> ResourceSource<T> newResourceSource(ResourcePreparator<T> resourcePreparator) {
         return new PluginResourceSource<>(this, resourcePreparator);
     }
     

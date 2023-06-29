@@ -1,6 +1,5 @@
 package ru.ancap.framework.database.nosql;
 
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -10,7 +9,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-@Deprecated(forRemoval = true)
 public interface PathDatabase {
     
     static PathDatabase configuration(JavaPlugin plugin) {
@@ -21,23 +19,23 @@ public interface PathDatabase {
 
     void nullify();
     void delete(String path);
+    <T> void write(String path, T value, SerializeWorker<T> serializeWorker);
     void write(String path, String value);
     void write(String path, boolean value);
     void write(String path, double value);
     void write(String path, long value);
     void write(String path, List<String> value);
-    void write(String path, ItemStack value);
 
     @NotNull PathDatabase inner(String path);
     boolean isSet(String path);
     @NotNull Set<String> keys();
 
-    @Nullable String       readString    (String path);
-    @Nullable ItemStack    readItemStack (String path);
-    @Nullable Boolean      readBoolean   (String path);
-    @Nullable Long         readInteger   (String path);
-    @Nullable Double       readNumber    (String path);
-    @Nullable List<String> readStrings   (String path);
+    @Nullable <T> T        read        (String path, SerializeWorker<T> serializeWorker);
+    @Nullable String       readString  (String path);
+    @Nullable Boolean      readBoolean (String path);
+    @Nullable Long         readInteger (String path);
+    @Nullable Double       readNumber  (String path);
+    @Nullable List<String> readStrings (String path);
 
     default boolean isSet() { return this.isSet(""); }
 
@@ -75,6 +73,10 @@ public interface PathDatabase {
         if (retrieved == null) throw new IllegalStateException("Tried to get information about null section");
         return retrieved.stream()
             .anyMatch(s -> s.equals(value));
+    }
+    
+    default void close() {
+        
     }
     
 }

@@ -20,4 +20,5 @@ public class CommandTarget implements CommandOperator {
     protected CommandOperator getExecutor() {
         return this.executor;
     }
+    
 }

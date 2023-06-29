@@ -1,9 +1,6 @@
 package ru.ancap.framework.plugin.api.exception;
 
-public class CommandNotRegisteredException extends RuntimeException {
+import lombok.experimental.StandardException;
 
-    public CommandNotRegisteredException(String s) {
-        super(s);
-    }
-    
-}
+@StandardException
+public class CommandNotRegisteredException extends RuntimeException {}

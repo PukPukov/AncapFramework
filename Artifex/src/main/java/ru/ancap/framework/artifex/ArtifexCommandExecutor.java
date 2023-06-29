@@ -2,23 +2,28 @@ package ru.ancap.framework.artifex;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.ancap.framework.command.api.commands.operator.exclusive.Exclusive;
-import ru.ancap.framework.command.api.commands.operator.exclusive.OP;
-import ru.ancap.framework.communicate.replacement.Placeholder;
 import ru.ancap.framework.command.api.commands.CommandTarget;
-import ru.ancap.framework.plugin.api.information.AuthorsSupplier;
 import ru.ancap.framework.command.api.commands.operator.communicate.Reply;
 import ru.ancap.framework.command.api.commands.operator.delegate.Delegate;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.Raw;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.SubCommand;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.StringDelegatePattern;
+import ru.ancap.framework.command.api.commands.operator.exclusive.Exclusive;
+import ru.ancap.framework.command.api.commands.operator.exclusive.OP;
+import ru.ancap.framework.communicate.message.Message;
+import ru.ancap.framework.communicate.modifier.Placeholder;
 import ru.ancap.framework.language.additional.LAPIMessage;
 import ru.ancap.framework.plugin.api.Ancap;
+import ru.ancap.framework.plugin.api.information.AuthorsSupplier;
+import ru.ancap.framework.status.StatusOutput;
+import ru.ancap.framework.status.test.Test;
+
+import java.util.List;
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
 public class ArtifexCommandExecutor extends CommandTarget {
     
-    public ArtifexCommandExecutor(Ancap ancap) {
+    public ArtifexCommandExecutor(Ancap ancap, List<Test> tests) {
         super(new Delegate(
             new Raw(new AuthorsSupplier(Artifex.PLUGIN)),
             new SubCommand(
@@ -36,11 +41,9 @@ public class ArtifexCommandExecutor extends CommandTarget {
                         new SubCommand(
                             new StringDelegatePattern("command-api"),
                             dispatch -> {
-                                long start = System.currentTimeMillis();
                                 for (int i = 0; i < 10000; i++) {
-                                    
+
                                 }
-                                long end = System.currentTimeMillis();
                             }
                         ),
                         new SubCommand(
@@ -48,6 +51,13 @@ public class ArtifexCommandExecutor extends CommandTarget {
                             dispatch -> {}
                         )
                     )
+                )
+            ),
+            new SubCommand(
+                new StringDelegatePattern("status"),
+                new Exclusive(
+                    new OP(),
+                    new StatusOutput(new Message("<color:#e51e1e>AncapFramework</color:#e51e1e>"), tests)
                 )
             )
         ));

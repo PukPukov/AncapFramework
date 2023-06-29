@@ -4,7 +4,6 @@ import lombok.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NonBlocking;
 import org.jetbrains.annotations.NotNull;
@@ -12,43 +11,53 @@ import org.jetbrains.annotations.Nullable;
 import ru.ancap.commons.aware.Aware;
 import ru.ancap.commons.aware.ContextAware;
 import ru.ancap.commons.aware.InsecureContextHandle;
-import ru.ancap.framework.resource.PluginResourceSource;
+import ru.ancap.framework.database.nosql.exception.DifferentDatatypeException;
+import ru.ancap.framework.database.nosql.exception.UnknownDatatypeException;
+import ru.ancap.framework.resource.GuaranteedPluginResourceSource;
 import ru.ancap.framework.resource.config.FileConfigurationPreparator;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-@With(value = AccessLevel.PACKAGE)
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @ToString @EqualsAndHashCode
-public class ConfigurationDatabase implements PathDatabase {
+public class ConfigurationDatabase implements PathDatabase, AutoCloseable {
 
     private final FileConfiguration configuration;
-    private final File file;
-    private final String currentPath;
-    private final boolean autoSave;
-    private final long autoSavePeriod;
+    private final File              file;
+    private final boolean           autoSave;
+    private final long              autoSavePeriod;
 
-    private Timer timer = new Timer();
-    private Executor modifyExecutor = Executors.newSingleThreadExecutor();
-    private boolean timerStarted = false;
-    private boolean updated = false;
-    private boolean isScheduled = false;
-    private long lastSave = 0;
+    private final Timer           timer          = new Timer();
+    private final ReadWriteLock   synchronizer   = new ReentrantReadWriteLock();
+    private final ExecutorService modifyExecutor = Executors.newSingleThreadExecutor();
+    private final AtomicBoolean   timerStarted   = new AtomicBoolean(false);
+    private final AtomicBoolean   updated        = new AtomicBoolean(false);
+    private final AtomicBoolean   isScheduled    = new AtomicBoolean(false);
+    private final AtomicLong      lastSave       = new AtomicLong(0);
+    private final AtomicBoolean   closed         = new AtomicBoolean(false);
 
     public static PathDatabase plugin(JavaPlugin plugin) {
         return ConfigurationDatabase.builder()
-            .plugin(plugin)
-            .build();
+            .plugin(plugin).build();
+    }
+
+    public static PathDatabase file(File file) {
+        return ConfigurationDatabase.builder()
+            .file(file).build();
     }
     
     public static Builder builder() {
         return new ConfigurationDatabase.Builder();
     }
-    
+
     @NoArgsConstructor(access = AccessLevel.PACKAGE)
     @AllArgsConstructor(access = AccessLevel.PACKAGE)
     public static class Builder {
@@ -56,7 +65,7 @@ public class ConfigurationDatabase implements PathDatabase {
         protected FileConfiguration config;
         protected File file;
         protected boolean autoSave = true;
-        protected long autoSavePeriod = 5L;
+        protected long autoSavePeriod = 5000L;
         
         public PluginBased plugin(JavaPlugin plugin) {
             return new PluginBased(this, plugin);
@@ -72,10 +81,14 @@ public class ConfigurationDatabase implements PathDatabase {
             return this;
         }
         
-        public Builder autoSave(long period) {
+        public Builder autoSave(long millis) {
             this.autoSave = true;
-            this.autoSavePeriod = period;
+            this.autoSavePeriod = millis;
             return this;
+        }
+        
+        public Builder autoSave(long time, TimeUnit timeUnit) {
+            return this.autoSave(timeUnit.toMillis(time));
         }
         
         @SneakyThrows
@@ -83,7 +96,6 @@ public class ConfigurationDatabase implements PathDatabase {
             return new ConfigurationDatabase(
                 this.config,
                 this.file,
-                "",
                 this.autoSave,
                 this.autoSavePeriod
             );
@@ -109,7 +121,7 @@ public class ConfigurationDatabase implements PathDatabase {
             }
             
             public PathDatabase build() {
-                FileConfiguration config = new PluginResourceSource<>(this.plugin, FileConfigurationPreparator.plain()).getResource(this.name);
+                FileConfiguration config = new GuaranteedPluginResourceSource<>(this.plugin, FileConfigurationPreparator.plain()).getResource(this.name);
                 this.base.file = new File(this.plugin.getDataFolder(), this.name);
                 this.base.config = config;
                 return this.base.build();
@@ -148,45 +160,46 @@ public class ConfigurationDatabase implements PathDatabase {
 
     @NonBlocking
     private void set(String path, Object object) {
-        this.modifyExecutor.execute(() -> {
-            this.configuration.set(this.attachedPath(path), object);
-            this.performActionsAtModify();
-        });
+        this.synchronizer.writeLock().lock();
+        this.configuration.set(path, object);
+        this.synchronizer.writeLock().unlock();
+        this.modifyExecutor.execute(this::performActionsAtModify);
     }
 
     @NonBlocking
     @Override public void nullify() {
-        this.modifyExecutor.execute(() -> {
-            this.configuration.set(this.currentPath, null);
-            this.performActionsAtModify();
-        });
+        this.synchronizer.writeLock().lock();
+        this.configuration.getKeys(false).forEach(key -> this.configuration.set(key, null));
+        this.synchronizer.writeLock().unlock();
+        this.modifyExecutor.execute(this::performActionsAtModify);
     }
     
     @NonBlocking
     @Override public void save() {
-        this.modifyExecutor.execute(() -> {
-            try { this.configuration.save(this.file); }
-            catch (IOException e) { throw new RuntimeException(e); }
-        });
+        this.synchronizer.writeLock().lock();
+        try { this.configuration.save(this.file); }
+        catch (IOException e) { throw new RuntimeException(e); }
+        this.synchronizer.writeLock().unlock();
     }
     
     @ContextAware(handle = InsecureContextHandle.NO_HANDLE, awareOf = Aware.THREAD)
     private void scheduleSave() {
-        if (ConfigurationDatabase.this.isScheduled) return;
+        if (ConfigurationDatabase.this.isScheduled.get()) return;
+        this.isScheduled.set(true);
         this.scheduleTask(
-            ConfigurationDatabase.this.autoSavePeriod - (System.currentTimeMillis() - ConfigurationDatabase.this.lastSave),
+            ConfigurationDatabase.this.autoSavePeriod - (System.currentTimeMillis() - ConfigurationDatabase.this.lastSave.get()),
             new TimerTask() {
                 @Override public void run() {
+                    if (ConfigurationDatabase.this.closed.get()) return;
                     ConfigurationDatabase.this.modifyExecutor.execute(() -> {
-                        ConfigurationDatabase.this.isScheduled = false;
+                        ConfigurationDatabase.this.isScheduled.set(false);
                         ConfigurationDatabase.this.save();
-                        ConfigurationDatabase.this.lastSave = System.currentTimeMillis();
+                        ConfigurationDatabase.this.lastSave.set(System.currentTimeMillis());
                     });
                 }
             }
         );
     }
-
     
     private void scheduleTask(long waitTime, TimerTask timerTask) {
         if (waitTime <= 0) timerTask.run();
@@ -199,76 +212,115 @@ public class ConfigurationDatabase implements PathDatabase {
     
     /* WRITE */
 
+    @Override public <T> void write(String path, @Nullable T value, SerializeWorker<T> worker) {
+        if (value == null) {
+            this.delete(path);
+            return;
+        }
+        String dataTypeName = worker.dataType().getName();
+        String serialized = worker.serialize(value);
+        this.set(path, dataTypeName+":"+serialized);
+    }
+
     @NonBlocking @Override public void delete(String path)                    { this.set(path, null);  }
-    @NonBlocking @Override public void write(String path, double value)       { this.set(path, value); }
-    @NonBlocking @Override public void write(String path, long value)         { this.set(path, value); }
-    @NonBlocking @Override public void write(String path, String value)       { this.set(path, value); }
-    @NonBlocking @Override public void write(String path, List<String> value) { this.set(path, value); }
-    @NonBlocking @Override public void write(String path, ItemStack value)    { this.set(path, value); }
-    @NonBlocking @Override public void write(String path, boolean value)      { this.set(path, value); }
+    @NonBlocking @Override public void write(String path, double value)       { this.write(path, value, SerializeWorker.NUMBER); }
+    @NonBlocking @Override public void write(String path, long value)         { this.write(path, value, SerializeWorker.INTEGER); }
+    @NonBlocking @Override public void write(String path, String value)       { this.write(path, value, SerializeWorker.STRING); }
+    @NonBlocking @Override public void write(String path, @NotNull List<String> value) { this.set(path, value); }
+    @NonBlocking @Override public void write(String path, boolean value)      { this.write(path, value, SerializeWorker.BOOLEAN); }
     
     /* READ */
+    
+    @SneakyThrows
+    @Override public <T> T read(String path, SerializeWorker<T> serializeWorker) {
+        Object fullDataObject = this.get(path);
+        if (fullDataObject == null) return null;
+        if (fullDataObject.getClass() != String.class) throw new DifferentDatatypeException(path, serializeWorker.dataType(), fullDataObject.getClass());
+        String fullData = (String) fullDataObject; 
+        String[] fullDataInArray = fullData.split(":");
+        Class<?> dataType;
+        try {
+            dataType = Class.forName(fullDataInArray[0]);
+        } catch (ClassNotFoundException exception) { 
+            throw new UnknownDatatypeException(fullDataInArray[0]); 
+        }
+        
+        if (dataType != serializeWorker.dataType()) throw new DifferentDatatypeException(path, serializeWorker.dataType(), dataType);
+        
+        String[] dataInArray = new String[fullDataInArray.length-1];
+        System.arraycopy(fullDataInArray, 1, dataInArray, 0, dataInArray.length);
+        String data = String.join(":", dataInArray);
+        return serializeWorker.deserialize(data);
+    }
+    
+    private Object get(String path) {
+        this.synchronizer.readLock().lock();
+        Object object = this.configuration.get(path);
+        this.synchronizer.readLock().unlock();
+        return object;
+    }
 
     @Override public @NotNull PathDatabase inner(String path) {
-        return this.withCurrentPath(this.attachedPath(path));
+        if (path.equals("")) return this;
+        return new ConfigurationDatabaseSection(this, path);
     }
 
     @Override public boolean isSet(String path) {
-        return this.configuration.isSet(this.attachedPath(path));
+        this.synchronizer.readLock().lock();
+        try {
+            return this.configuration.get(path) != null;
+        } finally {
+            this.synchronizer.readLock().unlock();
+        }
     }
-
+    
     @Override public @NotNull Set<String> keys() {
-        ConfigurationSection section = this.configuration.getConfigurationSection(this.currentPath);
-        if (section == null) return Set.of();
+        this.synchronizer.readLock().lock();
+        Set<String> keys = this.configuration.getKeys(false);
+        this.synchronizer.readLock().unlock();
+        return keys;
+    }
+    
+    public @NotNull Set<String> keys(String path) {
+        this.synchronizer.readLock().lock();
+        Object value = this.configuration.get(path);
+        this.synchronizer.readLock().unlock();
+        if (value == null) return Set.of();
+        if (!(value instanceof ConfigurationSection section)) throw new DifferentDatatypeException(path, ConfigurationSection.class, value.getClass());
         return section.getKeys(false);
     }
 
     @Override public @Nullable String readString(String path) {
-        Object value = this.configuration.get(this.attachedPath(path));
-        if (value == null) return null;
-        if (!(value instanceof String)) throw new DifferentDatatypeException();
-        return (String) value;
-    }
-
-    @Override public @Nullable ItemStack readItemStack(String path) {
-        Object value = this.configuration.get(this.attachedPath(path));
-        if (value == null) return null;
-        if (!(value instanceof ItemStack)) throw new DifferentDatatypeException();
-        return (ItemStack) value;
+        return this.read(path, SerializeWorker.STRING);
     }
 
     @Override public @Nullable Boolean readBoolean(String path) {
-        Object value = this.configuration.get(this.attachedPath(path));
-        if (value == null) return false;
-        if (!(value instanceof Boolean)) throw new DifferentDatatypeException();
-        return (Boolean) value;
+        return this.read(path, SerializeWorker.BOOLEAN);
     }
 
     @Override public @Nullable Long readInteger(String path) {
-        Object value = this.configuration.get(this.attachedPath(path));
-        if (value == null) return 0L;
-        if (!(value instanceof Long)) throw new DifferentDatatypeException();
-        return (Long) value;
+        return this.read(path, SerializeWorker.INTEGER);
     }
     
     @Override public @Nullable Double readNumber(String path) {
-        Object value = this.configuration.get(this.attachedPath(path));
-        if (value == null) return 0D;
-        if (!(value instanceof Double)) throw new DifferentDatatypeException();
-        return (Double) value;
+        return this.read(path, SerializeWorker.NUMBER);
     }
     
     @Override public @NotNull List<String> readStrings(String path) {
-        List<String> strings = this.configuration.getStringList(this.attachedPath(path));
+        this.synchronizer.readLock().lock();
+        List<String> strings = this.configuration.getStringList(path);
+        this.synchronizer.readLock().unlock();
         if (strings.size() == 0) {
-            var value = this.configuration.get(path);
-            if (value instanceof String) strings = List.of((String) value);
+            var value = this.get(path);
+            if (value != null && value instanceof String) strings = List.of((String) value);
         }
         return List.copyOf(strings);
     }
-
-    private String attachedPath(@NotNull String path) {
-        return path.equals("") ? this.currentPath : this.currentPath+"."+path;
+    
+    public void close() {
+        this.save();
+        this.closed.set(true);
+        this.modifyExecutor.close();
     }
     
 }

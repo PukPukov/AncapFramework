@@ -2,12 +2,14 @@ package ru.ancap.framework.language.language;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @ToString @EqualsAndHashCode
+@ApiStatus.Internal // since 1.7
 public class Language {
 
     private static Map<String, Language> map;

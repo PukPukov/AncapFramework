@@ -6,15 +6,23 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.ToString;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import ru.ancap.commons.instructor.EventBus;
+import ru.ancap.commons.instructor.SimpleEventBus;
+import ru.ancap.commons.map.MapGC;
 import ru.ancap.commons.time.Day;
 import ru.ancap.framework.artifex.configuration.ArtifexConfig;
 import ru.ancap.framework.artifex.implementation.ancap.ArtifexAncap;
 import ru.ancap.framework.artifex.implementation.command.center.AsyncCommandCenter;
 import ru.ancap.framework.artifex.implementation.command.center.CommandProxy;
 import ru.ancap.framework.artifex.implementation.command.communicate.PlayerCommandFallback;
+import ru.ancap.framework.artifex.implementation.communicator.message.clickable.ActionProxy;
 import ru.ancap.framework.artifex.implementation.event.addition.BlockClickListener;
 import ru.ancap.framework.artifex.implementation.event.addition.VillagerHealListener;
 import ru.ancap.framework.artifex.implementation.event.wrapper.ExplodeListener;
@@ -22,6 +30,7 @@ import ru.ancap.framework.artifex.implementation.event.wrapper.ProtectListener;
 import ru.ancap.framework.artifex.implementation.event.wrapper.SelfDestructListener;
 import ru.ancap.framework.artifex.implementation.language.data.repository.SQLSpeakerModelRepository;
 import ru.ancap.framework.artifex.implementation.language.data.repository.SpeakerModelRepository;
+import ru.ancap.framework.artifex.implementation.language.domains.common.ArtifexCommonMessageDomains;
 import ru.ancap.framework.artifex.implementation.language.flow.LanguageChangeListener;
 import ru.ancap.framework.artifex.implementation.language.input.LAPIJoinListener;
 import ru.ancap.framework.artifex.implementation.language.input.LanguageChangeInput;
@@ -33,19 +42,24 @@ import ru.ancap.framework.artifex.implementation.scheduler.SchedulerSilencer;
 import ru.ancap.framework.artifex.implementation.timer.EveryDayTask;
 import ru.ancap.framework.artifex.implementation.timer.TimerExecutor;
 import ru.ancap.framework.artifex.implementation.timer.heartbeat.ArtifexHeartbeat;
+import ru.ancap.framework.artifex.status.tests.CommandCenterTest;
+import ru.ancap.framework.artifex.status.tests.ConfigurationDatabaseTest;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
-import ru.ancap.framework.communicate.Communicator;
+import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.database.sql.SQLDatabase;
 import ru.ancap.framework.database.sql.connection.reader.DatabaseFromConfig;
+import ru.ancap.framework.identifier.Identifier;
 import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.language.additional.LAPIDomain;
 import ru.ancap.framework.language.locale.MapLocales;
 import ru.ancap.framework.plugin.api.AncapBukkit;
 import ru.ancap.framework.plugin.api.AncapPlugin;
 import ru.ancap.framework.plugin.api.PluginLoadTask;
-import ru.ancap.framework.plugin.api.common.CommonMessageDomains;
+import ru.ancap.framework.status.test.Test;
 import ru.ancap.framework.util.AudienceProvider;
+import ru.ancap.framework.util.player.StepbackMaster;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -67,41 +81,93 @@ public final class Artifex extends AncapPlugin {
         new VillagerHealListener(),
         new BlockClickListener()
     );
-    
-    @Getter
-    private final Map<String, CommandOperator> commands = Map.of(
-        "language", new LanguageChangeInput(),
-        "artifex", new ArtifexCommandExecutor(this.ancap)
-    );
+
+    public Map<String, CommandOperator> getCommands() {
+        return Map.of(
+            "language", new LanguageChangeInput(), 
+            "artifex",  new ArtifexCommandExecutor(this.ancap, this.tests)
+        );
+    }
     
     @Getter
     private ArtifexAncap ancap;
     private AsyncCommandCenter asyncCommandCenter;
     private SQLDatabase database;
+    private List<Test> tests;
+    private ServerTPSCounter tpsCounter;
+    private StepbackMaster stepbackMaster;
+    private EventBus<Player> playerLeaveInstructor;
 
     @Override
     public void onCoreLoad() {
         this.loadBukkitToKyori();
         this.loadCommonMessageDomains();
+        this.loadTPSCounter();
+        this.loadPlayerLeaveInstructor();
+        this.loadStepbackMaster();
         this.loadAncap();
         this.loadConfiguration();
         this.loadDatabase();
         this.loadLAPI();
         this.loadLocales();
         this.loadTaskMeter();
-        this.registerCommandCenter();
+        this.loadCommandModule();
         this.startHeartbeat();
     }
 
     @Override
     public void onEnable() {
         super.onEnable();
+        this.loadMetrics();
         this.loadInstance();
-        this.registerIntegrators();
         this.loadSchedulerAPI();
         this.loadTimers();
-        this.loadCommandAPI();
         this.loadEventAPI();
+        this.loadClickableMessageActionProxy();
+        this.loadTests();
+        this.registerIntegrators();
+    }
+
+    private void loadMetrics() {
+        new Metrics(this, 14261);
+    }
+
+    private void loadPlayerLeaveInstructor() {
+        this.playerLeaveInstructor = new SimpleEventBus<>();
+        Bukkit.getPluginManager().registerEvents(new Listener() {
+            @EventHandler
+            public void on(PlayerQuitEvent event) {
+                Artifex.this.playerLeaveInstructor.dispatch(event.getPlayer());
+            }
+        }, this);
+    }
+
+    private void loadStepbackMaster() {
+        this.stepbackMaster = new StepbackMaster(
+            this,
+            this.playerLeaveInstructor
+                .map(Identifier::of)
+                .as(MapGC::new),
+            3,
+            15
+        );
+        this.stepbackMaster.run();
+    }
+
+    private void loadTPSCounter() {
+        this.tpsCounter = new ServerTPSCounter(50);
+        this.tpsCounter.startWith(this);
+    }
+
+    private void loadTests() {
+        this.tests = List.of(
+            new ConfigurationDatabaseTest(),
+            new CommandCenterTest(this.commandRegistrar())
+        );
+    }
+
+    private void loadClickableMessageActionProxy() {
+        new ActionProxy("cmap").setup(this.commandRegistrar());
     }
 
     private void loadEventAPI() {
@@ -110,7 +176,7 @@ public final class Artifex extends AncapPlugin {
     }
 
     private void loadCommonMessageDomains() {
-        CommonMessageDomains.pluginInfo = LAPIDomain.of(Artifex.class, "plugin-info");
+        new ArtifexCommonMessageDomains().load();
     }
 
     private void loadInstance() {
@@ -143,23 +209,25 @@ public final class Artifex extends AncapPlugin {
         );
     }
 
-    private void loadCommandAPI() {
-        this.ancap.installGlobalCommandOperator(this, this.asyncCommandCenter, this.asyncCommandCenter);
+    private void loadCommandModule() {
         AncapPlugin.proxy = new CommandProxy();
-        this.registerEventsListener(new PlayerCommandFallback());
-    }
-
-    private void registerCommandCenter() {
-        this.asyncCommandCenter = new AsyncCommandCenter();
+        this.asyncCommandCenter = new AsyncCommandCenter(AncapPlugin.proxy);
         this.registerCommandCenter(this.asyncCommandCenter);
+        this.ancap.installGlobalCommandOperator(this, this.asyncCommandCenter, this.asyncCommandCenter);
+        this.registerEventsListener(new PlayerCommandFallback());
     }
 
     private void loadAncap() {
         AncapBukkit.CORE_PLUGIN = this;
-        ServerTPSCounter tpsCounter = new ServerTPSCounter(50);
-        this.getServer().getScheduler().scheduleSyncRepeatingTask(this, tpsCounter, 100L, 50L);
-        this.ancap = new ArtifexAncap(tpsCounter);
+        this.ancap = new ArtifexAncap(this.tpsCounter, this.stepbackMaster, this.debugIndicatorFile());
+        this.ancap.load();
         this.loadAncap(this.ancap);
+    }
+
+    private File debugIndicatorFile() {
+        File folder = new File(this.getDataFolder().getParentFile().getParentFile(), "debug");
+        if (!folder.exists()) folder.mkdirs();
+        return new File(folder, "debug.indicator");
     }
 
     @SneakyThrows
@@ -169,7 +237,7 @@ public final class Artifex extends AncapPlugin {
             ArtifexConfig.loaded().getSection().getConfigurationSection("database.scheduler-database")
         ).load();
         this.task("SchedulerAPI", new SchedulerAPILoader(
-            new Communicator(Bukkit.getConsoleSender()),
+            Communicator.of(Bukkit.getConsoleSender()),
             this,
             new Scanner(System.in),
             schedulerDatabase,
@@ -211,4 +279,5 @@ public final class Artifex extends AncapPlugin {
         ArtifexHeartbeat heartbeat = new ArtifexHeartbeat(this);
         heartbeat.start();
     }
+    
 }

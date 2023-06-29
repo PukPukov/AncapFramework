@@ -50,4 +50,5 @@ public class MapLocales implements Locales {
     private void fillLanguage(Language language) {
         this.map.computeIfAbsent(language, k -> new HashMap<>());
     }
+    
 }

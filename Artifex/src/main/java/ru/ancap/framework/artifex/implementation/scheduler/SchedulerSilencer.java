@@ -16,12 +16,12 @@ public class SchedulerSilencer {
     private final Dao<SilencedTask, String> data;
     
     public SchedulerSilencer(SQLDatabase sql) throws SQLException {
-        this(sql, DaoManager.createDao(sql.getConnectionSource(), SilencedTask.class));
+        this(sql, DaoManager.createDao(sql.orm(), SilencedTask.class));
     }
     
     @SneakyThrows
     public SchedulerSilencer load() {
-        TableUtils.createTableIfNotExists(this.sql.getConnectionSource(), SilencedTask.class);
+        TableUtils.createTableIfNotExists(this.sql.orm(), SilencedTask.class);
         return this;
     }
     
@@ -34,9 +34,10 @@ public class SchedulerSilencer {
     public SilencedTask get(String uuid) {
         return this.data.queryForId(uuid);
     }
-
+    
     @SneakyThrows
     public void upsert(SilencedTask task) {
         this.data.createOrUpdate(task);
     }
+    
 }

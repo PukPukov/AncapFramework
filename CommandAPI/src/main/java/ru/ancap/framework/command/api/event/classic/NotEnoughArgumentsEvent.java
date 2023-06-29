@@ -21,4 +21,5 @@ public class NotEnoughArgumentsEvent extends CommandEvent {
     private static final HandlerList handlers = new HandlerList();
     public @NotNull HandlerList getHandlers() {return handlers;}
     public static @NotNull HandlerList getHandlerList() {return handlers;}
+    
 }

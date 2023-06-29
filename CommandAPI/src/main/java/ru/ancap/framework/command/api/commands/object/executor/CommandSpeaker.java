@@ -34,12 +34,12 @@ public interface CommandSpeaker {
 
         public void on(CommandWrite write) {
             write.speaker().sendTab(TabBundle.builder().tooltiped(
-                    Bukkit.getOnlinePlayers().stream().map(
-                            player -> new TooltipTab(
-                                    player.getName(), 
-                                    Component.text(player.getHealth() + " §c♥")
-                            )
-                    ).collect(Collectors.toList())
+                Bukkit.getOnlinePlayers().stream().map(
+                    player -> new TooltipTab(
+                        player.getName(), 
+                        Component.text(player.getHealth() + " §c♥")
+                    )
+                ).collect(Collectors.toList())
             ).build());
         }
         

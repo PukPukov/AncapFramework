@@ -1,7 +1,10 @@
 package ru.ancap.framework.communicate.message;
 
 public interface CallableMessage {
-    
-    String call(String nameIdentifier);
+
+    /**
+     * @return String in minimessage format.
+     */
+    String call(String identifier);
     
 }

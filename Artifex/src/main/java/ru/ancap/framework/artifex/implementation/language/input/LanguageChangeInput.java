@@ -1,8 +1,6 @@
 package ru.ancap.framework.artifex.implementation.language.input;
 
-import org.bukkit.Bukkit;
 import ru.ancap.framework.artifex.Artifex;
-import ru.ancap.framework.artifex.implementation.language.flow.LanguageChangeEvent;
 import ru.ancap.framework.command.api.commands.CommandTarget;
 import ru.ancap.framework.command.api.commands.operator.arguments.Accept;
 import ru.ancap.framework.command.api.commands.operator.arguments.Argument;
@@ -13,7 +11,8 @@ import ru.ancap.framework.command.api.commands.operator.delegate.Delegate;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.Raw;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.SubCommand;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.StringDelegatePattern;
-import ru.ancap.framework.communicate.Communicator;
+import ru.ancap.framework.communicate.communicator.Communicator;
+import ru.ancap.framework.identifier.Identifier;
 import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.language.additional.LAPIMessage;
 import ru.ancap.framework.language.language.Language;
@@ -28,8 +27,8 @@ public class LanguageChangeInput extends CommandTarget {
                 new Arguments(
                     new Accept(new Argument("language", new Self())),
                     dispatch -> {
-                        LAPI.setupLanguage(dispatch.source().sender().getName(), Language.of(dispatch.arguments().get("language", String.class)));
-                        new Communicator(dispatch.source().sender()).send(new LAPIMessage(Artifex.class, "command.language.setup"));
+                        LAPI.setupLanguage(Identifier.of(dispatch.source().sender()), Language.of(dispatch.arguments().get("language", String.class)));
+                        Communicator.of(dispatch.source().sender()).message(new LAPIMessage(Artifex.class, "command.language.setup"));
                     }
                 )
             )

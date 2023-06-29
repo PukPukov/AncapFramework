@@ -16,25 +16,13 @@
         <module>WorldIteratorAPI</module>
         <module>BukkitUtil</module>
         <module>MenuAPI</module>
+        <module>SpeakAPI</module>
     </modules>
 
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>BukkitPlus</artifactId>
     <version>1.0</version>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
     <repositories>
         <repository>
@@ -46,5 +34,14 @@
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
     </repositories>
+    
+    <dependencies>
+        <dependency>
+            <groupId>ru.ancap</groupId>
+            <artifactId>DependencyDummy</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 </project>

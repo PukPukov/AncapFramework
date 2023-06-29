@@ -5,10 +5,10 @@ import com.j256.ormlite.jdbc.db.*;
 import com.j256.ormlite.support.ConnectionSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.Plugin;
-import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.database.sql.SQLDatabase;
 import ru.ancap.framework.database.sql.connection.data.DatabaseInfo;
 import ru.ancap.framework.database.sql.connection.data.DatabaseLocation;
@@ -23,16 +23,16 @@ import java.util.Map;
 public class DatabaseFromConfig {
     
     private final Map<String, DatabaseInfo> templates = Map.ofEntries(
-            Map.entry("sqlite", new DatabaseInfo("sqlite", "org.sqlite.JDBC", new SqliteDatabaseType(), DatabaseLocation.LOCAL)),
-            Map.entry("mysql", new DatabaseInfo("mysql", "com.mysql.cj.jdbc.Driver", new MysqlDatabaseType(), DatabaseLocation.PUBLIC)),
-            Map.entry("maria-db", new DatabaseInfo("mariadb", "org.mariadb.jdbc.Driver", new MariaDbDatabaseType(), DatabaseLocation.PUBLIC)),
-            Map.entry("postgresql", new DatabaseInfo("postgresql", "org.postgresql.Driver", new PostgresDatabaseType(), DatabaseLocation.PUBLIC)),
-            Map.entry("oracle", new DatabaseInfo("oracle", "oracle.jdbc.driver.OracleDriver", new OracleDatabaseType(), DatabaseLocation.PUBLIC)),
-            Map.entry("derby-local", new DatabaseInfo("derby", "org.apache.derby.jdbc.EmbeddedDriver", new DerbyEmbeddedDatabaseType(), DatabaseLocation.LOCAL)),
-            Map.entry("derby-server", new DatabaseInfo("derby", "org.apache.derby.jdbc.ClientDriver", new DerbyClientServerDatabaseType(), DatabaseLocation.PUBLIC)),
-            Map.entry("hsqldb", new DatabaseInfo("hsqldb", "org.hsqldb.jdbcDriver", new HsqldbDatabaseType(), DatabaseLocation.PUBLIC)),
-            Map.entry("netezza", new DatabaseInfo("netezza", "org.netezza.Driver", new NetezzaDatabaseType(), DatabaseLocation.PUBLIC)),
-            Map.entry("odbc", new DatabaseInfo("odbc", "sun.jdbc.odbc.JdbcOdbcDriver", new GenericOdbcDatabaseType(), DatabaseLocation.PUBLIC))
+            Map.entry("sqlite",       new DatabaseInfo("sqlite",     "org.sqlite.JDBC",                      new SqliteDatabaseType(),            DatabaseLocation.LOCAL)),
+            Map.entry("mysql",        new DatabaseInfo("mysql",      "com.mysql.cj.jdbc.Driver",             new MysqlDatabaseType(),             DatabaseLocation.PUBLIC)),
+            Map.entry("maria-db",     new DatabaseInfo("mariadb",    "org.mariadb.jdbc.Driver",              new MariaDbDatabaseType(),           DatabaseLocation.PUBLIC)),
+            Map.entry("postgresql",   new DatabaseInfo("postgresql", "org.postgresql.Driver",                new PostgresDatabaseType(),          DatabaseLocation.PUBLIC)),
+            Map.entry("oracle",       new DatabaseInfo("oracle",     "oracle.jdbc.driver.OracleDriver",      new OracleDatabaseType(),            DatabaseLocation.PUBLIC)),
+            Map.entry("derby-local",  new DatabaseInfo("derby",      "org.apache.derby.jdbc.EmbeddedDriver", new DerbyEmbeddedDatabaseType(),     DatabaseLocation.LOCAL)),
+            Map.entry("derby-server", new DatabaseInfo("derby",      "org.apache.derby.jdbc.ClientDriver",   new DerbyClientServerDatabaseType(), DatabaseLocation.PUBLIC)),
+            Map.entry("hsqldb",       new DatabaseInfo("hsqldb",     "org.hsqldb.jdbcDriver",                new HsqldbDatabaseType(),            DatabaseLocation.PUBLIC)),
+            Map.entry("netezza",      new DatabaseInfo("netezza",    "org.netezza.Driver",                   new NetezzaDatabaseType(),           DatabaseLocation.PUBLIC)),
+            Map.entry("odbc",         new DatabaseInfo("odbc",       "sun.jdbc.odbc.JdbcOdbcDriver",         new GenericOdbcDatabaseType(),       DatabaseLocation.PUBLIC))
     );
 
     private final Plugin plugin;
@@ -43,7 +43,7 @@ public class DatabaseFromConfig {
         new NetezzaDatabaseType();
         new SqlServerJtdsDatabaseType();
         
-        @NotNull String databaseTypeName = connectionConfig.getString("type");
+        @NonNull String databaseTypeName = this.connectionConfig.getString("type");
         DatabaseInfo info = this.templates.get(databaseTypeName);
         info.databaseType().loadDriver();
         HikariConfig config = new HikariConfig();

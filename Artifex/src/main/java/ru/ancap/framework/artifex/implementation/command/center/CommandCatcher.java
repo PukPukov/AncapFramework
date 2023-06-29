@@ -26,8 +26,9 @@ import ru.ancap.framework.command.api.commands.object.dispatched.TextCommand;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate.OperateRule;
-import ru.ancap.framework.communicate.Communicator;
-import ru.ancap.framework.communicate.replacement.Placeholder;
+import ru.ancap.framework.communicate.communicator.Communicator;
+import ru.ancap.framework.communicate.modifier.Placeholder;
+import ru.ancap.framework.identifier.Identifier;
 import ru.ancap.framework.language.additional.LAPIMessage;
 import ru.ancap.framework.plugin.api.Ancap;
 
@@ -53,11 +54,11 @@ public class CommandCatcher implements Listener, PacketListener {
     private final Consumer<PacketEvent> onTabComplete = (event) -> {
         if (event.isCancelled()) return;
         if (this.getAncap().getServerTPS() < 19.5) {
-            String playerName = event.getPlayer().getName();
+            String identifier = Identifier.of(event.getPlayer());
             long currentTime = System.currentTimeMillis();
-            Long lastTime = this.lastRequestTimeMap.get(playerName);
+            Long lastTime = this.lastRequestTimeMap.get(identifier);
             if (lastTime != null && currentTime - lastTime < 500) return;
-            this.lastRequestTimeMap.put(playerName, currentTime);
+            this.lastRequestTimeMap.put(identifier, currentTime);
         }
         PacketContainer packet = event.getPacket();
         String text = packet.getStrings().read(0);
@@ -130,7 +131,7 @@ public class CommandCatcher implements Listener, PacketListener {
     }
 
     private void notifyAboutServerCommand(CommandSender sender, String command) {
-        new Communicator(Bukkit.getConsoleSender()).send(new LAPIMessage(
+        Communicator.of(Bukkit.getConsoleSender()).message(new LAPIMessage(
             Artifex.class, "command.api.info.issued-server-command",
             new Placeholder("source", sender.getName()),
             new Placeholder("command", command)
@@ -161,31 +162,10 @@ public class CommandCatcher implements Listener, PacketListener {
     private TextCommand from(Form form) {
         return new TextCommand(form.arguments);
     }
-    
-    @AllArgsConstructor
-    private static class RawForm {
-        
-        private final CommandSource source;
-        private final String command;
-        
-    }
 
-    @AllArgsConstructor
-    private static class Form {
-        
-        private final CommandSource source;
-        private final List<String> arguments;
-        
-    }
-
-    @AllArgsConstructor
-    private static class InterceptableCommandForm {
-        
-        private final Interceptable interceptable;
-        private final CommandSource source;
-        private final LeveledCommand command;
-        
-    }
+    private record RawForm(CommandSource source, String command) { }
+    private record Form(CommandSource source, List<String> arguments) { }
+    private record InterceptableCommandForm(Interceptable interceptable, CommandSource source, LeveledCommand command) { }
     
     public interface Interceptable {
         

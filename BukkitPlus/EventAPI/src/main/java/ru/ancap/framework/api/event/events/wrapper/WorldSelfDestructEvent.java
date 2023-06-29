@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
-public class WorldSelfDestructEvent extends AncapWrapperCancellableEvent implements Cancellable {
+public class WorldSelfDestructEvent extends AncapWrapperInterventableEvent implements Cancellable {
     
     private final @NotNull Location destructorPosition;
     private final @NotNull List<Location> destructionPositions;

@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
-public class PVPEvent extends AncapWrapperCancellableEvent implements Cancellable {
+public class PVPEvent extends AncapWrapperInterventableEvent implements Cancellable {
 
     private final @NotNull Player attacker;
     private final @NotNull List<Player> attacked;

@@ -34,4 +34,5 @@ public class SubNode implements SupervisedRule {
     public List<String> candidates() {
         return null;
     }
+    
 }

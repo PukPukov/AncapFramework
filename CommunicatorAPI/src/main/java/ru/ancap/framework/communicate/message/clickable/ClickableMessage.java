@@ -1,0 +1,20 @@
+package ru.ancap.framework.communicate.message.clickable;
+
+import ru.ancap.framework.communicate.message.CacheMessage;
+import ru.ancap.framework.communicate.message.CallableMessage;
+
+import java.util.function.Consumer;
+
+public class ClickableMessage extends CacheMessage implements CallableMessage {
+    
+    public static ActionMessageProvider provider;
+    
+    public ClickableMessage(CallableMessage base, Consumer<Click> clickConsumer) {
+        super(ClickableMessage.constructorHelper(base, clickConsumer));
+    }
+
+    private static CallableMessage constructorHelper(CallableMessage base, Consumer<Click> clickConsumer) {
+        return ClickableMessage.provider.to(base, clickConsumer);
+    }
+
+}

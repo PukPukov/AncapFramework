@@ -20,7 +20,7 @@ public class VillagerHealListener extends ArtifexListener {
 
     private boolean isHealingVillagerAt(PlayerInteractEntityEvent event) {
         return event.getRightClicked().getType() == EntityType.ZOMBIE_VILLAGER && 
-                event.getPlayer().getInventory().getItemInMainHand().getType() == Material.GOLDEN_APPLE;
+               event.getPlayer().getInventory().getItemInMainHand().getType() == Material.GOLDEN_APPLE;
     }
     
 }

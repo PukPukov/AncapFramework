@@ -17,5 +17,14 @@
     <artifactId>Jigsaw</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
+    
+    <dependencies>
+        <dependency>
+            <groupId>ru.ancap</groupId>
+            <artifactId>DependencyDummy</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -21,9 +21,9 @@ public class SelfDestructListener extends ArtifexListener {
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = true)
     public void on(BlockBurnEvent event) {
         if (event.getIgnitingBlock() != null) this.throwEvent(new WorldSelfDestructEvent(
-                event, 
-                event.getIgnitingBlock().getLocation(), 
-                List.of(event.getBlock().getLocation())
+            event, 
+            event.getIgnitingBlock().getLocation(), 
+            List.of(event.getBlock().getLocation())
         ));
         this.throwEvent(new BlockNullifyEvent(event, List.of(event.getBlock()), false));
     }
@@ -39,9 +39,10 @@ public class SelfDestructListener extends ArtifexListener {
     }
 
     private void piston(BlockPistonEvent event, List<Block> moveds) {
-        this.throwEvent(new WorldSelfDestructEvent(event, event.getBlock().getLocation(), moveds.stream()
-                .map(Block::getLocation)
-                .collect(Collectors.toList())
+        this.throwEvent(new WorldSelfDestructEvent(
+            event, 
+            event.getBlock().getLocation(), 
+            moveds.stream().map(Block::getLocation).collect(Collectors.toList())
         ));
         this.throwEvent(new BlockNullifyEvent(event, moveds, true));
     }

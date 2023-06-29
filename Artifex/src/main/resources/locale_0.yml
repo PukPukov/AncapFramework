@@ -1,5 +1,5 @@
 language: ru
-version: 4
+version: 13
 
 ru:
   ancap:
@@ -14,23 +14,65 @@ ru:
           
     framework:
       artifex:
+        yes-no: "{YES:<green><u>[ДА]<u></green>} {NO:<red><u>[НЕТ]</u></red>}"
+        click-to-select: "Нажми, чтобы выбрать"
+        sent-to-console: "<green>Сообщение отправлено в консоль</green>"
+        test:
+          error-output-form:
+            - "  <dark_red>-</dark_red> Исключение: %EXCEPTION%"
+            - "  <dark_red>-</dark_red> Сообщение: %MESSAGE%"
+            - "{STACK_TRACE:  <dark_gray>-</dark_gray> {STACK_TRACE_ELEMENT}}"
+          base:
+            interact: "Пожалуйста, %ACTION%. Ожидаемый результат — %EXPECTED%. Всё работает верно?"
+            inspect: "%EXPECTED%. Всё работает верно?"
+          checks:
+            action:
+              command: "введите команду <u>/%COMMAND%</u>"
+            expected:
+              interact:
+                ok: "ответ \"<u>OK [%IDENTITY%]</u>\" от системы"
+                unknown: "сообщение о том, что такой команды не существует"
+              inspect:
+                ok: "Вы должны были получить сообщение \"<u>OK [%IDENTITY%]</u>\""
+          ok-response: "<green>OK [%IDENTITY%]</green>"
+        modules:
+          configuration-database:
+            name: "Модуль ConfigurationDatabase"
+          command-center:
+            name: "Центр команд"
+          command-api:
+            name: "API команд"
+        status:
+          top: "<blue>Статус работы модулей и сервисов %SYSTEM_NAME%</blue>"
+          working: "<green>работает</green>"
+          test-skipped: "<gray>не тестировалось</gray>"
+          down: "<dark_red><u>лежит</u><dark_red>"
+          press-to-print-description: "Нажми, чтобы вывести описание проблемы"
+          test-form: "%MODULE_NAME%: %STATUS%"
+          skip:
+            not-that-tester: "Недопустимый тип тестера. Тест должен выполнять тестер типа \"<u>%REQUIRED%</u>\"."
+            tester-types:
+              player: "Игрок"
+              console: "Консоль"
+              command-block: "Командный блок"
+            
         command:
-          tps: "&aTPS сервера: %TPS%"
+          tps: "<green>TPS сервера: %TPS%</green>"
           api:
             info:
               injecting: "Artifex производит инъекцию байткода в CraftServer"
               issued-server-command: "%SOURCE% отправил серверу команду \"%COMMAND%\"."
             error:
-              internal: "&cВо время выполнения команды произошла внутренняя непредвиденная ошибка."
+              internal: "<red>Во время выполнения команды произошла внутренняя непредвиденная ошибка.</red>"
               operate-is-impossible:
-                - "§cВведённая команда не может быть обработана."
+                - "<red>Введённая команда не может быть обработана.</red>"
                 - "%DESCRIPTION%"
-              not-enough-arguments: "§cНедостаточно аргументов. Необходимо на §c§n%COUNT%§r§c больше, чем введено, чтобы продолжить."
-              unknown: "§cКоманды \"§c§n%COMMAND%§r§c\" не существует."
-              not-enough-permissions: "§cУ тебя недостаточно прав."
-              cannot-transform-argument: "§c\"§c§n%ARGUMENT%§r§c\" - не §c§n%TYPE%§r§c."
+              not-enough-arguments: "<red>Недостаточно аргументов. Необходимо на <u>%COUNT%</u> больше, чем введено, чтобы продолжить.</red>"
+              unknown: "<red>Команды \"<u>%COMMAND%</u>\" не существует.</red>"
+              not-enough-permissions: "<red>У тебя недостаточно прав.</red>"
+              cannot-transform-argument: "<red>\"<u>%ARGUMENT%</u>\" - не <u>%TYPE%</u>.</red>"
           language:
-            enter-language: "Команда §n/language§r§f предназначена для выбора серверного языка. Используйте её так: §n/language set <код языка>§r§f, где код языка может быть любым из стандарта ISO 639-1."
+            enter-language: "Команда <u>/language</u> предназначена для выбора серверного языка. Используйте её так: <u>/language set <код языка></u>, где код языка может быть любым из стандарта ISO 639-1."
             setup: "Твой язык изменён на русский."
         plugin-info:
           - "%PLUGIN% v%VERSION%."

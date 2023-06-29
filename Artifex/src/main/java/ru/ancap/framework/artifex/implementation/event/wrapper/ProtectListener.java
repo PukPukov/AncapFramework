@@ -48,32 +48,20 @@ public class ProtectListener extends ArtifexListener {
 
     @EventHandler (priority = EventPriority.LOW, ignoreCancelled = true)
     public void on(EntityDamageByEntityEvent event) {
-        Entity eDamaged = event.getEntity();
-        Entity eDamager = event.getDamager();
-        this.throwEvent(new WorldSelfDestructEvent(event, eDamager.getLocation(), List.of(eDamaged.getLocation())));
-        Location location = eDamaged.getLocation();
+        Entity entityDamaged = event.getEntity();
+        Entity entityDamager = event.getDamager();
+        this.throwEvent(new WorldSelfDestructEvent(event, entityDamager.getLocation(), List.of(entityDamaged.getLocation())));
+        Location location = entityDamaged.getLocation();
         Player damager;
-        if (eDamager instanceof Player){
-            damager = (Player) eDamager;
-        } else if (eDamager instanceof Projectile) {
-            Projectile projectile = (Projectile) eDamager;
+        if (entityDamager instanceof Player) damager = (Player) entityDamager;
+        else if (entityDamager instanceof Projectile projectile) {
             ProjectileSource source = projectile.getShooter();
-            if (!(source instanceof Player)) {
-                return;
-            }
+            if (!(source instanceof Player)) return;
             damager = (Player) source;
-        } else {
-            return;
-        }
-        if (eDamaged instanceof Monster || eDamaged instanceof Boss) {
-            return;
-        }
+        } else return;
+        if (entityDamaged instanceof Monster || entityDamaged instanceof Boss) return;
         this.throwEvent(new WorldInteractEvent(event, damager, List.of(location)));
-        Player damaged;
-        if (!(eDamaged instanceof Player)) {
-            return;
-        }
-        damaged = (Player) eDamaged;
+        if (!(entityDamaged instanceof Player damaged)) return;
         Event event1 = new PVPEvent(event, damager, List.of(damaged));
         this.throwEvent(event1);
     }
@@ -98,10 +86,7 @@ public class ProtectListener extends ArtifexListener {
     public void on(ProjectileLaunchEvent event) {
         Projectile projectile = event.getEntity();
         ProjectileSource source = projectile.getShooter();
-        if (!(source instanceof Player)) {
-            return;
-        }
-        Player player = (Player) source;
+        if (!(source instanceof Player player)) return;
         Location interacted = event.getLocation();
         this.throwEvent(new WorldInteractEvent(event, player, List.of(interacted)));
     }
@@ -110,20 +95,13 @@ public class ProtectListener extends ArtifexListener {
     public void on(ProjectileHitEvent event) {
         Projectile projectile = event.getEntity();
         ProjectileSource source = projectile.getShooter();
-        if (!(source instanceof Player)) {
-            return;
-        }
-        Player player = (Player) source;
+        if (!(source instanceof Player player)) return;
         Block block = event.getHitBlock();
         Entity entity = event.getHitEntity();
         Location interacted;
-        if (block != null) {
-            interacted = block.getLocation();
-        } else if (entity != null) {
-            interacted = entity.getLocation();
-        } else {
-            return;
-        }
+        if      (block != null)  interacted = block.getLocation();
+        else if (entity != null) interacted = entity.getLocation();
+        else return;
         this.throwEvent(new WorldInteractEvent(event, player, List.of(interacted)));
     }
 
@@ -131,14 +109,9 @@ public class ProtectListener extends ArtifexListener {
     public void on(PotionSplashEvent event) {
         ThrownPotion potion = event.getPotion();
         Collection<LivingEntity> entities = event.getAffectedEntities();
-        if (entities.size() == 0) {
-            return;
-        }
+        if (entities.size() == 0) return;
         ProjectileSource source = potion.getShooter();
-        if (!(source instanceof Player)) {
-            return;
-        }
-        Player player = (Player) source;
+        if (!(source instanceof Player player)) return;
         List<Player> damagedPlayers = new ArrayList<>();
         List<Location> locations = new ArrayList<>();
         for (Entity entity : entities) {
@@ -153,4 +126,5 @@ public class ProtectListener extends ArtifexListener {
     public void onEntityInteract(PlayerInteractEntityEvent event) {
         this.throwEvent(new WorldInteractEvent(event, event.getPlayer(), List.of(event.getRightClicked().getLocation())));
     }
+    
 }

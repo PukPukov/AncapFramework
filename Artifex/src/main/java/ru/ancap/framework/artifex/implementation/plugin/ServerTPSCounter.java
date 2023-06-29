@@ -3,6 +3,8 @@ package ru.ancap.framework.artifex.implementation.plugin;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -34,7 +36,11 @@ public class ServerTPSCounter implements Runnable {
     public double get() {
         return this.history.getLast();
     }
-    
+
+    public void startWith(JavaPlugin owner) {
+        Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(owner, this, 100L, this.thinning);
+    }
+
     @RequiredArgsConstructor
     private static class CyclicDeque<T> {
         

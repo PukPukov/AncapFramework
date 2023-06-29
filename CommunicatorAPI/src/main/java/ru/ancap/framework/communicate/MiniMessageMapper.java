@@ -45,4 +45,5 @@ public class MiniMessageMapper {
         MiniMessageMapper.cache.put(untranslated, translated);
         return translated;
     }
+    
 }

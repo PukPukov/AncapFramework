@@ -10,9 +10,7 @@ public class BlockClickListener extends ArtifexListener {
 
     @EventHandler (priority = EventPriority.LOW, ignoreCancelled = true)
     public void on(PlayerInteractEvent event) {
-        if (event.getClickedBlock() == null) {
-            return;
-        }
+        if (event.getClickedBlock() == null) return;
         this.throwEvent(new BlockClickEvent(event, event.getPlayer(), event.getClickedBlock()));
     }
     

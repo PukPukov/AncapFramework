@@ -9,6 +9,7 @@ import ru.ancap.framework.command.api.commands.object.tab.Tab;
 import ru.ancap.framework.command.api.commands.object.tab.TabCompletion;
 import ru.ancap.framework.command.api.commands.operator.arguments.extractor.ArgumentExtractor;
 import ru.ancap.framework.command.api.commands.operator.arguments.extractor.exception.TransformationException;
+import ru.ancap.framework.identifier.Identifier;
 import ru.ancap.framework.language.additional.LAPIMessage;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public abstract class PrimitiveExtractor<T> implements ArgumentExtractor<T> {
     @Override
     public Function<CommandSender, List<TabCompletion>> help() {
         return sender -> List.of(
-                new Tab(new LAPIMessage("ru.ancap.types."+this.type.getName()).call(sender.getName()))
+            new Tab(new LAPIMessage("ru.ancap.types."+this.type.getName()).call(Identifier.of(sender)))
         );
     }
     
