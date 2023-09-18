@@ -20,8 +20,8 @@
     <description>AncapAPI runtime part</description>
     
     <properties>
-        <adventure-api.version>4.12.0</adventure-api.version>
-        <adventure-platform.version>4.2.0</adventure-platform.version>
+        <adventure-api.version>4.13.0</adventure-api.version>
+        <adventure-platform.version>4.3.0</adventure-platform.version>
     </properties>
 
     <build>
@@ -181,7 +181,7 @@
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.0</version>
+            <version>3.0.1</version>
             <scope>compile</scope>
         </dependency>
         <!-- LOGIC.KYORI -->
