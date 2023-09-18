@@ -4,15 +4,11 @@ import org.inventivetalent.update.spiget.SpigetUpdate;
 import org.inventivetalent.update.spiget.UpdateCallback;
 import org.inventivetalent.update.spiget.comparator.VersionComparator;
 import ru.ancap.framework.plugin.api.AncapPlugin;
-import ru.ancap.framework.plugin.api.information.UpdateInstallationStrategyType;
 
 public class SpigetUpdater implements Updater {
     
     @Override
     public void update(AncapPlugin plugin) {
-        String spigotID = plugin.getSettings().pluginIdentifier("spigotmc");
-        UpdateInstallationStrategyType strategyType = plugin.getSettings().updateInstallationStrategy();
-        
         SpigetUpdate updater = new SpigetUpdate(plugin, 12345);
 
         // This compares versions just by checking if they are equal

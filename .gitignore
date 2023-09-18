@@ -1,3 +1,5 @@
-*.iml
-.idea
-CommunicatorAPI.iml
+**/*.iml
+**/.idea
+**/.idea/
+**/target/
+**/dependency-reduced-pom.xml

@@ -1,6 +1,8 @@
 package ru.ancap.framework.artifex.implementation.command.center;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.bukkit.command.CommandExecutor;
 import org.jetbrains.annotations.Nullable;
 import ru.ancap.framework.artifex.Artifex;

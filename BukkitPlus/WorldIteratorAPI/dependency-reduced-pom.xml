@@ -135,7 +135,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>LATEST</version>
+      <version>edge-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

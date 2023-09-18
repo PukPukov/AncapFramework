@@ -1,7 +1,6 @@
 name: Artifex
 description: "Runtime part of AncapFramework"
 authors: [ PukPukov ]
-website: framework.ancap-eco.ru
 
 depend:
   - ProtocolLib
@@ -15,13 +14,3 @@ main: ru.ancap.framework.artifex.Artifex
 version: '${project.version}'
 prefix: Artifex
 load: POSTWORLD
-
-other-player-page:
-  - "Ник: %NICKNAME%"
-  - "Баланс: %BALANCE%"
-  - "В союзе: %Towny_isAlly%" 
-  - "В союзе: %DigCounter_blockDigged(bloz = block; foo = bar)%"
-
-block-page:
-  - "%BLOCK_NAME%"
-  - ""

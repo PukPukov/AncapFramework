@@ -23,10 +23,11 @@
         <module>StatusAPI</module>
         <module>IdentifierAPI</module>
         <module>DependencyDummy</module>
+        <module>UpdaterAPI</module>
     </modules>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <adventure-api.version>4.12.0</adventure-api.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -36,7 +37,7 @@
         <plugins>
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>auto-clean</id>
@@ -50,27 +51,25 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.11.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <forceJavacCompilerUse>true</forceJavacCompilerUse> <!-- Anticipatory JDK 21 support -->
                 </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.6</version>
+                <version>3.3.1</version>
                 <executions>
                     <execution>
                         <id>copy-resources</id>
-                        <phase>validate</phase>
-
+                        <phase>package</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
-
                         <configuration>
-                            <outputDirectory>${basedir}</outputDirectory>
-
+                            <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>src/main/resources</directory>
@@ -84,7 +83,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>3.5.0</version>
 
                 <executions>
                     <execution>
@@ -149,6 +148,11 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
+        </repository>
+
+        <repository> 
+            <id>projectlombok.org</id>
+            <url>https://projectlombok.org/edge-releases</url>
         </repository>
     </repositories>
 
@@ -245,7 +249,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>LATEST</version>
+            <version>edge-SNAPSHOT</version> <!-- Anticipatory JDK 21 support -->
             <scope>provided</scope>
         </dependency>
     </dependencies>
