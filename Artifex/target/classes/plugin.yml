@@ -12,7 +12,7 @@ softdepend:
 
 main: ru.ancap.framework.artifex.Artifex
 
-version: '1.6.30'
+version: '1.7-dev'
 prefix: Artifex
 load: POSTWORLD
 

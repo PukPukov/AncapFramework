@@ -35,7 +35,7 @@ import ru.ancap.framework.plugin.api.Ancap;
 import java.util.*;
 import java.util.function.Consumer;
 
-@Getter(value = AccessLevel.PRIVATE)
+@Getter(AccessLevel.PRIVATE)
 @ToString @EqualsAndHashCode
 public class CommandCatcher implements Listener, PacketListener {
     

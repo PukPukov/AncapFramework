@@ -1,3 +1,52 @@
+file-version: 1
+
+# everything in this section can be overridden in configuration.yml at the same section
+update:
+  strategy:
+    # IGNORE, NOTIFY, FORCE
+    install-strategy: FORCE
+    # Only spigotmc.org with spiget now, something else maybe in the future
+    source:
+      __type: spiget
+      __type_data:
+        # SMART — find the current version by name, find the latest version, and check if the latest version release
+        # time is higher than current release time. This strategy is stable and works even if you have pre-releases, that wasn't
+        # posted to spigotmc, but has O(n) complexity of update check, where n is amount of updates on spigot (until md_5 will add
+        # findByName method to api). Don't require any other parameters.
+        strategy:
+          __type: SMART
+
+       # LATEST_VERSION — find the latest version on spiget, and compares it to the version in plugin.yml. 
+       # strategy: 
+       #  __type: LATEST_VERSION
+       #  __type-data:
+       #     comparator:
+       #       __type: NOT_EQUALS # should be updated if versions names are not equal. Don't work with pre-releases.
+       #       OR
+       #       __type: COMPARATOR_CLASS # update if the latest version name is bigger. Requires custom comparator for non-standard
+       #                                # versioning style. Also, with this strategy, your versioning style becomes stable, because
+       #                                # you can't change classes in previous version jars.
+       #       __type-data: 
+       #         class: "ru.ancap.framework.updater.comparator.ClassicSemanticVersionComparator
+       #       OR
+       #       __type: COMPARATOR_API_CALL # update if the latest version name is bigger. Requires custom http API.
+       #       __type-data:
+       #         request: "http://example.com/shouldUpdate?plugin_yml={plugin_yml}&spigot_yml={spigot_yml}"
+
+
+integration:
+  bstats: 
+    identifier: 14261
+    enabled: true
+  spigotmc: 
+    identifier: 101858
+    enabled: true
+
 auto-register-stage:
   listeners: MANUAL
   command-executors: MANUAL
+
+commands:
+  list:
+    - language
+    - artifex

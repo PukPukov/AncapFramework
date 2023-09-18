@@ -1,4 +1,3 @@
-
-set JAVA_HOME=C:\Program Files\BellSoft\LibericaJDK-19-Full
+set JAVA_HOME=C:\Program Files\Java\jdk-21
 call mvn clean install
 pause

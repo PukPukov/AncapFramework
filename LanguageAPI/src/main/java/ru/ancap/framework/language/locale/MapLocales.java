@@ -36,14 +36,10 @@ public class MapLocales implements Locales {
         this.fillLanguage(language);
         var languageMap = this.map.get(language);
         String localized = languageMap.get(id);
-        if (localized != null) {
-            return localized;
-        }
+        if (localized != null) return localized;
         languageMap = this.map.get(defaultLanguage);
         localized = languageMap.get(id);
-        if (localized != null) {
-            return localized;
-        }
+        if (localized != null) return localized;
         return id;
     }
 

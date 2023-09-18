@@ -32,4 +32,5 @@ public class AuthorsSupplier implements CommandOperator {
                 )
         ));
     }
+    
 }

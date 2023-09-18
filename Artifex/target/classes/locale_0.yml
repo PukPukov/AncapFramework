@@ -62,6 +62,7 @@ ru:
             info:
               injecting: "Artifex производит инъекцию байткода в CraftServer"
               issued-server-command: "%SOURCE% отправил серверу команду \"%COMMAND%\"."
+              command-was-overridden: "<red>Команда {COMMAND} была переопределена. Вероятно, это баг. Класс прошлого исполнителя — <u>{OLD_EXECUTOR}</u>, нового — <u>{NEW_EXECUTOR}</u>. "
             error:
               internal: "<red>Во время выполнения команды произошла внутренняя непредвиденная ошибка.</red>"
               operate-is-impossible:
