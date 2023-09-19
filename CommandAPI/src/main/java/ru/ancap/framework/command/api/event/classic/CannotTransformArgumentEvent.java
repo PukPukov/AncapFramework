@@ -1,5 +1,6 @@
 package ru.ancap.framework.command.api.event.classic;
 
+import lombok.NonNull;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
@@ -12,7 +13,7 @@ public class CannotTransformArgumentEvent extends CommandEvent {
     private final List<String> argument;
     private final Class<?> type;
     
-    public CannotTransformArgumentEvent(CommandSender sender, List<String> argument, Class<?> type) {
+    public CannotTransformArgumentEvent(@NonNull CommandSender sender, @NonNull List<String> argument, @NonNull Class<?> type) {
         super(sender);
         this.argument = argument;
         this.type = type;

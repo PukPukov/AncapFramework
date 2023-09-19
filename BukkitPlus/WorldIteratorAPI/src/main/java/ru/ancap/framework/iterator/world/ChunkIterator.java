@@ -2,11 +2,14 @@ package ru.ancap.framework.iterator.world;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 import org.bukkit.Chunk;
 import org.bukkit.block.Block;
-import org.jetbrains.annotations.NotNull;
-import ru.ancap.lib.scalar.containers.*;
+import ru.ancap.lib.scalar.containers.Axis;
+import ru.ancap.lib.scalar.containers.ContainerIterator;
+import ru.ancap.lib.scalar.containers.DiscretePositionContainer;
+import ru.ancap.lib.scalar.containers.DiscreteRange;
 
 import java.util.Iterator;
 
@@ -16,7 +19,7 @@ public class ChunkIterator implements Iterable<Block> {
 
     private final Chunk chunk;
 
-    @NotNull
+    @NonNull
     @Override
     public Iterator<Block> iterator() {
         return new ContainerIterator<>(

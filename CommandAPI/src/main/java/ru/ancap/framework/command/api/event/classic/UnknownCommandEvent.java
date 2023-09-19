@@ -1,5 +1,6 @@
 package ru.ancap.framework.command.api.event.classic;
 
+import lombok.NonNull;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
@@ -9,7 +10,7 @@ public class UnknownCommandEvent extends CommandEvent {
 
     private final String unknownValue;
 
-    public UnknownCommandEvent(@NotNull CommandSender sender, @NotNull String unknownValue) {
+    public UnknownCommandEvent(@NonNull CommandSender sender, @NonNull String unknownValue) {
         super(sender);
         this.unknownValue = unknownValue;
     }

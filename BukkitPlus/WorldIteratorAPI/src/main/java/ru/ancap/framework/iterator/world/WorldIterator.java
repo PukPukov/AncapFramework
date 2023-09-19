@@ -2,11 +2,11 @@ package ru.ancap.framework.iterator.world;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.World;
-import org.jetbrains.annotations.NotNull;
 import ru.ancap.lib.scalar.containers.Axis;
 import ru.ancap.lib.scalar.containers.ContainerIterator;
 import ru.ancap.lib.scalar.containers.DiscretePositionContainer;
@@ -30,7 +30,7 @@ public class WorldIterator implements Iterable<Chunk> {
      *
      * @return Iterator of Chunk
      */
-    @NotNull
+    @NonNull
     @Override
     public Iterator<Chunk> iterator() {
         return new ContainerIterator<>(

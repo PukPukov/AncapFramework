@@ -1,5 +1,6 @@
 package ru.ancap.framework.plugin.api;
 
+import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.bukkit.Bukkit;
@@ -7,7 +8,6 @@ import org.bukkit.command.*;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NonBlocking;
-import org.jetbrains.annotations.NotNull;
 import ru.ancap.commons.debug.AncapDebug;
 
 import java.lang.reflect.Constructor;
@@ -43,10 +43,10 @@ public class AncapBukkit {
 
     @SneakyThrows
     public static void registerCommandExecutor(
-        @NotNull String id,
-        @NotNull JavaPlugin owner,
-        @NotNull List<String> sources,
-        @NotNull CommandExecutor executor
+        @NonNull String id,
+        @NonNull JavaPlugin owner,
+        @NonNull List<String> sources,
+        @NonNull CommandExecutor executor
     ) {
         CommandMap map = (CommandMap) FieldUtils.readField(Bukkit.getServer(), "commandMap", true);
         Constructor<PluginCommand> constructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
@@ -61,7 +61,7 @@ public class AncapBukkit {
 
     @SneakyThrows
     public static void unregisterCommandExecutor(
-        @NotNull String commandName
+        @NonNull String commandName
     ) {
         SimpleCommandMap map = (SimpleCommandMap) FieldUtils.readField(Bukkit.getServer(), "commandMap", true);
         AncapDebug.debugArray(FieldUtils.getAllFields(SimpleCommandMap.class));

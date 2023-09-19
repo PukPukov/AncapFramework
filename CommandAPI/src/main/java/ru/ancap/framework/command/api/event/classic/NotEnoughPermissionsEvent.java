@@ -1,5 +1,6 @@
 package ru.ancap.framework.command.api.event.classic;
 
+import lombok.NonNull;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
@@ -9,17 +10,17 @@ import ru.ancap.framework.communicate.message.Message;
 
 public class NotEnoughPermissionsEvent extends CommandEvent {
     
-    public NotEnoughPermissionsEvent(CommandSender sender) {
+    public NotEnoughPermissionsEvent(@NonNull CommandSender sender) {
         super(sender);
     }
     
     @Deprecated
-    public NotEnoughPermissionsEvent(CommandSender sender, String lackedPermission) {
+    public NotEnoughPermissionsEvent(@NonNull CommandSender sender, String lackedPermission) {
         super(sender);
     }
 
     @Deprecated
-    public NotEnoughPermissionsEvent(CommandSender sender, CallableMessage lackedPermission) {
+    public NotEnoughPermissionsEvent(@NonNull CommandSender sender, CallableMessage lackedPermission) {
         super(sender);
     }
     

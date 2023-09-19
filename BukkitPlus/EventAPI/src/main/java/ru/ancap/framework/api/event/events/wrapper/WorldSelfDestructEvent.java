@@ -1,6 +1,7 @@
 package ru.ancap.framework.api.event.events.wrapper;
 
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 import org.bukkit.Location;
 import org.bukkit.event.Cancellable;
@@ -23,7 +24,7 @@ public class WorldSelfDestructEvent extends AncapWrapperInterventableEvent imple
     private final @NotNull Location destructorPosition;
     private final @NotNull List<Location> destructionPositions;
 
-    public WorldSelfDestructEvent(@NotNull Cancellable event, @NotNull Location destructorPosition, @NotNull List<Location> destructionPositions) {
+    public WorldSelfDestructEvent(@NonNull Cancellable event, @NonNull Location destructorPosition, @NonNull List<Location> destructionPositions) {
         super(event);
         this.destructionPositions = destructionPositions;
         this.destructorPosition = destructorPosition;

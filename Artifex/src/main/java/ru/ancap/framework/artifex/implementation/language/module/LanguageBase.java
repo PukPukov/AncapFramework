@@ -2,8 +2,8 @@ package ru.ancap.framework.artifex.implementation.language.module;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
-import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.language.language.Language;
 import ru.ancap.framework.language.language.LanguageSettings;
 
@@ -15,17 +15,15 @@ public class LanguageBase implements LanguageSettings {
     private final Language defaultLanguage;
 
     @Override
-    public Language getLanguage(@NotNull String playerName) {
-        return Language.of(
-                database.languageCode(
-                        playerName,
-                        defaultLanguage.code()
-                )
-        );
+    public Language getLanguage(@NonNull String playerName) {
+        return Language.of(this.database.languageCode(
+            playerName,
+            this.defaultLanguage.code()
+        ));
     }
 
     @Override
-    public void setLanguage(@NotNull String playerName, @NotNull Language language) {
-        database.setPlayerLanguage(playerName, language.code());
+    public void setLanguage(@NonNull String playerName, @NonNull Language language) {
+        this.database.setPlayerLanguage(playerName, language.code());
     }
 }

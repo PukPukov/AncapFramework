@@ -1,9 +1,9 @@
 package ru.ancap.framework.language.language;
 
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class Language {
         this.code = code;
     }
 
-    public static Language of(@NotNull String languageCode) {
+    public static Language of(@NonNull String languageCode) {
         if (Language.map == null) Language.map = new HashMap<>();
         if (Language.map.get(languageCode) == null) {
             Language language = new Language(languageCode);

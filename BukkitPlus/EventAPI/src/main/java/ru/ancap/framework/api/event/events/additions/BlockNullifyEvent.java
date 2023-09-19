@@ -1,6 +1,7 @@
 package ru.ancap.framework.api.event.events.additions;
 
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 import org.bukkit.block.Block;
 import org.bukkit.event.Cancellable;
@@ -23,7 +24,7 @@ public class BlockNullifyEvent extends AncapWrapperInterventableEvent implements
      */
     private final boolean isMoved;
 
-    public BlockNullifyEvent(@NotNull Cancellable event, @NotNull List<Block> disappeared, boolean moved) {
+    public BlockNullifyEvent(@NonNull Cancellable event, @NonNull List<Block> disappeared, boolean moved) {
         super(event);
         this.disappeared = disappeared;
         this.isMoved = moved;

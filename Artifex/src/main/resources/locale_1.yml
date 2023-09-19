@@ -13,10 +13,6 @@ ru:
           String: "рядок"
 
     framework:
-      command-api:
-        command-center:
-          warn:
-            command-was-overridden: "<red>Команду {COMMAND} було перевизначено. Імовірно, це баг. Клас минулого виконавця - {OLD_EXECUTOR}, нового - {NEW_EXECUTOR}."
       artifex:
         yes-no: "{YES:<green><u>[ТАК]<u></green>% %NO:<red><u>[НІ]</u></red>}"
         click-to-select: "Натисни, щоб вибрати"
@@ -66,6 +62,7 @@ ru:
             info:
               injecting: "Artifex здійснює ін'єкцію байткоду в CraftServer"
               issued-server-command: "%SOURCE% відправив серверу команду \"%COMMAND%\"."
+              command-was-overridden: "<red>Команду {COMMAND} було перевизначено. Імовірно, це баг. Клас минулого виконавця - {OLD_EXECUTOR}, нового - {NEW_EXECUTOR}."
             error:
               internal: "<red>Під час виконання команди сталася внутрішня непередбачена помилка.</red>"
               operate-is-impossible:

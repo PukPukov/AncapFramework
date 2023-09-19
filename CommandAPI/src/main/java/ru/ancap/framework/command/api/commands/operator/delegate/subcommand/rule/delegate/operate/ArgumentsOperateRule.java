@@ -2,8 +2,8 @@ package ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rul
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
-import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNextArgumentException;
 
@@ -12,7 +12,7 @@ public class ArgumentsOperateRule implements OperateRule {
 
     private final String key;
 
-    public ArgumentsOperateRule(@NotNull String key) {
+    public ArgumentsOperateRule(@NonNull String key) {
         this.key = key;
     }
 

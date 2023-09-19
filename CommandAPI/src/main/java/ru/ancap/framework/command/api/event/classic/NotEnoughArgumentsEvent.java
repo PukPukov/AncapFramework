@@ -1,5 +1,6 @@
 package ru.ancap.framework.command.api.event.classic;
 
+import lombok.NonNull;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
@@ -9,7 +10,7 @@ public class NotEnoughArgumentsEvent extends CommandEvent {
 
     private final int argumentsLack;
 
-    public NotEnoughArgumentsEvent(CommandSender sender, int argumentsLack) {
+    public NotEnoughArgumentsEvent(@NonNull CommandSender sender, int argumentsLack) {
         super(sender);
         this.argumentsLack = argumentsLack;
     }

@@ -1,6 +1,7 @@
 package ru.ancap.framework.api.event.events.wrapper;
 
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
@@ -17,7 +18,7 @@ public class VillagerHealEvent extends AncapWrapperPlayerEvent implements Cancel
 
     private final @NotNull Villager villager;
 
-    public VillagerHealEvent(@NotNull Cancellable event, @NotNull Player player, @NotNull Villager villager) {
+    public VillagerHealEvent(@NonNull Cancellable event, @NonNull Player player, @NonNull Villager villager) {
         super(event, player);
         this.villager = villager;
     }

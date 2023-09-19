@@ -212,7 +212,7 @@ public class ConfigurationDatabase implements PathDatabase, AutoCloseable {
     
     /* WRITE */
 
-    @Override public <T> void write(String path, @Nullable T value, SerializeWorker<T> worker) {
+    @Override public <T> void write(@NonNull String path, @Nullable T value, SerializeWorker<T> worker) {
         if (value == null) {
             this.delete(path);
             return;
@@ -226,13 +226,13 @@ public class ConfigurationDatabase implements PathDatabase, AutoCloseable {
     @NonBlocking @Override public void write(String path, double value)       { this.write(path, value, SerializeWorker.NUMBER); }
     @NonBlocking @Override public void write(String path, long value)         { this.write(path, value, SerializeWorker.INTEGER); }
     @NonBlocking @Override public void write(String path, String value)       { this.write(path, value, SerializeWorker.STRING); }
-    @NonBlocking @Override public void write(String path, @NotNull List<String> value) { this.set(path, value); }
+    @NonBlocking @Override public void write(String path, @NonNull List<String> value) { this.set(path, value); }
     @NonBlocking @Override public void write(String path, boolean value)      { this.write(path, value, SerializeWorker.BOOLEAN); }
     
     /* READ */
     
     @SneakyThrows
-    @Override public <T> T read(String path, SerializeWorker<T> serializeWorker) {
+    @Override public <T> T read(@NonNull String path, SerializeWorker<T> serializeWorker) {
         Object fullDataObject = this.get(path);
         if (fullDataObject == null) return null;
         if (fullDataObject.getClass() != String.class) throw new DifferentDatatypeException(path, serializeWorker.dataType(), fullDataObject.getClass());

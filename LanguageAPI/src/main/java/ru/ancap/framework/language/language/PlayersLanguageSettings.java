@@ -1,8 +1,8 @@
 package ru.ancap.framework.language.language;
 
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,12 +19,12 @@ public class PlayersLanguageSettings implements LanguageSettings {
     }
 
     @Override
-    public Language getLanguage(@NotNull String playerID) {
+    public Language getLanguage(@NonNull String playerID) {
         return this.map.getOrDefault(playerID, defaultLanguage);
     }
 
     @Override
-    public void setLanguage(@NotNull String playerID, @NotNull Language language) {
+    public void setLanguage(@NonNull String playerID, @NonNull Language language) {
         this.map.put(playerID, language);
     }
 }

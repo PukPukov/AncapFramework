@@ -10,10 +10,10 @@ import com.mojang.brigadier.context.StringRange;
 import com.mojang.brigadier.suggestion.Suggestion;
 import com.mojang.brigadier.suggestion.Suggestions;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandLineSpeaker;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandSource;
 import ru.ancap.framework.command.api.commands.object.dispatched.InlineTextCommand;
@@ -40,7 +40,7 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
     }
 
     @Override
-    public void sendTab(@NotNull TabBundle tab) {
+    public void sendTab(@NonNull TabBundle tab) {
         if (tab.filter()) tab = tab.withTabCompletions(tab.tabCompletions().stream()
                 .filter(s -> s.completion().startsWith(this.command.getHotArgument()))
                 .collect(Collectors.toList())

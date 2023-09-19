@@ -2,13 +2,13 @@ package ru.ancap.framework.resource.config;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FilenameUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.resource.ResourcePreparator;
 
 import java.io.File;
@@ -69,7 +69,7 @@ public class FileConfigurationPreparator implements ResourcePreparator<FileConfi
     
     @Override
     @SneakyThrows
-    public FileConfiguration prepare(InputStream base, @NotNull File target) {
+    public FileConfiguration prepare(InputStream base, @NonNull File target) {
         FileConfiguration finalConfig;
         switch (this.resolveStateFrom(base, target)) {
             case NULL: return null; 

@@ -1,12 +1,12 @@
 package ru.ancap.framework.plugin.api;
 
+import lombok.NonNull;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
-import org.jetbrains.annotations.NotNull;
 import ru.ancap.commons.TriFunction;
 import ru.ancap.commons.cache.Cache;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
@@ -145,7 +145,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         return commandCenter;
     }
 
-    public @NotNull AncapPluginSettings getSettings() {
+    public @NonNull AncapPluginSettings getSettings() {
         return this.settings;
     }
 

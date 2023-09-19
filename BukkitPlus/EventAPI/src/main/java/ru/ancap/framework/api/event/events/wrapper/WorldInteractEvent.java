@@ -1,5 +1,6 @@
 package ru.ancap.framework.api.event.events.wrapper;
 
+import lombok.NonNull;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -15,7 +16,7 @@ public class WorldInteractEvent extends AncapWrapperPlayerEvent implements Cance
 
     private final @NotNull List<Location> locations;
 
-    public WorldInteractEvent(@NotNull Cancellable event, @NotNull Player player, @NotNull List<Location> locations) {
+    public WorldInteractEvent(@NonNull Cancellable event, @NonNull Player player, @NonNull List<Location> locations) {
         super(event, player);
         this.locations = locations;
     }

@@ -1,6 +1,7 @@
 package ru.ancap.framework.api.event.events.additions;
 
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.Delegate;
 import org.bukkit.block.Block;
@@ -18,7 +19,7 @@ public class BlockClickEvent extends Event implements Cancellable {
     private final @NotNull Player clicker;
     private final @NotNull Block block;
 
-    public BlockClickEvent(@NotNull Cancellable event, @NotNull Player player, @NotNull Block block) {
+    public BlockClickEvent(@NonNull Cancellable event, @NonNull Player player, @NonNull Block block) {
         this.event = event;
         this.block = block;
         this.clicker = player;

@@ -1,6 +1,7 @@
 package ru.ancap.framework.api.event.events.wrapper;
 
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -19,7 +20,7 @@ public class PVPEvent extends AncapWrapperInterventableEvent implements Cancella
     private final @NotNull Player attacker;
     private final @NotNull List<Player> attacked;
 
-    public PVPEvent(@NotNull Cancellable event, @NotNull Player attacker, @NotNull List<Player> attacked) {
+    public PVPEvent(@NonNull Cancellable event, @NonNull Player attacker, @NonNull List<Player> attacked) {
         super(event);
         this.attacker = attacker;
         this.attacked = attacked;

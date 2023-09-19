@@ -1,6 +1,7 @@
 package ru.ancap.framework.api.event.events.wrapper;
 
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -15,7 +16,7 @@ public abstract class AncapWrapperPlayerEvent extends AncapWrapperInterventableE
         return this.player;
     }
 
-    public AncapWrapperPlayerEvent(Cancellable event, @NotNull Player player) {
+    public AncapWrapperPlayerEvent(Cancellable event, @NonNull Player player) {
         super(event);
         this.player = player;
     }

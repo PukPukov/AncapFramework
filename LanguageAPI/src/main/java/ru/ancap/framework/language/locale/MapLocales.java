@@ -1,8 +1,8 @@
 package ru.ancap.framework.language.locale;
 
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
-import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.language.language.Language;
 
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public class MapLocales implements Locales {
     }
 
     @Override
-    public void loadLocale(@NotNull String id, @NotNull String localized, @NotNull Language language) {
+    public void loadLocale(@NonNull String id, @NonNull String localized, @NonNull Language language) {
         this.fillLanguage(language);
         var languageMap = this.map.get(language);
         String oldMapData = languageMap.get(id);
@@ -32,7 +32,7 @@ public class MapLocales implements Locales {
     }
 
     @Override
-    public @NotNull String localized(@NotNull String id, @NotNull Language language) {
+    public @NonNull String localized(@NonNull String id, @NonNull Language language) {
         this.fillLanguage(language);
         var languageMap = this.map.get(language);
         String localized = languageMap.get(id);
@@ -40,7 +40,7 @@ public class MapLocales implements Locales {
         languageMap = this.map.get(defaultLanguage);
         localized = languageMap.get(id);
         if (localized != null) return localized;
-        return id;
+        return language.code()+":"+id;
     }
 
     private void fillLanguage(Language language) {

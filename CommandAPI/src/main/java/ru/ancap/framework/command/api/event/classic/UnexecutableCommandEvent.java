@@ -1,5 +1,6 @@
 package ru.ancap.framework.command.api.event.classic;
 
+import lombok.NonNull;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
@@ -10,7 +11,7 @@ public class UnexecutableCommandEvent extends CommandEvent {
 
     private final CallableMessage description;
 
-    public UnexecutableCommandEvent(@NotNull CommandSender sender, @NotNull CallableMessage description) {
+    public UnexecutableCommandEvent(@NonNull CommandSender sender, @NonNull CallableMessage description) {
         super(sender);
         this.description = description;
     }

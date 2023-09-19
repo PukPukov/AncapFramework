@@ -2,10 +2,10 @@ package ru.ancap.framework.plugin.api;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.experimental.Delegate;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import ru.ancap.commons.MeteredTask;
 import ru.ancap.framework.communicate.communicator.Communicator;
@@ -19,7 +19,7 @@ public class PluginLoadTask implements Runnable {
     @Delegate
     private final MeteredTask delegate;
     
-    public PluginLoadTask(@NotNull JavaPlugin plugin, @NotNull CallableMessage taskName, @NotNull Runnable mainTask, @Nullable String startId, @Nullable String endId) {
+    public PluginLoadTask(@NonNull JavaPlugin plugin, @NonNull CallableMessage taskName, @NonNull Runnable mainTask, @Nullable String startId, @Nullable String endId) {
         this(of(plugin, taskName, mainTask, startId, endId));
     }
 
