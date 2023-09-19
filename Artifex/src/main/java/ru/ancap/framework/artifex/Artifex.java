@@ -12,7 +12,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 import ru.ancap.commons.instructor.EventBus;
 import ru.ancap.commons.instructor.SimpleEventBus;
 import ru.ancap.commons.map.MapGC;
@@ -67,7 +66,7 @@ import java.util.Scanner;
 @ToString
 public final class Artifex extends AncapPlugin {
 
-    public static JavaPlugin PLUGIN;
+    public static AncapPlugin PLUGIN;
 
     @Getter
     private final List<Listener> listeners = List.of(
@@ -82,7 +81,7 @@ public final class Artifex extends AncapPlugin {
         new BlockClickListener()
     );
 
-    public Map<String, CommandOperator> getCommands() {
+    public Map<String, CommandOperator> commands() {
         return Map.of(
             "language", new LanguageChangeInput(), 
             "artifex",  new ArtifexCommandExecutor(this.ancap, this.tests)

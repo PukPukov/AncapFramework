@@ -3,7 +3,9 @@ package ru.ancap.framework.plugin.api.commands;
 import org.jetbrains.annotations.Nullable;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.plugin.api.AncapPlugin;
-import ru.ancap.framework.plugin.api.exception.CommandNotRegisteredException;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * Alternative command center.
@@ -13,10 +15,11 @@ public interface CommandCenter {
 
     void initialize(AncapPlugin plugin);
     
-    void register(String commandName, CommandHandleState state);
-    void unregister(String commandName);
-    void setExecutor(String commandName, CommandOperator operator) throws CommandNotRegisteredException;
+    void register(String id, List<String> sources, CommandHandleState state);
+    void unregister(String id);
+    void setExecutor(String id, CommandOperator operator);
     
-    @Nullable CommandHandleState findRegisterStateOf(String commandName);
+    @Nullable CommandData findDataOf(String commandName);
+    Set<String> findRegisteredCommandsOf(AncapPlugin plugin);
     
 }

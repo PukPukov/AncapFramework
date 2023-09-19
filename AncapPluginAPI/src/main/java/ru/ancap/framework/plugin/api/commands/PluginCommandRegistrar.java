@@ -1,12 +1,13 @@
 package ru.ancap.framework.plugin.api.commands;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import ru.ancap.commons.list.merge.MergeList;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.plugin.api.AncapPlugin;
 
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PluginCommandRegistrar {
     
     private final AncapPlugin plugin;
@@ -17,7 +18,7 @@ public class PluginCommandRegistrar {
     }
     
     public void register(String commandName, List<String> aliases, CommandOperator operator) {
-        this.global.register(commandName, new CommandHandleState(commandName, aliases, this.plugin, operator));
+        this.global.register(commandName, new MergeList<>(List.of(commandName), aliases), new CommandHandleState(operator, this.plugin));
     }
     
     public void unregister(String commandName) {
@@ -26,11 +27,6 @@ public class PluginCommandRegistrar {
 
     public void setExecutor(String commandName, CommandOperator operator) {
         this.global.setExecutor(commandName, operator);
-    }
-    
-    public void establishExecutor(String commandName, CommandOperator operator) {
-        if (this.global.findRegisterStateOf(commandName) != null) this.setExecutor(commandName, operator);
-        else this.register(commandName, operator);
     }
     
 }

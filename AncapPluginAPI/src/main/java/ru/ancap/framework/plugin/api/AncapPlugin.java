@@ -58,6 +58,13 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         this.autoRegisterIntegrators();
         this.register();
     }
+    
+    @MustBeInvokedByOverriders
+    @Override
+    public void onDisable() {
+        this.unregister();
+        this.commandCenter().findRegisteredCommandsOf(this).forEach(id -> this.commandRegistrar.unregister(id));
+    }
 
     private void loadPluginCommandRegistrar() {
         this.commandRegistrar = new PluginCommandRegistrar(this, AncapPlugin.commandCenter);
@@ -101,12 +108,12 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     }
 
     public void registerListeners() {
-        for (Listener listener : this.getListeners()) this.registerEventsListener(listener);
+        for (Listener listener : this.listeners()) this.registerEventsListener(listener);
     }
 
     public void registerCommandExecutors() {
-        for (Map.Entry<String, CommandOperator> entry : this.getCommands().entrySet()) {
-            this.commandRegistrar().establishExecutor(entry.getKey(), entry.getValue());
+        for (Map.Entry<String, CommandOperator> entry : this.commands().entrySet()) {
+            this.commandRegistrar().register(entry.getKey(), entry.getValue());
         }
     }
 
@@ -132,11 +139,6 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
 
     private void unregister() {
         plugins.remove(this.getName());
-    }
-
-    @Override
-    public void onDisable() {
-        this.unregister();
     }
 
     private CommandCenter commandCenter() {
@@ -172,11 +174,11 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         return this.valueTransferMapCache.get(() -> this.newResourceSource(FileConfigurationPreparator.internal()).getResource("value-transfer-map.yml"));
     }
 
-    public Map<String, CommandOperator> getCommands() {
+    public Map<String, CommandOperator> commands() {
         return Map.of();
     }
 
-    public List<Listener> getListeners() {
+    public List<Listener> listeners() {
         return List.of();
     }
 

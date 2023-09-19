@@ -7,11 +7,11 @@ import org.bukkit.command.*;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NonBlocking;
+import org.jetbrains.annotations.NotNull;
 import ru.ancap.commons.debug.AncapDebug;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -36,24 +36,33 @@ public class AncapBukkit {
         AncapBukkit.sendCommand(Bukkit.getConsoleSender(), command);
     }
 
+    /**
+     * @param id id of command. Use primary command name as it
+     * @param sources command names, that player will type after "/" to enter command. Includes primary command name and aliases
+     */
+
     @SneakyThrows
-    public static void registerCommandExecutor(String commandName, JavaPlugin owner, List<String> aliases, CommandExecutor executor) {
+    public static void registerCommandExecutor(
+        @NotNull String id,
+        @NotNull JavaPlugin owner,
+        @NotNull List<String> sources,
+        @NotNull CommandExecutor executor
+    ) {
         CommandMap map = (CommandMap) FieldUtils.readField(Bukkit.getServer(), "commandMap", true);
-        List<String> commands = new ArrayList<>();
-        commands.addAll(aliases);
-        commands.add(commandName);
         Constructor<PluginCommand> constructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
         constructor.setAccessible(true);
-        PluginCommand command = constructor.newInstance(commandName, owner);
-        command.setAliases(commands);
+        PluginCommand command = constructor.newInstance(id, owner);
+        command.setAliases(sources);
         command.setExecutor(executor);
         map.register(owner.getName(), command);
         syncCommands();
-        Bukkit.getPluginCommand(commandName).setExecutor(executor);
+        Bukkit.getPluginCommand(id).setExecutor(executor);
     }
 
     @SneakyThrows
-    public static void unregisterCommandExecutor(String commandName) {
+    public static void unregisterCommandExecutor(
+        @NotNull String commandName
+    ) {
         SimpleCommandMap map = (SimpleCommandMap) FieldUtils.readField(Bukkit.getServer(), "commandMap", true);
         AncapDebug.debugArray(FieldUtils.getAllFields(SimpleCommandMap.class));
         @SuppressWarnings("unchecked")
