@@ -54,7 +54,7 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <encoding>${encoding</encoding>
+                    <encoding>${encoding}</encoding>
                     <forceJavacCompilerUse>true</forceJavacCompilerUse> <!-- Anticipatory JDK 21 support -->
                 </configuration>
             </plugin>
