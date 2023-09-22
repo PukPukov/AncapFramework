@@ -18,11 +18,6 @@
     <name>Artifex</name>
 
     <description>AncapAPI runtime part</description>
-    
-    <properties>
-        <adventure-api.version>4.13.0</adventure-api.version>
-        <adventure-platform.version>4.3.0</adventure-platform.version>
-    </properties>
 
     <build>
         <finalName>artifex-v${version}</finalName>
