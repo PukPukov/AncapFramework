@@ -7,7 +7,6 @@ import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.command.api.event.OperableEvent;
@@ -17,11 +16,13 @@ import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.communicate.modifier.Placeholder;
 import ru.ancap.framework.language.additional.LAPIMessage;
 
+import static org.bukkit.event.EventPriority.*;
+
 @AllArgsConstructor
 @ToString @EqualsAndHashCode
 public class PlayerCommandFallback implements Listener {
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = NORMAL)
     public void on(UnknownCommandEvent event) {
         this.operateForm(
             new Form(event, event.sender()),
@@ -32,7 +33,7 @@ public class PlayerCommandFallback implements Listener {
         );
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = NORMAL)
     public void on(NotEnoughArgumentsEvent event) {
         this.operateForm(
             new Form(event, event.sender()),
@@ -43,7 +44,7 @@ public class PlayerCommandFallback implements Listener {
         );
     }
 
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = NORMAL)
     public void on(NotEnoughPermissionsEvent event) {
         this.operateForm(
             new Form(event, event.sender()),
@@ -53,7 +54,7 @@ public class PlayerCommandFallback implements Listener {
         );
     }
     
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = NORMAL)
     public void on(CannotTransformArgumentEvent event) {
         this.operateForm(
             new Form(event, event.sender()),
@@ -65,7 +66,7 @@ public class PlayerCommandFallback implements Listener {
         );
     }
     
-    @EventHandler(priority = EventPriority.NORMAL)
+    @EventHandler(priority = NORMAL)
     public void on(UnexecutableCommandEvent event) {
         this.operateForm(new Form(event, event.sender()), event.description());
     }
