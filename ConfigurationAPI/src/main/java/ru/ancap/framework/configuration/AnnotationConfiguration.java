@@ -53,7 +53,7 @@ public class AnnotationConfiguration {
         for (Field field : fields) {
             Configure configure = field.getAnnotation(Configure.class);
             Class<?> type = field.getType();
-            String path = (configure == null || configure.value().equals("")) ? field.getName() : configure.value();
+            String path = (configure == null || configure.value().isEmpty()) ? field.getName() : configure.value();
             path = Case.camelToKebab(path);
             field.setAccessible(true);
             Object value;

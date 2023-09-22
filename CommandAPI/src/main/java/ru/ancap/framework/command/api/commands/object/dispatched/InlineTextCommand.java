@@ -1,6 +1,5 @@
 package ru.ancap.framework.command.api.commands.object.dispatched;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Delegate;
@@ -93,20 +92,6 @@ public final class InlineTextCommand implements LeveledCommand {
     }
 
     
-    @AllArgsConstructor
-    @ToString
-    private static class ParseLexem {
-        
-        private final String lexem;
-        private final boolean finished;
-        
-        public String lexem() {
-            return this.lexem;
-        }
-        
-        public boolean finished() {
-            return this.finished;
-        }
-        
-    }
+    private record ParseLexem(String lexem, boolean finished) {}
+    
 }

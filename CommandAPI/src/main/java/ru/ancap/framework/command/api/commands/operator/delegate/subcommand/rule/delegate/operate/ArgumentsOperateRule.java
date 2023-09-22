@@ -1,6 +1,5 @@
 package ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
@@ -21,11 +20,8 @@ public class ArgumentsOperateRule implements OperateRule {
         return new ArgumentsOperatedCommand(command).hasArgument(this.key);
     }
 
-    @AllArgsConstructor
-    private static class ArgumentsOperatedCommand {
+    private record ArgumentsOperatedCommand(LeveledCommand command) {
         
-        private final LeveledCommand command;
-
         boolean hasArgument(String key) {
             try {
                 return this.command.nextArgument().equalsIgnoreCase(key);
@@ -33,6 +29,7 @@ public class ArgumentsOperateRule implements OperateRule {
                 return false;
             }
         }
-        
+    
     }
+    
 }

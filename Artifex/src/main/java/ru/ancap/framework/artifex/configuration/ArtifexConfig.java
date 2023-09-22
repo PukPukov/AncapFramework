@@ -1,6 +1,7 @@
 package ru.ancap.framework.artifex.configuration;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.configuration.ConfigurationSection;
 import ru.ancap.commons.time.Day;
 import ru.ancap.framework.language.language.Language;
@@ -8,16 +9,13 @@ import ru.ancap.framework.language.language.Language;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+@RequiredArgsConstructor @Getter
+@SuppressWarnings("ClassCanBeRecord")
 public class ArtifexConfig {
 
     private static ArtifexConfig loaded;
 
-    @Getter
     private final ConfigurationSection section;
-
-    public ArtifexConfig(ConfigurationSection section) {
-        this.section = section;
-    }
 
     public void load() {
         loaded = this;

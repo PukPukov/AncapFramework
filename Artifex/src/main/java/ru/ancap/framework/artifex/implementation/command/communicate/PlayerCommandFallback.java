@@ -1,7 +1,6 @@
 package ru.ancap.framework.artifex.implementation.command.communicate;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.bukkit.Sound;
@@ -72,23 +71,15 @@ public class PlayerCommandFallback implements Listener {
     }
 
     private void operateForm(Form form, CallableMessage message) {
-        if (form.getEvent().operate()) {
-            CommandSender sender = form.getSender();
-            if (sender instanceof Player) {
-                Player player = (Player) sender; 
+        if (form.event().operate()) {
+            CommandSender sender = form.sender();
+            if (sender instanceof Player player) {
                 player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 2, 0);
             }
             Communicator.of(sender).message(message);
         }
     }
 
-    @AllArgsConstructor
-    @Data
-    private static class Form {
-        
-        private final OperableEvent event;
-        private final CommandSender sender;
-        
-    }
+    private record Form(OperableEvent event, CommandSender sender) {}
 
 }

@@ -104,7 +104,7 @@ public class ConfigurationDatabaseSection implements PathDatabase {
     }
 
     public String attachedPath(@NotNull String path) {
-        return path.equals("") ? this.currentPath : this.currentPath+"."+path;
+        return path.isEmpty() ? this.currentPath : this.currentPath+"."+path;
     }
     
 }

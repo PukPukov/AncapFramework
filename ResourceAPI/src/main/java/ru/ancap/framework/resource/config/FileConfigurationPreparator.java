@@ -80,7 +80,7 @@ public class FileConfigurationPreparator implements ResourcePreparator<FileConfi
                 FileConfiguration softwareData = this.extract(base);
                 if (this.versionFieldName == null) this.versionFieldName = "dummy";
                 Function<ConfigurationSection, Integer> versionExtractor = new VersionExtractor(this.versionFieldName);
-                if (versionExtractor.apply(userData) == versionExtractor.apply(softwareData)) {
+                if (versionExtractor.apply(userData).equals(versionExtractor.apply(softwareData))) {
                     finalConfig = userData;
                     break;
                 }
