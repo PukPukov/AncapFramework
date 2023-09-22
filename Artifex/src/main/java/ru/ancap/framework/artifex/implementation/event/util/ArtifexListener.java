@@ -16,14 +16,6 @@ public abstract class ArtifexListener implements Listener {
     public ArtifexListener(PluginManager pluginManager) {
         this.pluginManager = pluginManager;
     }
-
-    /**
-     * <b>Deprecated</b>; use {@link ArtifexListener#pluginManager()}
-     */
-    @Deprecated(since = "1.6.30", forRemoval = false)
-    protected PluginManager getPluginManager() {
-        return this.pluginManager;
-    }
     
     protected PluginManager pluginManager() {
         return this.pluginManager;

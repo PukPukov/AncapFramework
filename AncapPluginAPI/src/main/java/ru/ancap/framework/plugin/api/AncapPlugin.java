@@ -87,14 +87,6 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         return this.commandRegistrar;
     }
 
-    /**
-     * <b>Deprecated</b>, use {@link AncapPlugin#commandRegistrar}
-     */
-    @Deprecated(forRemoval = true)
-    public void registerExecutor(String commandName, CommandOperator executor) {
-        AncapPlugin.commandCenter.setExecutor(commandName, executor);
-    }
-
     public void registerIntegrators() {
         this.registerListeners();
         this.registerCommandExecutors();

@@ -18,7 +18,7 @@ public class ConfigurationDatabaseTest extends AbstractTest {
         super(
             TestDomain.of(Artifex.class, "configuration-database"),
             () -> {
-                File temp = new File(Artifex.PLUGIN.getDataFolder(), "temp"+System.currentTimeMillis()+".yml");
+                File temp = new File(Artifex.PLUGIN().getDataFolder(), "temp"+System.currentTimeMillis()+".yml");
                 try { temp.createNewFile(); } catch (IOException exception) { throw new RuntimeException(exception); }
                 PathDatabase database = ConfigurationDatabase.file(temp);
                 

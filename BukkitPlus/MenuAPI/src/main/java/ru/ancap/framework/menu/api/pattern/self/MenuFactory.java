@@ -4,8 +4,7 @@ import com.focamacho.sealmenus.bukkit.ChestMenu;
 import com.focamacho.sealmenus.bukkit.PageableChestMenu;
 import com.focamacho.sealmenus.bukkit.SealMenus;
 import com.focamacho.sealmenus.bukkit.item.MenuItem;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.List;
 import java.util.Map;
 
-@ToString @EqualsAndHashCode
+@UtilityClass
 public class MenuFactory {
     
     private static JavaPlugin holderPlugin;
@@ -22,6 +21,7 @@ public class MenuFactory {
         holderPlugin = plugin;
     }
 
+    @UtilityClass
     public static class Pageable {
 
         public static final char PREVIOUS_BUTTON_SYMBOL = '<';

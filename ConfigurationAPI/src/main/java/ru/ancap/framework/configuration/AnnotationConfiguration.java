@@ -3,6 +3,7 @@ package ru.ancap.framework.configuration;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import ru.ancap.commons.TriFunction;
@@ -11,6 +12,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Function;
 
+@UtilityClass
 public class AnnotationConfiguration {
     
     @Getter(value = AccessLevel.PRIVATE)

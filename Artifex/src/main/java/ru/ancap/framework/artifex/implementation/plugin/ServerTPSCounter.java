@@ -14,7 +14,7 @@ public class ServerTPSCounter implements Runnable {
     
     private final int thinning;
     
-    private transient long last;
+    private long last;
     private final CyclicDeque<Double> history = new CyclicDeque<>(20);
 
     public ServerTPSCounter(int thinning) {

@@ -1,5 +1,8 @@
 package ru.ancap.framework.configuration;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class Case {
 
     public static String camelToKebab(String str) {

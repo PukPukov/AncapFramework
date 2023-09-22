@@ -7,7 +7,6 @@ import lombok.experimental.Delegate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ToString @EqualsAndHashCode
 public final class InlineTextCommand implements LeveledCommand {
@@ -35,7 +34,7 @@ public final class InlineTextCommand implements LeveledCommand {
             this.completedCommand = new TextCommand(lexems
                     .stream()
                     .map(ParseLexem::lexem)
-                    .collect(Collectors.toList())
+                    .toList()
             );
         }
         return this.completedCommand;
@@ -46,8 +45,14 @@ public final class InlineTextCommand implements LeveledCommand {
             return this.line.length();
         }
         int index = this.line.length()-1;
-        while (this.line.charAt(index) != ' ') {
+        int leftDepth = depth;
+        while (true) {
             index--;
+            if (this.line.charAt(index) != ' ') {
+                leftDepth--;
+                if (leftDepth != 0) continue;
+                else break;
+            }
         }
         return index+1;
     }

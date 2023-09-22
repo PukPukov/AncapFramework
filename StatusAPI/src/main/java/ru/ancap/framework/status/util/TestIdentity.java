@@ -1,9 +1,12 @@
 package ru.ancap.framework.status.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+@UtilityClass
 public class TestIdentity {
 
     private static final int DO_NOT_MATCH_WITH_LAST = 10;

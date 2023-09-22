@@ -1,10 +1,9 @@
 package ru.ancap.framework.util;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.experimental.UtilityClass;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 
-@ToString @EqualsAndHashCode
+@UtilityClass
 public class AudienceProvider {
     
     private static BukkitAudiences bukkitAudiences;

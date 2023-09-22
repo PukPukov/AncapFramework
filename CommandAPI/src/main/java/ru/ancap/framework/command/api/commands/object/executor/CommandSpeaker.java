@@ -25,8 +25,7 @@ public interface CommandSpeaker {
 
     class Empty implements CommandSpeaker {
 
-        public void on(CommandWrite write) {
-        }
+        public void on(CommandWrite write) {}
         
     }
 

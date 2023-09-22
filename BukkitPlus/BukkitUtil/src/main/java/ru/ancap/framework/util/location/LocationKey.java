@@ -1,8 +1,10 @@
 package ru.ancap.framework.util.location;
 
+import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
+@UtilityClass
 public class LocationKey {
     
     public static String get(Location location) {

@@ -1,6 +1,5 @@
 package ru.ancap.framework.command.api.commands.operator.arguments;
 
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -48,7 +47,7 @@ public class Arguments implements CommandOperator {
     }
 
     private static Map<Integer, ArgumentsShard> bindingsFor(List<Argument> arguments) {
-        if (arguments.size() == 0) throw new IllegalStateException("Arguments list cannot be empty!");
+        if (arguments.isEmpty()) throw new IllegalStateException("Arguments list cannot be empty!");
         Map<Integer, ArgumentsShard> map = new HashMap<>();
         int lastStartIndex = 0;
         for (Argument argument : arguments) {
@@ -151,44 +150,8 @@ public class Arguments implements CommandOperator {
             true, new ArgumentBounding("[", "]"),
             false, new ArgumentBounding("<", ">")
     );
-    
-    @AllArgsConstructor
-    private static class ArgumentBounding {
-        
-        private final String opening;
-        private final String closing;
-        
-        public String opening() {
-            return this.opening;
-        }
-        
-        public String closing() {
-            return this.closing;
-        }
-        
-    }
-    
-    @AllArgsConstructor
-    @ToString
-    @EqualsAndHashCode
-    private static class ArgumentsShard {
-        
-        private final int firstLiteralIndex;
-        private final int lastLiteralIndex;
-        private final Argument node;
-        
-        public int firstLiteralIndex() {
-            return this.firstLiteralIndex;
-        }
-        
-        public int lastLiteralIndex() {
-            return this.lastLiteralIndex;
-        }
-        
-        public Argument node() {
-            return this.node;
-        }
-        
-    }
+
+    private record ArgumentBounding(String opening, String closing) {}
+    private record ArgumentsShard(int firstLiteralIndex, int lastLiteralIndex, Argument node) {}
     
 }

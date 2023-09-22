@@ -16,8 +16,7 @@ import java.util.List;
 import java.util.function.Function;
 
 @RequiredArgsConstructor
-@ToString
-@EqualsAndHashCode
+@ToString @EqualsAndHashCode
 public abstract class PrimitiveExtractor<T> implements ArgumentExtractor<T> {
     
     private final Class<T> type;

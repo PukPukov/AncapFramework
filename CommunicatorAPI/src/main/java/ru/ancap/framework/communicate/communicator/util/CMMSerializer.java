@@ -1,9 +1,11 @@
 package ru.ancap.framework.communicate.communicator.util;
 
+import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import ru.ancap.commons.cache.CacheMap;
 
+@UtilityClass
           // CachedMiniMessageSerializer
 public class CMMSerializer {
 

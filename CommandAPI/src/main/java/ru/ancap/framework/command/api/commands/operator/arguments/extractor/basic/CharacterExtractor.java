@@ -1,6 +1,7 @@
 package ru.ancap.framework.command.api.commands.operator.arguments.extractor.basic;
 
 public class CharacterExtractor extends PrimitiveExtractor<Character> {
+    
     public CharacterExtractor() {
         super(Character.class);
     }
@@ -11,4 +12,5 @@ public class CharacterExtractor extends PrimitiveExtractor<Character> {
         if (chars.length != 1) throw new IllegalStateException();
         return chars[0];
     }
+    
 }

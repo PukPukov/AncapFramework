@@ -58,7 +58,7 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
         CommandData data = new CommandData(id, sources, state);
         this.commandDatas.put(id, data);
         
-        AncapPlugin owner = state.owner() != null ? state.owner() : Artifex.PLUGIN;
+        AncapPlugin owner = state.owner() != null ? state.owner() : Artifex.PLUGIN();
         this.pluginRegisters.get(owner).add(id);
         
         AncapBukkit.registerCommandExecutor(id, owner, sources, this.proxy);

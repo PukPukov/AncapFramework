@@ -24,14 +24,6 @@ public abstract class AncapMinimalisticPlugin extends JavaPlugin {
     public void onCoreLoad() {
         // to override it in core plugin
     }
-
-    /**
-     * <b>Deprecated</b>; use {@link ru.ancap.framework.plugin.api.AncapMinimalisticPlugin#ancap()}
-     */
-    @Deprecated
-    public Ancap getAncap() {
-        return ancap;
-    }
     
     public Ancap ancap() {
         return ancap;

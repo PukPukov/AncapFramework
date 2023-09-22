@@ -5,6 +5,7 @@ import com.comphenix.protocol.utility.MinecraftVersion;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -64,9 +65,11 @@ import java.util.Map;
 import java.util.Scanner;
 
 @ToString
+@Accessors(fluent = true)
 public final class Artifex extends AncapPlugin {
 
-    public static AncapPlugin PLUGIN;
+    @Getter
+    private static AncapPlugin PLUGIN;
 
     @Getter
     private final List<Listener> listeners = List.of(
@@ -81,6 +84,7 @@ public final class Artifex extends AncapPlugin {
         new BlockClickListener()
     );
 
+    @Override
     public Map<String, CommandOperator> commands() {
         return Map.of(
             "language", new LanguageChangeInput(), 

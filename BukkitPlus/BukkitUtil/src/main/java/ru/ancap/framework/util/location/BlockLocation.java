@@ -1,7 +1,9 @@
 package ru.ancap.framework.util.location;
 
+import lombok.experimental.UtilityClass;
 import org.bukkit.Location;
 
+@UtilityClass
 public class BlockLocation {
     
     public static boolean equals(Location one, Location other) {

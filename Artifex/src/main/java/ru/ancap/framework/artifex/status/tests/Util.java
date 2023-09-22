@@ -1,11 +1,13 @@
 package ru.ancap.framework.artifex.status.tests;
 
+import lombok.experimental.UtilityClass;
 import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.communicate.modifier.Placeholder;
 import ru.ancap.framework.language.additional.LAPIMessage;
 
+@UtilityClass
 class Util {
 
     static CommandOperator baseResponse(String domain, short identity) {

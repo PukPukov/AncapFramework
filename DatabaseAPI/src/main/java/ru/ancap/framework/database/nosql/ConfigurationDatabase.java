@@ -260,8 +260,8 @@ public class ConfigurationDatabase implements PathDatabase, AutoCloseable {
         return object;
     }
 
-    @Override public @NotNull PathDatabase inner(String path) {
-        if (path.equals("")) return this;
+    @Override public @NotNull PathDatabase inner(@NonNull String path) {
+        if (path.isEmpty()) return this;
         return new ConfigurationDatabaseSection(this, path);
     }
 
@@ -310,13 +310,15 @@ public class ConfigurationDatabase implements PathDatabase, AutoCloseable {
         this.synchronizer.readLock().lock();
         List<String> strings = this.configuration.getStringList(path);
         this.synchronizer.readLock().unlock();
-        if (strings.size() == 0) {
+        if (strings.isEmpty()) {
             var value = this.get(path);
-            if (value != null && value instanceof String) strings = List.of((String) value);
+            //noinspection ConditionCoveredByFurtherCondition because null check should be explicit 
+            if (value != null && value instanceof String string) strings = List.of(string);
         }
         return List.copyOf(strings);
     }
     
+    @Override
     public void close() {
         this.save();
         this.closed.set(true);

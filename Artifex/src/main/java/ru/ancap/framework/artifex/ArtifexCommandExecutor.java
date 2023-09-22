@@ -25,7 +25,7 @@ public class ArtifexCommandExecutor extends CommandTarget {
     
     public ArtifexCommandExecutor(Ancap ancap, List<Test> tests) {
         super(new Delegate(
-            new Raw(new AuthorsSupplier(Artifex.PLUGIN)),
+            new Raw(new AuthorsSupplier(Artifex.PLUGIN())),
             new SubCommand(
                 new StringDelegatePattern("tps"),
                 new Reply(() -> new LAPIMessage(
@@ -41,9 +41,8 @@ public class ArtifexCommandExecutor extends CommandTarget {
                         new SubCommand(
                             new StringDelegatePattern("command-api"),
                             dispatch -> {
-                                for (int i = 0; i < 10000; i++) {
-
-                                }
+                                // TODO 
+                                // TODO InDevMessage to use it here like dispatch.communicator().message(InDevMessage.instance())
                             }
                         ),
                         new SubCommand(

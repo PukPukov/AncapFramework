@@ -10,4 +10,5 @@ public class NumberExtractor extends PrimitiveExtractor<Long> {
     protected Long provide(String string) {
         return Long.valueOf(string);
     }
+    
 }

@@ -24,7 +24,7 @@ public class YamlLocaleLoader implements Runnable {
         Set<String> keySet = this.section.getKeys(true);
         for (String key : keySet) {
             List<String> stringList = this.section.getStringList(key);
-            if (stringList.size() == 0){
+            if (stringList.isEmpty()){
                 String string = this.section.getString(key);
                 if (string != null) stringList = List.of(string);
                 else throw new RuntimeException("????");

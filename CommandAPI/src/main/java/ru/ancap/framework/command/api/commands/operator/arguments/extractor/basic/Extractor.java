@@ -14,4 +14,5 @@ public class Extractor<T> extends PrimitiveExtractor<T> {
     protected T provide(String string) throws Throwable {
         return this.function.apply(string);
     }
+    
 }

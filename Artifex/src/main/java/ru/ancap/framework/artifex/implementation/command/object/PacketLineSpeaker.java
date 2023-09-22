@@ -65,7 +65,7 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
                             completion.tooltipState().map(component -> new LiteralMessage(
                                     PlainTextComponentSerializer.plainText().serialize(component)
                             )).orElse(null)
-                    )).collect(Collectors.toList())
+                    )).toList()
             );
             
             packet.getSpecificModifier(Suggestions.class).write(0, suggestions);
