@@ -175,7 +175,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     }
 
     /**
-     * Start executing of metered task. 
+     * Start executing of the metered task. 
      */
     public void task(CallableMessage taskName, Runnable task) {
         AncapPlugin.pluginLoadTaskProvider().apply(this, taskName, task).run();
