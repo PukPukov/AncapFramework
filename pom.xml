@@ -22,7 +22,6 @@
         <module>ResourceAPI</module>
         <module>StatusAPI</module>
         <module>IdentifierAPI</module>
-        <module>DependencyDummy</module>
         <module>UpdaterAPI</module>
     </modules>
 
