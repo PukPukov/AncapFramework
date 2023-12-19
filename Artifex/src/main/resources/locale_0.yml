@@ -1,5 +1,5 @@
 language: ru
-version: 13
+version: 14
 
 ru:
   ancap:
@@ -17,11 +17,17 @@ ru:
         yes-no: "{YES:<green><u>[ДА]<u></green>} {NO:<red><u>[НЕТ]</u></red>}"
         click-to-select: "Нажми, чтобы выбрать"
         sent-to-console: "<green>Сообщение отправлено в консоль</green>"
+        merge-template: "%1%; %2%"
+        debug:
+          trace-output:
+            stack-element-form: "  <dark_gray>-</dark_gray> {STACK_TRACE_ELEMENT}"
+            exception:
+              form:
+                wrapped-in: "обёрнутое в"
+                description:
+                  simple: "%EXCEPTION%"
+                  with-message: "%EXCEPTION%: %MESSAGE%"
         test:
-          error-output-form:
-            - "  <dark_red>-</dark_red> Исключение: %EXCEPTION%"
-            - "  <dark_red>-</dark_red> Сообщение: %MESSAGE%"
-            - "{STACK_TRACE:  <dark_gray>-</dark_gray> {STACK_TRACE_ELEMENT}}"
           base:
             interact: "Пожалуйста, %ACTION%. Ожидаемый результат — %EXPECTED%. Всё работает верно?"
             inspect: "%EXPECTED%. Всё работает верно?"

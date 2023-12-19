@@ -19,7 +19,6 @@ public class StringMenuPattern implements MenuPattern {
 
     public StringMenuPattern(String pattern) {
         pattern = pattern.replace("\n", "");
-        pattern = pattern.replace(" ", "");
         char[] splitString = pattern.toCharArray();
         Map<Character, int[]> map = new HashMap<>();
         for (int slot = 0; slot < splitString.length; slot++) {
@@ -72,4 +71,5 @@ public class StringMenuPattern implements MenuPattern {
         StringMenuPattern build();
 
     }
+    
 }

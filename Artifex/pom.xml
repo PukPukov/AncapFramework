@@ -13,11 +13,11 @@
     <packaging>jar</packaging>
 
     <artifactId>Artifex</artifactId>
-    <version>1.7-dev.4</version>
+    <version>1.7-dev.5</version>
 
     <name>Artifex</name>
 
-    <description>AncapAPI runtime part</description>
+    <description>AncapFramework runtime part</description>
 
     <build>
         <finalName>artifex-v${version}</finalName>
@@ -212,12 +212,6 @@
         </dependency>
 
         <!-- COMMONS -->
-        <dependency>
-            <groupId>ru.ancap</groupId>
-            <artifactId>DependencyDummy</artifactId>
-            <version>1.0</version>
-            <scope>compile</scope>
-        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>

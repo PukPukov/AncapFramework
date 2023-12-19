@@ -22,7 +22,7 @@ public class ArtifexCommonMessageDomains {
         CommonMessageDomains.Status.Skip.notThatTester = this.domain("status.skip.not-that-tester");
         CommonMessageDomains.Status.Skip.testerTypes = this.domain("status.skip.tester-types");
         
-        CommonMessageDomains.Test.errorOutputForm = this.domain("test.error-output-form");
+        CommonMessageDomains.Debug.errorOutputForm = this.domain("debug.error-output-form");
     }
 
     private String domain(String domain) {

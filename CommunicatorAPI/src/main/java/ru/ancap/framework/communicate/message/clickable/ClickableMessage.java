@@ -8,12 +8,12 @@ import java.util.function.Consumer;
 public class ClickableMessage extends CacheMessage implements CallableMessage {
     
     public static ActionMessageProvider provider;
-    
+
     public ClickableMessage(CallableMessage base, Consumer<Click> clickConsumer) {
-        super(ClickableMessage.constructorHelper(base, clickConsumer));
+        super(__(base, clickConsumer));
     }
 
-    private static CallableMessage constructorHelper(CallableMessage base, Consumer<Click> clickConsumer) {
+    private static CallableMessage __(CallableMessage base, Consumer<Click> clickConsumer) {
         return ClickableMessage.provider.to(base, clickConsumer);
     }
 

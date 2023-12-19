@@ -26,4 +26,5 @@ public interface Communicator {
     Audience platform(); 
     Component textOf(CallableMessage message); 
     */
+    
 }

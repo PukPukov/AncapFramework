@@ -2,7 +2,7 @@ package ru.ancap.framework.status;
 
 import org.bukkit.Bukkit;
 import ru.ancap.framework.command.api.commands.CommandTarget;
-import ru.ancap.framework.command.api.commands.operator.communicate.ChatBook;
+import ru.ancap.framework.communicate.message.ChatBook;
 import ru.ancap.framework.command.api.commands.operator.communicate.Reply;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.communicate.message.*;

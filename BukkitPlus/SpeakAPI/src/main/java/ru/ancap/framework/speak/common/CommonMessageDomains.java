@@ -8,6 +8,7 @@ import lombok.experimental.UtilityClass;
     public static String yesNo;
     public static String clickToSelect;
     public static String sentToConsole;
+    public static String mergeTemplate;
 
     @UtilityClass public static class Status {
 
@@ -27,7 +28,7 @@ import lombok.experimental.UtilityClass;
         
     }
 
-    @UtilityClass public static class Test {
+    @UtilityClass public static class Debug {
         
         public static String errorOutputForm;
         

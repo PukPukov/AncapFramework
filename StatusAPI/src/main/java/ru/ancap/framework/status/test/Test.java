@@ -2,15 +2,7 @@ package ru.ancap.framework.status.test;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import ru.ancap.framework.command.api.commands.operator.communicate.ChatBook;
 import ru.ancap.framework.communicate.message.CallableMessage;
-import ru.ancap.framework.communicate.message.Message;
-import ru.ancap.framework.communicate.modifier.ArgumentPlaceholder;
-import ru.ancap.framework.communicate.modifier.Placeholder;
-import ru.ancap.framework.language.additional.LAPIMessage;
-import ru.ancap.framework.speak.common.CommonMessageDomains;
-
-import java.util.Arrays;
 
 public interface Test {
     
@@ -23,18 +15,12 @@ public interface Test {
         public static TestResult SUCCESS = new TestResult(TestStatus.SUCCESS, null);
         
         public static TestResult error(Throwable throwable) {
-            return new TestResult(
-                TestStatus.FAILURE,
-                new LAPIMessage(
-                    CommonMessageDomains.Test.errorOutputForm,
-                    new Placeholder("exception", throwable.getClass().getName()),
-                    new Placeholder("message", throwable.getMessage()),
-                    new ArgumentPlaceholder("stack trace", prefix -> new ChatBook<>(
-                        Arrays.asList(throwable.getStackTrace()),
-                        element -> new Message(prefix + element.toString())
-                    ))
-                )
-            );
+            return null;
+            //return new TestResult(
+            //    TestStatus.FAILURE,
+            //    new ErrorTraceMessage(throwable)
+            //);
+            // TODO
         }
 
         public static TestResult skip(CallableMessage reason) {

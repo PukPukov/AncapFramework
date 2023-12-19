@@ -46,7 +46,7 @@ public class ActionProxy implements CommandOperator, ActionMessageProvider {
 
     private long actionCounter = 0;
 
-    public String generateActionID() {
+    public synchronized String generateActionID() {
         try { return actionCounter+""; }
         finally { actionCounter++; }
     }

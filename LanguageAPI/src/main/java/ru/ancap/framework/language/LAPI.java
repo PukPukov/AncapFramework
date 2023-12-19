@@ -27,7 +27,8 @@ public class LAPI {
      * @param localized The localized string.
      * @param language The language to load the locale for.
      */
-    @ApiStatus.Internal // since 1.7
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.7")
     public static void loadLocale(String id, String localized, Language language) {
         LAPI.locales.loadLocale(id, localized, language);
     }
@@ -38,13 +39,15 @@ public class LAPI {
      * @param locales The Locales object that you created in the previous step.
      * @param settings The LanguageSettings object that you created in the previous step.
      */
-    @ApiStatus.Internal // since 1.7
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.7")
     public static void setup(Locales locales, LanguageSettings settings) {
         LAPI.locales = locales;
         LAPI.settings = settings;
     }
 
-    @ApiStatus.Internal // since 1.7
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.7")
     public static void setupLanguage(String playerID, Language language) {
         settings.setLanguage(playerID, language);
     }

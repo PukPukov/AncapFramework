@@ -9,7 +9,7 @@ import ru.ancap.framework.communicate.message.CallableMessage;
 @AllArgsConstructor
 @ToString @EqualsAndHashCode
 public class Placeholder implements Modifier {
-
+    
     @Delegate
     private final Modifier delegate;
 
