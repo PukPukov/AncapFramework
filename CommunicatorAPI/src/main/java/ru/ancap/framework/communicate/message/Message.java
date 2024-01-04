@@ -2,7 +2,6 @@ package ru.ancap.framework.communicate.message;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.bukkit.ChatColor;
 import ru.ancap.framework.communicate.MiniMessageMapper;
 import ru.ancap.framework.communicate.modifier.Modifier;
 
@@ -21,7 +20,6 @@ public class Message extends CacheMessage implements CallableMessage {
             
             // Base modifiers—legacy color codes (with "&" symbol) and \n support
             {
-                operated = ChatColor.translateAlternateColorCodes('&', operated);
                 operated = MiniMessageMapper.mapLegacy(operated);
                 operated = operated.replace("\n", "<newline>");
                 operated = operated.replaceAll("<newline>", "<newline><reset>");
