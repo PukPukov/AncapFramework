@@ -10,9 +10,9 @@ public class ModifierBundle implements Modifier {
     private final List<Modifier> modifiers;
 
     @Override
-    public String apply(String base, String identifier) {
+    public String apply(String base, String receiverId) {
         for (Modifier modifier : this.modifiers) {
-            base = modifier.apply(base, identifier);
+            base = modifier.apply(base, receiverId);
         }
         return base;
     }

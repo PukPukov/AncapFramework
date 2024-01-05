@@ -19,8 +19,8 @@ public class Replacement implements Modifier {
     }
 
     @Override
-    public String apply(String base, String identifier) {
-        return base.replace(this.from, this.to.call(identifier));
+    public String apply(String base, String receiverId) {
+        return base.replace(this.from, this.to.call(receiverId));
     }
     
 }

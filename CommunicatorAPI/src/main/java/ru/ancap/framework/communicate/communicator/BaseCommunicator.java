@@ -1,8 +1,10 @@
 package ru.ancap.framework.communicate.communicator;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import net.kyori.adventure.audience.Audience;
 import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
@@ -15,11 +17,12 @@ import ru.ancap.framework.util.AudienceProvider;
 
 @RequiredArgsConstructor
 @ToString @EqualsAndHashCode
+@Accessors(fluent = true) @Getter
 public class BaseCommunicator implements Communicator {
 
     @EqualsAndHashCode.Exclude
     private final Audience audience;
-    private final String nameIdentifier;
+    private final String id;
     
     private BaseCommunicator(CommandSender sender) {
         this(BaseCommunicator.audienceOf(sender), Identifier.of(sender));
@@ -35,16 +38,13 @@ public class BaseCommunicator implements Communicator {
         return BaseCommunicator.cache.get(sender, () -> new BaseCommunicator(sender));
     }
 
-    public Audience audience() { return this.audience; }
-    public String nameIdentifier() { return this.nameIdentifier; }
-
     @Blocking
     @Override public void message(CallableMessage message) {
         this.audience.sendMessage(this.component(message));
     }
     
     public Component component(CallableMessage callable) {
-        String called = callable.call(this.nameIdentifier);
+        String called = callable.call(this.id);
         return CMMSerializer.serialize(called);
     }
 

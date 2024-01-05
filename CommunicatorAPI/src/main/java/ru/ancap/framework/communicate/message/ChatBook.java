@@ -13,9 +13,9 @@ public class ChatBook<LISTED> implements CallableMessage {
     private final Function<LISTED, CallableMessage> provider;
     
     @Override
-    public String call(String identifier) {
+    public String call(String receiverId) {
         List<String> result = new ArrayList<>();
-        for (LISTED listed : this.content) result.add(this.provider.apply(listed).call(identifier));
+        for (LISTED listed : this.content) result.add(this.provider.apply(listed).call(receiverId));
         return String.join("\n", result);
     }
     

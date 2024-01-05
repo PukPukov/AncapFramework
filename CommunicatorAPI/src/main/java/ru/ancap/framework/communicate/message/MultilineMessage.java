@@ -16,9 +16,9 @@ public class MultilineMessage implements CallableMessage {
     }
 
     @Override
-    public String call(String identifier) {
+    public String call(String receiverId) {
         return this.toMerge.stream()
-            .map(message -> message.call(identifier))
+            .map(message -> message.call(receiverId))
             .collect(Collectors.joining("\n"));
     }
     

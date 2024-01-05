@@ -9,9 +9,9 @@ public class ColoredMessage implements CallableMessage {
     private final CallableMessage color;
 
     @Override
-    public String call(String identifier) {
-        String base = this.base.call(identifier);
-        String color = this.color.call(identifier);
+    public String call(String receiverId) {
+        String base = this.base.call(receiverId);
+        String color = this.color.call(receiverId);
         return "<"+color+">"+base+"</"+color+">";
     }
     
