@@ -2,6 +2,7 @@ package ru.ancap.framework.status.test;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import ru.ancap.commons.TodoException;
 import ru.ancap.framework.communicate.message.CallableMessage;
 
 public interface Test {
@@ -15,7 +16,7 @@ public interface Test {
         public static TestResult SUCCESS = new TestResult(TestStatus.SUCCESS, null);
         
         public static TestResult error(Throwable throwable) {
-            return null;
+            throw new TodoException();
             //return new TestResult(
             //    TestStatus.FAILURE,
             //    new ErrorTraceMessage(throwable)
