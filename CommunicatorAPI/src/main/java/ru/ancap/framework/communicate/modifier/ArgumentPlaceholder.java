@@ -3,7 +3,6 @@ package ru.ancap.framework.communicate.modifier;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.apache.commons.lang3.tuple.Triple;
-import ru.ancap.commons.cache.CacheMap;
 import ru.ancap.commons.parse.EscapingBuffer;
 import ru.ancap.framework.communicate.message.CallableMessage;
 
@@ -29,30 +28,26 @@ public class ArgumentPlaceholder implements Modifier {
         name = name.replaceAll("[\\s-]" /* spaces and dashes*/ , "_");
         return name;
     }
-    
-    private final CacheMap<String, String> applyCache = new CacheMap<>();
 
     @Override
-    public String apply(String base, String identifier) {
-        return this.applyCache.get(base, () -> {
-            StringBuilder buffer = new StringBuilder(base);
-            List<PlaceholderFinder.Match> result = ArgumentPlaceholder.finder.find(base.toCharArray());
+    public String apply(String base, String receiverId) {
+        StringBuilder buffer = new StringBuilder(base);
+        List<PlaceholderFinder.Match> result = ArgumentPlaceholder.finder.find(base.toCharArray());
 
-            List<Triple<Integer, Integer, String>> replacements = new ArrayList<>();
+        List<Triple<Integer, Integer, String>> replacements = new ArrayList<>();
 
-            for (PlaceholderFinder.Match match : result) {
-                if (!match.name().equals(this.name)) continue;
-                String replacement = this.to.apply(match.argument()).call(identifier);
-                replacements.add(Triple.of(match.start(), match.end() + 1, replacement));
-            }
+        for (PlaceholderFinder.Match match : result) {
+            if (!match.name().equals(this.name)) continue;
+            String replacement = this.to.apply(match.argument()).call(receiverId);
+            replacements.add(Triple.of(match.start(), match.end() + 1, replacement));
+        }
 
-            for (int i = replacements.size() - 1; i >= 0; i--) {
-                Triple<Integer, Integer, String> replacement = replacements.get(i);
-                buffer.replace(replacement.getLeft(), replacement.getMiddle(), replacement.getRight());
-            }
+        for (int i = replacements.size() - 1; i >= 0; i--) {
+            Triple<Integer, Integer, String> replacement = replacements.get(i);
+            buffer.replace(replacement.getLeft(), replacement.getMiddle(), replacement.getRight());
+        }
 
-            return buffer.toString();
-        });
+        return buffer.toString();
     }
 
     private static class PlaceholderFinder {
