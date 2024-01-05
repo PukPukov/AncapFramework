@@ -45,10 +45,13 @@ public class MiniMessageMapper {
     );
 
     public static String mapLegacy(String untranslated) {
-        return mapLegacyCC(untranslated, '&', '§');
+        return mapLegacy3C(untranslated, '&', '§');
     }
 
-    public static String mapLegacyCC(String untranslated, char... colorCodes) {
+    /**
+     * mapLegacyCustomColorCodes
+     */
+    public static String mapLegacy3C(String untranslated, char... colorCodes) {
         StringBuilder result = new StringBuilder((int) (untranslated.length() * 1.5));
         char[] b = untranslated.toCharArray();
         for (int i = 0; i < b.length - 1; i++) {
