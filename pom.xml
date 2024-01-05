@@ -170,7 +170,7 @@
         <dependency>
             <groupId>com.github.ancap-kun</groupId>
             <artifactId>AncapCommons</artifactId>
-            <version>1.8.22</version>
+            <version>1.8.24</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

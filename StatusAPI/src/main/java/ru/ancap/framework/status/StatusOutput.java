@@ -1,42 +1,49 @@
 package ru.ancap.framework.status;
 
 import org.bukkit.Bukkit;
+import ru.ancap.commons.Pair;
 import ru.ancap.framework.command.api.commands.CommandTarget;
-import ru.ancap.framework.communicate.message.ChatBook;
 import ru.ancap.framework.command.api.commands.operator.communicate.Reply;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.communicate.message.*;
 import ru.ancap.framework.communicate.message.clickable.ClickableMessage;
 import ru.ancap.framework.communicate.modifier.Placeholder;
+import ru.ancap.framework.identifier.Identifier;
 import ru.ancap.framework.language.additional.LAPIMessage;
 import ru.ancap.framework.speak.common.CommonMessageDomains;
 import ru.ancap.framework.status.test.Test;
 
+import java.util.Collection;
+
 public class StatusOutput extends CommandTarget {
 
-    public StatusOutput(CallableMessage systemName, Iterable<Test> tests) {
-        super(new Reply(() -> new MultilineMessage(
-            new LAPIMessage(
-                CommonMessageDomains.Status.top,
-                new Placeholder("system name", systemName)
-            ),
-            new ChatBook<>(
-                tests,
-                test -> new LAPIMessage(
-                    CommonMessageDomains.Status.testForm,
-                    new Placeholder("module name", test.name()),
-                    new Placeholder("status", identifier -> {
-                        Test.TestResult result = test.makeTestFor(identifier);
-                        CallableMessage represent = switch (result.status()) {
+    public StatusOutput(CallableMessage systemName, Collection<Test> tests) {
+        super(new Reply((source) -> {
+            // completed tests list preparation
+            Iterable<Pair<Test, Test.TestResult>> completedTests = tests.stream()
+                .map(test -> new Pair<>(test, test.makeTestFor(Identifier.of(source.sender()) /* <- test runs */)))
+                .toList();
+
+            // message building
+            return new MultilineMessage(
+                new LAPIMessage(
+                    CommonMessageDomains.Status.top,
+                    new Placeholder("system name", systemName)
+                ),
+                new ChatBook<>(
+                    completedTests,
+                    test -> new LAPIMessage(
+                        CommonMessageDomains.Status.testForm,
+                        new Placeholder("module name", test.key().name()),
+                        new Placeholder("status", switch (test.value().status()) {
                             case SUCCESS -> new LAPIMessage(CommonMessageDomains.Status.working);
-                            case SKIPPED -> new BadTestMessage(CommonMessageDomains.Status.testSkipped, result.description());
-                            case FAILURE -> new BadTestMessage(CommonMessageDomains.Status.down, result.description());
-                        };
-                        return represent.call(identifier);
-                    })
+                            case SKIPPED -> new BadTestMessage(CommonMessageDomains.Status.testSkipped, test.value().description());
+                            case FAILURE -> new BadTestMessage(CommonMessageDomains.Status.down, test.value().description());
+                        })
+                    )
                 )
-            )
-        )));
+            );
+        }));
     }
 
     private static class BadTestMessage extends CacheMessage {
