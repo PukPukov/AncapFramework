@@ -1,11 +1,11 @@
 package ru.ancap.framework.communicate.message.clickable;
 
-import ru.ancap.framework.communicate.message.CacheMessage;
 import ru.ancap.framework.communicate.message.CallableMessage;
+import ru.ancap.framework.communicate.message.WrapperMessage;
 
 import java.util.function.Consumer;
 
-public class ClickableMessage extends CacheMessage implements CallableMessage {
+public class ClickableMessage extends WrapperMessage implements CallableMessage {
     
     public static ActionMessageProvider provider;
 

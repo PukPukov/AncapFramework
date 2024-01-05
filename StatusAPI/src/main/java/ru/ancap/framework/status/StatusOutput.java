@@ -46,7 +46,7 @@ public class StatusOutput extends CommandTarget {
         }));
     }
 
-    private static class BadTestMessage extends CacheMessage {
+    private static class BadTestMessage extends WrapperMessage {
         
         public BadTestMessage(String mainMessageDomain, CallableMessage description) {
             super(new ClickableMessage(
