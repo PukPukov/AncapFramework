@@ -4,13 +4,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import org.bukkit.entity.Player;
 import ru.ancap.commons.instructor.Instructor;
 import ru.ancap.commons.instructor.SimpleEventBus;
 import ru.ancap.framework.artifex.implementation.command.center.CommandCatcher;
 import ru.ancap.framework.artifex.implementation.command.center.CommandCatcherInstaller;
 import ru.ancap.framework.artifex.implementation.plugin.ServerTPSCounter;
-import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
+import ru.ancap.framework.command.api.commands.object.executor.CSCommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate.OperateRule;
 import ru.ancap.framework.plugin.api.Ancap;
 import ru.ancap.framework.plugin.api.AncapPlugin;
@@ -18,7 +19,7 @@ import ru.ancap.framework.util.player.StepbackMaster;
 
 import java.io.File;
 
-@Getter
+@Accessors(fluent = true) @Getter
 @ToString @EqualsAndHashCode
 public class ArtifexAncap implements Ancap {
     
@@ -44,7 +45,7 @@ public class ArtifexAncap implements Ancap {
     }
 
     @Override
-    public void installGlobalCommandOperator(AncapPlugin owner, CommandOperator global, OperateRule scope) {
+    public void installGlobalCommandOperator(AncapPlugin owner, CSCommandOperator global, OperateRule scope) {
         CommandCatcherInstaller.install(new CommandCatcher(this, owner, global, scope), owner);
     }
 

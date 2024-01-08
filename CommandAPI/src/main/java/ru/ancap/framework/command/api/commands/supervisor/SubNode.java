@@ -2,8 +2,8 @@ package ru.ancap.framework.command.api.commands.supervisor;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
-import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
+import ru.ancap.framework.command.api.syntax.CSCommand;
+import ru.ancap.framework.command.api.commands.object.executor.CSCommandOperator;
 
 import java.util.List;
 
@@ -11,12 +11,12 @@ import java.util.List;
 public class SubNode implements SupervisedRule {
 
     @Override
-    public boolean isOperate(LeveledCommand command) {
+    public boolean isOperate(CSCommand command) {
         return false;
     }
 
     @Override
-    public CommandOperator delegated() {
+    public CSCommandOperator delegated() {
         return null;
     }
 

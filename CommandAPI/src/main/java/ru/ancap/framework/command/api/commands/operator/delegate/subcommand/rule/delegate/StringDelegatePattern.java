@@ -2,7 +2,7 @@ package ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rul
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
+import ru.ancap.framework.command.api.syntax.CSCommand;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate.ArgumentsOperateRule;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class StringDelegatePattern implements DelegatePattern {
     }
 
     @Override
-    public boolean isOperate(LeveledCommand command) {
+    public boolean isOperate(CSCommand command) {
         for (ArgumentsOperateRule key : this.keys) {
             if (key.isOperate(command)) {
                 return true;

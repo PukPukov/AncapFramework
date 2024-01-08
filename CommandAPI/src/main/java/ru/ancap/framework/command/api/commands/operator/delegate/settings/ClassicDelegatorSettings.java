@@ -3,7 +3,7 @@ package ru.ancap.framework.command.api.commands.operator.delegate.settings;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.bukkit.Bukkit;
-import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
+import ru.ancap.framework.command.api.commands.object.executor.CSCommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.provide.CommandProvidePattern;
 import ru.ancap.framework.command.api.event.classic.UnknownCommandEvent;
 
@@ -11,15 +11,15 @@ import ru.ancap.framework.command.api.event.classic.UnknownCommandEvent;
 public class ClassicDelegatorSettings implements DelegatorSettings {
 
     private final CommandProvidePattern spareRule;
-    private final CommandOperator unknown = dispatch -> Bukkit.getPluginManager().callEvent(
-            new UnknownCommandEvent(dispatch.source().sender(), dispatch.command().nextArgument())
+    private final CSCommandOperator unknown = dispatch -> Bukkit.getPluginManager().callEvent(
+            new UnknownCommandEvent(dispatch.source().sender(), dispatch.command().consumeArgument())
     );
     
     public CommandProvidePattern spareRule() {
         return this.spareRule;
     }
     
-    public CommandOperator unknown() {
+    public CSCommandOperator unknown() {
         return this.unknown;
     }
 

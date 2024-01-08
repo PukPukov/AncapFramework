@@ -13,9 +13,7 @@ public interface CommandLineSpeaker {
     
     default void sendTab(List<String> tabs) {
         this.sendTab(TabBundle.builder()
-                .raw(tabs)
-                .build()
-        );
+            .raw(tabs).build());
     }
     
     default void sendTooltip(Component tooltip) {

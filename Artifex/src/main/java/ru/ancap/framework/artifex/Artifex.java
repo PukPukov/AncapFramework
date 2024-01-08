@@ -19,7 +19,7 @@ import ru.ancap.commons.map.MapGC;
 import ru.ancap.commons.time.Day;
 import ru.ancap.framework.artifex.configuration.ArtifexConfig;
 import ru.ancap.framework.artifex.implementation.ancap.ArtifexAncap;
-import ru.ancap.framework.artifex.implementation.command.center.AsyncCommandCenter;
+import ru.ancap.framework.artifex.implementation.command.center.AsyncCSCommandCenter;
 import ru.ancap.framework.artifex.implementation.command.center.CommandProxy;
 import ru.ancap.framework.artifex.implementation.command.communicate.PlayerCommandFallback;
 import ru.ancap.framework.artifex.implementation.communicator.message.clickable.ActionProxy;
@@ -44,7 +44,7 @@ import ru.ancap.framework.artifex.implementation.timer.TimerExecutor;
 import ru.ancap.framework.artifex.implementation.timer.heartbeat.ArtifexHeartbeat;
 import ru.ancap.framework.artifex.status.tests.CommandCenterTest;
 import ru.ancap.framework.artifex.status.tests.ConfigurationDatabaseTest;
-import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
+import ru.ancap.framework.command.api.commands.object.executor.CSCommandOperator;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.database.sql.SQLDatabase;
 import ru.ancap.framework.database.sql.connection.reader.DatabaseFromConfig;
@@ -64,8 +64,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-@ToString
 @Accessors(fluent = true)
+@ToString
 public final class Artifex extends AncapPlugin {
 
     @Getter
@@ -85,16 +85,16 @@ public final class Artifex extends AncapPlugin {
     );
 
     @Override
-    public Map<String, CommandOperator> commands() {
+    public Map<String, CSCommandOperator> commands() {
         return Map.of(
             "language", new LanguageChangeInput(), 
-            "artifex",  new ArtifexCommandExecutor(this.ancap, this.tests)
+            "artifex",  new ArtifexCSCommandExecutor(this.ancap, this.tests)
         );
     }
     
     @Getter
     private ArtifexAncap ancap;
-    private AsyncCommandCenter asyncCommandCenter;
+    private AsyncCSCommandCenter asyncCommandCenter;
     private SQLDatabase database;
     private List<Test> tests;
     private ServerTPSCounter tpsCounter;
@@ -116,6 +116,7 @@ public final class Artifex extends AncapPlugin {
         this.loadTaskMeter();
         this.loadCommandModule();
         this.startHeartbeat();
+        this.commandRegistrar().register("command").aliases(List.of("foo", "bar")).csoperator().exec(); preventcompile;
     }
 
     @Override
@@ -214,7 +215,7 @@ public final class Artifex extends AncapPlugin {
 
     private void loadCommandModule() {
         AncapPlugin.proxy = new CommandProxy();
-        this.asyncCommandCenter = new AsyncCommandCenter(AncapPlugin.proxy);
+        this.asyncCommandCenter = new AsyncCSCommandCenter(AncapPlugin.proxy);
         this.registerCommandCenter(this.asyncCommandCenter);
         this.ancap.installGlobalCommandOperator(this, this.asyncCommandCenter, this.asyncCommandCenter);
         this.registerEventsListener(new PlayerCommandFallback());
@@ -237,7 +238,7 @@ public final class Artifex extends AncapPlugin {
     private void loadSchedulerAPI() {
         SQLDatabase schedulerDatabase = new DatabaseFromConfig(
             this,
-            ArtifexConfig.loaded().getSection().getConfigurationSection("database.scheduler-database")
+            ArtifexConfig.loaded().section().getConfigurationSection("database.scheduler-database")
         ).load();
         this.task("SchedulerAPI", new SchedulerAPILoader(
             Communicator.of(Bukkit.getConsoleSender()),
@@ -255,7 +256,7 @@ public final class Artifex extends AncapPlugin {
     private void loadDatabase() {
         this.database = new DatabaseFromConfig(
             this,
-            ArtifexConfig.loaded().getSection().getConfigurationSection("database.main-database")
+            ArtifexConfig.loaded().section().getConfigurationSection("database.main-database")
         ).load();
     }
 

@@ -2,11 +2,12 @@ package ru.ancap.framework.command.api.commands.object.dispatched;
 
 import lombok.*;
 import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNextArgumentException;
+import ru.ancap.framework.command.api.syntax.CSCommand;
 
 import java.util.List;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class TextCommand implements LeveledCommand {
+public class TextCommand implements CSCommand {
 
     @With private final List<String> args;
     @With private final TextCommand fullCommand;
@@ -42,7 +43,7 @@ public class TextCommand implements LeveledCommand {
     }
 
     @Override
-    public String nextArgument() throws NoNextArgumentException {
+    public String consumeArgument() throws NoNextArgumentException {
         return this.nextArguments(1).get(0);
     }
 

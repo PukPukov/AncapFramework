@@ -1,9 +1,9 @@
 package ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate;
 
-import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
+import ru.ancap.framework.command.api.syntax.CSCommand;
 
 public interface OperateRule {
 
-    boolean isOperate(LeveledCommand command);
+    boolean isOperate(CSCommand command);
 
 }

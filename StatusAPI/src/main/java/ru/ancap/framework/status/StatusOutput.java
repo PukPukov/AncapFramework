@@ -2,7 +2,7 @@ package ru.ancap.framework.status;
 
 import org.bukkit.Bukkit;
 import ru.ancap.commons.Pair;
-import ru.ancap.framework.command.api.commands.CommandTarget;
+import ru.ancap.framework.command.api.commands.CSCommandTarget;
 import ru.ancap.framework.command.api.commands.operator.communicate.Reply;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.communicate.message.*;
@@ -15,7 +15,7 @@ import ru.ancap.framework.status.test.Test;
 
 import java.util.Collection;
 
-public class StatusOutput extends CommandTarget {
+public class StatusOutput extends CSCommandTarget {
 
     public StatusOutput(CallableMessage systemName, Collection<Test> tests) {
         super(new Reply((source) -> {

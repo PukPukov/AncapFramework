@@ -21,10 +21,10 @@ import ru.ancap.framework.artifex.implementation.command.object.PacketCommandWri
 import ru.ancap.framework.artifex.implementation.command.object.SenderSource;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandSource;
 import ru.ancap.framework.command.api.commands.object.dispatched.InlineTextCommand;
-import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
+import ru.ancap.framework.command.api.syntax.CSCommand;
 import ru.ancap.framework.command.api.commands.object.dispatched.TextCommand;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
-import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
+import ru.ancap.framework.command.api.commands.object.executor.CSCommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate.OperateRule;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.communicate.modifier.Placeholder;
@@ -43,7 +43,7 @@ public class CommandCatcher implements Listener, PacketListener {
 
     @Delegate
     private final PacketListener delegate;
-    private final CommandOperator global;
+    private final CSCommandOperator global;
     private final OperateRule rule;
     
     private final Map<String, Long> lastRequestTimeMap = new HashMap<>();
@@ -82,7 +82,7 @@ public class CommandCatcher implements Listener, PacketListener {
         return this.versionCache;
     }
 
-    public CommandCatcher(Ancap ancap, JavaPlugin plugin, CommandOperator global, OperateRule rule) {
+    public CommandCatcher(Ancap ancap, JavaPlugin plugin, CSCommandOperator global, OperateRule rule) {
         this.ancap = ancap;
         var onTabComplete = this.onTabComplete;
         this.delegate = new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Client.TAB_COMPLETE) {
@@ -165,7 +165,7 @@ public class CommandCatcher implements Listener, PacketListener {
 
     private record RawForm(CommandSource source, String command) { }
     private record Form(CommandSource source, List<String> arguments) { }
-    private record InterceptableCommandForm(Interceptable interceptable, CommandSource source, LeveledCommand command) { }
+    private record InterceptableCommandForm(Interceptable interceptable, CommandSource source, CSCommand command) { }
     
     public interface Interceptable {
         

@@ -2,6 +2,7 @@ package ru.ancap.framework.artifex.configuration;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 import org.bukkit.configuration.ConfigurationSection;
 import ru.ancap.commons.time.Day;
 import ru.ancap.framework.language.language.Language;
@@ -9,7 +10,8 @@ import ru.ancap.framework.language.language.Language;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-@RequiredArgsConstructor @Getter
+@Accessors(fluent = true) @Getter
+@RequiredArgsConstructor
 @SuppressWarnings("ClassCanBeRecord")
 public class ArtifexConfig {
 
@@ -29,15 +31,15 @@ public class ArtifexConfig {
         return Language.of(this.section.getString("language.server-native"));
     }
 
-    public String getDatabaseDataAccessKey() {
+    public String databaseDataAccessKey() {
         return this.section.getString("database.connection.type").toLowerCase();
     }
 
-    public ConfigurationSection getDatabaseDriverDataSection() {
+    public ConfigurationSection databaseDriverDataSection() {
         return this.section.getConfigurationSection("database.data");
     }
 
-    public ConfigurationSection getDatabaseConnectionSection() {
+    public ConfigurationSection databaseConnectionSection() {
         return this.section.getConfigurationSection("database.connection");
     }
 
@@ -52,4 +54,5 @@ public class ArtifexConfig {
         if (millis < System.currentTimeMillis()) millis = millis + Day.MILLISECONDS;
         return millis;
     }
+    
 }

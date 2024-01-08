@@ -1,7 +1,7 @@
 package ru.ancap.framework.artifex.implementation.language.input;
 
 import ru.ancap.framework.artifex.Artifex;
-import ru.ancap.framework.command.api.commands.CommandTarget;
+import ru.ancap.framework.command.api.commands.CSCommandTarget;
 import ru.ancap.framework.command.api.commands.operator.arguments.Accept;
 import ru.ancap.framework.command.api.commands.operator.arguments.Argument;
 import ru.ancap.framework.command.api.commands.operator.arguments.Arguments;
@@ -17,7 +17,7 @@ import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.language.additional.LAPIMessage;
 import ru.ancap.framework.language.language.Language;
 
-public class LanguageChangeInput extends CommandTarget {
+public class LanguageChangeInput extends CSCommandTarget {
 
     public LanguageChangeInput() {
         super(new Delegate(

@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import ru.ancap.commons.TriFunction;
 import ru.ancap.commons.cache.Cache;
-import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
+import ru.ancap.framework.command.api.commands.object.executor.CSCommandOperator;
 import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.communicate.message.Message;
 import ru.ancap.framework.configuration.AnnotationConfiguration;
@@ -104,7 +104,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     }
 
     public void registerCommandExecutors() {
-        for (Map.Entry<String, CommandOperator> entry : this.commands().entrySet()) {
+        for (Map.Entry<String, CSCommandOperator> entry : this.commands().entrySet()) {
             this.commandRegistrar().register(entry.getKey(), entry.getValue());
         }
     }
@@ -166,7 +166,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         return this.valueTransferMapCache.get(() -> this.newResourceSource(FileConfigurationPreparator.internal()).getResource("value-transfer-map.yml"));
     }
 
-    public Map<String, CommandOperator> commands() {
+    public Map<String, CSCommandOperator> commands() {
         return Map.of();
     }
 

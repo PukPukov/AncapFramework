@@ -4,13 +4,14 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.Nullable;
 import ru.ancap.commons.map.GuaranteedMap;
 import ru.ancap.framework.artifex.Artifex;
-import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
+import ru.ancap.framework.command.api.syntax.CSCommand;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
-import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
+import ru.ancap.framework.command.api.commands.object.executor.CSCommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate.OperateRule;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.communicate.message.CallableMessage;
@@ -29,11 +30,11 @@ import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 @ToString @EqualsAndHashCode
-public class AsyncCommandCenter implements CommandCenter, CommandOperator, OperateRule {
+public class AsyncCSCommandCenter implements CommandCenter, CSCommandOperator, OperateRule {
     
     private final Map<String /*command*/, String /*id*/       > redirectMap     = new ConcurrentHashMap<>();
     private final Map<String /*id*/,      CommandData         > commandDatas    = new ConcurrentHashMap<>();
-    private final Map<AncapPlugin,        Set<String /*id*/ > > pluginRegisters = new GuaranteedMap<>(HashSet::new);
+    private final Map<JavaPlugin,         Set<String /*id*/ > > pluginRegisters = new GuaranteedMap<>(HashSet::new);
     
     private final CommandExecutor proxy;
 
@@ -43,7 +44,7 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
             commandName,
             plugin.getSettings().getAliasesList(commandName),
             new CommandHandleState(
-                CommandOperator.EMPTY,
+                CSCommandOperator.EMPTY,
                 plugin
             )
         );
@@ -75,7 +76,7 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
     }
 
     @Override
-    public void setExecutor(String id, CommandOperator operator) throws CommandNotRegisteredException {
+    public void setExecutor(String id, CSCommandOperator operator) throws CommandNotRegisteredException {
         CommandData data = this.commandDatas.get(id);
         if (data == null) throw new CommandNotRegisteredException(id);
         this.commandDatas.put(id, data.withHandleState(data.handleState().withOperator(operator)));
@@ -87,7 +88,7 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
     }
 
     @Override
-    public Set<String> findRegisteredCommandsOf(AncapPlugin plugin) {
+    public Set<String> findRegisteredCommandsOf(JavaPlugin plugin) {
         return this.pluginRegisters.get(plugin);
     }
 
@@ -95,7 +96,7 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
     public void on(CommandDispatch dispatch) {
         this.operate(
             dispatch.command(),
-            commandForm -> commandForm.commandOperator.on(new CommandDispatch(
+            commandForm -> commandForm.operator.on(new CommandDispatch(
                 dispatch.source(),
                 commandForm.command
             )),
@@ -107,7 +108,7 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
     public void on(CommandWrite write) {
         this.operate(
             write.line(),
-            commandForm -> commandForm.commandOperator.on(new CommandWrite(
+            commandForm -> commandForm.operator.on(new CommandWrite(
                 write.speaker(),
                 commandForm.command
             )),
@@ -115,13 +116,13 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
         );
     }
 
-    private void operate(LeveledCommand command, Consumer<CommandForm> commandFormConsumer, Consumer<CallableMessage> fallback) {
-        String key = command.nextArgument();
-        LeveledCommand finalCommand = command.withoutArgument();
+    private void operate(CSCommand command, Consumer<CommandForm> commandFormConsumer, Consumer<CallableMessage> fallback) {
+        String key = command.consumeArgument();
+        CSCommand finalCommand = command.withoutArgument();
         new Thread(() -> {
             try {
                 String id = this.redirectMap.get(key);
-                CommandOperator rule = this.commandDatas.get(id).handleState().operator();
+                CSCommandOperator rule = this.commandDatas.get(id).handleState().operator();
                 commandFormConsumer.accept(new CommandForm(
                     finalCommand,
                     rule
@@ -135,11 +136,11 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
     }
 
     @Override
-    public boolean isOperate(LeveledCommand command) {
+    public boolean isOperate(CSCommand command) {
         if (command.isRaw()) return false;
-        return this.redirectMap.containsKey(command.nextArgument());
+        return this.redirectMap.containsKey(command.consumeArgument());
     }
     
-    private record CommandForm(LeveledCommand command, CommandOperator commandOperator) {}
+    private record CommandForm(CSCommand command, CSCommandOperator operator) {}
     
 }

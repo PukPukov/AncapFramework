@@ -3,17 +3,17 @@ package ru.ancap.framework.command.api.commands.operator.exclusive;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.bukkit.Bukkit;
-import ru.ancap.framework.command.api.commands.CommandTarget;
+import ru.ancap.framework.command.api.commands.CSCommandTarget;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
-import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
+import ru.ancap.framework.command.api.commands.object.executor.CSCommandOperator;
 import ru.ancap.framework.command.api.event.classic.NotEnoughPermissionsEvent;
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
-public class Exclusive extends CommandTarget {
+public class Exclusive extends CSCommandTarget {
 
-    public Exclusive(Pass pass, CommandOperator delegate) {
-        super(new CommandOperator() {
+    public Exclusive(Pass pass, CSCommandOperator delegate) {
+        super(new CSCommandOperator() {
             
             @Override
             public void on(CommandDispatch dispatch) {

@@ -2,7 +2,7 @@ package ru.ancap.framework.artifex;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.ancap.framework.command.api.commands.CommandTarget;
+import ru.ancap.framework.command.api.commands.CSCommandTarget;
 import ru.ancap.framework.command.api.commands.operator.communicate.Reply;
 import ru.ancap.framework.command.api.commands.operator.delegate.Delegate;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.Raw;
@@ -21,9 +21,9 @@ import ru.ancap.framework.status.test.Test;
 import java.util.List;
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
-public class ArtifexCommandExecutor extends CommandTarget {
+public class ArtifexCSCommandExecutor extends CSCommandTarget {
     
-    public ArtifexCommandExecutor(Ancap ancap, List<Test> tests) {
+    public ArtifexCSCommandExecutor(Ancap ancap, List<Test> tests) {
         super(new Delegate(
             new Raw(new AuthorsSupplier(Artifex.PLUGIN())),
             new SubCommand(

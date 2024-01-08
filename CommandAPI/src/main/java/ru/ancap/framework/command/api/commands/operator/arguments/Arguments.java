@@ -5,11 +5,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
+import ru.ancap.framework.command.api.syntax.CSCommand;
 import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNextArgumentException;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
-import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
+import ru.ancap.framework.command.api.commands.object.executor.CSCommandOperator;
 import ru.ancap.framework.command.api.commands.object.tab.OptionalTab;
 import ru.ancap.framework.command.api.commands.object.tab.TabBundle;
 import ru.ancap.framework.command.api.commands.object.tab.TabCompletion;
@@ -19,31 +19,35 @@ import ru.ancap.framework.command.api.commands.operator.arguments.command.Argume
 import ru.ancap.framework.command.api.commands.operator.arguments.extractor.exception.TransformationException;
 import ru.ancap.framework.command.api.event.classic.CannotTransformArgumentEvent;
 import ru.ancap.framework.command.api.event.classic.NotEnoughArgumentsEvent;
+import ru.ancap.framework.command.api.exception.classic.RequiredArgumentMissingException;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @ToString @EqualsAndHashCode
-public class Arguments implements CommandOperator {
+public class Arguments implements CSCommandOperator {
 
-    private final BiConsumer<CommandSender, Integer> onNotEnough;
+    private final Consumer<Class<?>> onMissing;
     private final Map<Integer, ArgumentsShard> argumentBindings;
     private final List<Argument> arguments;
     private final int requiredLiterals;
     private final Consumer<ArgumentCommandDispatch> dispatchConsumer;
     
     public Arguments(Accept accept, Consumer<ArgumentCommandDispatch> dispatchConsumer) {
-        this((sender, lacked) -> Bukkit.getPluginManager().callEvent(new NotEnoughArgumentsEvent(sender, lacked)), accept, dispatchConsumer);
+        this(
+            (sender, lacked) -> { throw new RequiredArgumentMissingException(); },
+            accept,
+            dispatchConsumer
+        );
     }
 
-    public Arguments(BiConsumer<CommandSender, Integer> onNotEnough, Accept accept, Consumer<ArgumentCommandDispatch> dispatchConsumer) {
-        this(onNotEnough, Arguments.bindingsFor(accept), accept, Arguments.requiredLiteralsAmountFor(accept), dispatchConsumer);
+    public Arguments(Consumer<Class<?>> onMissing, Accept accept, Consumer<ArgumentCommandDispatch> dispatchConsumer) {
+        this(onMissing, Arguments.bindingsFor(accept), accept, Arguments.requiredLiteralsAmountFor(accept), dispatchConsumer);
     }
 
     private static Map<Integer, ArgumentsShard> bindingsFor(List<Argument> arguments) {
@@ -73,13 +77,13 @@ public class Arguments implements CommandOperator {
 
     @Override
     public void on(CommandDispatch dispatch) {
-        LeveledCommand command = dispatch.command();
+        CSCommand command = dispatch.command();
         Map<String, Object> map = new HashMap<>();
         
         int argumentIndex = 0;
         
         if (dispatch.command().arguments().size() < this.requiredLiterals) {
-            this.onNotEnough.accept(dispatch.source().sender(), this.requiredLiterals - dispatch.command().arguments().size());
+            this.onMissing.accept(dispatch.source().sender(), this.requiredLiterals - dispatch.command().arguments().size());
             return;
         }
         
@@ -124,7 +128,7 @@ public class Arguments implements CommandOperator {
         // pidorchuk red 5005 assistant 1 [day week jopa]
         // PlayerExtractor(1), HexagonExtractor(2), RoleExtractor(1), TimeExtractor(2)
         
-        LeveledCommand command = write.line();
+        CSCommand command = write.line();
         int written = command.arguments().size();
         
         // -1, потому что written - размер, а не индекс, +1, потому что надо получить следующий аргумент от последнего написанного

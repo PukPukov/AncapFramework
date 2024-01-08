@@ -3,7 +3,7 @@ package ru.ancap.framework.artifex.implementation.communicator.message.clickable
 import lombok.RequiredArgsConstructor;
 import ru.ancap.commons.map.GuaranteedMap;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
-import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
+import ru.ancap.framework.command.api.commands.object.executor.CSCommandOperator;
 import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.communicate.message.Message;
 import ru.ancap.framework.communicate.message.clickable.ActionMessageProvider;
@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
-public class ActionProxy implements CommandOperator, ActionMessageProvider {
+public class ActionProxy implements CSCommandOperator, ActionMessageProvider {
 
     private final Map<String, Consumer<Click>> proxyMap = new GuaranteedMap<>(() -> click -> {});
     private final String commandName;
@@ -39,7 +39,7 @@ public class ActionProxy implements CommandOperator, ActionMessageProvider {
 
     @Override
     public void on(CommandDispatch dispatch) {
-        String actionID = dispatch.command().nextArgument();
+        String actionID = dispatch.command().consumeArgument();
         this.proxyMap.get(actionID).accept(new Click(dispatch.source().sender()));
         this.proxyMap.remove(actionID);
     }

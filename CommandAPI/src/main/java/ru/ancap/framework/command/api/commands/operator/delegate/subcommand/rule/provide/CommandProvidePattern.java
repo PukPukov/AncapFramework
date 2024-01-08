@@ -1,13 +1,13 @@
 package ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.provide;
 
-import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
-import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
+import ru.ancap.framework.command.api.syntax.CSCommand;
+import ru.ancap.framework.command.api.commands.object.executor.CSCommandOperator;
 
 public interface CommandProvidePattern {
 
-    CommandOperator delegated();
+    CSCommandOperator delegated();
 
-    default LeveledCommand convert(LeveledCommand command) {
+    default CSCommand convert(CSCommand command) {
         return command;
     }
 

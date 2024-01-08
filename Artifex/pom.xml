@@ -179,6 +179,12 @@
             <version>3.0.1</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.ancap-kun.gst</groupId>
+            <artifactId>gst-core</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- LOGIC.KYORI -->
         <dependency>
             <groupId>net.kyori</groupId>

@@ -3,12 +3,13 @@ package ru.ancap.framework.command.api.commands.object.dispatched;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Delegate;
+import ru.ancap.framework.command.api.syntax.CSCommand;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @ToString @EqualsAndHashCode
-public final class InlineTextCommand implements LeveledCommand {
+public final class InlineTextCommand implements CSCommand {
 
     private final String line;
 

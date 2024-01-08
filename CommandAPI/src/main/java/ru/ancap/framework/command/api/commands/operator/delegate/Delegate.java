@@ -2,10 +2,10 @@ package ru.ancap.framework.command.api.commands.operator.delegate;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
+import ru.ancap.framework.command.api.syntax.CSCommand;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
-import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
+import ru.ancap.framework.command.api.commands.object.executor.CSCommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.settings.ClassicDelegatorSettings;
 import ru.ancap.framework.command.api.commands.operator.delegate.settings.DelegatorSettings;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.CommandDelegateRule;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ToString @EqualsAndHashCode
-public class Delegate implements CommandOperator {
+public class Delegate implements CSCommandOperator {
 
     private final CommandProvidePattern defaultRule;
     private final List<CommandDelegateRule> rules;
@@ -50,7 +50,7 @@ public class Delegate implements CommandOperator {
 
     @Override
     public void on(CommandWrite write) {
-        LeveledCommand command = write.line();
+        CSCommand command = write.line();
         if (command.isRaw()) {
             write.speaker().sendTab(this.totalCandidates);
             return;
@@ -59,7 +59,7 @@ public class Delegate implements CommandOperator {
         pattern.delegated().on(new CommandWrite(write.speaker(), pattern.convert(command)));
     }
 
-    private CommandProvidePattern ruleFor(LeveledCommand command) {
+    private CommandProvidePattern ruleFor(CSCommand command) {
         for (CommandDelegateRule rule : this.rules) if (rule.isOperate(command)) return rule;
         return this.defaultRule;
     }

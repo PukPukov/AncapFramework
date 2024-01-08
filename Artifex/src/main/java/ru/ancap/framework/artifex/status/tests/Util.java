@@ -2,7 +2,7 @@ package ru.ancap.framework.artifex.status.tests;
 
 import lombok.experimental.UtilityClass;
 import ru.ancap.framework.artifex.Artifex;
-import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
+import ru.ancap.framework.command.api.commands.object.executor.CSCommandOperator;
 import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.communicate.modifier.Placeholder;
 import ru.ancap.framework.language.additional.LAPIMessage;
@@ -10,7 +10,7 @@ import ru.ancap.framework.language.additional.LAPIMessage;
 @UtilityClass
 class Util {
 
-    static CommandOperator baseResponse(String domain, short identity) {
+    static CSCommandOperator baseResponse(String domain, short identity) {
         return dispatch -> dispatch.source().communicator().message(new LAPIMessage(
             Artifex.class, domain,
             new Placeholder("identity", identity)
