@@ -45,5 +45,5 @@ public class AncapPluginSettings {
         if (this.section == null) return RegisterStage.ANCAP_PLUGIN_ENABLE;
         return RegisterStage.valueOf(this.section.getString(path, "ANCAP_PLUGIN_ENABLE").toUpperCase());
     }
-
+    
 }

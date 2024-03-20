@@ -34,13 +34,11 @@
     </repositories>
 
     <dependencies>
-        
         <dependency>
             <groupId>com.github.seal-island.sealmenus</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.0.9</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
-        
     </dependencies>
 </project>

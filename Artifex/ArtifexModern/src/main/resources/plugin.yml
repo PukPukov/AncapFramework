@@ -1,0 +1,28 @@
+name: Artifex
+description: "Runtime part of AncapFramework"
+authors: [ PukPukov ]
+api-version: 1.20
+
+depend:
+  - ProtocolLib
+
+softdepend:
+  - ArtifexDatabaseDrivers
+  - PlaceholderAPI
+
+libraries:
+  - 'org.apache.commons:commons-lang3:3.12.0'
+  - 'org.apache.commons:commons-collections4:4.4'
+  - 'commons-io:commons-io:2.11.0'
+  - 'org.junit.jupiter:junit-jupiter:5.9.2' # Used by StatusAPI in runtime
+  - 'com.zaxxer:HikariCP:${hikaricp.version}'
+  - 'com.j256.ormlite:ormlite-core:${ormlite.version}'
+  - 'com.j256.ormlite:ormlite-jdbc:${ormlite.version}'
+  - 'javax.annotation:javax.annotation-api:${javax-annotation-api.version}'
+  - 'javax.persistence:javax.persistence-api:${javax-persistence-api.version}'
+
+main: ru.ancap.framework.runtime.Artifex
+
+version: '${project.version}'
+prefix: Artifex
+load: POSTWORLD

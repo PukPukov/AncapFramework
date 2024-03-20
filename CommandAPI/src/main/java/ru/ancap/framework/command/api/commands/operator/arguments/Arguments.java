@@ -3,23 +3,20 @@ package ru.ancap.framework.command.api.commands.operator.arguments;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import ru.ancap.framework.command.api.syntax.CSCommand;
 import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNextArgumentException;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
 import ru.ancap.framework.command.api.commands.object.executor.CSCommandOperator;
-import ru.ancap.framework.command.api.commands.object.tab.OptionalTab;
-import ru.ancap.framework.command.api.commands.object.tab.TabBundle;
-import ru.ancap.framework.command.api.commands.object.tab.TabCompletion;
 import ru.ancap.framework.command.api.commands.operator.arguments.bundle.ArgumentsBundle;
 import ru.ancap.framework.command.api.commands.operator.arguments.bundle.ArgumentsMap;
 import ru.ancap.framework.command.api.commands.operator.arguments.command.ArgumentCommandDispatch;
 import ru.ancap.framework.command.api.commands.operator.arguments.extractor.exception.TransformationException;
-import ru.ancap.framework.command.api.event.classic.CannotTransformArgumentEvent;
-import ru.ancap.framework.command.api.event.classic.NotEnoughArgumentsEvent;
+import ru.ancap.framework.command.api.exception.classic.CannotTransformArgumentException;
 import ru.ancap.framework.command.api.exception.classic.RequiredArgumentMissingException;
+import ru.ancap.framework.command.api.syntax.CSCommand;
+import ru.ancap.framework.mccsyntax.bukkitadv.tab.OptionalTab;
+import ru.ancap.framework.mccsyntax.bukkitadv.tab.TabSuggestion;
 
 import java.util.HashMap;
 import java.util.List;
@@ -93,12 +90,7 @@ public class Arguments implements CSCommandOperator {
             try {
                 extracted = argument.extractor().extract(command);
             } catch (TransformationException exception) {
-                Bukkit.getPluginManager().callEvent(new CannotTransformArgumentEvent(
-                        dispatch.source().sender(), 
-                        exception.base(), 
-                        exception.extractor().type()
-                ));
-                return;
+                throw new CannotTransformArgumentException(exception.base(), exception.extractor().type());
             }
             try {
                 command = command.withoutArguments(argument.extractor().size());
@@ -128,7 +120,7 @@ public class Arguments implements CSCommandOperator {
         // pidorchuk red 5005 assistant 1 [day week jopa]
         // PlayerExtractor(1), HexagonExtractor(2), RoleExtractor(1), TimeExtractor(2)
         
-        CSCommand command = write.line();
+        CSCommand command = write.arguments();
         int written = command.arguments().size();
         
         // -1, потому что written - размер, а не индекс, +1, потому что надо получить следующий аргумент от последнего написанного
@@ -137,7 +129,7 @@ public class Arguments implements CSCommandOperator {
         
         ArgumentBounding bounding = this.optionalityBounding.get(shard.node().optional());
 
-        Function<CommandSender, List<TabCompletion>> tabFunction = shard.node().help() != null ? 
+        Function<CommandSender, List<TabSuggestion>> tabFunction = shard.node().help() != null ? 
             shard.node().help() :
             shard.node().extractor().help();
         

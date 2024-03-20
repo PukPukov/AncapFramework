@@ -1,0 +1,22 @@
+name: Artifex
+description: "Runtime part of AncapFramework"
+authors: [ PukPukov ]
+
+depend:
+  - ProtocolLib
+
+softdepend:
+  - ArtifexDatabaseDrivers
+  - PlaceholderAPI
+    
+libraries:
+  - 'org.apache.commons:commons-lang3:3.12.0'
+  - 'org.apache.commons:commons-collections4:4.4'
+  - 'commons-io:commons-io:2.11.0'
+  - 'org.junit.jupiter:junit-jupiter:5.9.2' # Used by StatusAPI in runtime
+
+main: ru.ancap.framework.runtime.Artifex
+
+version: '${project.version}'
+prefix: Artifex
+load: POSTWORLD

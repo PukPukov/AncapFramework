@@ -1,0 +1,3 @@
+auto-register-stage:
+  listeners: MANUAL
+  command-executors: MANUAL

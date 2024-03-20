@@ -34,9 +34,8 @@
             <groupId>com.github.ancap-dev</groupId>
             <artifactId>ScalarContainers</artifactId>
             <version>1.0</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>

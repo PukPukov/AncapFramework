@@ -1,27 +1,25 @@
 package ru.ancap.framework.command.api.commands.object.conversation;
 
 import net.kyori.adventure.text.Component;
-import ru.ancap.framework.command.api.commands.object.tab.TabBundle;
+import ru.ancap.framework.mccsyntax.bukkitadv.tab.TabSuggestion;
 
 import java.util.List;
 
 public interface CommandLineSpeaker {
 
     CommandSource source();
+    
+    TabSendStatement tab(List<TabSuggestion> completions);
 
-    void sendTab(TabBundle tab);
-    
-    default void sendTab(List<String> tabs) {
-        this.sendTab(TabBundle.builder()
-            .raw(tabs).build());
+    default void tooltipLine(Component tooltip) {
+        // throw new UnsupportedOperationException();
     }
     
-    default void sendTooltip(Component tooltip) {
-        throw new UnsupportedOperationException();
-    }
+    // Util
     
-    default void setLine(Component line) {
-        throw new UnsupportedOperationException();
+    default TabSendStatement tab_str(List<String> tabs) {
+        return this.tab(tabs.stream()
+            .map(TabSuggestion::simple).toList());
     }
     
 }

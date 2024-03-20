@@ -15,6 +15,8 @@ import ru.ancap.framework.communicate.message.Message;
 import ru.ancap.framework.configuration.AnnotationConfiguration;
 import ru.ancap.framework.plugin.api.commands.CommandCenter;
 import ru.ancap.framework.plugin.api.commands.PluginCommandRegistrar;
+import ru.ancap.framework.plugin.api.commands.PluginPrivateCommandRegistrar;
+import ru.ancap.framework.plugin.api.commands.util.UtilPPCR;
 import ru.ancap.framework.plugin.api.information.AncapPluginSettings;
 import ru.ancap.framework.plugin.api.information.RegisterStage;
 import ru.ancap.framework.plugin.api.language.locale.loader.LocaleLoader;
@@ -29,7 +31,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 public abstract class AncapPlugin extends AncapMinimalisticPlugin {
-
+    
     private static final Map<String, AncapPlugin> plugins = new HashMap<>();
     protected static CommandExecutor proxy;
     private static CommandCenter commandCenter;
@@ -37,7 +39,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     private static ScheduleSupport scheduleSupport;
     private static TriFunction<JavaPlugin, CallableMessage, Runnable, PluginLoadTask> pluginLoadTaskProvider;
     private AncapPluginSettings settings;
-    private PluginCommandRegistrar commandRegistrar;
+    private PluginPrivateCommandRegistrar commandRegistrar;
     
     public static Scheduler scheduler() { return AncapPlugin.scheduler; }
     public static void scheduler(Scheduler scheduler) { AncapPlugin.scheduler = scheduler; }
@@ -45,7 +47,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     public static void scheduleSupport(ScheduleSupport scheduleSupport) { AncapPlugin.scheduleSupport = scheduleSupport; }
     public static TriFunction<JavaPlugin, CallableMessage, Runnable, PluginLoadTask> pluginLoadTaskProvider() { return AncapPlugin.pluginLoadTaskProvider; }
     public static void pluginLoadTaskProvider(TriFunction<JavaPlugin, CallableMessage, Runnable, PluginLoadTask> pluginLoadTaskProvider) { AncapPlugin.pluginLoadTaskProvider = pluginLoadTaskProvider; }
-
+    
     @MustBeInvokedByOverriders
     @Override
     public void onEnable() {
@@ -65,28 +67,28 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         this.unregister();
         this.commandCenter().findRegisteredCommandsOf(this).forEach(id -> this.commandRegistrar.unregister(id));
     }
-
+    
     private void loadPluginCommandRegistrar() {
         this.commandRegistrar = new PluginCommandRegistrar(this, AncapPlugin.commandCenter);
     }
-
+    
     public void loadAnnotationConfiguration(Class<?> config) {
         AnnotationConfiguration.load(config, this.getConfiguration());
     }
-
+    
     private void initializeInCommandCenter() {
         AncapPlugin.commandCenter.initialize(this);
     }
-
+    
     public void registerCommandCenter(CommandCenter commandCenter) {
         if (AncapPlugin.commandCenter != null) throw new IllegalStateException("Command center is already registered!");
         AncapPlugin.commandCenter = commandCenter;
     }
-
-    public PluginCommandRegistrar commandRegistrar() {
+    
+    public PluginPrivateCommandRegistrar commandRegistrar() {
         return this.commandRegistrar;
     }
-
+    
     public void registerIntegrators() {
         this.registerListeners();
         this.registerCommandExecutors();
@@ -98,17 +100,17 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         if (executors == RegisterStage.ANCAP_PLUGIN_ENABLE) this.registerCommandExecutors();
         if (listeners == RegisterStage.ANCAP_PLUGIN_ENABLE) this.registerListeners();
     }
-
+    
     public void registerListeners() {
         for (Listener listener : this.listeners()) this.registerEventsListener(listener);
     }
-
+    
     public void registerCommandExecutors() {
         for (Map.Entry<String, CSCommandOperator> entry : this.commands().entrySet()) {
             this.commandRegistrar().register(entry.getKey(), entry.getValue());
         }
     }
-
+    
     public void loadLocales() {
         new LocaleLoader(
             this.getLogger(),
@@ -120,37 +122,37 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
             ))
         ).run();
     }
-
+    
     public Iterable<AncapPlugin> ancapPlugins() {
         return plugins.values();
     }
-
+    
     private void register() {
         plugins.put(this.getName(), this);
     }
-
+    
     private void unregister() {
         plugins.remove(this.getName());
     }
-
+    
     private CommandCenter commandCenter() {
         return commandCenter;
     }
-
+    
     public @NonNull AncapPluginSettings getSettings() {
         return this.settings;
     }
-
+    
     private void loadPluginSettings() {
         this.settings = new AncapPluginSettings(this.newResourceSource(FileConfigurationPreparator.internal()).getResource("ancapplugin.yml"));
     }
-
+    
     public ConfigurationSection getConfiguration() {
         return this.getConfiguration("configuration.yml");
     }
-
+    
     private final Cache<FileConfiguration> configCache = new Cache<>();
-
+    
     public ConfigurationSection getConfiguration(String fileName) {
         return this.configCache.get(() -> this.newResourceSource(FileConfigurationPreparator.resolveConflicts(
             (version) -> this.valueTransferMap() != null ? 
@@ -161,19 +163,19 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     }
     
     private final Cache<ConfigurationSection> valueTransferMapCache = new Cache<>();
-
+    
     public ConfigurationSection valueTransferMap() {
         return this.valueTransferMapCache.get(() -> this.newResourceSource(FileConfigurationPreparator.internal()).getResource("value-transfer-map.yml"));
     }
-
+    
     public Map<String, CSCommandOperator> commands() {
         return Map.of();
     }
-
+    
     public List<Listener> listeners() {
         return List.of();
     }
-
+    
     /**
      * Start executing of the metered task. 
      */

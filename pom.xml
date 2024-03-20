@@ -23,9 +23,13 @@
         <module>StatusAPI</module>
         <module>IdentifierAPI</module>
         <module>UpdaterAPI</module>
+        <module>MCCSyntax</module>
+        <module>CommandCenterAPI</module>
+        <module>Utilities</module>
     </modules>
 
     <properties>
+        <framework.version>1.7-dev.5.2</framework.version>
         <java.version>21</java.version>
         <adventure-api.version>4.13.0</adventure-api.version>
         <adventure-platform.version>4.3.0</adventure-platform.version>
@@ -177,7 +181,7 @@
             <groupId>com.github.ancap-kun</groupId>
             <artifactId>AncapCommons</artifactId>
             <version>1.8.24</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

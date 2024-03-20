@@ -1,0 +1,1 @@
+Very scary pile of very useful utility methods, that was previously located in AncapPluginAPI. The relocation is aimed not so much at practical use right now as on modularity of framework logic preservation to the long future.

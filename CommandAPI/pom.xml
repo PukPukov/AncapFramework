@@ -24,7 +24,7 @@
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
-            <artifactId>BukkitUtil</artifactId>
+            <artifactId>BukkitUtilities</artifactId>
             <version>1.3</version>
             <scope>provided</scope>
         </dependency>
@@ -43,6 +43,12 @@
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>IdentifierAPI</artifactId>
+            <version>1.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ru.ancap</groupId>
+            <artifactId>MCCSyntax</artifactId>
             <version>1.0</version>
             <scope>provided</scope>
         </dependency>

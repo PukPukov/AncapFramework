@@ -1,0 +1,1018 @@
+[33mcommit 02816a714940e1700ce1c1fd81d366bc73a490a3[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Mon Jan 8 11:11:50 2024 +0500
+
+    work
+
+[33mcommit ede3ce18dcb63764edbef4cbf186a7f23bf54694[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Fri Jan 5 07:25:56 2024 +0500
+
+    Better method name
+
+[33mcommit 97caf8404d08cdd50deedcb3271ba9fe4bff74d2[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Fri Jan 5 07:25:35 2024 +0500
+
+    Rework Messages to comply new CallableMessage contract and remove useless caches
+
+[33mcommit 6b182c4df5a7dfafcfdcfcb75fc25ace26d271ba[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Fri Jan 5 07:23:34 2024 +0500
+
+    Remove useless caching
+
+[33mcommit 2ce6011e3f5726bee2784fc0bb96860707053b53[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Fri Jan 5 07:21:29 2024 +0500
+
+    Throw TodoException instead of null returning
+
+[33mcommit 1551d289e20fb2c55c31b41d97f86207b3bf3547[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Fri Jan 5 07:20:10 2024 +0500
+
+    Rename identifier to receiverId
+
+[33mcommit f8f882222f46bf30e82f229d8c27fe82bf069126[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Fri Jan 5 07:12:09 2024 +0500
+
+    Make StatusOutput compliant to CallableMessage contract changes
+
+[33mcommit a7609af1d5f6b87bd0f0d0dd55369e7e331b646c[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Fri Jan 5 07:11:25 2024 +0500
+
+    Make Reply work with CommandSource instead of CommandSender
+
+[33mcommit e238d69008a8c5d647ab07401e7710ef0c3a1767[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Fri Jan 5 07:10:53 2024 +0500
+
+    Add contract to CallableMessage
+
+[33mcommit 49f3400792b75b4672ce70201af878c09f76d59d[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Fri Jan 5 02:55:56 2024 +0500
+
+    bump version
+
+[33mcommit 474a4163d5bd9b5b1ebeff26c8497615c0731c96[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Fri Jan 5 02:52:54 2024 +0500
+
+    Optimize MiniMessageMapper
+
+[33mcommit 2c2dba0ffbddcdda96d2e1ed27f94a3630a5c6d2[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Fri Jan 5 02:52:08 2024 +0500
+
+    Logically reorder methods
+
+[33mcommit b21ac3ac488b10a18dc297483732d9d4c683fca1[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Fri Jan 5 02:48:02 2024 +0500
+
+    Nuke callSyncMethod where it is not needed
+
+[33mcommit 8c97f5b7a5df24437e350c750525f6392b52141c[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Tue Dec 19 11:32:04 2023 +0500
+
+    1.7-dev.5.2
+
+[33mcommit d7684315cb8c3b77413e71f718d9f5f083c04ffd[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Tue Dec 19 11:24:41 2023 +0500
+
+    1.7-dev.5.1
+
+[33mcommit b5f4ae6207c1e4c6d1a2fc2146d99a5318a536c4[m
+Author: PukPukov <vovanchikputin@vk.com>
+Date:   Tue Dec 19 11:19:25 2023 +0500
+
+    1.7-dev.5
+
+[33mcommit fce5ecf45cd718671ef84c862a124444439e3f5c[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Sep 22 16:25:28 2023 +0500
+
+    1.7-dev.4
+
+[33mcommit 59b753a6e5e3e0ae14e5993b6fc8e9f76287c09c[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Sep 22 16:23:33 2023 +0500
+
+    new jdk
+
+[33mcommit 168967a75fd263b97a1ffbfeee15f03b02a5b09a[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Sep 22 16:20:54 2023 +0500
+
+    fix docs
+
+[33mcommit 6ac002dfc2cc95730022eef05498ba2199005a3a[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Sep 22 16:20:29 2023 +0500
+
+    make static import for event priority
+
+[33mcommit b16b3d7afac5f24556b27a81589f6522188c3d6f[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Sep 22 16:20:09 2023 +0500
+
+    lol
+
+[33mcommit 1302ccfcbb1682c9d48d5ee7f73ba58984352b40[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Sep 22 15:47:47 2023 +0500
+
+    reduced boilerplate with records
+
+[33mcommit fbd81909b24521ab71c569c4a1930f4c6aa04c1f[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Sep 22 15:35:30 2023 +0500
+
+    some refactors with sonarlint
+
+[33mcommit e30809b99509552321b3504426fa52be10d7489e[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Sep 22 13:51:45 2023 +0500
+
+    bump junit version
+
+[33mcommit 7f088b87102419cbc36472ea0144376955926780[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Sep 22 13:47:01 2023 +0500
+
+    fix bug when resolving default server language from nonexistent property in configuration
+
+[33mcommit 833bd63fc571576f4252723b2e866551fc91d299[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Sep 22 13:44:04 2023 +0500
+
+    delete dependencydummy
+
+[33mcommit 2f55dceee901123c3dbb6b6d494af4292e554731[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Sep 22 13:42:34 2023 +0500
+
+    better encoding property; fix adventure version bump
+
+[33mcommit cf7ce0e855365260a4aad0a1990703ec18ddad67[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Tue Sep 19 06:59:33 2023 +0500
+
+    null-safety with @lombok.NonNull
+
+[33mcommit 615bffb73bd642b472b31e489b3e914332e2701f[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Tue Sep 19 06:06:02 2023 +0500
+
+    CommandCenter's command's owner logic overhaul: support of owner lack and request of owned by plugin commands
+
+[33mcommit a1a3636263193776b67bc591cf852bd95c45d2b9[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Tue Sep 19 04:20:23 2023 +0500
+
+    bump adventure version
+
+[33mcommit 53d72377bbfb3d5cfb293dceaeacc408c7b025aa[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Tue Sep 19 03:58:48 2023 +0500
+
+    manual cleanup from garbage
+
+[33mcommit c8fc829342d47e491761e510672decd24dec1eb4[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Tue Sep 19 03:44:58 2023 +0500
+
+    licence is not garbage
+
+[33mcommit 4c4ba565665f4b9807f978842535913c7173864b[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Tue Sep 19 03:40:41 2023 +0500
+
+    manual cleanup from garbage
+
+[33mcommit d3155e1e4d73dac59556f3687f558c527b8ba1d1[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Tue Sep 19 03:31:40 2023 +0500
+
+    manual cleanup from garbage
+
+[33mcommit 9a5b693a4c201aea45a32111f8432b059a76d061[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Tue Sep 19 03:13:49 2023 +0500
+
+    manual cleanup from garbage
+
+[33mcommit 455aeccc81c53a6b32b5b8dced070417128fea0c[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Tue Sep 19 03:13:13 2023 +0500
+
+    manual cleanup from garbage
+
+[33mcommit 8d111bb27773a0a1516951264c3a6bc229d79537[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Tue Sep 19 03:08:29 2023 +0500
+
+    1.7-dev.3
+    1) Anticipatory Java 21 support
+    2) Cleaned up sources from generated files
+
+[33mcommit 5b7a7120f7bf0fec240812fd4e147c1c80a2292a[m
+Merge: 4dc2958 5d1124c
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Mon Sep 18 21:24:35 2023 +0500
+
+    1.7-dev.2
+
+[33mcommit 4dc29584806f4eae7d868b8f432494aa1fb22cd5[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Thu Jun 29 12:06:08 2023 +0500
+
+    1.6.30.dev
+
+[33mcommit 8ea357e2addf872dcc5d678aee15cc946395c61a[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Thu Apr 6 21:13:46 2023 +0500
+
+    1.6.25
+
+[33mcommit c98f717f08265d8557f6833bd035489037ad15ec[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Tue Apr 4 21:26:59 2023 +0500
+
+    1.6.22
+
+[33mcommit 3ddd4394e4ef3b98a42337aa803a0c575f178e35[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Mar 31 08:25:41 2023 +0500
+
+    timer in ConfigurationDatabase fix
+
+[33mcommit 1a01f6ea18f5bd301f0ac4aae676479eb60e5643[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Thu Mar 30 13:55:47 2023 +0500
+
+    1.6.21
+
+[33mcommit aa1e2a22d271709dcf3f9a8e1cc3b7c03f21b5cd[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Thu Mar 30 13:32:21 2023 +0500
+
+    1.6.20
+
+[33mcommit 7379ae04c5d205cf0e7fd8797e544a4e8d222c1e[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Tue Mar 28 12:50:38 2023 +0500
+
+    1.6.19
+
+[33mcommit 5478d938772ef354beb709a6003c3386f0609078[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Sun Mar 26 18:29:08 2023 +0500
+
+    1.6.18
+
+[33mcommit 6581d732d711f3ffcedba3e7827838c323a83124[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Sun Mar 26 18:14:14 2023 +0500
+
+    1.6.17
+
+[33mcommit 1717408d66c6693d5f260b6619568f65514a3740[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Sun Mar 26 10:45:15 2023 +0500
+
+    1.6.16
+
+[33mcommit dd59546189b503c09d984a9f6d66c2f72cf22a78[m
+Merge: 61d3770 27f045a
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Thu Mar 23 13:22:57 2023 +0500
+
+    Merge branch 'master' of https://github.com/ancap-dev/AncapFramework
+
+[33mcommit 61d37700bb89e5e22038378df6342322339b6fcc[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Thu Mar 23 13:22:31 2023 +0500
+
+    1.6.14
+
+[33mcommit c5a978c8fa59a0e5a6ba74c327a88156088056ba[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Thu Mar 23 13:19:49 2023 +0500
+
+    1.6.14
+
+[33mcommit 27f045a81160ce26f1c1d4bd12264b03979de94a[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Thu Mar 23 03:55:13 2023 +0500
+
+    Update README.md
+
+[33mcommit c2e7cb4070c86946bed0ba83ef90527990338569[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Thu Mar 23 03:39:39 2023 +0500
+
+    1.6.13
+
+[33mcommit 19d8ffcb938b8bda5fc411699958b1fd19bc5d6f[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Wed Mar 22 16:54:14 2023 +0500
+
+    1.6.13
+
+[33mcommit d584d3498518ea9fb73c241028a4bd9d8bb806a0[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Wed Mar 22 16:18:59 2023 +0500
+
+    1.6.13
+
+[33mcommit 5d1124ca53b97e826d38c5533ab97ce3e84840e1[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Wed Mar 22 16:11:12 2023 +0500
+
+    1.7-dev
+
+[33mcommit b5ffc0c2ad7feea4edafaac6fdadc8652914f94b[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Wed Mar 22 16:05:58 2023 +0500
+
+    1.7-dev
+
+[33mcommit bfbb51eb59a87acdb7b67f59bfe633f95e0343d3[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Sat Mar 4 11:52:01 2023 +0500
+
+    1.6.12
+
+[33mcommit 3c1659988331c079f33751254053709f27533313[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Wed Feb 22 14:05:11 2023 +0500
+
+    1.6.11
+
+[33mcommit 3607dd292d9304546b4a90c92811eccdd4f3ae12[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Wed Feb 22 12:36:55 2023 +0500
+
+    1.6.10
+
+[33mcommit 82fa4a4ee94a15df50acfbcecf6d444c83a3d332[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Wed Feb 22 12:34:34 2023 +0500
+
+    1.6.10
+
+[33mcommit fb02afdb77c438f26ac9a11a621c9af3a5c23849[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Wed Feb 22 12:18:20 2023 +0500
+
+    Update README.md
+
+[33mcommit f1ec2eaabeb9e05914e36b50304ae5fcdb36b665[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Wed Feb 22 12:13:43 2023 +0500
+
+    1.6.9
+
+[33mcommit 8ff77ffd735d142a3213abe0b8dcc8eebf4ece57[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Sat Feb 18 11:13:51 2023 +0500
+
+    1.6.8
+
+[33mcommit 50b4e105dc963f4961ba3068d481db46d6ed6a45[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Sat Feb 18 11:02:54 2023 +0500
+
+    1.6.7
+
+[33mcommit 07cd4413bd977a27c55eb81ecbf35fe67730eb33[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Feb 17 20:25:03 2023 +0500
+
+    1.6.6
+
+[33mcommit 89d467c08acbd89428921a263f7c143c9a1e8bda[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Feb 17 19:28:33 2023 +0500
+
+    1.6.5
+
+[33mcommit 3d435b22f89c901152e4fa98add020d98e3ee75c[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Feb 17 19:02:42 2023 +0500
+
+    1.6.4
+
+[33mcommit 9e323c0c7cfe586c17d87d527fd8038d20c99960[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Feb 17 17:56:51 2023 +0500
+
+    1.6.3
+
+[33mcommit 2efe1ab549405b855ba498e2ea594ced324f0a00[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Feb 17 15:24:08 2023 +0500
+
+    1.6.1
+
+[33mcommit 8626ba5ea17cc805fdec34033952b92b472c6350[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Fri Feb 17 14:34:04 2023 +0500
+
+    1.6
+
+[33mcommit 3fe9beac01a58386e15ef098957f7f0a502266d2[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Tue Feb 14 03:05:49 2023 +0500
+
+    Delete AncapPluginAPI.iml
+
+[33mcommit 641a698d3005b1537f3081109888d87e84a278d8[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Tue Feb 14 02:51:56 2023 +0500
+
+    1.5.6
+
+[33mcommit 5c522ebdf93839da49dc63197fb98d99ff4ca4ad[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Tue Feb 14 02:51:33 2023 +0500
+
+    1.5.6
+
+[33mcommit 84ff2e0b033d596af0530e39067ed538ea1c9705[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Tue Feb 14 02:50:18 2023 +0500
+
+    1.5.6
+
+[33mcommit 4fd8bf319f35cb4777d005e5ba3ee76f9a0a3831[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Tue Feb 14 02:50:05 2023 +0500
+
+    1.5.6
+
+[33mcommit a4def7a738db26cdd372d2a233050bfb59b4b8b3[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Tue Feb 14 02:49:41 2023 +0500
+
+    1.5.6
+
+[33mcommit 8b5fdfa7a143a3efb6451434888cd0c94c6dd5b9[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Tue Feb 14 02:49:16 2023 +0500
+
+    1.5.6
+
+[33mcommit c368025666a4f16cef633769357ba4f8279a21ff[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Tue Feb 14 02:33:26 2023 +0500
+
+    1.5.6
+
+[33mcommit 85ce871d9401c697dda89e133eb4c4ac9fd4ef84[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Tue Feb 14 02:32:51 2023 +0500
+
+    1.5.6
+
+[33mcommit bcfef6e11c9c385e2121ab3319eaacf870dd5576[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Tue Feb 14 02:32:02 2023 +0500
+
+    1.5.6
+
+[33mcommit 1ecafc5f497e2039b4ffeab33430065dd8ef3b06[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Tue Feb 14 02:29:19 2023 +0500
+
+    1.5.6
+
+[33mcommit 3284d9ca798f3c49550eb48976f583e675d016be[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Tue Feb 14 01:02:25 2023 +0500
+
+    Update README.md
+
+[33mcommit 6ea41e72c49ff6c7506a019c3bcbfe20d0111ce5[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 13:32:59 2023 +0500
+
+    Update README.md
+
+[33mcommit 89064ce9afcf69f83ace9a3c469d79c6fff56ef9[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 13:30:26 2023 +0500
+
+    Update README.md
+
+[33mcommit 059ebdc54d9317c5347212a067e1eec587cee95f[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 13:05:07 2023 +0500
+
+    Add files via upload
+
+[33mcommit 7094fd8d5b1ad9f54225776a181839559b410400[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 13:04:43 2023 +0500
+
+    Add files via upload
+
+[33mcommit c5d113a816b610857a0cede67972d7f49c54b5bc[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:29:37 2023 +0500
+
+    Add files via upload
+
+[33mcommit 38c4f3fd81f401322253a7f4f620b2e2721e7644[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:29:23 2023 +0500
+
+    Add files via upload
+
+[33mcommit 28297937e2b6a6748b111a3e5e76634e1a94b9cf[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:22:04 2023 +0500
+
+    Add files via upload
+
+[33mcommit c5715b7baba62645e5c8ba324ba863e81b5e5e84[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:20:19 2023 +0500
+
+    Add files via upload
+
+[33mcommit faf0517e105b7188c14f0ab1c30a99f454ce44f1[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:15:23 2023 +0500
+
+    Add files via upload
+
+[33mcommit 7858dc1041a8910486d684a4cee92aea9f2dd7b6[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:13:28 2023 +0500
+
+    Delete TransformatorAPI.iml
+
+[33mcommit 0a8a05d9a45e1362294ffb101fc1c5c4df70c97e[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:11:54 2023 +0500
+
+    1.5
+
+[33mcommit d790c2af030203a7d8b04cef09d997047e962b38[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:10:45 2023 +0500
+
+    1.5
+
+[33mcommit 2d3bad52a2c47369a907dfc969051ffdf6baa5a4[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:08:52 2023 +0500
+
+    1.5
+
+[33mcommit 9615f068ff5110a841388d30dc552107d975e587[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:07:02 2023 +0500
+
+    Delete MenuAPI directory
+
+[33mcommit d3bff3c7c55ed3b3ce5bd6da831e85dabc9babdf[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:06:54 2023 +0500
+
+    Delete LanguageAPI directory
+
+[33mcommit 667993d34429ee03bfdf00b2565d1e9a74625ade[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:06:46 2023 +0500
+
+    Delete Jigsaw directory
+
+[33mcommit 0d0113d511acabaedfc77a2e1ebae5bd36e8f34d[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:06:38 2023 +0500
+
+    Delete DatabaseAPI directory
+
+[33mcommit ce5bb4f9c32294004a7a891257fcbedaee1c128e[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:06:29 2023 +0500
+
+    Delete ConfigurationAPI directory
+
+[33mcommit e50fa01a53fb1a757d4775009b4f93775ae4f9f1[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:06:22 2023 +0500
+
+    Delete CommunicatorAPI directory
+
+[33mcommit 1e332ad80d0660087f6e0267a7ac580e43689103[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:06:14 2023 +0500
+
+    Delete CommandAPI directory
+
+[33mcommit d5a3318d82271b184f69b56e10b3133bb729028d[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:06:03 2023 +0500
+
+    Delete BukkitPlus directory
+
+[33mcommit 4408e8a039af96b79380f989e37fca713e4a6cb2[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:05:52 2023 +0500
+
+    Delete Artifex directory
+
+[33mcommit 0325e9e94552ad3a586dfa99431be554c38b6862[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 12:05:42 2023 +0500
+
+    Delete AncapPluginAPI directory
+
+[33mcommit a72ea7614e6d9209e9a967d26a999bb3942c0a0e[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 11:49:42 2023 +0500
+
+    Delete NumberUnitsAPI directory
+
+[33mcommit 9004d3dad484e6ec8d446d320bf76435cddeffff[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 11:49:23 2023 +0500
+
+    1.5
+
+[33mcommit 763f4d11bcb3f525986e7c3e73d856ebb4317068[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 11:48:08 2023 +0500
+
+    Delete META-INF directory
+
+[33mcommit 99e1923e8629605a7cc350809d5348120db3bb8e[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 11:47:59 2023 +0500
+
+    Delete .idea directory
+
+[33mcommit e10c47964ce5fa477841e7b91d322ec29678078e[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 11:47:47 2023 +0500
+
+    Delete AncapCommons directory
+
+[33mcommit 312111f860251405280a160d0c13b91d39c28683[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 11:47:08 2023 +0500
+
+    1.5
+
+[33mcommit 2c08e2af84cc5ac5a4221efb16a1f044a2fd804a[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 11:45:37 2023 +0500
+
+    1.5
+
+[33mcommit 7542ee269adb837f035bc0f96fee5f7b835b4bfe[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 11:35:24 2023 +0500
+
+    1.5
+
+[33mcommit a8d78807ff553f8f7965988f1a66e573deb6c4dd[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 11:34:18 2023 +0500
+
+    1.5
+
+[33mcommit e33753d8bd665c3bda62c48754a34b2e90bdd8d3[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 11:33:13 2023 +0500
+
+    1.5
+
+[33mcommit 5d4b9f14e9d23de7953420d6d4c0ca2aa42c3487[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Feb 13 11:32:23 2023 +0500
+
+    1.5
+
+[33mcommit a8224caa4c29420ebd0666580f7b27e282f2f41b[m
+Merge: 7a43e2b f0b6256
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Mon Jan 23 00:35:50 2023 +0500
+
+    Merge branch 'main' of https://github.com/ancap-dev/AncapFramework
+
+[33mcommit 7a43e2b342fd13e930a74a6a7e4a371605196392[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Mon Jan 23 00:35:37 2023 +0500
+
+    1.4.2
+
+[33mcommit f0b625681c80977a3765f1171c7e7957790b5515[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Mon Jan 23 00:10:04 2023 +0500
+
+    Update README.md
+
+[33mcommit a462ef30cfc162b6bef51850240045346f642209[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Sun Jan 22 21:55:24 2023 +0500
+
+    1.4.3
+
+[33mcommit 5e804be025f046a1022896ed8c3f7d8886d801c6[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Sun Jan 22 21:52:23 2023 +0500
+
+    1.4.3
+
+[33mcommit 0d6d225ecf1d7ab7dd425386ab487808994b87e7[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Sun Jan 22 21:45:47 2023 +0500
+
+    1.4.2
+
+[33mcommit b00fad20e74b276936b921542d560fb2ee25f3d4[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Sun Jan 22 20:53:50 2023 +0500
+
+    Update README.md
+
+[33mcommit 25dcd801d0909b579521e2da33af5285b7893c82[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Sun Jan 22 17:54:46 2023 +0500
+
+    Update README.md
+
+[33mcommit ebe3fb6476805b84d5af4bf0bbee478e83e0597c[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Sun Jan 22 06:11:11 2023 +0500
+
+    Update README.md
+
+[33mcommit abf2c5919b0b75d58bac5b8fa3065dc4dba4a11e[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Sun Jan 22 06:08:21 2023 +0500
+
+    Update README.md
+
+[33mcommit 3cc7e99b3e741623e016e82803ddde2850223f90[m
+Author: ancap-kun <90708073+ancap-kun@users.noreply.github.com>
+Date:   Sun Jan 22 05:59:45 2023 +0500
+
+    Update README.md
+
+[33mcommit f46a8b14c3faecb51a52fb512fc3a8b8ed482bea[m
+Author: ancap-kun <vovanchikputin@vk.com>
+Date:   Sun Jan 22 01:22:50 2023 +0500
+
+    1.4
+
+[33mcommit 75a463ef61414bcfa6891f8a502531f4ebb432c4[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri Jul 22 17:19:19 2022 +0500
+
+    Update README.md
+
+[33mcommit 23a6db1e1cc8e08700db255da4e13547b179716c[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri Jul 22 17:11:37 2022 +0500
+
+    Update README.md
+
+[33mcommit 1436476df82df2aa6fd4296383919cd911127a64[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri Jul 22 17:11:14 2022 +0500
+
+    Update README.md
+
+[33mcommit 4d86f51af433a050025045e21237c38a38a88b51[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri Jul 22 14:46:33 2022 +0500
+
+    1.3 - DatabaseAPI
+
+[33mcommit 92d1803156782104b1a6524f502444699e611993[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Sun Jul 17 14:57:22 2022 +0500
+
+    1.2 - AsyncCommandAPI
+    
+    Переработан принцип работы CommandExecutor'ов.
+    - Event-like система обработки команд
+    - Отказ от паттерна callable для возможности полного распараллеливания обработки команды
+    - Уже реализованный классический обработчик команд и асинхронный центр команд
+    - Регистрация команд перенесена в ancapplugin.yml и тоже улучшена
+
+[33mcommit 41b084f6ab22a182369e969fb8fd22d7f4c00a07[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Tue Jul 5 15:15:31 2022 +0500
+
+    Update README.md
+
+[33mcommit 955e96d735210d4a0df7d7250d8f1c295b63318c[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Tue Jul 5 15:15:06 2022 +0500
+
+    Update README.md
+
+[33mcommit b93425693082a64165f7b3cdc7186d0753f7c94d[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Tue Jul 5 14:30:03 2022 +0500
+
+    1.1 - BukkitPlus
+
+[33mcommit d275aacc16754447542471f9d4306917fccab7d5[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Wed Jun 29 19:40:49 2022 +0500
+
+    1.0
+
+[33mcommit f25a9467c2b4bb5b7d755cd2cd6d43c54e09d5fe[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Tue May 10 21:47:06 2022 +0700
+
+    Update README.md
+
+[33mcommit 5b53d6f8e0dd1a7e803d200ad9dba28c7086b521[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Tue May 10 21:46:53 2022 +0700
+
+    новая пикча
+
+[33mcommit 4b8e591d0f93d56291f553957459860fa37839ce[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Tue May 10 19:09:09 2022 +0700
+
+    Update README.md
+
+[33mcommit 14540de45148e88f7d41a803353eee85c6cd767f[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Tue May 10 19:07:55 2022 +0700
+
+    Update README.md
+
+[33mcommit 0b271cc0c031b0447bcd3ea7823181e1c569d5d4[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Tue May 10 19:07:30 2022 +0700
+
+    Update README.md
+
+[33mcommit 0a17d35c40d2c3d418ffa24423625b89f9a3cd33[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Tue May 10 19:00:47 2022 +0700
+
+    config fix
+
+[33mcommit 4b9b0a636f6fc6e6a4eb7b73102d166da6cc3810[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Mon May 9 01:37:48 2022 +0700
+
+    cleanings
+
+[33mcommit 6815087d5c5ee45457e28d6c5b27b198759ca2c8[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Sat May 7 20:40:33 2022 +0700
+
+    Update README.md
+
+[33mcommit dbf6fd1b1ff71c95d546d6db481ac9ccac57bccc[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Sat May 7 17:56:45 2022 +0700
+
+    Update README.md
+
+[33mcommit ea026eb381b265aa6e18585bfa07af42d55ac93b[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Sat May 7 17:45:14 2022 +0700
+
+    Update README.md
+
+[33mcommit 6e2ac0b8d2fa0ff075627afb24242e7657171cc8[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Sat May 7 17:42:39 2022 +0700
+
+    bugfix
+
+[33mcommit 458dd120ec2d74f00feba80581ab8549bda7c654[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Sat May 7 17:04:10 2022 +0700
+
+    Delete AncapPluginAPI.iml
+
+[33mcommit 674e405813925cc2186c48f391a2c8efe199ab73[m
+Merge: a9561ba b377521
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Sat May 7 17:03:09 2022 +0700
+
+    Merge branch 'main' of https://github.com/ancap-dev/AncapFramework
+
+[33mcommit a9561ba9e2565d9e287a476e0fbe23d36301b1c9[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Sat May 7 17:02:53 2022 +0700
+
+    bugfix+small refactor
+
+[33mcommit b377521e35534d02beb655a305daafbf42bdd873[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Sat May 7 00:30:43 2022 +0700
+
+    Update README.md
+
+[33mcommit bfe6287aa0446c1ecb17addb9cc7147a84d7534a[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri May 6 23:50:57 2022 +0700
+
+    Update README.md
+
+[33mcommit a54b32c6abd561fae07b12eeec4e3e46dd67dbdb[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri May 6 23:50:42 2022 +0700
+
+    Update README.md
+
+[33mcommit 60812cc7c2c200565d4faf8d25d090856603f065[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri May 6 23:24:11 2022 +0700
+
+    Update README.md
+
+[33mcommit 925ca31a723f2b6b6ea4b4ee729946b842bb11e7[m
+Merge: ce191dc 75fdda1
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri May 6 22:41:11 2022 +0700
+
+    Merge branch 'main' of https://github.com/ancap-dev/AncapFramework
+
+[33mcommit 75fdda181fed51e67d913b6c905dfefd464833ad[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri May 6 22:34:22 2022 +0700
+
+    Update README.md
+
+[33mcommit befc9c3f24929e6a6762c86fe98da973f91f04f8[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri May 6 22:34:09 2022 +0700
+
+    Update README.md
+
+[33mcommit 29b8c1e72154180574cf7c6687bc8c30242a2a03[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri May 6 22:33:25 2022 +0700
+
+    Update README.md
+
+[33mcommit b66865bb4e0856497d6aa0c1ec8a26a8cf65a9f3[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri May 6 22:32:08 2022 +0700
+
+    meta-inf
+
+[33mcommit ce191dcf8bbc0d4445458f9f0e91f059889b1568[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri May 6 22:30:57 2022 +0700
+
+    meta-inf
+
+[33mcommit a88d3eaad8578e0f021bc6f3433c69b80a7c132d[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri May 6 22:30:26 2022 +0700
+
+    Create README.md
+
+[33mcommit 0e4f0589852088097e9b965f1bbbe82d6afe5868[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri May 6 21:01:37 2022 +0700
+
+    bugfix
+    
+    баги:
+    - Не запускался плагин из-за использования абстрактных ивентов (так нельзя)
+    - Баг в конфигурации из-за неправильного создания секций конфигурации
+    - Баг из-за несозданной папки
+    - Баг из-за двойного переименования мейн-класса
+    - Баг из-за неправильно заполненного конфига (%error_sound%)
+    - Баг из-за неправильно заполненного конфига №2 (error_sound.toLowerCase())
+    - Баг с пакетами (СУКА тоже баг из за неправильно заполненного конфига, баг из-за неправильно заполненного конфига №3) (messageS)
+    - Странный баг с вычленением плейсхолдеров из стринга (проблема была в том, что буфер плейсхолдеров не очищался, глобальная проблема - в процедурщине ёбаной)
+    
+    недоработки:
+    - Использовалось старое название AncapLibrary вместо AncapPlugin
+    
+    Итог:
+    8 багов найдено и исправлено (из которых 4 заделаны заплатной без глобального решения проблемы), в том числе 2 из-за чужого кода, 2 по моей вине, 1 по моей невнимательности, 3 из-за недостаточно удобного юзер-интерфейса
+
+[33mcommit e0ebccce7d5ea983e898176a80e2795b5078d718[m
+Author: PukPukov <90708073+PukPukov@users.noreply.github.com>
+Date:   Fri May 6 14:45:43 2022 +0700
+
+    Initial commit

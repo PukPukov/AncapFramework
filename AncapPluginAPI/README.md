@@ -1,0 +1,5 @@
+Primary purpose of AncapPluginAPI is to create alternative to bukkit way to create plugins. Unlike it's goal before 1.7, now it's on the same level as other api's and don't include mess from very small utils, that are separated to it's own modules. Something similar can be found in paper in their separate work with paper plugins and paper api — you don't need to make paper plugins to use paper api.
+
+Previously this module was used mainly as framework api unificator and utilitary methods pile, and with big 1.7 framework refactor it was almost deleted, but there left one thing that should 
+
+The main reason of creating additional way to load plugins is very hardcoded api of bukkit/spigot, where you can't access most of features directly via plain java code and forced to fill plugin.yml. It's useful to improve readability of plugins, but adds 

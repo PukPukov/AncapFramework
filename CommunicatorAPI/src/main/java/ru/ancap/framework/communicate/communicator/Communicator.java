@@ -22,9 +22,4 @@ public interface Communicator {
     @Blocking
     void message(CallableMessage callable);
     
-    /* when deminecraftized
-    Audience platform(); 
-    Component textOf(CallableMessage message); 
-    */
-    
 }
