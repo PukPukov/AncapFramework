@@ -32,14 +32,6 @@
             <scope>compile</scope>
         </dependency>
         
-        <!-- COMMONS -->
-        <dependency>
-            <groupId>ru.ancap</groupId>
-            <artifactId>DependencyDummy</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        
         <!-- FRAMEWORK -->
         <dependency>
             <groupId>ru.ancap</groupId>

@@ -12,14 +12,5 @@
     <artifactId>ResourceAPI</artifactId>
     <packaging>jar</packaging>
     <version>1.0</version>
-    
-    <dependencies>
-        <dependency>
-            <groupId>ru.ancap</groupId>
-            <artifactId>DependencyDummy</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
 
 </project>
