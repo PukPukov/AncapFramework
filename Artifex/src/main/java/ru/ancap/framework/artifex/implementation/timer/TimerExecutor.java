@@ -24,13 +24,12 @@ public class TimerExecutor implements Runnable {
     @NonBlocking
     private void repeat(Supplier<Event> toCall, int period) {
         Bukkit.getScheduler().runTaskTimer(
-                this.plugin,
-                () -> Bukkit.getScheduler().callSyncMethod(this.plugin, () -> {
-                    Bukkit.getPluginManager().callEvent(toCall.get());
-                    return Void.TYPE;
-                }),
-                0,
-                period
+            this.plugin,
+            () -> Bukkit.getScheduler().runTask(this.plugin, () -> {
+                Bukkit.getPluginManager().callEvent(toCall.get());
+            }),
+            0,
+            period
         );
     }
     

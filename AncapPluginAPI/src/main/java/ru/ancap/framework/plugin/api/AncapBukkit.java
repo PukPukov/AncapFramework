@@ -8,7 +8,6 @@ import org.bukkit.command.*;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NonBlocking;
-import ru.ancap.commons.debug.AncapDebug;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -22,11 +21,10 @@ public class AncapBukkit {
     
     @NonBlocking
     public static void sendCommand(CommandSender sender, String command) {
-        Bukkit.getScheduler().callSyncMethod(
+        Bukkit.getScheduler().runTask(
             CORE_PLUGIN,
             () -> {
                 Bukkit.dispatchCommand(sender, command);
-                return Void.TYPE;
             }
         );
     }
@@ -64,7 +62,6 @@ public class AncapBukkit {
         @NonNull String commandName
     ) {
         SimpleCommandMap map = (SimpleCommandMap) FieldUtils.readField(Bukkit.getServer(), "commandMap", true);
-        AncapDebug.debugArray(FieldUtils.getAllFields(SimpleCommandMap.class));
         @SuppressWarnings("unchecked")
         Map<String, Command> knownCommands = (Map<String, Command>) FieldUtils.readField(map, "knownCommands", true);
         for (String alias : Bukkit.getPluginCommand(commandName).getAliases()) knownCommands.remove(alias);
@@ -73,7 +70,7 @@ public class AncapBukkit {
     }
 
     @SneakyThrows
-    private static void syncCommands() {
+    public static void syncCommands() {
         String version = Bukkit.getServer().getClass().getName().split("\\.")[3];
         Class<?> server = Class.forName("org.bukkit.craftbukkit." + version + ".CraftServer");
         Method syncCommands = server.getDeclaredMethod("syncCommands");

@@ -2,6 +2,7 @@ package ru.ancap.framework.artifex.implementation.language.input;
 
 import lombok.AllArgsConstructor;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import ru.ancap.framework.artifex.implementation.language.data.model.SpeakerModel;
@@ -18,7 +19,7 @@ public class LAPIJoinListener implements Listener {
     
     private final ExecutorService thread = Executors.newSingleThreadExecutor();
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void on(PlayerJoinEvent event) {
         this.thread.execute(() -> {
             if (this.repository.read(Identifier.of(event.getPlayer())) != null) return;
