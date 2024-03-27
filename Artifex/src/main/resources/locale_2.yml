@@ -54,6 +54,7 @@ ru:
               player: "player"
               console: "console"
               command-block: "command block"
+
         command:
           tps: "<green>TPS server: %TPS%</green>"
           api:
@@ -72,6 +73,11 @@ ru:
           language:
             enter-language: "The <u>/language</u> command is for selecting the server language. Use it like this: <u>/language set <language code></u>, where the language code can be anything from the ISO 639-1 standard."
             setup: "Your language has been changed to Russian."
+          plugins:
+            base-message:
+              - "List of plugins on <#f70000>AncapFramework</#f70000>:"
+              - "%PLUGINS%"
+            plugin-form: "<#5100ff>%NAME%</#5100ff> v%VERSION% by <#5100ff>%AUTHORS%</#5100ff>"
         plugin-info:
           - "%PLUGIN% v%VERSION%."
           - "Authors: %AUTHORS%. "

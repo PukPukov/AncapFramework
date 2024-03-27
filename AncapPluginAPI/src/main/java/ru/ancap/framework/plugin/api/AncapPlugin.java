@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import ru.ancap.commons.TriFunction;
 import ru.ancap.commons.cache.Cache;
+import ru.ancap.commons.debug.AncapDebug;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.communicate.message.Message;
@@ -65,7 +66,10 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     public void onDisable() {
         this.unregister();
         Set<String> registeredCommands = Set.copyOf(this.commandCenter().findRegisteredCommandsOf(this));
-        registeredCommands.forEach(id -> this.commandRegistrar.unregister(id));
+        registeredCommands.forEach(id -> {
+            AncapDebug.debug("unregistering", id);
+            this.commandRegistrar.unregister(id);
+        });
     }
 
     private void loadPluginCommandRegistrar() {
@@ -88,7 +92,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     public PluginCommandRegistrar commandRegistrar() {
         return this.commandRegistrar;
     }
-
+    
     public void registerIntegrators() {
         this.registerListeners();
         this.registerCommandExecutors();
@@ -100,17 +104,17 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         if (executors == RegisterStage.ANCAP_PLUGIN_ENABLE) this.registerCommandExecutors();
         if (listeners == RegisterStage.ANCAP_PLUGIN_ENABLE) this.registerListeners();
     }
-
+    
     public void registerListeners() {
         for (Listener listener : this.listeners()) this.registerEventsListener(listener);
     }
-
+    
     public void registerCommandExecutors() {
         for (Map.Entry<String, CommandOperator> entry : this.commands().entrySet()) {
             this.commandRegistrar().register(entry.getKey(), entry.getValue());
         }
     }
-
+    
     public void loadLocales() {
         new LocaleLoader(
             this.getLogger(),
@@ -122,37 +126,37 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
             ))
         ).run();
     }
-
+    
     public Iterable<AncapPlugin> ancapPlugins() {
         return plugins.values();
     }
-
+    
     private void register() {
         plugins.put(this.getName(), this);
     }
-
+    
     private void unregister() {
         plugins.remove(this.getName());
     }
-
+    
     private CommandCenter commandCenter() {
         return commandCenter;
     }
-
+    
     public @NonNull AncapPluginSettings getSettings() {
         return this.settings;
     }
-
+    
     private void loadPluginSettings() {
         this.settings = new AncapPluginSettings(this.newResourceSource(FileConfigurationPreparator.internal()).getResource("ancapplugin.yml"));
     }
-
+    
     public ConfigurationSection getConfiguration() {
         return this.getConfiguration("configuration.yml");
     }
-
+    
     private final Cache<FileConfiguration> configCache = new Cache<>();
-
+    
     public ConfigurationSection getConfiguration(String fileName) {
         return this.configCache.get(() -> this.newResourceSource(FileConfigurationPreparator.resolveConflicts(
             (version) -> this.valueTransferMap() != null ? 

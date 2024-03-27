@@ -75,6 +75,11 @@ ru:
           language:
             enter-language: "Команда <u>/language</u> призначена для вибору серверної мови. Використовуйте її так: <u>/language set <код мови></u>, де код мови може бути будь-яким зі стандарту ISO 639-1."
             setup: "Твою мову змінено українською."
+          plugins:
+            base-message:
+              - "Список плагінів на <#f70000>AncapFramework</#f70000>:"
+              - "%PLUGINS%"
+            plugin-form: "<#5100ff>%NAME%</#5100ff> v%VERSION% от <#5100ff>%AUTHORS%</#5100ff>"
         plugin-info:
           - "%PLUGIN% v%VERSION%."
           - "Автори: %AUTHORS%. "
