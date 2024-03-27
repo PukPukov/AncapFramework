@@ -26,6 +26,7 @@ import ru.ancap.scheduler.support.ScheduleSupport;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public abstract class AncapPlugin extends AncapMinimalisticPlugin {
@@ -63,7 +64,8 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     @Override
     public void onDisable() {
         this.unregister();
-        this.commandCenter().findRegisteredCommandsOf(this).forEach(id -> this.commandRegistrar.unregister(id));
+        Set<String> registeredCommands = Set.copyOf(this.commandCenter().findRegisteredCommandsOf(this));
+        registeredCommands.forEach(id -> this.commandRegistrar.unregister(id));
     }
 
     private void loadPluginCommandRegistrar() {
