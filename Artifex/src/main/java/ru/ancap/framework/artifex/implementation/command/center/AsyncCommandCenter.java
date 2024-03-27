@@ -70,6 +70,7 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
         if (data == null) throw new CommandNotRegisteredException(id);
         for (String command : data.sources()) this.redirectMap.remove(command);
         if (data.handleState().owner() != null) this.pluginRegisters.get(data.handleState().owner()).remove(id);
+        this.commandDatas.remove(id);
         
         AncapBukkit.unregisterCommandExecutor(id);
     }
