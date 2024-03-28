@@ -54,8 +54,8 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
             packet.getIntegers().write(0, this.transactionID);
 
             StringRange range = new StringRange(
-                    this.command.argumentStart(tab.argumentsToReplace())+1,
-                    this.command.argumentsEnd()+1
+                this.command.argumentStart(tab.argumentsToReplace())+1,
+                this.command.argumentsEnd()+1
             );
 
             Suggestions suggestions = new Suggestions(range, tab.tabCompletions().stream()

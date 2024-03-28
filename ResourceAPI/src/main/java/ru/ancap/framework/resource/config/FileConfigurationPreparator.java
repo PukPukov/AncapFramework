@@ -87,8 +87,8 @@ public class FileConfigurationPreparator implements ResourcePreparator<FileConfi
                 TransferMap transferMap = this.versionToMap.apply(versionExtractor.apply(userData));
                 finalConfig = softwareData;
                 this.writeFile(new File(
-                        new File(target.getParentFile(), "backup"),
-                        FilenameUtils.getBaseName(target.getName())+"_"+System.currentTimeMillis()+".old"
+                    new File(target.getParentFile(), "backup"),
+                    FilenameUtils.getBaseName(target.getName())+"_"+System.currentTimeMillis()+".old"
                 ), userData);
                 Set<String> userKeys = userData.getKeys(true);
                 userKeys.remove(this.versionFieldName);
