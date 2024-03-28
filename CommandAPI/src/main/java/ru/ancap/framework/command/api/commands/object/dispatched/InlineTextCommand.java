@@ -47,9 +47,9 @@ public final class InlineTextCommand implements LeveledCommand {
         int leftDepth = depth;
         while (true) {
             index--;
-            if (this.line.charAt(index) != ' ') {
+            if (this.line.charAt(index) == ' ') {
                 leftDepth--;
-                if (leftDepth != 0) continue;
+                if (leftDepth > 0) continue;
                 else break;
             }
         }
