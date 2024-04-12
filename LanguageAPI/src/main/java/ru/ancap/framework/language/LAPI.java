@@ -21,11 +21,9 @@ public class LAPI {
     }
 
     /**
-     * It loads a locale into the base
+     * Load a locale into the base
      *
-     * @param id The id of the message.
-     * @param localized The localized string.
-     * @param language The language to load the locale for.
+     * @deprecated see localized() + no sectioning
      */
     @Deprecated(forRemoval = true)
     @ApiStatus.ScheduledForRemoval(inVersion = "1.7")
