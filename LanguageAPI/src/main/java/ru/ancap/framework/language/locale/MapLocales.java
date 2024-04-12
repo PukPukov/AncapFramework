@@ -2,17 +2,22 @@ package ru.ancap.framework.language.locale;
 
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import ru.ancap.commons.map.GuaranteedMap;
 import ru.ancap.framework.language.language.Language;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+@RequiredArgsConstructor
 @ToString @EqualsAndHashCode
 public class MapLocales implements Locales {
 
     private final Map<Language, Map<String, String>> map;
+    private final Map<Language, Map<String, String>> map = new GuaranteedMap<>(HashMap::new);
     private final Language defaultLanguage;
 
     public MapLocales(Language defaultLanguage) {
@@ -33,11 +38,10 @@ public class MapLocales implements Locales {
 
     @Override
     public @NonNull String localized(@NonNull String id, @NonNull Language language) {
-        this.fillLanguage(language);
         var languageMap = this.map.get(language);
         String localized = languageMap.get(id);
         if (localized != null) return localized;
-        languageMap = this.map.get(defaultLanguage);
+        languageMap = this.map.get(this.defaultLanguage);
         localized = languageMap.get(id);
         if (localized != null) return localized;
         return language.code()+":"+id;
