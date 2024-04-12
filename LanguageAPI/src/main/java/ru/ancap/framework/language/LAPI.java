@@ -27,7 +27,8 @@ public class LAPI {
      * @param localized The localized string.
      * @param language The language to load the locale for.
      */
-    @ApiStatus.Internal // since 1.7
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.7")
     public static void loadLocale(String id, String localized, Language language) {
         LAPI.locales.loadLocale(id, localized, language);
     }
