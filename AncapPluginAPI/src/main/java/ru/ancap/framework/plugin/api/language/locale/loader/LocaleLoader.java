@@ -8,7 +8,7 @@ import ru.ancap.framework.language.loader.YamlLocaleLoader;
 import java.util.logging.Logger;
 
 @AllArgsConstructor
-public class LocaleLoader implements Runnable{
+public class LocaleLoader implements Runnable {
 
     private final Logger logger;
     private final ResourceSource<FileConfiguration> source;
