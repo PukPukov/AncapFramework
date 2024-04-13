@@ -17,6 +17,8 @@ import ru.ancap.framework.communicate.modifier.Placeholder;
 import ru.ancap.framework.language.additional.LAPIMessage;
 import ru.ancap.framework.plugin.api.Ancap;
 import ru.ancap.framework.plugin.api.information.AuthorsSupplier;
+import ru.ancap.framework.plugin.api.language.locale.loader.LocaleHandle;
+import ru.ancap.framework.plugin.api.language.locale.loader.LocaleReloadInput;
 import ru.ancap.framework.status.StatusOutput;
 import ru.ancap.framework.status.test.Test;
 
@@ -25,7 +27,7 @@ import java.util.List;
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
 public class ArtifexCommandExecutor extends CommandTarget {
     
-    public ArtifexCommandExecutor(Ancap ancap, List<Test> tests) {
+    public ArtifexCommandExecutor(Ancap ancap, List<Test> tests, LocaleHandle localeHandle) {
         super(new Delegate(
             new Raw(new AuthorsSupplier(Artifex.PLUGIN())),
             new SubCommand(
@@ -74,6 +76,15 @@ public class ArtifexCommandExecutor extends CommandTarget {
                             new Placeholder("authors", plugin.getDescription().getAuthors())
                         )))
                     ))
+                )
+            ),
+            new SubCommand(
+                new StringDelegatePattern("reload"),
+                new Delegate(
+                    new SubCommand(
+                        new StringDelegatePattern("locales"),
+                        new LocaleReloadInput(localeHandle)
+                    )
                 )
             )
         ));

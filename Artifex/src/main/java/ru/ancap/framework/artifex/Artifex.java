@@ -89,7 +89,7 @@ public final class Artifex extends AncapPlugin {
     public Map<String, CommandOperator> commands() {
         return Map.of(
             "language", new LanguageChangeInput(), 
-            "artifex",  new ArtifexCommandExecutor(this.ancap, this.tests)
+            "artifex",  new ArtifexCommandExecutor(this.ancap, this.tests, this.localeHandle())
         );
     }
     

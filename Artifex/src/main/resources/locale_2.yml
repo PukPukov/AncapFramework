@@ -1,5 +1,5 @@
 language: en
-version: 15
+version: 16
 
 ru:
   ancap:
@@ -101,11 +101,13 @@ ru:
               - " (1) - continue loading the server and delete the task"
               - " (2) - hide the task - the message will no longer appear, but once the plugin that created the task is returned, the task will start running again."
               - " (3) - loading, but don't delete or silence the task"
-              - " (4) - shut down."
+              - " (4) - shut down"
             incorrect-task: "Invalid task number %NUMBER%. Write number in console that matches task number."
             executing-chosen-task: "Execute %NUMBER% task."
             chosen-task-executed: "Selected actions successfully applied."
         nobody: "nobody"
+        reload:
+          locales-successfully-reloaded: "Locales was successfully reloaded."
         api:
           command:
             description:

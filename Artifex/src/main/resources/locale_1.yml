@@ -1,5 +1,5 @@
 language: uk
-version: 15
+version: 16
 
 ru:
   ancap:
@@ -108,6 +108,8 @@ ru:
             executing-chosen-task: "Виконуємо завдання %NUMBER%."
             chosen-task-executed: "Обрані дії успішно застосовано."
         nobody: "ніхто"
+        reload:
+          locales-successfully-reloaded: "Файли інтернаціоналізації успішно перезавантажено."
         api:
           command:
             description:
