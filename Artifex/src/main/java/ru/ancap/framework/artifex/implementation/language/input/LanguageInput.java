@@ -51,7 +51,7 @@ public class LanguageInput extends CommandTarget {
                     Communicator.of(dispatch.source().sender()).message(new LAPIMessage(Artifex.class, "command.language.setup"));
                 })
             ),
-            new SubCommand("info", new Reply(() -> new MultilineMessage(
+            new SubCommand("list", new Reply(() -> new MultilineMessage(
                 new LAPIMessage(Artifex.class, "command.language.list.header"),
                 new ChatBook<>(LAPI.allLanguages(), language -> new LAPIMessage(
                     Artifex.class, "command.language.list.entry",
@@ -60,12 +60,12 @@ public class LanguageInput extends CommandTarget {
                     new Placeholder("percentage", identifier -> {
                         double percentage = ((double) LAPI.statistic(language).localisedLines() / (double) LAPI.statistic(default_).localisedLines()) * 100;
                         String color;
-                        if      (percentage < 20)  color = "ed0000";
-                        else if (percentage < 40)  color = "b34a00";
-                        else if (percentage < 60)  color = "b3ad00";
-                        else if (percentage < 80)  color = "83b300";
-                        else if (percentage < 100) color = "44b300";
-                        else                       color = "12d600";
+                        if      (percentage < 20)  color = "#ed0000";
+                        else if (percentage < 40)  color = "#b34a00";
+                        else if (percentage < 60)  color = "#b3ad00";
+                        else if (percentage < 80)  color = "#83b300";
+                        else if (percentage < 100) color = "#44b300";
+                        else                       color = "#12d600";
                         return new ColoredMessage(
                             new Message(decimalFormat.format(percentage)),
                             new Message(color)
