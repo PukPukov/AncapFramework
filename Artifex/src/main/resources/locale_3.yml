@@ -1,0 +1,123 @@
+language: su
+version: 17
+
+ru:
+  ancap:
+    types:
+      java:
+        lang:
+          Long: "целочисленное значение"
+          Double: "рациональное число"
+          Boolean: "булево значение"
+          Character: "символ"
+          String: "текстовая строка"
+    
+    framework:
+      artifex:
+        yes-no: "{YES:<green><u>[ДА]</u></green>} {NO:<red><u>[НЕТ]</u></red>}"
+        click-to-select: "Выберите, нажав на кнопку"
+        sent-to-console: "<green>Отправлено в консоль</green>"
+        test:
+          error-output-form:
+            - "  <dark_red>-</dark_red> Ошибка: %EXCEPTION%"
+            - "  <dark_red>-</dark_red> Сообщение об ошибке: %MESSAGE%"
+            - "{STACK_TRACE:  <dark_gray>-</dark_gray> {STACK_TRACE_ELEMENT}}"
+          base:
+            interact: "Пожалуйста, %ACTION%. Ожидаемый результат: %EXPECTED%. Всё ли верно?"
+            inspect: "%EXPECTED%. Все ли соответствует ожиданиям?"
+          checks:
+            action:
+              command: "выполните команду <u>/%COMMAND%</u>"
+            expected:
+              interact:
+                ok: "системный ответ \"<u>OK [%IDENTITY%]</u>\""
+                unknown: "уведомление о неизвестной команде"
+              inspect:
+                ok: "Вы должны были увидеть \"<u>OK [%IDENTITY%]</u>\""
+          ok-response: "<green>OK [%IDENTITY%]</green>"
+        modules:
+          configuration-database:
+            name: "Модуль конфигурационной базы данных"
+          command-center:
+            name: "Командный центр"
+          command-api:
+            name: "Интерфейс команд"
+          lapi:
+            name: "Интерфейс интернационализации"
+          configuration:
+            name: "Настройки системы"
+        status:
+          top: "<blue>Состояние модулей и сервисов %SYSTEM_NAME%</blue>"
+          working: "<green>в работе</green>"
+          test-skipped: "<gray>тестирование пропущено</gray>"
+          down: "<dark_red><u>не работает</u></dark_red>"
+          press-to-print-description: "Нажмите для вывода деталей"
+          test-form: "%MODULE_NAME%: %STATUS%"
+          skip:
+            not-that-tester: "Тестер данного типа не подходит. Необходим тестер типа \"<u>%REQUIRED%</u>\"."
+            hand-test-refusal: "Тестирование вручную отменено инициатором."
+            tester-types:
+              player: "Игрок"
+              console: "Консоль"
+              command-block: "Командный блок"
+        
+        command:
+          tps: "<green>TPS сервера составляет: %TPS%</green>"
+          api:
+            info:
+              injecting: "Внедрение байт-кода Artifex в CraftServer"
+              issued-server-command: "Команда \"%COMMAND%\" отправлена серверу от %SOURCE%."
+              command-was-overridden: "<red>Команда {COMMAND} была заменена. Возможно, это ошибка. Класс предыдущего исполнителя — <u>{OLD_EXECUTOR}</u>, нового — <u>{NEW_EXECUTOR}</u>."
+            error:
+              internal: "<red>При выполнении команды произошла внутренняя ошибка.</red>"
+              operate-is-impossible:
+                - "<red>Данную команду обработать невозможно.</red>"
+                - "%DESCRIPTION%"
+              not-enough-arguments: "<red>Недостаточно аргументов. Для продолжения нужно на <u>%COUNT%</u> больше.</red>"
+              unknown: "<red>Команда \"<u>%COMMAND%</u>\" не найдена.</red>"
+              not-enough-permissions: "<red>У вас недостаточно прав.</red>"
+              cannot-transform-argument: "<red>\"<u>%ARGUMENT%</u>\" не соответствует типу <u>%TYPE%</u>.</red>"
+          language:
+            enter-language: "Используйте команду <u>/language</u> для выбора языка сервера: <u>/language set <код языка></u>, код языка должен соответствовать стандарту ISO 639-1."
+            setup: "Язык интерфейса изменен на стилизованный советский."
+            list:
+              header: "<blue>Доступные локализации:</blue>"
+              self-name: "Стилизованный советский"
+              entry: "%SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
+              select: "[ВЫБРАТЬ]"
+            compare:
+              header: "<blue>Записи, присутствующие только в <u>%CODE%</u>:</blue>"
+          plugins:
+            base-message:
+              - "Плагины на базе <#f70000>AncapFramework</#f70000>:"
+              - "%PLUGINS%"
+            plugin-form: "<#5100ff>%NAME%</#5100ff> версия %VERSION% от <#5100ff>%AUTHORS%</#5100ff>"
+        plugin-info:
+          - "%PLUGIN% версия %VERSION%."
+          - "Разработчики: %AUTHORS%. "
+        console:
+          notify:
+            task:
+              status:
+                start: "Загрузка %TASK% начата плагином %PLUGIN%."
+                end: "Загрузка %TASK% плагином %PLUGIN% завершена. Заняло %TIME% мс."
+              names:
+                ancap: "ядра системы"
+          scheduler-api:
+            task-cannot-be-loaded:
+              - "Не удалось загрузить задачу %TASK_CLASS% от плагина %PLUGIN%. Вероятно, плагин был удален или не смог загрузиться."
+              - "Продолжить? Выберите действие:"
+              - "  (1) - продолжить загрузку сервера и удалить задачу"
+              - "  (2) - скрыть задачу - она не будет запущена, но если плагин восстановится, задача возобновится"
+              - "  (3) - загрузиться, сохраняя задачу без изменений"
+              - "  (4) - выключить сервер"
+            incorrect-task: "Неверный номер задачи %NUMBER%. Введите корректный номер."
+            executing-chosen-task: "Выполняется задача %NUMBER%."
+            chosen-task-executed: "Действие успешно выполнено."
+        reload:
+          locales-successfully-reloaded: "Локализации успешно перезагружены."
+        nobody: "никто"
+        api:
+          command:
+            description:
+              default: "описание отсутствует"
