@@ -1,5 +1,5 @@
 language: en
-version: 14
+version: 15
 
 ru:
   ancap:
@@ -14,7 +14,7 @@ ru:
     
     framework:
       artifex:
-        yes-no: "{YES:<green><u>[YES]<u></green>% %NO:<red><u>[NO]</u></red>}"
+        yes-no: "{YES:<green><u>[YES]<u></green>} {NO:<red><u>[NO]</u></red>}"
         click-to-select: "Click to select"
         test:
           error-output-form:
@@ -38,9 +38,13 @@ ru:
           configuration-database:
             name: "ConfigurationDatabase module"
           command-center:
-            name: "command-center"
+            name: "Command center"
           command-api:
-            name: "command API"
+            name: "Command API"
+          lapi:
+            name: "Internationalisation API"
+          configuration:
+            name: "Configuration module"
         status:
           top: "<blue>Status of modules and services %SYSTEM_NAME%</blue>"
           working: "<green>working</green>"
@@ -50,6 +54,7 @@ ru:
           test-form: "%MODULE_NAME%: %STATUS%"
           skip:
             not-that-tester: "Invalid tester type. The test must perform a tester of type \"<u>%REQUIRED%</u>\"."
+            hand-test-refusal: "The tester refused to perform manual tests."
             tester-types:
               player: "player"
               console: "console"
@@ -100,8 +105,8 @@ ru:
             incorrect-task: "Invalid task number %NUMBER%. Write number in console that matches task number."
             executing-chosen-task: "Execute %NUMBER% task."
             chosen-task-executed: "Selected actions successfully applied."
-        nobody: "nobody."
+        nobody: "nobody"
         api:
           command:
             description:
-              default: "no description."
+              default: "no description"

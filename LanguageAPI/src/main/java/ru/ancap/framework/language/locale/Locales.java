@@ -14,8 +14,9 @@ public interface Locales {
      * @param localized localized message
      * @param language  language of localization
      */
-    void loadLocale(@NotNull String id, @NotNull String localized, @NotNull Language language);
+    void loadLocale(@NotNull String section, @NotNull String id, @NotNull String localized, @NotNull Language language);
 
+    void drop(String section);
 
     /**
      * Returns localized message from base for inserted language.

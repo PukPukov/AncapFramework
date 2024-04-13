@@ -1,0 +1,4 @@
+language: ru
+configuration-version: 1
+
+test: bar

@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import ru.ancap.commons.instructor.EventBus;
 import ru.ancap.commons.instructor.SimpleEventBus;
 import ru.ancap.commons.map.MapGC;
 import ru.ancap.commons.time.Day;
@@ -44,6 +43,8 @@ import ru.ancap.framework.artifex.implementation.timer.TimerExecutor;
 import ru.ancap.framework.artifex.implementation.timer.heartbeat.ArtifexHeartbeat;
 import ru.ancap.framework.artifex.status.tests.CommandCenterTest;
 import ru.ancap.framework.artifex.status.tests.ConfigurationDatabaseTest;
+import ru.ancap.framework.artifex.status.tests.ConfigurationTest;
+import ru.ancap.framework.artifex.status.tests.LAPITest;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.database.sql.SQLDatabase;
@@ -99,7 +100,7 @@ public final class Artifex extends AncapPlugin {
     private List<Test> tests;
     private ServerTPSCounter tpsCounter;
     private StepbackMaster stepbackMaster;
-    private EventBus<Player> playerLeaveInstructor;
+    private SimpleEventBus<Player> playerLeaveInstructor;
 
     @Override
     public void onCoreLoad() {
@@ -165,7 +166,9 @@ public final class Artifex extends AncapPlugin {
     private void loadTests() {
         this.tests = List.of(
             new ConfigurationDatabaseTest(),
-            new CommandCenterTest(this.commandRegistrar())
+            new CommandCenterTest(this.commandRegistrar()),
+            new LAPITest(this),
+            new ConfigurationTest(this)
         );
     }
 
@@ -260,7 +263,7 @@ public final class Artifex extends AncapPlugin {
     }
 
     private void loadConfiguration() {
-        new ArtifexConfig(this.getConfiguration("configuration.yml")).load();
+        new ArtifexConfig(this.configuration("configuration.yml")).load();
     }
 
     @SneakyThrows

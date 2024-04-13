@@ -1,7 +1,9 @@
 package ru.ancap.framework.speak.common;
 
 import lombok.experimental.UtilityClass;
+import ru.ancap.commons.ImplementationRequired;
 
+@ImplementationRequired
 @UtilityClass public class CommonMessageDomains {
     
     public static String pluginInfo;
@@ -21,6 +23,7 @@ import lombok.experimental.UtilityClass;
         @UtilityClass public static class Skip {
 
             public static String notThatTester;
+            public static String handTestRefusal;
             public static String testerTypes;
             
         }

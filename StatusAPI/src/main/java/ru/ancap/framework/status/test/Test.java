@@ -15,7 +15,7 @@ import java.util.Arrays;
 public interface Test {
     
     CallableMessage name();
-    TestResult makeTestFor(String testerIdentifier);
+    TestResult makeTestFor(String testerIdentifier, TestingParameters testingParameters);
 
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     class TestResult {
@@ -58,6 +58,12 @@ public interface Test {
             FAILURE
             
         }
+    }
+    @AllArgsConstructor
+    class TestingParameters {
+        
+        boolean skipHandTests;
+        
     }
     
 }

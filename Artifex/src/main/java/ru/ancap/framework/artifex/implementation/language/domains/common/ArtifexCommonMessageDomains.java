@@ -20,6 +20,7 @@ public class ArtifexCommonMessageDomains {
         CommonMessageDomains.Status.top = this.domain("status.top");
         
         CommonMessageDomains.Status.Skip.notThatTester = this.domain("status.skip.not-that-tester");
+        CommonMessageDomains.Status.Skip.handTestRefusal = this.domain("status.skip.hand-test-refusal");
         CommonMessageDomains.Status.Skip.testerTypes = this.domain("status.skip.tester-types");
         
         CommonMessageDomains.Test.errorOutputForm = this.domain("test.error-output-form");

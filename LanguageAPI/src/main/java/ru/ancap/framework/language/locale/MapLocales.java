@@ -9,6 +9,7 @@ import ru.ancap.framework.language.language.Language;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -16,26 +17,30 @@ import java.util.logging.Logger;
 @ToString @EqualsAndHashCode
 public class MapLocales implements Locales {
 
-    private final Map<Language, Map<String, String>> map;
+    private final Map<String /*section*/, List<Registration>> registrations = new GuaranteedMap<>(ArrayList::new);
     private final Map<Language, Map<String, String>> map = new GuaranteedMap<>(HashMap::new);
     private final Language defaultLanguage;
 
-    public MapLocales(Language defaultLanguage) {
-        this.map = new HashMap<>();
-        this.defaultLanguage = defaultLanguage;
-    }
-
     @Override
-    public void loadLocale(@NonNull String id, @NonNull String localized, @NonNull Language language) {
-        this.fillLanguage(language);
+    public void loadLocale(@NonNull String section, @NonNull String id, @NonNull String localized, @NonNull Language language) {
         var languageMap = this.map.get(language);
         String oldMapData = languageMap.get(id);
         languageMap.put(id, localized);
+        this.registrations.get(section).add(new Registration(language, id));
         if (oldMapData != null && !oldMapData.equals(localized)) {
             Logger.getGlobal().warning("Replaced "+id+"'s locale \""+oldMapData+"\" with "+localized);
         }
     }
-
+    
+    @Override
+    public void drop(String section) {
+        List<Registration> sectionRegistration = this.registrations.get(section);
+        for (Registration registration : sectionRegistration) {
+            this.map.get(registration.language).remove(registration.id);
+        }
+        this.registrations.put(section, new ArrayList<>());
+    }
+    
     @Override
     public @NonNull String localized(@NonNull String id, @NonNull Language language) {
         var languageMap = this.map.get(language);
@@ -46,9 +51,7 @@ public class MapLocales implements Locales {
         if (localized != null) return localized;
         return language.code()+":"+id;
     }
-
-    private void fillLanguage(Language language) {
-        this.map.computeIfAbsent(language, k -> new HashMap<>());
-    }
+    
+    private record Registration(Language language, String id) { }
     
 }

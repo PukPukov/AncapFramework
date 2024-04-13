@@ -2,12 +2,14 @@ package ru.ancap.framework.language;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Blocking;
+import ru.ancap.commons.ImplementationRequired;
 import ru.ancap.framework.language.language.Language;
 import ru.ancap.framework.language.language.LanguageSettings;
 import ru.ancap.framework.language.locale.Locales;
 
 import java.util.List;
 
+@ImplementationRequired
 public class LAPI {
 
     private static Locales locales;
@@ -28,7 +30,25 @@ public class LAPI {
     @Deprecated(forRemoval = true)
     @ApiStatus.ScheduledForRemoval(inVersion = "1.7")
     public static void loadLocale(String id, String localized, Language language) {
-        LAPI.locales.loadLocale(id, localized, language);
+        LAPI.loadLocale("general", id, localized, language);
+    }
+    
+    /**
+     * @deprecated see localized()
+     */
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.7")
+    public static void loadLocale(String section, String id, String localized, Language language) {
+        LAPI.locales.loadLocale(section, id, localized, language);
+    }
+    
+    /**
+     * @deprecated see localized()
+     */
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.7")
+    public static void drop(String section) {
+        LAPI.locales.drop(section);
     }
 
     /**

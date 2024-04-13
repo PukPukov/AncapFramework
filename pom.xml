@@ -167,9 +167,9 @@
 
         <!-- COMMONS -->
         <dependency>
-            <groupId>com.github.ancap-kun</groupId>
+            <groupId>com.github.PukPukov</groupId>
             <artifactId>AncapCommons</artifactId>
-            <version>1.8.15</version>
+            <version>1.9.3</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

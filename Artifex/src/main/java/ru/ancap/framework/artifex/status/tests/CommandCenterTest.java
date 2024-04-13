@@ -5,6 +5,7 @@ import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.plugin.api.AncapBukkit;
 import ru.ancap.framework.plugin.api.commands.PluginCommandRegistrar;
+import ru.ancap.framework.status.test.HandTest;
 import ru.ancap.framework.status.util.TestDomain;
 import ru.ancap.framework.status.util.TestIdentity;
 import ru.ancap.framework.status.util.Tester;
@@ -15,7 +16,7 @@ import java.util.List;
 import static ru.ancap.framework.artifex.status.tests.Util.baseResponse;
 import static ru.ancap.framework.artifex.status.tests.Util.commandQuestion;
 
-public class CommandCenterTest extends PlayerTest {
+public class CommandCenterTest extends PlayerTest implements HandTest {
     
     public CommandCenterTest(PluginCommandRegistrar registrar) {
         super(

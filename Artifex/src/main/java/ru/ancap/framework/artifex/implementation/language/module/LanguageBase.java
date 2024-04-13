@@ -26,4 +26,5 @@ public class LanguageBase implements LanguageSettings {
     public void setLanguage(@NonNull String playerName, @NonNull Language language) {
         this.database.setPlayerLanguage(playerName, language.code());
     }
+    
 }

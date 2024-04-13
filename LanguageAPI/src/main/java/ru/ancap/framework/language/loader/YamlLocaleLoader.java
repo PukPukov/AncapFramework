@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.bukkit.configuration.ConfigurationSection;
+import org.jetbrains.annotations.ApiStatus;
 import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.language.language.Language;
 import ru.ancap.framework.language.loader.exception.LocaleLoaderException;
@@ -14,23 +15,36 @@ import java.util.Set;
 @AllArgsConstructor
 @ToString @EqualsAndHashCode
 public class YamlLocaleLoader implements Runnable {
-
-    private final ConfigurationSection section;
-
+    
+    private final String lapiSection;
+    private final ConfigurationSection yaml;
+    
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.7")
+    public YamlLocaleLoader(ConfigurationSection yaml) {
+        this(null, yaml);
+    }
+    
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.7")
     public void run() {
-        String languageCode = this.section.getString("language");
+        this.load();
+    }
+    
+    public void load() {
+        String languageCode = this.yaml.getString("language");
         if (languageCode == null) throw new LocaleLoaderException("Can't load locale without language code!");
         Language language = Language.of(languageCode);
-        Set<String> keySet = this.section.getKeys(true);
+        Set<String> keySet = this.yaml.getKeys(true);
         for (String key : keySet) {
-            List<String> stringList = this.section.getStringList(key);
+            List<String> stringList = this.yaml.getStringList(key);
             if (stringList.isEmpty()){
-                String string = this.section.getString(key);
+                String string = this.yaml.getString(key);
                 if (string != null) stringList = List.of(string);
                 else throw new RuntimeException("????");
             }
             String string = stringList.stream().reduce(((s, s2) -> s+"\n"+s2)).get();
-            LAPI.loadLocale(key, string, language);
+            LAPI.loadLocale(this.lapiSection != null ? this.lapiSection : "global", key, string, language);
         }
     }
 

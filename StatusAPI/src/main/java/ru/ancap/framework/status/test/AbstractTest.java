@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.language.additional.LAPIMessage;
+import ru.ancap.framework.speak.common.CommonMessageDomains;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -34,7 +35,9 @@ public class AbstractTest implements Test {
     }
 
     @Override
-    public TestResult makeTestFor(String testerId) {
+    public TestResult makeTestFor(String testerId, TestingParameters testingParameters) {
+        if (this instanceof HandTest && testingParameters.skipHandTests)
+            return TestResult.skip(new LAPIMessage(CommonMessageDomains.Status.Skip.handTestRefusal));
         return this.test.apply(testerId);
     }
     

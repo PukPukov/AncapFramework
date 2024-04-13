@@ -44,7 +44,7 @@ public abstract class AncapMinimalisticPlugin extends JavaPlugin {
     }
 
     public void loadLocale(String fileName) {
-        new YamlLocaleLoader(new StreamConfig(this.getResource(fileName))).run();
+        new YamlLocaleLoader(this.getDescription().getName(), new StreamConfig(this.getResource(fileName))).load();
     }
 
     public void registerEventsListener(Listener listener) {

@@ -1,5 +1,5 @@
 language: uk
-version: 14
+version: 15
 
 ru:
   ancap:
@@ -14,7 +14,7 @@ ru:
 
     framework:
       artifex:
-        yes-no: "{YES:<green><u>[ТАК]<u></green>% %NO:<red><u>[НІ]</u></red>}"
+        yes-no: "{YES:<green><u>[ТАК]<u></green>} {NO:<red><u>[НІ]</u></red>}"
         click-to-select: "Натисни, щоб вибрати"
         sent-to-console: "<green>Message sent to console</green>"
         test:
@@ -42,6 +42,10 @@ ru:
             name: "Центр команд"
           command-api:
             name: "API команд"
+          lapi:
+            name: "API інтернаціоналізації"
+          configuration:
+            name: "Модуль налаштувань"
         status:
           top: "<blue>Статус роботи модулів і сервісів %SYSTEM_NAME%</blue>"
           working: "<green>працює</green>"
@@ -51,6 +55,7 @@ ru:
           test-form: "%MODULE_NAME%: %STATUS%"
           skip:
             not-that-tester: "Неприпустимий тип тестера. Тест має виконувати тестер типу \"<u>%REQUIRED%</u>\"."
+            hand-test-refusal: "Тестувальник відмовився від виконання ручних тестів."
             tester-types:
               player: "Гравець"
               console: "Консоль"

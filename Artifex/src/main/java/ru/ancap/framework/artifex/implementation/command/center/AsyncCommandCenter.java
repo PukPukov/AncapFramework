@@ -39,9 +39,9 @@ public class AsyncCommandCenter implements CommandCenter, CommandOperator, Opera
 
     @Override
     public void initialize(AncapPlugin plugin) {
-        for (String commandName : plugin.getSettings().getCommandList()) this.register(
+        for (String commandName : plugin.settings().getCommandList()) this.register(
             commandName,
-            plugin.getSettings().getAliasesList(commandName),
+            plugin.settings().getAliasesList(commandName),
             new CommandHandleState(
                 CommandOperator.EMPTY,
                 plugin

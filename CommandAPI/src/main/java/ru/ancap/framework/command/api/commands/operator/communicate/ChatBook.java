@@ -19,4 +19,5 @@ public class ChatBook<LISTED> implements CallableMessage {
         for (LISTED listed : this.content) result.add(this.provider.apply(listed).call(identifier));
         return String.join("\n", result);
     }
+    
 }

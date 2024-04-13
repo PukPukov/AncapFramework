@@ -27,4 +27,5 @@ public class PlayersLanguageSettings implements LanguageSettings {
     public void setLanguage(@NonNull String playerID, @NonNull Language language) {
         this.map.put(playerID, language);
     }
+    
 }

@@ -1,6 +1,3 @@
-# не менять, отвечает за обновление конфига и автоперенос значений
-configuration-version: 2
-
 default-language: ru
 
 # Will work in 1.7.
@@ -43,3 +40,15 @@ database:
     file:
       # будет создана в папке плагина
       name: "scheduler.db"
+
+# DONT CHANGE SECTION
+
+# Responsible for automatic updates and value transfers
+configuration-version: 3
+
+# Used to check if configuration works correctly 
+test:
+  string: "foo"
+  integer: 420
+  section:
+    boolean: true

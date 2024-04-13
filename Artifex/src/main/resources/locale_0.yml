@@ -1,5 +1,5 @@
 language: ru
-version: 14
+version: 15
 
 ru:
   ancap:
@@ -42,6 +42,10 @@ ru:
             name: "Центр команд"
           command-api:
             name: "API команд"
+          lapi:
+            name: "API интернационализации"
+          configuration:
+            name: "Модуль настроек"
         status:
           top: "<blue>Статус работы модулей и сервисов %SYSTEM_NAME%</blue>"
           working: "<green>работает</green>"
@@ -51,6 +55,7 @@ ru:
           test-form: "%MODULE_NAME%: %STATUS%"
           skip:
             not-that-tester: "Недопустимый тип тестера. Тест должен выполнять тестер типа \"<u>%REQUIRED%</u>\"."
+            hand-test-refusal: "Запускающий тест отказался от выполнения ручных тестов."
             tester-types:
               player: "Игрок"
               console: "Консоль"
