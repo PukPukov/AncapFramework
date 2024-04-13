@@ -79,10 +79,10 @@ ru:
               cannot-transform-argument: "<red>\"<u>%ARGUMENT%</u>\" не соответствует типу <u>%TYPE%</u>.</red>"
           language:
             enter-language: "Используйте команду <u>/language</u> для выбора языка сервера: <u>/language set <код языка></u>, код языка должен соответствовать стандарту ISO 639-1."
-            setup: "Язык интерфейса изменен на стилизованный советский."
+            setup: "Язык интерфейса изменен на советсткую стилизацию."
             list:
               header: "<blue>Доступные локализации:</blue>"
-              self-name: "Стилизованный советский"
+              self-name: "Советская стилизация"
               entry: "%SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
               select: "[ВЫБРАТЬ]"
             compare:
