@@ -12,7 +12,7 @@ public class ColoredMessage implements CallableMessage {
     public String call(String identifier) {
         String base = this.base.call(identifier);
         String color = this.color.call(identifier);
-        return "<"+color+">"+base+"</"+color+">";
+        return "<#"+color+">"+base+"</#"+color+">";
     }
     
 }
