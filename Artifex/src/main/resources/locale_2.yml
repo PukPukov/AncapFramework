@@ -81,7 +81,7 @@ ru:
             enter-language: "The <u>/language</u> command is for selecting the server language. Use it like this: <u>/language set <language code></u>, where the language code can be anything from the ISO 639-1 standard."
             setup: "Your language has been changed to English."
             list:
-              header: "List of existing localisations:"
+              header: "<blue>List of existing localisations:</blue>"
               self-name: "English"
               entry: "%SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
               select: "[SELECT]"

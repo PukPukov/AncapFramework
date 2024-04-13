@@ -81,7 +81,7 @@ ru:
             enter-language: "Команда <u>/language</u> призначена для вибору серверної мови. Використовуйте її так: <u>/language set <код мови></u>, де код мови може бути будь-яким зі стандарту ISO 639-1."
             setup: "Твою мову змінено українською."
             list:
-              header: "Список наявних локалізацій:"
+              header: "<blue>Список наявних локалізацій:</blue>"
               self-name: "Українська мова"
               entry: "%SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
               select: "[ВИБРАТИ]"
