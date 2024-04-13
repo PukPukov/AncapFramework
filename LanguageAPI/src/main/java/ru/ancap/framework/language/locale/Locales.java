@@ -3,6 +3,9 @@ package ru.ancap.framework.language.locale;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import ru.ancap.framework.language.language.Language;
+import ru.ancap.framework.language.language.LocalisationStatistic;
+
+import java.util.Set;
 
 @ApiStatus.Internal
 public interface Locales {
@@ -25,5 +28,9 @@ public interface Locales {
      */
     @NotNull
     String localized(@NotNull String id, @NotNull Language language);
+    
+    Set<Language> allLanguages();
+    LocalisationStatistic statistic(Language language);
+    Set<String> allKeys(Language language);
     
 }

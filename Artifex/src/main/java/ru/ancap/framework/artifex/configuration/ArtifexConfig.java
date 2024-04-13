@@ -52,4 +52,5 @@ public class ArtifexConfig {
         if (millis < System.currentTimeMillis()) millis = millis + Day.MILLISECONDS;
         return millis;
     }
+    
 }

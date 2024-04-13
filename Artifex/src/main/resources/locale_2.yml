@@ -1,5 +1,5 @@
 language: en
-version: 16
+version: 17
 
 ru:
   ancap:
@@ -16,6 +16,7 @@ ru:
       artifex:
         yes-no: "{YES:<green><u>[YES]<u></green>} {NO:<red><u>[NO]</u></red>}"
         click-to-select: "Click to select"
+        sent-to-console: "<green>Message was sent to console</green>"
         test:
           error-output-form:
             - "  <dark_red>-</dark_red> Exception: %EXCEPTION%"
@@ -66,9 +67,10 @@ ru:
             info:
               injecting: "Artifex injects bytecode into CraftServer"
               issued-server-command: "%SOURCE% sent server command \"%COMMAND%\"."
+              command-was-overridden: "<red>Command {COMMAND} was overridden. Most likely, it is a bug. Old executor class — <u>{OLD_EXECUTOR}</u>, new — <u>{NEW_EXECUTOR}</u>."
             error:
               internal: "<red>There was an internal unforeseen error during command execution.</red>"
-              operation-is-impossible:
+              operate-is-impossible:
                 - "<red>The command entered cannot be processed.</red>"
                 - "%DESCRIPTION%"
               not-enough-arguments: "<red>Not enough arguments. Need <u>%COUNT%</u> more than entered to continue.</red>"
@@ -77,7 +79,14 @@ ru:
               cannot-transform-argument: "<red>\"<u>%ARGUMENT%</u>\" is not <u>%TYPE%</u>.</red>"
           language:
             enter-language: "The <u>/language</u> command is for selecting the server language. Use it like this: <u>/language set <language code></u>, where the language code can be anything from the ISO 639-1 standard."
-            setup: "Your language has been changed to Russian."
+            setup: "Your language has been changed to English."
+            list:
+              header: "List of existing localisations:"
+              self-name: "English"
+              entry: "%SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
+              select: "[SELECT]"
+            compare:
+              header: "<blue>Records present only in <u>%CODE%</u>:</blue>"
           plugins:
             base-message:
               - "List of plugins on <#f70000>AncapFramework</#f70000>:"

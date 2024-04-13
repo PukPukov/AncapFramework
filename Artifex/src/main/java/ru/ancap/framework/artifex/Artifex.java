@@ -32,7 +32,7 @@ import ru.ancap.framework.artifex.implementation.language.data.repository.Speake
 import ru.ancap.framework.artifex.implementation.common.ArtifexCommonMessageDomains;
 import ru.ancap.framework.artifex.implementation.language.flow.LanguageChangeListener;
 import ru.ancap.framework.artifex.implementation.language.input.LAPIJoinListener;
-import ru.ancap.framework.artifex.implementation.language.input.LanguageChangeInput;
+import ru.ancap.framework.artifex.implementation.language.input.LanguageInput;
 import ru.ancap.framework.artifex.implementation.language.module.LanguageBase;
 import ru.ancap.framework.artifex.implementation.language.module.LanguagesOperator;
 import ru.ancap.framework.artifex.implementation.plugin.ServerTPSCounter;
@@ -88,7 +88,7 @@ public final class Artifex extends AncapPlugin {
     @Override
     public Map<String, CommandOperator> commands() {
         return Map.of(
-            "language", new LanguageChangeInput(), 
+            "language", new LanguageInput(ArtifexConfig.loaded().defaultLanguage()), 
             "artifex",  new ArtifexCommandExecutor(this.ancap, this.tests, this.localeHandle())
         );
     }

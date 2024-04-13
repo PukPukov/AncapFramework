@@ -5,9 +5,11 @@ import org.jetbrains.annotations.Blocking;
 import ru.ancap.commons.ImplementationRequired;
 import ru.ancap.framework.language.language.Language;
 import ru.ancap.framework.language.language.LanguageSettings;
+import ru.ancap.framework.language.language.LocalisationStatistic;
 import ru.ancap.framework.language.locale.Locales;
 
 import java.util.List;
+import java.util.Set;
 
 @ImplementationRequired
 public class LAPI {
@@ -90,6 +92,12 @@ public class LAPI {
     public static String localized(String id, String playerID) {
         return locales.localized(id, settings.getLanguage(playerID));
     }
+    
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.7")
+    public static String localized(String id, Language language) {
+        return locales.localized(id, language);
+    }
 
     /**
      * @deprecated Special case of the problem, described in {@link LAPI#localized(String, String)}. Not only string can change
@@ -100,5 +108,17 @@ public class LAPI {
     public static List<String> localizedList(String id, String playerID) {
         return List.of(localized(id, playerID).split("\n"));
     }
-
+    
+    public static Set<Language> allLanguages() {
+        return locales.allLanguages();
+    }
+    
+    public static LocalisationStatistic statistic(Language language) {
+        return locales.statistic(language);
+    }
+    
+    public static Set<String> allKeys(Language language) {
+        return locales.allKeys(language);
+    }
+    
 }
