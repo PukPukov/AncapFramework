@@ -29,7 +29,7 @@ import ru.ancap.framework.artifex.implementation.event.wrapper.ProtectListener;
 import ru.ancap.framework.artifex.implementation.event.wrapper.SelfDestructListener;
 import ru.ancap.framework.artifex.implementation.language.data.repository.SQLSpeakerModelRepository;
 import ru.ancap.framework.artifex.implementation.language.data.repository.SpeakerModelRepository;
-import ru.ancap.framework.artifex.implementation.language.domains.common.ArtifexCommonMessageDomains;
+import ru.ancap.framework.artifex.implementation.common.ArtifexCommonMessageDomains;
 import ru.ancap.framework.artifex.implementation.language.flow.LanguageChangeListener;
 import ru.ancap.framework.artifex.implementation.language.input.LAPIJoinListener;
 import ru.ancap.framework.artifex.implementation.language.input.LanguageChangeInput;
@@ -118,7 +118,7 @@ public final class Artifex extends AncapPlugin {
         this.loadCommandModule();
         this.startHeartbeat();
     }
-
+    
     @Override
     public void onEnable() {
         super.onEnable();
@@ -182,7 +182,7 @@ public final class Artifex extends AncapPlugin {
     }
 
     private void loadCommonMessageDomains() {
-        new ArtifexCommonMessageDomains().load();
+        ArtifexCommonMessageDomains.init();
     }
 
     private void loadInstance() {

@@ -1,10 +1,21 @@
-package ru.ancap.framework.artifex.implementation.language.domains.common;
+package ru.ancap.framework.artifex.implementation.common;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.ApiStatus;
 import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.language.additional.LAPIDomain;
 import ru.ancap.framework.speak.common.CommonMessageDomains;
 
+@ApiStatus.Internal
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ArtifexCommonMessageDomains {
+    
+    public static ArtifexCommonMessageDomains init() {
+        var domains = new ArtifexCommonMessageDomains();
+        domains.load();
+        return domains;
+    }
     
     public void load() {
         CommonMessageDomains.pluginInfo = this.domain("plugin-info");
