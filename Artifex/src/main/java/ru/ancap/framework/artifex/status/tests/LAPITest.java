@@ -46,8 +46,7 @@ public class LAPITest extends AbstractTest {
                 assertEquals("bar", LAPI.localized("test", dummyPlayerID));
                 LAPI.drop(testSection);
                 
-                boolean success = testFile.delete();
-                assertTrue(success);
+                Files.delete(testFile.toPath());
                 return TestResult.SUCCESS;
             })
         );
