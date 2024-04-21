@@ -112,6 +112,7 @@ public final class Artifex extends AncapPlugin {
         this.loadStepbackMaster();
         this.loadAncap();
         this.loadConfiguration();
+        this.loadIdentifiers();
         this.loadDatabase();
         this.loadLAPI();
         this.loadLocales();
@@ -135,6 +136,10 @@ public final class Artifex extends AncapPlugin {
 
     private void loadMetrics() {
         new Metrics(this, 14261);
+    }
+    
+    private void loadIdentifiers() {
+        Identifier.CONSOLE_ID = ArtifexConfig.loaded().section().getString("console.id");
     }
 
     private void loadPlayerLeaveInstructor() {
@@ -242,7 +247,7 @@ public final class Artifex extends AncapPlugin {
     private void loadSchedulerAPI() {
         SQLDatabase schedulerDatabase = new DatabaseFromConfig(
             this,
-            ArtifexConfig.loaded().getSection().getConfigurationSection("database.scheduler-database")
+            ArtifexConfig.loaded().section().getConfigurationSection("database.scheduler-database")
         ).load();
         this.task("SchedulerAPI", new SchedulerAPILoader(
             Communicator.of(Bukkit.getConsoleSender()),
@@ -260,7 +265,7 @@ public final class Artifex extends AncapPlugin {
     private void loadDatabase() {
         this.database = new DatabaseFromConfig(
             this,
-            ArtifexConfig.loaded().getSection().getConfigurationSection("database.main-database")
+            ArtifexConfig.loaded().section().getConfigurationSection("database.main-database")
         ).load();
     }
 

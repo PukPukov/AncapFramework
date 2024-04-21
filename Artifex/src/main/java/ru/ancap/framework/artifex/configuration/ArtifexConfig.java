@@ -2,6 +2,7 @@ package ru.ancap.framework.artifex.configuration;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.Accessors;
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 import ru.ancap.commons.time.Day;
@@ -10,7 +11,7 @@ import ru.ancap.framework.language.language.Language;
 import java.util.*;
 
 @RequiredArgsConstructor @Getter
-@SuppressWarnings("ClassCanBeRecord")
+@Accessors(fluent = true)
 public class ArtifexConfig {
 
     private static ArtifexConfig loaded;

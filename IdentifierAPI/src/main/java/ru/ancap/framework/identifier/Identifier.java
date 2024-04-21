@@ -2,12 +2,20 @@ package ru.ancap.framework.identifier;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
+import ru.ancap.commons.ImplementationRequired;
 
 import java.util.UUID;
 
+/**
+ * UUID with support of offline mode servers.
+ */
 public class Identifier {
+    
+    @ImplementationRequired
+    public static String CONSOLE_ID;
     
     private static final IdentifyStrategy STRATEGY;
 
@@ -15,13 +23,18 @@ public class Identifier {
         if (Bukkit.getOnlineMode()) STRATEGY = new IdentifyStrategy() {
             @Override public String identify(CommandSender sender) {
                 if (sender instanceof Player player) return this.identify(player);
+                else if (sender instanceof ConsoleCommandSender) return CONSOLE_ID;
                 return sender.getName().toLowerCase();
             }
             @Override public String identify(Player player) {           return player.getUniqueId().toString();               }
             @Override public @Nullable Player find(String identifier) { return Bukkit.getPlayer(UUID.fromString(identifier)); }
         };
         else STRATEGY = new IdentifyStrategy() {
-            @Override public String identify(CommandSender sender) {    return sender.getName().toLowerCase(); }
+            @Override public String identify(CommandSender sender) {
+                if (sender instanceof Player player) return this.identify(player);
+                else if (sender instanceof ConsoleCommandSender) return CONSOLE_ID;
+                return sender.getName().toLowerCase();
+            }
             @Override public String identify(Player player) {           return player.getName().toLowerCase(); }
             @Override public @Nullable Player find(String identifier) { return Bukkit.getPlayer(identifier);   }
         };
