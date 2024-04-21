@@ -28,18 +28,7 @@ public class ArtifexConfig {
     public Language defaultLanguage() {
         return Language.of(this.section.getString("language.server-native"));
     }
-
-    public String getDatabaseDataAccessKey() {
-        return this.section.getString("database.connection.type").toLowerCase();
-    }
-
-    public ConfigurationSection getDatabaseDriverDataSection() {
-        return this.section.getConfigurationSection("database.data");
-    }
-
-    public ConfigurationSection getDatabaseConnectionSection() {
-        return this.section.getConfigurationSection("database.connection");
-    }
+    
 
     public long dayTimerAbsolute() {
         Calendar calendar = Calendar.getInstance();
