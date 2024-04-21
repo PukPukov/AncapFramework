@@ -59,12 +59,12 @@ public class BasicLocales implements Locales {
     }
     
     private @Nullable String readInAllSequentially(String id, Iterator<Language> fallbacks) {
-        String result = null;
         while (fallbacks.hasNext()) {
             Language language = fallbacks.next();
-            result = this.readDirectly(id, language);
+            String result = this.readDirectly(id, language);
+            if (result != null) return result;
         }
-        return result;
+        return null;
     }
     
     private @Nullable String readDirectly(String id, Language language) {
