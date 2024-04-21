@@ -21,20 +21,18 @@ import ru.ancap.framework.artifex.implementation.ancap.ArtifexAncap;
 import ru.ancap.framework.artifex.implementation.command.center.AsyncCommandCenter;
 import ru.ancap.framework.artifex.implementation.command.center.CommandProxy;
 import ru.ancap.framework.artifex.implementation.command.communicate.PlayerCommandFallback;
+import ru.ancap.framework.artifex.implementation.common.ArtifexCommonMessageDomains;
 import ru.ancap.framework.artifex.implementation.communicator.message.clickable.ActionProxy;
 import ru.ancap.framework.artifex.implementation.event.addition.BlockClickListener;
 import ru.ancap.framework.artifex.implementation.event.addition.VillagerHealListener;
 import ru.ancap.framework.artifex.implementation.event.wrapper.ExplodeListener;
 import ru.ancap.framework.artifex.implementation.event.wrapper.ProtectListener;
 import ru.ancap.framework.artifex.implementation.event.wrapper.SelfDestructListener;
-import ru.ancap.framework.artifex.implementation.language.data.repository.SQLSpeakerModelRepository;
-import ru.ancap.framework.artifex.implementation.language.data.repository.SpeakerModelRepository;
-import ru.ancap.framework.artifex.implementation.common.ArtifexCommonMessageDomains;
+import ru.ancap.framework.artifex.implementation.language.data.model.SpeakerModel;
 import ru.ancap.framework.artifex.implementation.language.flow.LanguageChangeListener;
 import ru.ancap.framework.artifex.implementation.language.input.LAPIJoinListener;
 import ru.ancap.framework.artifex.implementation.language.input.LanguageInput;
 import ru.ancap.framework.artifex.implementation.language.module.LanguageBase;
-import ru.ancap.framework.artifex.implementation.language.module.LanguagesOperator;
 import ru.ancap.framework.artifex.implementation.plugin.ServerTPSCounter;
 import ru.ancap.framework.artifex.implementation.scheduler.SchedulerAPILoader;
 import ru.ancap.framework.artifex.implementation.scheduler.SchedulerSilencer;
@@ -49,6 +47,8 @@ import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.database.sql.SQLDatabase;
 import ru.ancap.framework.database.sql.connection.reader.DatabaseFromConfig;
+import ru.ancap.framework.database.sql.registry.Registry;
+import ru.ancap.framework.database.sql.registry.RegistryInitialization;
 import ru.ancap.framework.identifier.Identifier;
 import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.language.additional.LAPIDomain;
@@ -61,6 +61,7 @@ import ru.ancap.framework.util.AudienceProvider;
 import ru.ancap.framework.util.player.StepbackMaster;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -88,7 +89,7 @@ public final class Artifex extends AncapPlugin {
     @Override
     public Map<String, CommandOperator> commands() {
         return Map.of(
-            "language", new LanguageInput(ArtifexConfig.loaded().defaultLanguage()), 
+            "language", new LanguageInput(ArtifexConfig.loaded().nativeLanguage()), 
             "artifex",  new ArtifexCommandExecutor(this.ancap, this.tests, this.localeHandle())
         );
     }
@@ -230,9 +231,10 @@ public final class Artifex extends AncapPlugin {
         this.loadAncap(this.ancap);
     }
 
+    @SneakyThrows
     private File debugIndicatorFile() {
         File folder = new File(this.getDataFolder().getParentFile().getParentFile(), "debug");
-        if (!folder.exists()) folder.mkdirs();
+        if (!folder.exists()) Files.createDirectories(folder.toPath());
         return new File(folder, "debug.indicator");
     }
 
@@ -268,16 +270,17 @@ public final class Artifex extends AncapPlugin {
 
     @SneakyThrows
     private void loadLAPI() {
-        SpeakerModelRepository repository = new SQLSpeakerModelRepository(this.database).load();
+        Registry<String, SpeakerModel, SpeakerModel> speakerRegistry = new RegistryInitialization<>(this.database, SpeakerModel.class).run();
         this.registerEventsListener(
-            new LAPIJoinListener(repository)
+            new LAPIJoinListener(speakerRegistry)
         );
         LAPI.setup(
-            new BasicLocales(ArtifexConfig.loaded().defaultLanguage()), 
-            new LanguageBase(
-                new LanguagesOperator(repository),
-                ArtifexConfig.loaded().defaultLanguage()
-            )
+            new BasicLocales(
+                ArtifexConfig.loaded().targetFallbackMap(),
+                ArtifexConfig.loaded().defaultFallback(),
+                ArtifexConfig.loaded().nativeLanguage()
+            ), 
+            new LanguageBase(speakerRegistry)
         );
     }
 

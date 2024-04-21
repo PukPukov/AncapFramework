@@ -6,7 +6,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import ru.ancap.framework.artifex.implementation.language.data.model.SpeakerModel;
-import ru.ancap.framework.artifex.implementation.language.data.repository.SpeakerModelRepository;
+import ru.ancap.framework.database.sql.registry.Registry;
 import ru.ancap.framework.identifier.Identifier;
 
 import java.util.concurrent.ExecutorService;
@@ -15,15 +15,19 @@ import java.util.concurrent.Executors;
 @AllArgsConstructor
 public class LAPIJoinListener implements Listener {
 
-    private final SpeakerModelRepository repository;
+    private final Registry<String, SpeakerModel, SpeakerModel> speakerRegistry;
     
     private final ExecutorService thread = Executors.newSingleThreadExecutor();
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void on(PlayerJoinEvent event) {
         this.thread.execute(() -> {
-            if (this.repository.read(Identifier.of(event.getPlayer())) != null) return;
-            this.repository.create(new SpeakerModel(Identifier.of(event.getPlayer()), localeFromMinecraftFormat(event.getPlayer().getLocale())));
+            if (this.speakerRegistry.read(Identifier.of(event.getPlayer())).isPresent()) return;
+            String id = Identifier.of(event.getPlayer());
+            this.speakerRegistry.save(
+                id,
+                new SpeakerModel(id, localeFromMinecraftFormat(event.getPlayer().getLocale()))
+            );
         });
     }
 

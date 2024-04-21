@@ -3,11 +3,11 @@ package ru.ancap.framework.artifex.configuration;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.configuration.ConfigurationSection;
+import org.jetbrains.annotations.NotNull;
 import ru.ancap.commons.time.Day;
 import ru.ancap.framework.language.language.Language;
 
-import java.util.Calendar;
-import java.util.TimeZone;
+import java.util.*;
 
 @RequiredArgsConstructor @Getter
 @SuppressWarnings("ClassCanBeRecord")
@@ -24,12 +24,7 @@ public class ArtifexConfig {
     public static ArtifexConfig loaded() {
         return loaded;
     }
-
-    public Language defaultLanguage() {
-        return Language.of(this.section.getString("language.server-native"));
-    }
     
-
     public long dayTimerAbsolute() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -40,6 +35,42 @@ public class ArtifexConfig {
         long millis = calendar.getTimeInMillis();
         if (millis < System.currentTimeMillis()) millis = millis + Day.MILLISECONDS;
         return millis;
+    }
+    
+    public Language nativeLanguage() {
+        String value = this.section.getString("language.server-native");
+        assert value != null;
+        return Language.of(value);
+    }
+    
+    public Map<Language, List<Language>> targetFallbackMap() {
+        Map<Language, List<Language>> fallbackMap = new HashMap<>();
+        ConfigurationSection targetSection = this.section.getConfigurationSection("fallback.target");
+        assert targetSection != null;
+        for (String key : targetSection.getKeys(false)) {
+            Language language = Language.of(key);
+            List<Language> fallbackLanguages = this.readListTreatingSingularAsEntry(targetSection, key).stream()
+                .map(Language::of).toList();
+            fallbackMap.put(language, fallbackLanguages);
+        }
+        return fallbackMap;
+    }
+    
+    public List<Language> defaultFallback() {
+        return this.readListTreatingSingularAsEntry(this.section, "fallback.default").stream()
+            .map(Language::of).toList();
+    }
+    
+    // separate arguments needed due to bukkit works not with convenient paths but fucking sections
+    private @NotNull List<String> readListTreatingSingularAsEntry(ConfigurationSection localRoot, String path) {
+        List<String> values;
+        if (localRoot.isList(path)) values = localRoot.getStringList(path);
+        else {
+            String value = localRoot.getString(path);
+            assert value != null;
+            values = List.of(value);
+        };
+        return values;
     }
     
 }
