@@ -1,5 +1,5 @@
 language: su
-version: 17
+version: 18
 
 ru:
   ancap:
@@ -86,7 +86,9 @@ ru:
               entry: "%SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
               select: "[ВЫБРАТЬ]"
             compare:
-              header: "<blue>Записи, присутствующие только в <u>%CODE%</u>:</blue>"
+              header: "<blue>Записи, присутствующие в базе только под языковым кодом <u>%CODE%</u>:</blue>"
+            view:
+              header: "<blue>Записи в базе под языковым кодом <u>%CODE%</u>:</blue>"
           plugins:
             base-message:
               - "Плагины на базе <#f70000>AncapFramework</#f70000>:"

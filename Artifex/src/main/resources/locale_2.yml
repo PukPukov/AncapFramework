@@ -1,5 +1,5 @@
 language: en
-version: 17
+version: 18
 
 ru:
   ancap:
@@ -86,7 +86,9 @@ ru:
               entry: "%SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
               select: "[SELECT]"
             compare:
-              header: "<blue>Records present only in <u>%CODE%</u>:</blue>"
+              header: "<blue>Records present only under language code <u>%CODE%</u>:</blue>"
+            view:
+              header: "<blue>Records under the language code <u>%CODE%</u>:</blue>"
           plugins:
             base-message:
               - "List of plugins on <#f70000>AncapFramework</#f70000>:"

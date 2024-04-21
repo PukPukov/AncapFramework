@@ -82,7 +82,7 @@ public class LanguageInput extends CommandTarget {
                 new CommandOperator() {
                     @Override
                     public void on(CommandWrite write) {
-                        write.speaker().sendTab(LAPI.allLanguages().stream().map(Language::code).toList());
+                        if (write.line().arguments().size() <= 1) write.speaker().sendTab(LAPI.allLanguages().stream().map(Language::code).toList());
                     }
                     
                     @Override
@@ -120,6 +120,35 @@ public class LanguageInput extends CommandTarget {
                                 new Placeholder("code", languageTwo)
                             ),
                             new ChatBook<>(onlyInTwo, Message::new)
+                        ));
+                    }
+                }
+            )),
+            new SubCommand("view", new Exclusive(
+                new OP(),
+                new CommandOperator() {
+                    @Override
+                    public void on(CommandWrite write) {
+                        if (write.line().isRaw()) write.speaker().sendTab(LAPI.allLanguages().stream().map(Language::code).toList());
+                    }
+                    
+                    @Override
+                    public void on(CommandDispatch dispatch) {
+                        LeveledCommand parseState = dispatch.command();
+                        if (parseState.isRaw()) {
+                            Bukkit.getPluginManager().callEvent(new NotEnoughArgumentsEvent(dispatch.source().sender(), 2));
+                            return;
+                        }
+                        String language = parseState.nextArgument();
+//                      parseState = parseState.withoutArgument();
+                        
+                        Set<String> keys = LAPI.allKeys(Language.of(language));
+                        dispatch.source().communicator().message(new MultilineMessage(
+                            new LAPIMessage(
+                                Artifex.class, "command.language.view.header",
+                                new Placeholder("code", language)
+                            ),
+                            new ChatBook<>(keys, Message::new)
                         ));
                     }
                 }

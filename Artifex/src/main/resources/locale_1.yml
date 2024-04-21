@@ -1,5 +1,5 @@
 language: uk
-version: 17
+version: 18
 
 ru:
   ancap:
@@ -86,7 +86,9 @@ ru:
               entry: "%SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
               select: "[ВИБРАТИ]"
             compare:
-              header: "<blue>Записи, присутні тільки в <u>%CODE%</u>:</blue>"
+              header: "<blue>Записи, присутні тільки під мовним кодом <u>%CODE%</u>:</blue>"
+            view:
+              header: "<blue>Записи під мовним кодом <u>%CODE%</u>:</blue>"
           plugins:
             base-message:
               - "Список плагінів на <#f70000>AncapFramework</#f70000>:"
