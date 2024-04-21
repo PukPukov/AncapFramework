@@ -52,7 +52,7 @@ import ru.ancap.framework.database.sql.connection.reader.DatabaseFromConfig;
 import ru.ancap.framework.identifier.Identifier;
 import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.language.additional.LAPIDomain;
-import ru.ancap.framework.language.locale.MapLocales;
+import ru.ancap.framework.language.locale.BasicLocales;
 import ru.ancap.framework.plugin.api.AncapBukkit;
 import ru.ancap.framework.plugin.api.AncapPlugin;
 import ru.ancap.framework.plugin.api.PluginLoadTask;
@@ -273,7 +273,7 @@ public final class Artifex extends AncapPlugin {
             new LAPIJoinListener(repository)
         );
         LAPI.setup(
-            new MapLocales(ArtifexConfig.loaded().defaultLanguage()), 
+            new BasicLocales(ArtifexConfig.loaded().defaultLanguage()), 
             new LanguageBase(
                 new LanguagesOperator(repository),
                 ArtifexConfig.loaded().defaultLanguage()

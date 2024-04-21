@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @ToString @EqualsAndHashCode
-public class MapLocales implements Locales {
+public class BasicLocales implements Locales {
 
     private final Map<String /*section*/, List<Registration>> registrations = new GuaranteedMap<>(ArrayList::new);
     private final Map<Language, Map<String, String>> map = new GuaranteedMap<>(HashMap::new);
