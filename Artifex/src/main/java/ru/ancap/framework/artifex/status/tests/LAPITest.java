@@ -29,7 +29,7 @@ public class LAPITest extends AbstractTest {
             TestDomain.of(Artifex.class, "lapi"),
             new USupplier<>(() -> {
                 final String localeForm = "test-locale-%NAME%.yml";
-                final String file = "test-file.yml";
+                final String filename = "test-file.yml";
                 final String language = "test_lang";
                 final String localeId = "test-locale-id";
                 final String player = "govnoed";
@@ -38,63 +38,63 @@ public class LAPITest extends AbstractTest {
                 languageInstaller.prepareSpeaker(player, () -> language);
                 LAPI.updateLanguage(player, Language.of(language));
                 
-                // test that nothing returned when nothing placed into LAPI
+                // check that nothing returned when nothing placed into LAPI
                 assertEquals(language+":"+localeId, LAPI.localized(localeId, player));
                 
-                // test basic retrieval
-                File testFile = new File(plugin.getDataFolder(), file);
-                Files.copy(plugin.getResource(locale(localeForm, "0")), testFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                new YamlLocaleLoader(lapiSection, plugin.configuration(file)).load();
+                // check basic retrieval
+                File file = new File(plugin.getDataFolder(), filename);
+                Files.copy(plugin.getResource(locale(localeForm, "0")), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                new YamlLocaleLoader(lapiSection, plugin.configuration(filename)).load();
                 assertEquals("foo", LAPI.localized(localeId, player));
                 
-                // test drop
+                // check drop
                 LAPI.drop(lapiSection);
                 assertEquals(language+":"+localeId, LAPI.localized(localeId, player));
                 
-                // test that reload after drop changes everything correctly
-                Files.copy(plugin.getResource(locale(localeForm, "1")), testFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                new YamlLocaleLoader(lapiSection, plugin.configuration(file)).load();
+                // check that reload after drop changes everything correctly
+                Files.copy(plugin.getResource(locale(localeForm, "1")), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                new YamlLocaleLoader(lapiSection, plugin.configuration(filename)).load();
                 assertEquals("bar", LAPI.localized(localeId, player));
                 LAPI.drop(lapiSection); 
                 
-                // test fallback to targeted
-                Files.copy(plugin.getResource(locale(localeForm, "fallback-to-targeted")), testFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                new YamlLocaleLoader(lapiSection, plugin.configuration(file)).load();
+                // check fallback to targeted
+                Files.copy(plugin.getResource(locale(localeForm, "fallback-to-targeted")), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                new YamlLocaleLoader(lapiSection, plugin.configuration(filename)).load();
                 assertEquals("fell-to-target", LAPI.localized(localeId, player));
                 LAPI.drop(lapiSection);
                 
-                // test fallback to default 
+                // check fallback to default 
                 replaceTextAndWriteToFile(
                     plugin.getResource(locale(localeForm, "fallback-to-default")),
-                    testFile,
+                    file,
                     "%DEFAULT%",
                     ArtifexConfig.loaded().defaultFallback().getFirst().code()
                 );
-                new YamlLocaleLoader(lapiSection, plugin.configuration(file)).load();
+                new YamlLocaleLoader(lapiSection, plugin.configuration(filename)).load();
                 assertEquals("fell-to-default", LAPI.localized(localeId, player));
                 LAPI.drop(lapiSection);
                 
-                // test fallback to native
+                // check fallback to native
                 replaceTextAndWriteToFile(
-                    plugin.getResource(locale(localeForm, "fallback-to-default")), testFile, "%DEFAULT%",
+                    plugin.getResource(locale(localeForm, "fallback-to-default")), file, "%DEFAULT%",
                     ArtifexConfig.loaded().defaultFallback().getFirst().code()
                 );
-                new YamlLocaleLoader(lapiSection, plugin.configuration(file)).load();
+                new YamlLocaleLoader(lapiSection, plugin.configuration(filename)).load();
                 assertEquals("fell-to-default", LAPI.localized(localeId, player));
                 LAPI.drop(lapiSection);
                 
                 // fallback to native
                 replaceTextAndWriteToFile(
-                    plugin.getResource(locale(localeForm, "fallback-to-native")), testFile, "%NATIVE%",
+                    plugin.getResource(locale(localeForm, "fallback-to-native")), file, "%NATIVE%",
                     ArtifexConfig.loaded().nativeLanguage().code()
                 );
-                new YamlLocaleLoader(lapiSection, plugin.configuration(file)).load();
+                new YamlLocaleLoader(lapiSection, plugin.configuration(filename)).load();
                 assertEquals("fell-to-native", LAPI.localized(localeId, player));
                 LAPI.drop(lapiSection);
                 
-                // exit tests
-                // LAPI.drop(lapiSection); — don't needed because already all subtests make this on end
-                Files.delete(testFile.toPath());
+                // exit
+                // LAPI.drop(lapiSection); — don't needed because already all subs make this on end
+                Files.delete(file.toPath());
                 return TestResult.SUCCESS;
             })
         );
