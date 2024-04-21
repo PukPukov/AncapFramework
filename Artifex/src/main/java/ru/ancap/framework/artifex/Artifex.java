@@ -271,9 +271,7 @@ public final class Artifex extends AncapPlugin {
     @SneakyThrows
     private void loadLAPI() {
         Registry<String, SpeakerModel, SpeakerModel> speakerRegistry = new RegistryInitialization<>(this.database, SpeakerModel.class).run();
-        this.registerEventsListener(
-            new LAPIInitialLanguageInstaller(speakerRegistry)
-        );
+        LAPIInitialLanguageInstaller.initialize(speakerRegistry, this);
         LAPI.setup(
             new BasicLocales(
                 ArtifexConfig.loaded().targetFallbackMap(),
