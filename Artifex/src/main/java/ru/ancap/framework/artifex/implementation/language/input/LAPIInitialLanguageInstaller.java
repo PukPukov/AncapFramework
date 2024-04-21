@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @AllArgsConstructor
-public class LAPIJoinListener implements Listener {
+public class LAPIInitialLanguageInstaller implements Listener {
 
     private final Registry<String, SpeakerModel, SpeakerModel> speakerRegistry;
     

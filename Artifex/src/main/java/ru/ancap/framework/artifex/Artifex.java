@@ -30,7 +30,7 @@ import ru.ancap.framework.artifex.implementation.event.wrapper.ProtectListener;
 import ru.ancap.framework.artifex.implementation.event.wrapper.SelfDestructListener;
 import ru.ancap.framework.artifex.implementation.language.data.model.SpeakerModel;
 import ru.ancap.framework.artifex.implementation.language.flow.LanguageChangeListener;
-import ru.ancap.framework.artifex.implementation.language.input.LAPIJoinListener;
+import ru.ancap.framework.artifex.implementation.language.input.LAPIInitialLanguageInstaller;
 import ru.ancap.framework.artifex.implementation.language.input.LanguageInput;
 import ru.ancap.framework.artifex.implementation.language.module.LanguageBase;
 import ru.ancap.framework.artifex.implementation.plugin.ServerTPSCounter;
@@ -272,7 +272,7 @@ public final class Artifex extends AncapPlugin {
     private void loadLAPI() {
         Registry<String, SpeakerModel, SpeakerModel> speakerRegistry = new RegistryInitialization<>(this.database, SpeakerModel.class).run();
         this.registerEventsListener(
-            new LAPIJoinListener(speakerRegistry)
+            new LAPIInitialLanguageInstaller(speakerRegistry)
         );
         LAPI.setup(
             new BasicLocales(
