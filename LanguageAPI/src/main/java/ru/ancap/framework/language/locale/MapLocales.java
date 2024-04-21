@@ -4,11 +4,14 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.jetbrains.annotations.Nullable;
 import ru.ancap.commons.map.GuaranteedMap;
 import ru.ancap.framework.language.language.Language;
 import ru.ancap.framework.language.language.LocalisationStatistic;
+import ru.ancap.framework.language.locale.util.LazyFlatteningIterator;
 
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -18,7 +21,9 @@ public class MapLocales implements Locales {
 
     private final Map<String /*section*/, List<Registration>> registrations = new GuaranteedMap<>(ArrayList::new);
     private final Map<Language, Map<String, String>> map = new GuaranteedMap<>(HashMap::new);
-    private final Language defaultLanguage;
+    private final Map<Language, List<Language>> targetFallback;
+    private final List<Language> defaultFallback;
+    private final Language native_;
 
     @Override
     public void loadLocale(@NonNull String section, @NonNull String id, @NonNull String localized, @NonNull Language language) {
@@ -42,13 +47,29 @@ public class MapLocales implements Locales {
     
     @Override
     public @NonNull String localized(@NonNull String id, @NonNull Language language) {
+        String result = this.readInAllSequentially(id, new LazyFlatteningIterator<>(List.of(
+            (Supplier<List<Language>>) /*is this fucking java can't determine type or fucking idea nags about nonexistent error?*/
+                () -> List.of(language),
+            () -> this.targetFallback.get(language),
+            () -> this.defaultFallback,
+            () -> List.of(this.native_)
+        ).iterator()));
+        if (result == null) return language.code()+":"+id;
+        else return result;
+    }
+    
+    private @Nullable String readInAllSequentially(String id, Iterator<Language> fallbacks) {
+        String result = null;
+        while (fallbacks.hasNext()) {
+            Language language = fallbacks.next();
+            result = this.readDirectly(id, language);
+        }
+        return result;
+    }
+    
+    private @Nullable String readDirectly(String id, Language language) {
         var languageMap = this.map.get(language);
-        String localized = languageMap.get(id);
-        if (localized != null) return localized;
-        languageMap = this.map.get(this.defaultLanguage);
-        localized = languageMap.get(id);
-        if (localized != null) return localized;
-        return language.code()+":"+id;
+        return languageMap.get(id);
     }
     
     @Override
