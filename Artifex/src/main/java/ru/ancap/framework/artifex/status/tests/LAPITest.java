@@ -60,7 +60,7 @@ public class LAPITest extends AbstractTest {
                 // check fallback to targeted
                 Files.copy(plugin.getResource(locale(localeForm, "fallback-to-targeted")), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 new YamlLocaleLoader(lapiSection, plugin.configuration(filename)).load();
-                assertEquals("fell-to-target", LAPI.localized(localeId, player));
+                assertEquals("fell-to-targeted", LAPI.localized(localeId, player));
                 LAPI.drop(lapiSection);
                 
                 // check fallback to default 
@@ -75,15 +75,6 @@ public class LAPITest extends AbstractTest {
                 LAPI.drop(lapiSection);
                 
                 // check fallback to native
-                replaceTextAndWriteToFile(
-                    plugin.getResource(locale(localeForm, "fallback-to-default")), file, "%DEFAULT%",
-                    ArtifexConfig.loaded().defaultFallback().getFirst().code()
-                );
-                new YamlLocaleLoader(lapiSection, plugin.configuration(filename)).load();
-                assertEquals("fell-to-default", LAPI.localized(localeId, player));
-                LAPI.drop(lapiSection);
-                
-                // fallback to native
                 replaceTextAndWriteToFile(
                     plugin.getResource(locale(localeForm, "fallback-to-native")), file, "%NATIVE%",
                     ArtifexConfig.loaded().nativeLanguage().code()

@@ -1,4 +1,4 @@
 language: test_lang2
 configuration-version: 1
 
-test-locale-id: "fell-to-target"
+test-locale-id: "fell-to-targeted"
