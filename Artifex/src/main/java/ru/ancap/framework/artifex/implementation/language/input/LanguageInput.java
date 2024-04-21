@@ -47,7 +47,7 @@ public class LanguageInput extends CommandTarget {
             new SubCommand("set", new Arguments(
                 new Accept(new Argument("language", new Self())),
                 dispatch -> {
-                    LAPI.setupLanguage(Identifier.of(dispatch.source().sender()), Language.of(dispatch.arguments().get("language", String.class)));
+                    LAPI.updateLanguage(Identifier.of(dispatch.source().sender()), Language.of(dispatch.arguments().get("language", String.class)));
                     Communicator.of(dispatch.source().sender()).message(new LAPIMessage(Artifex.class, "command.language.setup"));
                 })
             ),

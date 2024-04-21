@@ -32,5 +32,5 @@ public interface Locales {
     Set<Language> allLanguages();
     LocalisationStatistic statistic(Language language);
     Set<String> allKeys(Language language);
-    
+
 }

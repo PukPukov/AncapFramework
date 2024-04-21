@@ -42,7 +42,7 @@ public class LAPIInitialLanguageInstaller implements Listener {
         this.thread.execute(() -> prepareSpeaker(Identifier.of(event.getPlayer()), () -> localeFromMinecraftFormat(event.getPlayer().getLocale())));
     }
     
-    private void prepareSpeaker(String id, Supplier<String> localeSupplier) {
+    public void prepareSpeaker(String id, Supplier<String> localeSupplier) {
         if (this.speakerRegistry.read(id).isPresent()) return;
         this.speakerRegistry.save(id, new SpeakerModel(id, localeSupplier.get()));
     }

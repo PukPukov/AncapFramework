@@ -19,9 +19,9 @@ public class LanguageBase implements LanguageSettings {
     public Language getLanguage(@NonNull String playerName) {
         return Language.of(this.speakerRegistry.read(playerName).orElseThrow().getLanguageCode());
     }
-
+    
     @Override
-    public void setLanguage(@NonNull String playerName, @NonNull Language language) {
+    public void updateLanguage(@NonNull String playerName, @NonNull Language language) {
         var speakerOptional = this.speakerRegistry.read(playerName);
         SpeakerModel speaker = speakerOptional.orElseThrow();
         speaker.setLanguageCode(language.code());

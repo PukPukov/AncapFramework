@@ -4,6 +4,7 @@ import lombok.SneakyThrows;
 import ru.ancap.commons.exception.uewrapper.USupplier;
 import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.artifex.configuration.ArtifexConfig;
+import ru.ancap.framework.artifex.implementation.language.input.LAPIInitialLanguageInstaller;
 import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.language.language.Language;
 import ru.ancap.framework.language.loader.YamlLocaleLoader;
@@ -23,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LAPITest extends AbstractTest {
     
-    public LAPITest(AncapPlugin plugin) {
+    public LAPITest(AncapPlugin plugin, LAPIInitialLanguageInstaller languageInstaller) {
         super(
             TestDomain.of(Artifex.class, "lapi"),
             new USupplier<>(() -> {
@@ -34,7 +35,8 @@ public class LAPITest extends AbstractTest {
                 final String player = "govnoed";
                 final String lapiSection = "test_"+ UUID.randomUUID(); // so it will not interfere with anything
                 
-                LAPI.setupLanguage(player, Language.of(language));
+                languageInstaller.prepareSpeaker(player, () -> language);
+                LAPI.updateLanguage(player, Language.of(language));
                 
                 // test that nothing returned when nothing placed into LAPI
                 assertEquals(language+":"+localeId, LAPI.localized(localeId, player));

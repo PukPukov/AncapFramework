@@ -85,7 +85,7 @@ public final class Artifex extends AncapPlugin {
         new VillagerHealListener(),
         new BlockClickListener()
     );
-
+    
     @Override
     public Map<String, CommandOperator> commands() {
         return Map.of(
@@ -102,6 +102,7 @@ public final class Artifex extends AncapPlugin {
     private ServerTPSCounter tpsCounter;
     private StepbackMaster stepbackMaster;
     private SimpleEventBus<Player> playerLeaveInstructor;
+    private LAPIInitialLanguageInstaller languageInstaller;
 
     @Override
     public void onCoreLoad() {
@@ -173,7 +174,7 @@ public final class Artifex extends AncapPlugin {
         this.tests = List.of(
             new ConfigurationDatabaseTest(),
             new CommandCenterTest(this.commandRegistrar()),
-            new LAPITest(this),
+            new LAPITest(this, this.languageInstaller),
             new ConfigurationTest(this)
         );
     }
@@ -276,7 +277,7 @@ public final class Artifex extends AncapPlugin {
     @SneakyThrows
     private void loadLAPI() {
         Registry<String, SpeakerModel, SpeakerModel> speakerRegistry = new RegistryInitialization<>(this.database, SpeakerModel.class).run();
-        LAPIInitialLanguageInstaller.initialize(speakerRegistry, this);
+        this.languageInstaller = LAPIInitialLanguageInstaller.initialize(speakerRegistry, this);
         LAPI.setup(
             new BasicLocales(
                 ArtifexConfig.loaded().targetFallbackMap(),

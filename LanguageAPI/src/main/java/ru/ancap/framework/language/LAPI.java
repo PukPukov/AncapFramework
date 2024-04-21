@@ -66,8 +66,8 @@ public class LAPI {
     }
 
     @ApiStatus.Internal // since 1.7
-    public static void setupLanguage(String playerID, Language language) {
-        settings.setLanguage(playerID, language);
+    public static void updateLanguage(String playerID, Language language) {
+        settings.updateLanguage(playerID, language);
     }
 
     /**

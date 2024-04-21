@@ -14,10 +14,8 @@ public class LanguageChangeListener implements Listener {
     @EventHandler
     public void on(LanguageChangeEvent event) {
         Language language = event.language();
-        LAPI.setupLanguage(Identifier.of(event.sender()), language);
-        Communicator.of(event.sender()).message(new LAPIMessage(
-                Artifex.class, "command.language.setup"
-        ));
+        LAPI.updateLanguage(Identifier.of(event.sender()), language);
+        Communicator.of(event.sender()).message(new LAPIMessage(Artifex.class, "command.language.setup"));
     }
 
 }
