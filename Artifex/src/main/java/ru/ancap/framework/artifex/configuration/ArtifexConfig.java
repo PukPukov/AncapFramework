@@ -45,7 +45,7 @@ public class ArtifexConfig {
     
     public Map<Language, List<Language>> targetFallbackMap() {
         Map<Language, List<Language>> fallbackMap = new HashMap<>();
-        ConfigurationSection targetSection = this.section.getConfigurationSection("fallback.target");
+        ConfigurationSection targetSection = this.section.getConfigurationSection("language.fallback.target");
         assert targetSection != null;
         for (String key : targetSection.getKeys(false)) {
             Language language = Language.of(key);
@@ -57,7 +57,7 @@ public class ArtifexConfig {
     }
     
     public List<Language> defaultFallback() {
-        return this.readListTreatingSingularAsEntry(this.section, "fallback.default").stream()
+        return this.readListTreatingSingularAsEntry(this.section, "language.fallback.default").stream()
             .map(Language::of).toList();
     }
     
