@@ -20,6 +20,9 @@ language:
       # portuguese and spanish are similar
       pt: es
       es: pt
+      
+      # don't change — used for auto-testing
+      test_lang: [test_lang2, test_lang3]
 
 database:
   

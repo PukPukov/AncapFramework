@@ -1,0 +1,4 @@
+language: %NATIVE%
+configuration-version: 1
+
+test-locale-id: "fell-to-default"
