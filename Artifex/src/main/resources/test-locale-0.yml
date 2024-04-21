@@ -1,4 +1,4 @@
-language: ru
+language: test_lang
 configuration-version: 1
 
-test-id: foo
+test-locale-id: foo
