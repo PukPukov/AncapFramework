@@ -21,6 +21,9 @@ language:
       pt: es
       es: pt
       
+      # su is soviet stylisation of russian
+      su: ru
+      
       # don't change — used for auto-testing
       test_lang: [test_lang2, test_lang3]
 
@@ -54,7 +57,7 @@ database:
 # DONT CHANGE SECTION
 
 # Responsible for automatic updates and value transfers
-configuration-version: 6
+configuration-version: 7
 
 # Used to check if configuration works correctly 
 test:
