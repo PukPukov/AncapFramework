@@ -36,6 +36,8 @@ public class YamlLocaleLoader implements Runnable {
         if (languageCode == null) throw new LocaleLoaderException("Can't load locale without language code!");
         Language language = Language.of(languageCode);
         Set<String> keySet = this.yaml.getKeys(true);
+        keySet.remove("language");
+        keySet.remove("version");
         for (String key : keySet) {
             List<String> stringList = this.yaml.getStringList(key);
             if (stringList.isEmpty()){
