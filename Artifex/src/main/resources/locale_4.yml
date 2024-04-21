@@ -1,0 +1,10 @@
+language: fr
+version: 1
+
+ru:
+  ancap:
+    framework:
+      command:
+        language:
+          list:
+            self-name: "Français"
