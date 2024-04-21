@@ -39,7 +39,7 @@ public class PluginLoadTask implements Runnable {
                             endId, 
                             new Placeholder("plugin", plugin.getName()),
                             new Placeholder("task", taskName),
-                            new Placeholder("time", duration)
+                            new Placeholder("time", duration.toMillis())
                     ));
                 }
         );
