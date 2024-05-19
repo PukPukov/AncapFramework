@@ -46,16 +46,25 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
             .collect(Collectors.toList())
         );
         
+        PacketLineSpeaker.sendTabPacket(this.player, this.transactionID, this.command, tab);
+    }
+    
+    @Override
+    public CommandSource source() {
+        return this.source;
+    }
+    
+    public static void sendTabPacket(Player player, int transactionID, InlineTextCommand command, TabBundle tab) {
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
         
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.TAB_COMPLETE);
         
         if (protocolManager.getMinecraftVersion().compareTo(new MinecraftVersion("1.13")) >= 0) {
-            packet.getIntegers().write(0, this.transactionID);
+            packet.getIntegers().write(0, transactionID);
             
             StringRange range = new StringRange(
-                this.command.argumentStart(tab.argumentsToReplace()) + 1,
-                this.command.argumentsEnd() + 1
+                command.argumentStart(tab.argumentsToReplace()) + 1,
+                command.argumentsEnd() + 1
             );
             
             Suggestions suggestions = new Suggestions(range, tab.tabCompletions().stream()
@@ -74,12 +83,7 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
             packet.getStringArrays().write(0, completions);
         }
         
-        protocolManager.sendServerPacket(this.player, packet);
-    }
-    
-    @Override
-    public CommandSource source() {
-        return this.source;
+        protocolManager.sendServerPacket(player, packet);
     }
     
 }
