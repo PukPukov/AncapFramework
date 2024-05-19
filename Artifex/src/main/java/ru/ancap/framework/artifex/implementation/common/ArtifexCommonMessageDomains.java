@@ -35,6 +35,7 @@ public class ArtifexCommonMessageDomains {
         CommonMessageDomains.Status.Skip.testerTypes = this.domain("status.skip.tester-types");
         
         CommonMessageDomains.Test.errorOutputForm = this.domain("test.error-output-form");
+        CommonMessageDomains.Test.root = this.domain("test");
         
         CommonMessageDomains.Reload.localesSuccessfullyReloaded = this.domain("reload.locales-successfully-reloaded");
     }

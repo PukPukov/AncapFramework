@@ -1,5 +1,5 @@
 language: ru
-version: 18
+version: 19
 
 ru:
   ancap:
@@ -27,9 +27,11 @@ ru:
             inspect: "%EXPECTED%. Всё работает верно?"
           checks:
             action:
-              command: "введите команду <u>/%COMMAND%</u>"
+              tab-complete: "введите, но не отправляйте команду <u>/%COMMAND%</u>"
+              command: "отправьте команду <u>/%COMMAND%</u>"
             expected:
               interact:
+                gradient-tab-complete: "получение двух табкомплитов, один из которых должен иметь следующую градиентную подсказку: \"%GRADIENT%\""
                 ok: "ответ \"<u>OK [%IDENTITY%]</u>\" от системы"
                 unknown: "сообщение о том, что такой команды не существует"
               inspect:

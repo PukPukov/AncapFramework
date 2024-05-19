@@ -12,7 +12,7 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
 import org.bukkit.entity.Player;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandLineSpeaker;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandSource;
@@ -62,7 +62,7 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
                 .map(completion -> new Suggestion(range,
                     completion.completion(),
                     completion.tooltipState().map(component -> new LiteralMessage(
-                        PlainTextComponentSerializer.plainText().serialize(component)
+                        JSONComponentSerializer.json().serialize(component)
                     )).orElse(null)
                 )).toList());
             

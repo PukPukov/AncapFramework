@@ -32,6 +32,7 @@ public class CommonMessageDomains {
     public static class Test {
         
         public static String errorOutputForm;
+        public static String root;
         
     }
     
