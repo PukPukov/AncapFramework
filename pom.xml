@@ -27,8 +27,8 @@
 
     <properties>
         <java.version>21</java.version>
-        <adventure-api.version>4.16.0</adventure-api.version>
-        <adventure-platform.version>4.3.2</adventure-platform.version>
+        <adventure-api.version>4.17.0</adventure-api.version>
+        <adventure-platform.version>4.3.3-SNAPSHOT</adventure-platform.version>
         <encoding>UTF-8</encoding>
     </properties>
     
