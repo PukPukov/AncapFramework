@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
 import net.kyori.adventure.text.serializer.json.JSONComponentSerializer;
+import org.apiguardian.api.API;
 import org.bukkit.entity.Player;
 import ru.ancap.framework.artifex.implementation.PacketLibFork;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandLineSpeaker;
@@ -28,36 +29,7 @@ import java.util.stream.Collectors;
 @ToString @EqualsAndHashCode
 public class PacketLineSpeaker implements CommandLineSpeaker {
     
-    private final int transactionID;
-    
-    private final CommandSource source;
-    
-    private final Player player;
-    
-    private final InlineTextCommand command;
-    
-    public PacketLineSpeaker(int transactionID, InlineTextCommand command, Player player) {
-        this.transactionID = transactionID;
-        this.player = player;
-        this.source = new SenderSource(player);
-        this.command = command;
-    }
-    
-    @Override
-    public void sendTab(@NonNull TabBundle tab) {
-        if (tab.filter()) tab = tab.withTabCompletions(tab.tabCompletions().stream()
-            .filter(s -> s.completion().startsWith(this.command.getHotArgument()))
-            .collect(Collectors.toList())
-        );
-        
-        PacketLineSpeaker.sendTabPacket(this.player, this.transactionID, this.command, tab);
-    }
-    
-    @Override
-    public CommandSource source() {
-        return this.source;
-    }
-    
+    @API(status = API.Status.STABLE)
     public static void sendTabPacket(Player player, int transactionID, InlineTextCommand command, TabBundle tab) {
         switch (PacketLibFork.CurrentUsage.TAB_COMPLETE_SEND.packetLib()) {
             case ProtocolLib -> {
@@ -85,7 +57,8 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
                 } else {
                     String[] completions = new String[tab.tabCompletions().size()];
                     
-                    for (int i = 0; i < tab.tabCompletions().size(); i++) completions[i] = tab.tabCompletions().get(i).completion();
+                    for (int i = 0; i < tab.tabCompletions().size(); i++)
+                        completions[i] = tab.tabCompletions().get(i).completion();
                     packet.getStringArrays().write(0, completions);
                 }
                 
@@ -108,6 +81,33 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
                 PacketEvents.getAPI().getPlayerManager().sendPacket(player, packet);
             }
         }
+    }
+    
+    private final int transactionID;
+    private final CommandSource source;
+    private final Player player;
+    private final InlineTextCommand command;
+    
+    public PacketLineSpeaker(int transactionID, InlineTextCommand command, Player player) {
+        this.transactionID = transactionID;
+        this.player = player;
+        this.source = new SenderSource(player);
+        this.command = command;
+    }
+    
+    @Override
+    public void sendTab(@NonNull TabBundle tab) {
+        if (tab.filter()) tab = tab.withTabCompletions(tab.tabCompletions().stream()
+            .filter(s -> s.completion().startsWith(this.command.getHotArgument()))
+            .collect(Collectors.toList())
+        );
+        
+        PacketLineSpeaker.sendTabPacket(this.player, this.transactionID, this.command, tab);
+    }
+    
+    @Override
+    public CommandSource source() {
+        return this.source;
     }
     
 }
