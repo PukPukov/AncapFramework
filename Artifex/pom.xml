@@ -83,6 +83,11 @@
             <id>sonatype-oss-snapshots1</id>
             <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
+
+        <repository>
+            <id>viaversion-repo</id>
+            <url>https://repo.viaversion.com</url>
+        </repository>
     </repositories>
 
     <dependencies>
