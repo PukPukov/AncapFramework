@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @ToString @EqualsAndHashCode
 public class PacketLineSpeaker implements CommandLineSpeaker {
-
+    
     private final int transactionID;
     
     private final CommandSource source;
@@ -31,42 +31,40 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
     private final Player player;
     
     private final InlineTextCommand command;
-
+    
     public PacketLineSpeaker(int transactionID, InlineTextCommand command, Player player) {
         this.transactionID = transactionID;
         this.player = player;
         this.source = new SenderSource(player);
         this.command = command;
     }
-
+    
     @Override
     public void sendTab(@NonNull TabBundle tab) {
         if (tab.filter()) tab = tab.withTabCompletions(tab.tabCompletions().stream()
-                .filter(s -> s.completion().startsWith(this.command.getHotArgument()))
-                .collect(Collectors.toList())
+            .filter(s -> s.completion().startsWith(this.command.getHotArgument()))
+            .collect(Collectors.toList())
         );
-
+        
         ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
         
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.TAB_COMPLETE);
         
         if (protocolManager.getMinecraftVersion().compareTo(new MinecraftVersion("1.13")) >= 0) {
             packet.getIntegers().write(0, this.transactionID);
-
+            
             StringRange range = new StringRange(
-                this.command.argumentStart(tab.argumentsToReplace())+1,
-                this.command.argumentsEnd()+1
+                this.command.argumentStart(tab.argumentsToReplace()) + 1,
+                this.command.argumentsEnd() + 1
             );
-
+            
             Suggestions suggestions = new Suggestions(range, tab.tabCompletions().stream()
-                    .map(completion -> new Suggestion(
-                            range,
-                            completion.completion(),
-                            completion.tooltipState().map(component -> new LiteralMessage(
-                                    PlainTextComponentSerializer.plainText().serialize(component)
-                            )).orElse(null)
-                    )).toList()
-            );
+                .map(completion -> new Suggestion(range,
+                    completion.completion(),
+                    completion.tooltipState().map(component -> new LiteralMessage(
+                        PlainTextComponentSerializer.plainText().serialize(component)
+                    )).orElse(null)
+                )).toList());
             
             packet.getSpecificModifier(Suggestions.class).write(0, suggestions);
         } else {
@@ -78,7 +76,7 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
         
         protocolManager.sendServerPacket(this.player, packet);
     }
-
+    
     @Override
     public CommandSource source() {
         return this.source;
