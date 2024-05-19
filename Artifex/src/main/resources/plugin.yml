@@ -4,6 +4,7 @@ authors: [ PukPukov ]
 
 depend:
   - ProtocolLib
+  - packetevents
 
 softdepend:
   - ArtifexDatabaseDrivers
