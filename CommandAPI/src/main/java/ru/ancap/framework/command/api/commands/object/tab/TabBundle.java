@@ -35,22 +35,28 @@ public class TabBundle {
         private int argumentsToReplace = 1;
         private boolean filter = true;
         
-        public Builder description() {
-            this.filter = false;
-            return this;
-        }
-        
-        public Builder replace(int toReplace) {
-            this.argumentsToReplace = toReplace;
-            return this;
-        }
-        
         public Builder raw(List<String> rawCompletions) {
             return this.tooltiped(rawCompletions.stream().map(Tab::new).collect(Collectors.toList()));
         }
         
         public Builder tooltiped(List<TabCompletion> completions) {
             this.tabCompletions = completions;
+            return this;
+        }
+        
+        /**
+         * Disables filtering. Everything that passed will be sent to client.
+         */
+        public Builder description() {
+            this.filter = false;
+            return this;
+        }
+        
+        /**
+         * Length of player arguments that needed to be replaced. Default: 1
+         */
+        public Builder replace(int toReplace) {
+            this.argumentsToReplace = toReplace;
             return this;
         }
         
