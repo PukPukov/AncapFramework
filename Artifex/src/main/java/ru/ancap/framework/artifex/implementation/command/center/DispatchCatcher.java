@@ -1,14 +1,10 @@
 package ru.ancap.framework.artifex.implementation.command.center;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.*;
-import com.comphenix.protocol.utility.MinecraftVersion;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-import lombok.experimental.Delegate;
+import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Cancellable;
@@ -17,13 +13,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.artifex.implementation.command.event.ProxiedCommandEvent;
-import ru.ancap.framework.artifex.implementation.command.object.PacketCommandWrite;
 import ru.ancap.framework.artifex.implementation.command.object.SenderSource;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandSource;
-import ru.ancap.framework.command.api.commands.object.dispatched.InlineTextCommand;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.dispatched.TextCommand;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
@@ -31,71 +24,27 @@ import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate.OperateRule;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.communicate.modifier.Placeholder;
-import ru.ancap.framework.identifier.Identifier;
 import ru.ancap.framework.language.additional.LAPIMessage;
 import ru.ancap.framework.plugin.api.Ancap;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.function.Consumer;
 
-@Getter(AccessLevel.PRIVATE)
 @ToString @EqualsAndHashCode
-public class CommandCatcher implements Listener, PacketListener {
+@Accessors(fluent = true) @Getter(AccessLevel.PRIVATE)
+public class DispatchCatcher implements Listener {
     
     private final Ancap ancap;
-
-    @Delegate
-    private final PacketListener delegate;
+    
     private final CommandOperator global;
-    private final OperateRule rule;
-    
-    private final Map<String, Long> lastRequestTimeMap = new HashMap<>();
-    
-    private boolean versionCacheSetup;
-    private boolean versionCache;
-    
-    private final Consumer<PacketEvent> onTabComplete = (event) -> {
-        if (event.isCancelled()) return;
-        if (this.getAncap().getServerTPS() < 19.5) {
-            String identifier = Identifier.of(event.getPlayer());
-            long currentTime = System.currentTimeMillis();
-            Long lastTime = this.lastRequestTimeMap.get(identifier);
-            if (lastTime != null && currentTime - lastTime < 500) return;
-            this.lastRequestTimeMap.put(identifier, currentTime);
-        }
-        PacketContainer packet = event.getPacket();
-        String text = packet.getStrings().read(0);
-        int transactionID = this.readTransactionId() ? packet.getIntegers().read(0) : 0;
-        InlineTextCommand inlineTextCommand = new InlineTextCommand(text);
-        if (!this.getRule().isOperate(inlineTextCommand)) return;
-        event.setCancelled(true);
-        this.getGlobal().on(new PacketCommandWrite(
-            transactionID,
-            inlineTextCommand,
-            event.getPlayer(),
-            inlineTextCommand
-        ));
-    };
+    private final OperateRule scope;
 
-    private boolean readTransactionId() {
-        if (!this.versionCacheSetup) {
-            this.versionCache = ProtocolLibrary.getProtocolManager().getMinecraftVersion().compareTo(new MinecraftVersion("1.13")) >= 0;
-            this.versionCacheSetup = true;
-        }
-        return this.versionCache;
-    }
-
-    public CommandCatcher(Ancap ancap, JavaPlugin plugin, CommandOperator global, OperateRule rule) {
+    DispatchCatcher(Ancap ancap, CommandOperator global, OperateRule scope) {
         this.ancap = ancap;
-        var onTabComplete = this.onTabComplete;
-        this.delegate = new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Client.TAB_COMPLETE) {
-            @Override
-            public void onPacketReceiving(PacketEvent event) {
-                onTabComplete.accept(event);
-            }
-        };
         this.global = global;
-        this.rule = rule;
+        this.scope = scope;
     }
 
     @EventHandler
@@ -150,7 +99,7 @@ public class CommandCatcher implements Listener, PacketListener {
         if (interceptable.intercepted()) return;
         sent = this.commandLineWithoutSlash(sent);
         TextCommand command = this.from(source, sent);
-        if (!this.rule.isOperate(command)) return;
+        if (!this.scope().isOperate(command)) return;
         consumer.accept(new InterceptableCommandForm(interceptable, source, command));
     }
 
@@ -165,7 +114,7 @@ public class CommandCatcher implements Listener, PacketListener {
     private TextCommand from(Form form) {
         return new TextCommand(form.arguments);
     }
-
+    
     private record RawForm(CommandSource source, String command) { }
     private record Form(CommandSource source, List<String> arguments) { }
     private record InterceptableCommandForm(Interceptable interceptable, CommandSource source, LeveledCommand command) { }

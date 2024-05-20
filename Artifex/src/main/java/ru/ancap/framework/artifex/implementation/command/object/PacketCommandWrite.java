@@ -9,14 +9,14 @@ import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
 public class PacketCommandWrite extends CommandWrite {
     
-    public PacketCommandWrite(int transactionID, InlineTextCommand packetData, Player player, InlineTextCommand provideCommand) {
+    public PacketCommandWrite(int transactionID, InlineTextCommand packetData, Player player) {
         super(
             new PacketLineSpeaker(
                 transactionID,
                 packetData,
                 player
             ),
-            provideCommand
+            packetData
         );
     }
 }

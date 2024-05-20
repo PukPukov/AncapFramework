@@ -1,7 +1,5 @@
 package ru.ancap.framework.artifex;
 
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.utility.MinecraftVersion;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import lombok.ToString;
@@ -184,8 +182,18 @@ public final class Artifex extends AncapPlugin {
     }
 
     private void loadEventAPI() {
-        if (ProtocolLibrary.getProtocolManager().getMinecraftVersion().compareTo(new MinecraftVersion("1.16.5")) < 0) return;
+        if (getCurrentVersion()[1] < 16) return;
+        if (getCurrentVersion()[1] == 16 && getCurrentVersion()[2] < 5) return;
         this.eventApiListeners.forEach(this::registerEventsListener);
+    }
+    
+    private static int[] getCurrentVersion() {
+        String[] minecraftVersionString = Bukkit.getBukkitVersion().split("-")[0].split("\\.");
+        int[] minecraftVersion = new int[minecraftVersionString.length];
+        for (int i = 0; i < minecraftVersionString.length; i++) {
+            minecraftVersion[i] = Integer.parseInt(minecraftVersionString[i]);
+        }
+        return minecraftVersion;
     }
 
     private void loadCommonMessageDomains() {

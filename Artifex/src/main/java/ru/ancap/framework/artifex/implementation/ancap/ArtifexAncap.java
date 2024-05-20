@@ -7,7 +7,6 @@ import lombok.ToString;
 import org.bukkit.entity.Player;
 import ru.ancap.commons.instructor.Instructor;
 import ru.ancap.commons.instructor.SimpleEventBus;
-import ru.ancap.framework.artifex.implementation.command.center.CommandCatcher;
 import ru.ancap.framework.artifex.implementation.command.center.CommandCatcherInstaller;
 import ru.ancap.framework.artifex.implementation.plugin.ServerTPSCounter;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
@@ -45,7 +44,7 @@ public class ArtifexAncap implements Ancap {
 
     @Override
     public void installGlobalCommandOperator(AncapPlugin owner, CommandOperator global, OperateRule scope) {
-        CommandCatcherInstaller.install(new CommandCatcher(this, owner, global, scope), owner);
+        CommandCatcherInstaller.install(owner, global, scope);
     }
 
     @Override

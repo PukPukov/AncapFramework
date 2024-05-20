@@ -10,7 +10,6 @@ public class PacketLibFork {
     @Accessors(fluent = true) @Getter
     public enum CurrentUsage {
         
-        COMMAND_RECEIVE(PacketLib.PacketEvents),
         TAB_COMPLETE_RECEIVE(PacketLib.PacketEvents),
         TAB_COMPLETE_SEND(PacketLib.PacketEvents),
         ;
