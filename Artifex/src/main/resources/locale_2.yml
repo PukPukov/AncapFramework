@@ -21,7 +21,7 @@ ru:
           error-output-form:
             - "  <dark_red>-</dark_red> Exception: %EXCEPTION%"
             - "  <dark_red>-</dark_red> Message: %MESSAGE%"
-            - "{STACK_TRACE:  <dark_gray>-</dark_gray> {STACK_TRACE_ELEMENT}}"
+            - "{STACK_TRACE:  <dark_gray>-</dark_gray> %STACK_TRACE_ELEMENT%}"
           base:
             interact: "Please %ACTION%. The expected result is %EXPECTED%. Is everything working right?"
             inspect: "%EXPECTED%. Is everything working correctly?"

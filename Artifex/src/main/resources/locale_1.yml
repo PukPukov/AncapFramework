@@ -21,7 +21,7 @@ ru:
           error-output-form:
             - "  <dark_red>-</dark_red> Виняток: %EXCEPTION%"
             - "  <dark_red>-</dark_red> Повідомлення: %MESSAGE%"
-            - "{STACK_TRACE:  <dark_gray>-</dark_gray> {STACK_TRACE_ELEMENT}}"
+            - "{STACK_TRACE:  <dark_gray>-</dark_gray> %STACK_TRACE_ELEMENT%}"
           base:
             interact: "Будь ласка, %ACTION%. Очікуваний результат - %EXPECTED%. Усе працює правильно?"
             inspect: "%EXPECTED%. Усе працює правильно?"

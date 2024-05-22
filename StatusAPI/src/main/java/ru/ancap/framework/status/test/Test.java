@@ -33,7 +33,14 @@ public interface Test {
                         new Placeholder("message", throwable.getMessage()),
                     new ArgumentPlaceholder("stack trace", prefix -> new ChatBook<>(
                         Arrays.asList(throwable.getStackTrace()),
-                        element -> new Message(prefix + element.toString())
+                        element -> new Message(
+                            prefix,
+                            new Placeholder(
+                                "stack trace element",
+                                element.getClassName() + "." + element.getMethodName() + ":" + element.getLineNumber()
+                                    + "(" + element.getModuleName() +":"+element.getModuleVersion()+"<"+element.getClassLoaderName()+")"
+                            )
+                        )
                     ))
                 )
             );
