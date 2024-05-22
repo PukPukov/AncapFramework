@@ -1,5 +1,5 @@
 language: ru
-version: 19
+version: 20
 
 ru:
   ancap:
@@ -22,6 +22,7 @@ ru:
             - "  <dark_red>-</dark_red> Исключение: %EXCEPTION%"
             - "  <dark_red>-</dark_red> Сообщение: %MESSAGE%"
             - "{STACK_TRACE:  <dark_gray>-</dark_gray> {STACK_TRACE_ELEMENT}}"
+          hand-test-failure: "Тестер ответил отрицательно на вопрос \"%FAILED_CHECK_MESSAGE%\"."
           base:
             interact: "Пожалуйста, %ACTION%. Ожидаемый результат — %EXPECTED%. Всё работает верно?"
             inspect: "%EXPECTED%. Всё работает верно?"

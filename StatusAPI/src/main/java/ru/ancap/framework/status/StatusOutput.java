@@ -51,10 +51,8 @@ public class StatusOutput extends CommandTarget {
                                 );
                                 CallableMessage represent = switch (result.status()) {
                                     case SUCCESS -> new LAPIMessage(CommonMessageDomains.Status.working);
-                                    case SKIPPED ->
-                                        new BadTestMessage(CommonMessageDomains.Status.testSkipped, result.description());
-                                    case FAILURE ->
-                                        new BadTestMessage(CommonMessageDomains.Status.down, result.description());
+                                    case SKIPPED -> new BadTestMessage(CommonMessageDomains.Status.testSkipped, result.description());
+                                    case FAILURE -> new BadTestMessage(CommonMessageDomains.Status.down, result.description());
                                 };
                                 return represent.call(identifier);
                             })

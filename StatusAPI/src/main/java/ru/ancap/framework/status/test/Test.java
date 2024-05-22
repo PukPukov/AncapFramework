@@ -28,7 +28,9 @@ public interface Test {
                 new LAPIMessage(
                     CommonMessageDomains.Test.errorOutputForm,
                     new Placeholder("exception", throwable.getClass().getName()),
-                    new Placeholder("message", throwable.getMessage()),
+                    throwable instanceof CAPIDescribedException capiDescribedException ?
+                        new Placeholder("message", capiDescribedException.message()) :
+                        new Placeholder("message", throwable.getMessage()),
                     new ArgumentPlaceholder("stack trace", prefix -> new ChatBook<>(
                         Arrays.asList(throwable.getStackTrace()),
                         element -> new Message(prefix + element.toString())
