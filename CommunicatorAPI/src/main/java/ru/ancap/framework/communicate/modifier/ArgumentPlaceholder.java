@@ -18,12 +18,12 @@ public class ArgumentPlaceholder implements Modifier {
     
     private final String name;
     private final Function<String, CallableMessage> to;
-
+    
     public ArgumentPlaceholder(String name, Function<String, CallableMessage> to) {
         this.name = ArgumentPlaceholder.formalName(name);
         this.to = to;
     }
-
+    
     private static String formalName(String name) {
         name = name.toUpperCase();
         name = name.replaceAll("[\\s-]" /* spaces and dashes*/ , "_");
@@ -31,32 +31,32 @@ public class ArgumentPlaceholder implements Modifier {
     }
     
     private final CacheMap<String, String> applyCache = new CacheMap<>();
-
+    
     @Override
     public String apply(String base, String identifier) {
         return this.applyCache.get(base, () -> {
             StringBuilder buffer = new StringBuilder(base);
             List<PlaceholderFinder.Match> result = ArgumentPlaceholder.finder.find(base.toCharArray());
-
+            
             List<Triple<Integer, Integer, String>> replacements = new ArrayList<>();
-
+            
             for (PlaceholderFinder.Match match : result) {
                 if (!match.name().equals(this.name)) continue;
                 String replacement = this.to.apply(match.argument()).call(identifier);
                 replacements.add(Triple.of(match.start(), match.end() + 1, replacement));
             }
-
+            
             for (int i = replacements.size() - 1; i >= 0; i--) {
                 Triple<Integer, Integer, String> replacement = replacements.get(i);
                 buffer.replace(replacement.getLeft(), replacement.getMiddle(), replacement.getRight());
             }
-
+            
             return buffer.toString();
         });
     }
-
+    
     private static class PlaceholderFinder {
-
+        
         private List<Match> find(char[] string) {
             List<Match> matches = new ArrayList<>();
             
@@ -69,7 +69,8 @@ public class ArgumentPlaceholder implements Modifier {
             
             int start = -1;
             int separator = -1;
-
+            int nestedLevel = 0;
+            
             for (int index = 0; index < string.length; index++) {
                 escapingBuffer.step();
                 if (escapingBuffer.currentlyEscaped()) continue;
@@ -81,14 +82,23 @@ public class ArgumentPlaceholder implements Modifier {
                         if (char_ != opening) continue;
                         start = index;
                         finding = FindState.FINDING_ARGUMENT_DELIMITER;
+                        nestedLevel = 0;
                     }
                     case FINDING_ARGUMENT_DELIMITER -> {
-                        if (char_ == opening) start = index;
+                        if (char_ == opening) { start = index; continue; }
                         if (char_ != argumentDelimiter) continue;
                         separator = index;
                         finding = FindState.FINDING_CLOSING;
                     }
                     case FINDING_CLOSING -> {
+                        if (char_ == opening) {
+                            nestedLevel++;
+                            continue;
+                        }
+                        if (char_ == closing && nestedLevel > 0) {
+                            nestedLevel--;
+                            continue;
+                        }
                         if (char_ != closing) continue;
                         String name = new String(string, start + 1, separator - start - 1);
                         String argument = new String(string, separator + 1, index - separator - 1);
@@ -97,12 +107,12 @@ public class ArgumentPlaceholder implements Modifier {
                     }
                 }
             }
-
+            
             return matches;
         }
-
+        
         private record Match(int start, int end, String name, String argument) {}
-
+        
         private enum FindState {
             
             FINDING_OPENING,
