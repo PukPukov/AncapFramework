@@ -1,33 +1,23 @@
 package ru.ancap.framework.command.api.commands.object.dispatched;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNextArgumentException;
 
 import java.util.List;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Accessors(fluent = true) @Getter
 public class TextCommand implements LeveledCommand {
 
     @With private final List<String> args;
-    @With private final TextCommand fullCommand;
-    private final TextCommand originalCommand;
+    @With private final TextCommand full;
+    private final TextCommand original;
 
     public TextCommand(List<String> args) {
         this.args = List.copyOf(args);
-        this.originalCommand = this;
-        this.fullCommand = this;
-    }
-    
-    public List<String> args() {
-        return this.args;
-    }
-    
-    public TextCommand full() {
-        return this.fullCommand;
-    }
-    
-    public TextCommand original() {
-        return this.originalCommand;
+        this.original = this;
+        this.full = this;
     }
 
     @Override
@@ -43,7 +33,7 @@ public class TextCommand implements LeveledCommand {
 
     @Override
     public String nextArgument() throws NoNextArgumentException {
-        return this.nextArguments(1).get(0);
+        return this.nextArguments(1).getFirst();
     }
 
     @Override
@@ -71,9 +61,10 @@ public class TextCommand implements LeveledCommand {
     @Override
     public String toString() {
         return "TextCommand{" +
-                "args=" + args +
-                "original_args=" + originalCommand.args +
-                "full_args=" + fullCommand.args +
+                "args=" + this.args +
+                "original_args=" + this.original.args +
+                "full_args=" + this.full.args +
                 '}';
     }
+    
 }
