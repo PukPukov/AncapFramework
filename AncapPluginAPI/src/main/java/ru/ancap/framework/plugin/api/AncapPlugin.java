@@ -3,6 +3,7 @@ package ru.ancap.framework.plugin.api;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.Accessors;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.event.Listener;
@@ -102,6 +103,10 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         RegisterStage listeners = this.settings().listenerRegisterStage();
         if (executors == RegisterStage.ANCAP_PLUGIN_ENABLE) this.registerCommandExecutors();
         if (listeners == RegisterStage.ANCAP_PLUGIN_ENABLE) this.registerListeners();
+        if (
+            this.settings().mainListenerRegisterStage() == RegisterStage.ANCAP_PLUGIN_ENABLE &&
+            this instanceof Listener listener
+        ) Bukkit.getPluginManager().registerEvents(listener, this);
     }
     
     public void registerListeners() {

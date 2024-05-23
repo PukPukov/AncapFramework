@@ -1,4 +1,4 @@
-package ru.ancap.framework.artifex.status.tests;
+package ru.ancap.framework.artifex.status.tests.util;
 
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;

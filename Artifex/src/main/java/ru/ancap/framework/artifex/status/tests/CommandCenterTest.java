@@ -2,6 +2,7 @@ package ru.ancap.framework.artifex.status.tests;
 
 import org.bukkit.entity.Player;
 import ru.ancap.framework.artifex.Artifex;
+import ru.ancap.framework.artifex.status.tests.util.TestCommandRegistration;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
@@ -23,8 +24,8 @@ import ru.ancap.framework.status.util.Tester;
 
 import java.util.List;
 
-import static ru.ancap.framework.artifex.status.tests.Util.baseResponse;
-import static ru.ancap.framework.artifex.status.tests.Util.commandQuestion;
+import static ru.ancap.framework.artifex.status.tests.util.Util.baseResponse;
+import static ru.ancap.framework.artifex.status.tests.util.Util.commandQuestion;
 
 public class CommandCenterTest extends PlayerTest implements HandTest {
     

@@ -8,9 +8,12 @@ import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 import ru.ancap.commons.instructor.SimpleEventBus;
 import ru.ancap.commons.map.MapGC;
 import ru.ancap.commons.time.Day;
@@ -37,10 +40,7 @@ import ru.ancap.framework.artifex.implementation.scheduler.SchedulerSilencer;
 import ru.ancap.framework.artifex.implementation.timer.EveryDayTask;
 import ru.ancap.framework.artifex.implementation.timer.TimerExecutor;
 import ru.ancap.framework.artifex.implementation.timer.heartbeat.ArtifexHeartbeat;
-import ru.ancap.framework.artifex.status.tests.CommandCenterTest;
-import ru.ancap.framework.artifex.status.tests.ConfigurationDatabaseTest;
-import ru.ancap.framework.artifex.status.tests.ConfigurationTest;
-import ru.ancap.framework.artifex.status.tests.LAPITest;
+import ru.ancap.framework.artifex.status.tests.*;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.database.sql.SQLDatabase;
@@ -66,7 +66,7 @@ import java.util.Scanner;
 
 @ToString
 @Accessors(fluent = true)
-public final class Artifex extends AncapPlugin {
+public final class Artifex extends AncapPlugin implements Listener {
 
     @Getter
     private static AncapPlugin PLUGIN;
@@ -173,7 +173,8 @@ public final class Artifex extends AncapPlugin {
             new ConfigurationDatabaseTest(),
             new CommandCenterTest(this.commandRegistrar()),
             new LAPITest(this, this.languageInstaller),
-            new ConfigurationTest(this)
+            new ConfigurationTest(this),
+            new MainListenerAutoregisterTest(this)
         );
     }
 
@@ -299,6 +300,19 @@ public final class Artifex extends AncapPlugin {
     private void startHeartbeat() {
         ArtifexHeartbeat heartbeat = new ArtifexHeartbeat(this);
         heartbeat.start();
+    }
+    
+    public static volatile boolean mainListenerAutoregisterTestEventAccepted = false;
+    
+    @EventHandler
+    public void on(MainListenerAutoregisterTestEvent event) {
+        mainListenerAutoregisterTestEventAccepted = true;
+    }
+    
+    public static class MainListenerAutoregisterTestEvent extends Event {
+        public static final HandlerList handlers = new HandlerList();
+        public static HandlerList getHandlerList() {return handlers;}
+        @NotNull @Override public HandlerList getHandlers() {return handlers;}
     }
     
 }

@@ -1,5 +1,5 @@
 language: ru
-version: 20
+version: 21
 
 ru:
   ancap:
@@ -49,6 +49,8 @@ ru:
             name: "API интернационализации"
           configuration:
             name: "Модуль настроек"
+          main-listener-autoregister:
+            name: "Авторегистрация плагинов-слушателей"
         status:
           top: "<blue>Статус работы модулей и сервисов %SYSTEM_NAME%</blue>"
           working: "<green>работает</green>"

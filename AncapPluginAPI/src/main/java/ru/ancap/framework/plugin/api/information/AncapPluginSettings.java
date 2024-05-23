@@ -9,10 +9,11 @@ import java.util.List;
 public class AncapPluginSettings {
 
     private final ConfigurationSection section;
-
+    
     protected static class Path {
         public static final String LISTENERS_REGISTER_STAGE = "auto-register-stage.listeners";
         public static final String COMMAND_EXECUTORS_REGISTER_STAGE = "auto-register-stage.command-executors";
+        public static final String MAIN_LISTENER_REGISTER_STAGE = "auto-register-stage.main-listener";
         public static final String COMMAND_LIST = "commands.list";
         public static final String ALIASES_DOMAIN = "commands.aliases";
     }
@@ -39,6 +40,10 @@ public class AncapPluginSettings {
 
     public RegisterStage listenerRegisterStage() {
         return this.registerStageOf(Path.LISTENERS_REGISTER_STAGE);
+    }
+    
+    public RegisterStage mainListenerRegisterStage() {
+        return this.registerStageOf(Path.MAIN_LISTENER_REGISTER_STAGE);
     }
 
     private RegisterStage registerStageOf(String path) {
