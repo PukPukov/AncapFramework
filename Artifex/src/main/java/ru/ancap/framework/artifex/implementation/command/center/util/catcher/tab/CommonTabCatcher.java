@@ -1,4 +1,4 @@
-package ru.ancap.framework.artifex.implementation.command.center;
+package ru.ancap.framework.artifex.implementation.command.center.util.catcher.tab;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.bukkit.entity.Player;
+import ru.ancap.framework.artifex.implementation.command.center.util.TabPerformanceChecker;
 import ru.ancap.framework.artifex.implementation.command.object.PacketCommandWrite;
 import ru.ancap.framework.command.api.commands.object.dispatched.InlineTextCommand;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;

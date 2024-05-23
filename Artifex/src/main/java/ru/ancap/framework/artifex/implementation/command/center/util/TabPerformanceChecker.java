@@ -1,4 +1,4 @@
-package ru.ancap.framework.artifex.implementation.command.center;
+package ru.ancap.framework.artifex.implementation.command.center.util;
 
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;

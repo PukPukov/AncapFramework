@@ -1,4 +1,4 @@
-package ru.ancap.framework.artifex.implementation.command.center;
+package ru.ancap.framework.artifex.implementation.command.center.util.catcher.tab;
 
 import com.github.retrooper.packetevents.event.PacketListener;
 import com.github.retrooper.packetevents.event.PacketReceiveEvent;
@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 import org.bukkit.entity.Player;
 
 @ToString @EqualsAndHashCode
-@RequiredArgsConstructor(access = AccessLevel.PACKAGE)
+@RequiredArgsConstructor
 @Accessors(fluent = true) @Getter
 public class PacketEventsTabCatcher implements PacketListener {
 

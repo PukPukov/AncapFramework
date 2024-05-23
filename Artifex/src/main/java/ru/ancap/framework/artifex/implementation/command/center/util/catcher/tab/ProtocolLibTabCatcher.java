@@ -1,4 +1,4 @@
-package ru.ancap.framework.artifex.implementation.command.center;
+package ru.ancap.framework.artifex.implementation.command.center.util.catcher.tab;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
@@ -48,7 +48,7 @@ public class ProtocolLibTabCatcher implements PacketListener {
         return this.versionCache;
     }
     
-    ProtocolLibTabCatcher(
+    public ProtocolLibTabCatcher(
         JavaPlugin plugin, CommonTabCatcher commonTabCatcher
     ) {
         this.delegate = new PacketAdapter(plugin, ListenerPriority.NORMAL, PacketType.Play.Client.TAB_COMPLETE) {
