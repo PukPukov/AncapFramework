@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.server.ServerCommandEvent;
 import ru.ancap.framework.artifex.Artifex;
+import ru.ancap.framework.artifex.implementation.command.center.util.ArgumentSplitter;
 import ru.ancap.framework.artifex.implementation.command.event.ProxiedCommandEvent;
 import ru.ancap.framework.artifex.implementation.command.object.SenderSource;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandSource;
@@ -27,8 +28,6 @@ import ru.ancap.framework.communicate.modifier.Placeholder;
 import ru.ancap.framework.language.additional.LAPIMessage;
 import ru.ancap.framework.plugin.api.Ancap;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -37,16 +36,15 @@ import java.util.function.Consumer;
 public class DispatchCatcher implements Listener {
     
     private final Ancap ancap;
-    
     private final CommandOperator global;
     private final OperateRule scope;
-
+    
     DispatchCatcher(Ancap ancap, CommandOperator global, OperateRule scope) {
         this.ancap = ancap;
         this.global = global;
         this.scope = scope;
     }
-
+    
     @EventHandler
     public void on(PlayerCommandPreprocessEvent event) {
         this.operateInterceptableDispatch(
@@ -56,7 +54,7 @@ public class DispatchCatcher implements Listener {
             this::operateInterceptableDispatch
         );
     }
-
+    
     @EventHandler(priority = EventPriority.LOW, ignoreCancelled = false)
     public void on(ServerCommandEvent event) {
         this.operateInterceptableDispatch(
@@ -76,12 +74,12 @@ public class DispatchCatcher implements Listener {
             this::operateInterceptableDispatch
         );
     }
-
+    
     private String commandLineWithoutSlash(String commandLine) {
         if (commandLine.startsWith("/")) commandLine = commandLine.substring(1);
         return commandLine;
     }
-
+    
     private void notifyAboutServerCommand(CommandSender sender, String command) {
         Communicator.of(Bukkit.getConsoleSender()).message(new LAPIMessage(
             Artifex.class, "command.api.info.issued-server-command",
@@ -89,12 +87,12 @@ public class DispatchCatcher implements Listener {
             new Placeholder("command", command)
         ));
     }
-
+    
     private void operateInterceptableDispatch(InterceptableCommandForm form) {
         this.global.on(new CommandDispatch(form.source, form.command));
         form.interceptable.intercept();
     }
-
+    
     private void operateInterceptableDispatch(Interceptable interceptable, CommandSource source, String sent, Consumer<InterceptableCommandForm> consumer) {
         if (interceptable.intercepted()) return;
         sent = this.commandLineWithoutSlash(sent);
@@ -102,15 +100,15 @@ public class DispatchCatcher implements Listener {
         if (!this.scope().isOperate(command)) return;
         consumer.accept(new InterceptableCommandForm(interceptable, source, command));
     }
-
+    
     private TextCommand from(CommandSource source, String message) {
         return this.from(new RawForm(source, message));
     }
-
+    
     private TextCommand from(RawForm form) {
-        return this.from(new Form(form.source, new ArrayList<>(Arrays.asList(form.command.split(" ")))));
+        return this.from(new Form(form.source, ArgumentSplitter.split(form.command)));
     }
-
+    
     private TextCommand from(Form form) {
         return new TextCommand(form.arguments);
     }
@@ -128,7 +126,7 @@ public class DispatchCatcher implements Listener {
                 public boolean intercepted() {
                     return event.isCancelled();
                 }
-
+                
                 @Override
                 public void intercept() {
                     event.setCancelled(true);
@@ -141,5 +139,5 @@ public class DispatchCatcher implements Listener {
         void intercept();
         
     }
-
+    
 }
