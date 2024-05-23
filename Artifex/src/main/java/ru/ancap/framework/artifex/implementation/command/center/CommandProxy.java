@@ -11,6 +11,8 @@ public class CommandProxy implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NonNull CommandSender sender, @NonNull Command command, @NonNull String label, @NonNull String[] arguments) {
+        // server splits commands by " ", but this could be bad if you want more flexible argument splitting,
+        // you should undo what server does and do it yourself
         String line = command.getName() + " " + String.join(" ", arguments);
         Bukkit.getPluginManager().callEvent(new ProxiedCommandEvent(sender, line));
         return true;
