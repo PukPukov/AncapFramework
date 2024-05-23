@@ -112,18 +112,6 @@ public class Arguments implements CommandOperator {
 
     @Override
     public void on(CommandWrite write) {
-        
-        // 0 name
-        // 1 hex
-        // 2 hex
-        // 3 role
-        // 4 time
-        // 5 time
-        // 6 time
-        // 7 time
-        // pidorchuk red 5005 assistant 1 [day week jopa]
-        // PlayerExtractor(1), HexagonExtractor(2), RoleExtractor(1), TimeExtractor(2)
-        
         LeveledCommand command = write.line();
         int written = command.arguments().size();
         
