@@ -30,11 +30,9 @@ public final class InlineTextCommand implements LeveledCommand {
             if (!lexems.get(lastIndex).finished) {
                 lexems.remove(lastIndex);
             }
-            this.completedCommand = new TextCommand(lexems
-                    .stream()
-                    .map(ParseLexem::lexem)
-                    .toList()
-            );
+            this.completedCommand = new TextCommand(lexems.stream()
+                .map(ParseLexem::lexem)
+                .toList());
         }
         return this.completedCommand;
     }
