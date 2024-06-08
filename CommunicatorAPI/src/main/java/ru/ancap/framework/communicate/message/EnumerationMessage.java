@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.function.BiFunction;
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
-public class EnumerationMessage<T> extends CacheMessage {
+public class EnumerationMessage<T> extends WrapperMessage {
     
     public EnumerationMessage(Map<String, T> data, BiFunction<String, T, CallableMessage> mapper) {
         super(name -> {

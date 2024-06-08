@@ -7,7 +7,7 @@ import ru.ancap.framework.communicate.MiniMessageMapper;
 import ru.ancap.framework.communicate.modifier.Modifier;
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
-public class Message extends CacheMessage implements CallableMessage {
+public class Message extends WrapperMessage implements CallableMessage {
 
     public static final CallableMessage EMPTY = new Message("");
     

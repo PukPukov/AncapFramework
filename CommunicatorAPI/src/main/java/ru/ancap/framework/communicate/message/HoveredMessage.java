@@ -2,7 +2,7 @@ package ru.ancap.framework.communicate.message;
 
 import ru.ancap.framework.communicate.modifier.Placeholder;
 
-public class HoveredMessage extends CacheMessage implements CallableMessage {
+public class HoveredMessage extends WrapperMessage implements CallableMessage {
     
     public HoveredMessage(CallableMessage base, CallableMessage hover) {
         super(new Message(
