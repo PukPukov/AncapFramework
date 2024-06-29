@@ -16,6 +16,7 @@ import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.communicate.message.Message;
 import ru.ancap.framework.configuration.AnnotationConfiguration;
+import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.plugin.api.commands.CommandCenter;
 import ru.ancap.framework.plugin.api.commands.PluginCommandRegistrar;
 import ru.ancap.framework.plugin.api.information.AncapPluginSettings;
@@ -74,6 +75,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         registeredCommands.forEach(id -> {
             this.commandRegistrar.unregister(id);
         });
+        LAPI.drop(this.lapiSection());
     }
 
     private void loadPluginCommandRegistrar() {
@@ -128,8 +130,12 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
                     BuiltTransferMap.EMPTY,
                 "version"
             )),
-            this.getDescription().getName()
+            this.lapiSection()
         ).load();
+    }
+    
+    public String lapiSection() {
+        return this.getDescription().getName();
     }
     
     public Iterable<AncapPlugin> ancapPlugins() {
