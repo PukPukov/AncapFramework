@@ -11,6 +11,7 @@ public interface Ancap {
     boolean debug();
     void setDebug(boolean debug);
     double getServerTPS();
+    double targetTPS();
     void installGlobalCommandOperator(AncapPlugin owner, CommandOperator global, OperateRule scope);
     StepbackMaster stepbackMaster();
     Instructor<Player> playerLeaveInstructor();

@@ -64,5 +64,10 @@ public class ArtifexAncap implements Ancap {
     public double getServerTPS() {
         return this.tpsCounter.get();
     }
-
+    
+    @Override
+    public double targetTPS() {
+        return 20;
+    }
+    
 }
