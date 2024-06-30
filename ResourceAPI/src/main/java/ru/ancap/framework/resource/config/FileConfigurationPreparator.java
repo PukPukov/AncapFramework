@@ -91,7 +91,6 @@ public class FileConfigurationPreparator implements ResourcePreparator<FileConfi
                     FilenameUtils.getBaseName(target.getName())+"_"+System.currentTimeMillis()+".old"
                 ), userData);
                 Set<String> userKeys = userData.getKeys(true);
-                userKeys.remove(this.versionFieldName);
                 for (String key : userKeys) {
                     Object value = userData.get(key);
                     if (value instanceof MemorySection) continue;
@@ -101,6 +100,7 @@ public class FileConfigurationPreparator implements ResourcePreparator<FileConfi
                 } break;
             default: throw new IllegalStateException("Unexpected value: " + this.resolveStateFrom(base, target));
         }
+        if (this.versionFieldName != null) finalConfig.set(this.versionFieldName, null);
         this.prepareFiles(target, finalConfig);
         return finalConfig;
     }
