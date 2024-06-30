@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.bukkit.Bukkit;
 import org.jetbrains.annotations.Nullable;
 import ru.ancap.commons.map.GuaranteedMap;
 import ru.ancap.framework.language.language.Language;
@@ -18,6 +19,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @ToString @EqualsAndHashCode
 public class BasicLocales implements Locales {
+    
+    public static volatile Logger defaultLogger = Bukkit.getLogger(); // backward compatibility
 
     private final Map<String /*section*/, List<Registration>> registrations = new GuaranteedMap<>(ArrayList::new);
     private final Map<Language, Map<String, String>> map = new GuaranteedMap<>(HashMap::new);
@@ -32,7 +35,9 @@ public class BasicLocales implements Locales {
         languageMap.put(id, localized);
         this.registrations.get(section).add(new Registration(language, id));
         if (oldMapData != null && !oldMapData.equals(localized)) {
-            Logger.getGlobal().warning("Replaced "+id+"'s locale \""+oldMapData+"\" with "+localized);
+            defaultLogger.warning("Overrided locale with id \""+id+"\" in section \""+section+"\"");
+            defaultLogger.warning("  from \""+oldMapData+"\"\n");
+            defaultLogger.warning("  with \""+localized+"\"");
         }
     }
     
