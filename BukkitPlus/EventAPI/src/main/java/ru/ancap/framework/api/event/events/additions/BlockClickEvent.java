@@ -1,8 +1,10 @@
 package ru.ancap.framework.api.event.events.additions;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import lombok.experimental.Delegate;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -12,29 +14,26 @@ import org.bukkit.event.HandlerList;
 import org.jetbrains.annotations.NotNull;
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
+@Accessors(fluent = true) @Getter
 public class BlockClickEvent extends Event implements Cancellable {
 
     @Delegate
-    private final @NotNull Cancellable event;
+    private final @NotNull Cancellable bukkit;
     private final @NotNull Player clicker;
     private final @NotNull Block block;
 
-    public BlockClickEvent(@NonNull Cancellable event, @NonNull Player player, @NonNull Block block) {
-        this.event = event;
+    public BlockClickEvent(@NonNull Cancellable bukkit, @NonNull Player player, @NonNull Block block) {
+        this.bukkit = bukkit;
         this.block = block;
         this.clicker = player;
     }
-
-    public Cancellable bukkitEvent() {
-        return this.event;
-    }
     
-    public Player clicker() {
-        return this.clicker;
-    }
-
-    public Block block() {
-        return this.block;
+    /**
+     * @deprecated use bukkit()
+     */
+    @Deprecated
+    public Cancellable bukkitEvent() {
+        return this.bukkit;
     }
     
     public static final HandlerList handlers = new HandlerList();

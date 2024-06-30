@@ -67,9 +67,9 @@ public class ProtectListener extends ArtifexListener {
     }
 
     @EventHandler (priority = EventPriority.LOW, ignoreCancelled = true)
-    public void on(BlockBreakEvent e) {
-        this.throwEvent(new WorldInteractEvent(e, e.getPlayer(), List.of(e.getBlock().getLocation())));
-        this.throwEvent(new BlockNullifyEvent(e, List.of(e.getBlock()), false));
+    public void on(BlockBreakEvent event) {
+        this.throwEvent(new WorldInteractEvent(event, event.getPlayer(), List.of(event.getBlock().getLocation())));
+        this.throwEvent(new BlockNullifyEvent(event, List.of(event.getBlock()), false));
     }
 
     @EventHandler (priority = EventPriority.LOW, ignoreCancelled = true)
@@ -79,7 +79,7 @@ public class ProtectListener extends ArtifexListener {
 
     @EventHandler (priority = EventPriority.LOW, ignoreCancelled = true)
     public void on(BlockClickEvent event) {
-        this.throwEvent(new WorldInteractEvent(event, event.clicker(), List.of(event.block().getLocation())));
+        this.throwEvent(new WorldInteractEvent(event.bukkit(), event.clicker(), List.of(event.block().getLocation())));
     }
     
     @EventHandler (priority = EventPriority.LOW, ignoreCancelled = true)
