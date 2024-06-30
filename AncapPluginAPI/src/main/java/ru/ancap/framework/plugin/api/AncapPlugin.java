@@ -71,10 +71,9 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     @Override
     public void onDisable() {
         this.unregister();
+        Bukkit.getScheduler().cancelTasks(this);
         Set<String> registeredCommands = Set.copyOf(this.commandCenter().findRegisteredCommandsOf(this));
-        registeredCommands.forEach(id -> {
-            this.commandRegistrar.unregister(id);
-        });
+        registeredCommands.forEach(id -> this.commandRegistrar.unregister(id));
         LAPI.drop(this.lapiSection());
     }
 
