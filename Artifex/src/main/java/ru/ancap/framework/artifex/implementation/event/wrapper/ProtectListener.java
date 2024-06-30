@@ -59,7 +59,6 @@ public class ProtectListener extends ArtifexListener {
             if (!(source instanceof Player)) return;
             damager = (Player) source;
         } else return;
-        if (entityDamaged instanceof Monster || entityDamaged instanceof Boss) return;
         this.throwEvent(new WorldInteractEvent(event, damager, List.of(location)));
         if (!(entityDamaged instanceof Player damaged)) return;
         Event event1 = new PVPEvent(event, damager, List.of(damaged));
