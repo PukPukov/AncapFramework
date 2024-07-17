@@ -14,6 +14,7 @@ ru:
           
     framework:
       artifex:
+        in-dev: "<red>Данная возможность находиться в разработке."
         yes-no: "{YES:<green><u>[ДА]<u></green>} {NO:<red><u>[НЕТ]</u></red>}"
         click-to-select: "Нажми, чтобы выбрать"
         sent-to-console: "<green>Сообщение отправлено в консоль</green>"

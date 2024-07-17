@@ -14,6 +14,7 @@ ru:
     
     framework:
       artifex:
+        in-dev: "<red>This feature is in development."
         yes-no: "{YES:<green><u>[YES]<u></green>} {NO:<red><u>[NO]</u></red>}"
         click-to-select: "Click to select"
         sent-to-console: "<green>Message was sent to console</green>"

@@ -9,6 +9,7 @@ public class CommonMessageDomains {
     public static String yesNo;
     public static String clickToSelect;
     public static String sentToConsole;
+    public static String inDev;
     
     public static class Status {
 

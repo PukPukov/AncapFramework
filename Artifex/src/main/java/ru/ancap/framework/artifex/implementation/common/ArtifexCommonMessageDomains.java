@@ -22,6 +22,7 @@ public class ArtifexCommonMessageDomains {
         CommonMessageDomains.yesNo = this.domain("yes-no");
         CommonMessageDomains.clickToSelect = this.domain("click-to-select");
         CommonMessageDomains.sentToConsole = this.domain("sent-to-console");
+        CommonMessageDomains.inDev = this.domain("in-dev");
         
         CommonMessageDomains.Status.testForm = this.domain("status.test-form");
         CommonMessageDomains.Status.working = this.domain("status.working");
