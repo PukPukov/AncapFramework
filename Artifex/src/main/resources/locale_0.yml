@@ -15,6 +15,12 @@ ru:
     framework:
       artifex:
         in-dev: "<red>Данная возможность находиться в разработке."
+        dependent-plugins:
+          main-form:
+            - "Плагины, зависимые от %PLUGIN%:"
+            - "%DEPENDENT_PLUGINS%"
+          ancap-plugin-form: "  - <#5100ff>%PLUGIN%</#5100ff>"
+          simple-plugin-form: "  - %PLUGIN%"
         yes-no: "{YES:<green><u>[ДА]<u></green>} {NO:<red><u>[НЕТ]</u></red>}"
         click-to-select: "Нажми, чтобы выбрать"
         sent-to-console: "<green>Сообщение отправлено в консоль</green>"

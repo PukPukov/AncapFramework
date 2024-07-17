@@ -15,6 +15,12 @@ ru:
     framework:
       artifex:
         in-dev: "<red>This feature is in development."
+        dependent-plugins:
+          main-form:
+            - "Plugins, that depend on %PLUGIN%:"
+            - "%DEPENDENT_PLUGINS%"
+          ancap-plugin-form: "  - <#5100ff>%PLUGIN%</#5100ff>"
+          simple-plugin-form: "  - %PLUGIN%"
         yes-no: "{YES:<green><u>[YES]<u></green>} {NO:<red><u>[NO]</u></red>}"
         click-to-select: "Click to select"
         sent-to-console: "<green>Message was sent to console</green>"
