@@ -92,8 +92,9 @@ public class ArtifexCommandExecutor extends CommandTarget {
                                 .guaranteed(HashSet::new)
                                 .build();
                             
-                            for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
-                                collectDependencies(plugin, children);
+                            for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) for (Plugin dependency : deepDependencies(plugin)) {
+                                children.get(dependency.getName()).add(plugin);
+                            }
                             
                             dispatch.source().communicator().message(new LAPIMessage(
                                 Artifex.class, "dependent-plugins.main-form",
@@ -111,12 +112,31 @@ public class ArtifexCommandExecutor extends CommandTarget {
                             ));
                         }
                         
-                        private void collectDependencies(Plugin plugin, Map<String, Set<Plugin>> children) {
-                            for (String dependency : new MergeList<>(plugin.getDescription().getDepend(), plugin.getDescription().getSoftDepend())) {
-                                children.get(dependency).add(plugin);
-                                Plugin dependencyPlugin = Bukkit.getPluginManager().getPlugin(dependency);
-                                if (dependencyPlugin != null) collectDependencies(dependencyPlugin, children);
+                        private List<Plugin> deepDependencies(Plugin plugin) {
+                            Set<Plugin> visited = new HashSet<>();
+                            List<Plugin> dependencies = new ArrayList<>();
+                            collectDependencies(plugin, dependencies, visited);
+                            return dependencies;
+                        }
+                        
+                        private void collectDependencies(Plugin plugin, List<Plugin> dependencies, Set<Plugin> visited) {
+                            if (visited.contains(plugin)) {
+                                Bukkit.getLogger().warning("Cyclic dependency detected for plugin: " + plugin.getName());
+                                return;
                             }
+                            
+                            visited.add(plugin);
+                            if (!dependencies.contains(plugin)) dependencies.add(plugin);
+                            List<Plugin> pluginDependencies = directDependencies(plugin);
+                            for (Plugin dependency : pluginDependencies) collectDependencies(dependency, dependencies, visited);
+                            visited.remove(plugin);
+                        }
+                        
+                        private List<Plugin> directDependencies(Plugin plugin) {
+                            return new MergeList<>(plugin.getDescription().getDepend(), plugin.getDescription().getSoftDepend()).stream()
+                                .map(name -> Bukkit.getPluginManager().getPlugin(name))
+                                .filter(Objects::nonNull)
+                                .toList();
                         }
                 }))
             )),
