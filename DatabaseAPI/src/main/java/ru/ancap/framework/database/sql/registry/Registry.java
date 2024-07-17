@@ -4,12 +4,14 @@ import com.j256.ormlite.dao.Dao;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
+@ApiStatus.Experimental // there is many questions how to implement/name this properly
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
 public class Registry<ID, SQL extends JavaConvertable<ID, JAVA>, JAVA extends SQLConvertable<ID, SQL>> {
     
