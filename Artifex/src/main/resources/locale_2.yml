@@ -90,7 +90,7 @@ ru:
             list:
               header: "<blue>List of existing localisations:</blue>"
               self-name: "English"
-              entry: "%SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
+              entry: "  - %SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
               select: "[SELECT]"
             compare:
               header: "<blue>Records present only under language code <u>%CODE%</u>:</blue>"

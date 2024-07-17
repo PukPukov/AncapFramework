@@ -83,7 +83,7 @@ ru:
             list:
               header: "<blue>Доступные локализации:</blue>"
               self-name: "Советская стилизация"
-              entry: "%SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
+              entry: "  - %SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
               select: "[ВЫБРАТЬ]"
             compare:
               header: "<blue>Записи, присутствующие в базе только под языковым кодом <u>%CODE%</u>:</blue>"

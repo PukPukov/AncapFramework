@@ -83,7 +83,7 @@ ru:
             list:
               header: "<blue>Список наявних локалізацій:</blue>"
               self-name: "Українська мова"
-              entry: "%SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
+              entry: "  - %SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
               select: "[ВИБРАТИ]"
             compare:
               header: "<blue>Записи, присутні тільки під мовним кодом <u>%CODE%</u>:</blue>"

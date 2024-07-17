@@ -95,7 +95,7 @@ ru:
             list:
               header: "<blue>Список существующих локализаций:</blue>"
               self-name: "Русский язык"
-              entry: "%SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
+              entry: "  - %SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
               select: "[ВЫБРАТЬ]"
             compare:
               header: "<blue>Записи, присутствующие только под языковым кодом <u>%CODE%</u>:</blue>"
