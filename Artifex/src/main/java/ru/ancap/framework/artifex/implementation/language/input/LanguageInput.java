@@ -56,7 +56,7 @@ public class LanguageInput extends CommandTarget {
                 new LAPIMessage(Artifex.class, "command.language.list.header"),
                 new ChatBook<>(
                     LAPI.allLanguages().stream()
-                        .sorted((Comparator.comparingInt(language -> LAPI.statistic(language).localisedLines())))
+                        .sorted((Comparator.<Language>comparingInt(language -> LAPI.statistic(language).localisedLines()).reversed()))
                         .toList(),
                     language -> new LAPIMessage(
                         Artifex.class, "command.language.list.entry", 
