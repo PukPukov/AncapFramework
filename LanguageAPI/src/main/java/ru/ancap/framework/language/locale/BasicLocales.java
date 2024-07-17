@@ -52,9 +52,8 @@ public class BasicLocales implements Locales {
     
     @Override
     public @NonNull String localized(@NonNull String id, @NonNull Language language) {
-        String result = this.readInAllSequentially(id, new LazyFlatteningIterator<>(List.of(
-            (Supplier<List<Language>>) /*is this fucking java can't determine type or fucking idea nags about nonexistent error?*/
-                () -> List.of(language),
+        String result = this.readInAllSequentially(id, new LazyFlatteningIterator<>(List.<Supplier<List<Language>>>of(
+            () -> List.of(language),
             () -> this.targetFallback.get(language),
             () -> this.defaultFallback,
             () -> List.of(this.native_)
