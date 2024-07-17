@@ -116,6 +116,7 @@ public class ArtifexCommandExecutor extends CommandTarget {
                             Set<Plugin> visited = new HashSet<>();
                             List<Plugin> dependencies = new ArrayList<>();
                             collectDependencies(plugin, visited, dependencies);
+                            dependencies.remove(plugin);
                             return dependencies;
                         }
                         
