@@ -19,6 +19,7 @@ import ru.ancap.framework.plugin.api.Ancap;
 import ru.ancap.framework.plugin.api.information.AuthorsSupplier;
 import ru.ancap.framework.plugin.api.language.locale.loader.LocaleHandle;
 import ru.ancap.framework.plugin.api.language.locale.loader.LocaleReloadInput;
+import ru.ancap.framework.plugin.util.InDevMessage;
 import ru.ancap.framework.status.StatusOutput;
 import ru.ancap.framework.status.test.Test;
 
@@ -44,10 +45,7 @@ public class ArtifexCommandExecutor extends CommandTarget {
                     new Delegate(
                         new SubCommand(
                             new StringDelegatePattern("command-api"),
-                            dispatch -> {
-                                // TODO 
-                                // TODO InDevMessage to use it here like dispatch.communicator().message(InDevMessage.instance())
-                            }
+                            dispatch -> dispatch.source().communicator().message(InDevMessage.instance())
                         ),
                         new SubCommand(
                             new StringDelegatePattern("dummy"),
