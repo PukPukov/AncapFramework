@@ -38,6 +38,7 @@ public class YamlLocaleLoader implements Runnable {
         Set<String> keySet = this.yaml.getKeys(true);
         keySet.remove("language");
         for (String key : keySet) {
+            if (this.yaml.isConfigurationSection(key)) continue;
             List<String> stringList = this.yaml.getStringList(key);
             if (stringList.isEmpty()){
                 String string = this.yaml.getString(key);
