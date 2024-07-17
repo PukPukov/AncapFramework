@@ -1,6 +1,5 @@
 default-language: ru
 
-# Will work in 1.7.
 language:
   # Full localization. Fallback module's last hope.
   server-native: ru
