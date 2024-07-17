@@ -115,11 +115,11 @@ public class ArtifexCommandExecutor extends CommandTarget {
                         private List<Plugin> deepDependencies(Plugin plugin) {
                             Set<Plugin> visited = new HashSet<>();
                             List<Plugin> dependencies = new ArrayList<>();
-                            collectDependencies(plugin, dependencies, visited);
+                            collectDependencies(plugin, visited, dependencies);
                             return dependencies;
                         }
                         
-                        private void collectDependencies(Plugin plugin, List<Plugin> dependencies, Set<Plugin> visited) {
+                        private void collectDependencies(Plugin plugin, Set<Plugin> visited, List<Plugin> dependencies) {
                             if (visited.contains(plugin)) {
                                 Bukkit.getLogger().warning("Cyclic dependency detected for plugin: " + plugin.getName());
                                 return;
@@ -128,7 +128,7 @@ public class ArtifexCommandExecutor extends CommandTarget {
                             visited.add(plugin);
                             if (!dependencies.contains(plugin)) dependencies.add(plugin);
                             List<Plugin> pluginDependencies = directDependencies(plugin);
-                            for (Plugin dependency : pluginDependencies) collectDependencies(dependency, dependencies, visited);
+                            for (Plugin dependency : pluginDependencies) collectDependencies(dependency, visited, dependencies);
                             visited.remove(plugin);
                         }
                         
