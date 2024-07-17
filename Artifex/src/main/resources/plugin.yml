@@ -15,3 +15,11 @@ main: ru.ancap.framework.artifex.Artifex
 version: '${project.version}'
 prefix: Artifex
 load: POSTWORLD
+
+permissions:
+  artifex.view-artifex-plugins:
+    default: true
+    description: "Shows plugins and their versions that built on AncapFramework."
+  artifex.analyze-child.find-child:
+    default: false
+    description: "Allows searching for child plugins. Exposes your *full* plugin list."

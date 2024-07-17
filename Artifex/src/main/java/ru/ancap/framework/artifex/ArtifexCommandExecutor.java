@@ -66,51 +66,59 @@ public class ArtifexCommandExecutor extends CommandTarget {
                 )
             ),
             new SubCommand("dependency-graph-analyze", new Delegate(
-                new SubCommand("find-child", new CommandOperator() { // TODO migrate to proper arguments util when/if its ready
-                    @Override
-                    public void on(CommandWrite write) {
-                        if (!write.line().isRaw()) return;
-                        write.speaker().sendTab(Arrays.stream(Bukkit.getPluginManager().getPlugins()).map(Plugin::getName).toList());
-                    }
-                    
-                    @Override
-                    public void on(CommandDispatch dispatch) {
-                        if (dispatch.command().isRaw()) {
-                            Bukkit.getPluginManager().callEvent(new NotEnoughArgumentsEvent(dispatch.source().sender(), 1));
-                            return;
-                        }
-                        String requestedPluginName = dispatch.command().nextArgument();
-                        
-                        if (requestedPluginName.equalsIgnoreCase(Artifex.PLUGIN().getName())) {
-                            dispatch.source().communicator().message(ArtifexCommandExecutor.artifexPluginsMessageSupplier.get());
-                            return;
+                new SubCommand("find-child", new Exclusive(
+                    new Permission("artifex.analyze-child.find-child"),
+                    new CommandOperator() { // TODO migrate to proper arguments util when/if its ready
+                        @Override
+                        public void on(CommandWrite write) {
+                            if (!write.line().isRaw()) return;
+                            write.speaker().sendTab(Arrays.stream(Bukkit.getPluginManager().getPlugins()).map(Plugin::getName).toList());
                         }
                         
-                        // Build a map of plugins to their dependencies
-                        Map<String, Set<Plugin>> dependencies = SafeMap.<String, Set<Plugin>>builder(new HashMap<>())
-                            .guaranteed(HashSet::new)
-                            .build();
-                        for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) for (String anyDependency : new MergeList<>(
-                            plugin.getDescription().getDepend(), 
-                            plugin.getDescription().getSoftDepend()
-                        )) dependencies.get(anyDependency).add(plugin);
-                        
-                        dispatch.source().communicator().message(new LAPIMessage(
-                            Artifex.class, "dependent-plugins.main-form",
-                            new Placeholder("plugin", requestedPluginName),
-                            new Placeholder(
-                                "dependent plugins",
-                                new ChatBook<>(
-                                    dependencies.get(requestedPluginName),
-                                    plugin -> new LAPIMessage(
-                                        Artifex.class, "dependent-plugins."+ (plugin instanceof AncapMinimalisticPlugin ? "ancap" : "simple") +"-plugin-form",
-                                        new Placeholder("plugin", plugin.getName())
+                        @Override
+                        public void on(CommandDispatch dispatch) {
+                            if (dispatch.command().isRaw()) {
+                                Bukkit.getPluginManager().callEvent(new NotEnoughArgumentsEvent(dispatch.source().sender(), 1));
+                                return;
+                            }
+                            String requestedPluginName = dispatch.command().nextArgument();
+                            
+                            if (requestedPluginName.equalsIgnoreCase(Artifex.PLUGIN().getName())) {
+                                dispatch.source().communicator().message(ArtifexCommandExecutor.artifexPluginsMessageSupplier.get());
+                                return;
+                            }
+                            
+                            Map<String, Set<Plugin>> children = SafeMap.<String, Set<Plugin>>builder(new HashMap<>())
+                                .guaranteed(HashSet::new)
+                                .build();
+                            
+                            for (Plugin plugin : Bukkit.getPluginManager().getPlugins())
+                                collectDependencies(plugin, children);
+                            
+                            dispatch.source().communicator().message(new LAPIMessage(
+                                Artifex.class, "dependent-plugins.main-form",
+                                new Placeholder("plugin", requestedPluginName),
+                                new Placeholder(
+                                    "dependent plugins",
+                                    new ChatBook<>(
+                                        children.get(requestedPluginName),
+                                        plugin -> new LAPIMessage(
+                                            Artifex.class, "dependent-plugins." + (plugin instanceof AncapMinimalisticPlugin ? "ancap" : "simple") + "-plugin-form",
+                                            new Placeholder("plugin", plugin.getName())
+                                        )
                                     )
                                 )
-                            )
-                        ));
-                    }
-                })
+                            ));
+                        }
+                        
+                        private void collectDependencies(Plugin plugin, Map<String, Set<Plugin>> children) {
+                            for (String dependency : new MergeList<>(plugin.getDescription().getDepend(), plugin.getDescription().getSoftDepend())) {
+                                children.get(dependency).add(plugin);
+                                Plugin dependencyPlugin = Bukkit.getPluginManager().getPlugin(dependency);
+                                if (dependencyPlugin != null) collectDependencies(dependencyPlugin, children);
+                            }
+                        }
+                }))
             )),
             new SubCommand(
                 new StringDelegatePattern("status"),
