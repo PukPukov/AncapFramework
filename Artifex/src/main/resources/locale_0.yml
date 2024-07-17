@@ -14,7 +14,7 @@ ru:
           
     framework:
       artifex:
-        in-dev: "<red>Данная возможность находиться в разработке."
+        in-dev: "<red>Данная возможность находится в разработке."
         dependent-plugins:
           main-form:
             - "Плагины, зависимые от %PLUGIN%:"
