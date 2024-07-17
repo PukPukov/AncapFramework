@@ -105,7 +105,7 @@ ru:
             base-message:
               - "Список плагинов на <#f70000>AncapFramework</#f70000>:"
               - "%PLUGINS%"
-            plugin-form: "<#5100ff>%NAME%</#5100ff> v%VERSION% от <#5100ff>%AUTHORS%</#5100ff>"
+            plugin-form: "  - <#5100ff>%NAME%</#5100ff> v%VERSION% от <#5100ff>%AUTHORS%</#5100ff>"
         plugin-info:
           - "%PLUGIN% v%VERSION%."
           - "Авторы: %AUTHORS%. "
