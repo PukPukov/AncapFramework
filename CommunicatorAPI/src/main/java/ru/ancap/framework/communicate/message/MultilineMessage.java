@@ -1,18 +1,20 @@
 package ru.ancap.framework.communicate.message;
 
 import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @EqualsAndHashCode @ToString
+@RequiredArgsConstructor
 public class MultilineMessage implements CallableMessage {
     
     private final List<CallableMessage> toMerge;
     
     public MultilineMessage(CallableMessage... messages) {
-        this.toMerge = List.of(messages);
+        this(List.of(messages));
     }
 
     @Override
