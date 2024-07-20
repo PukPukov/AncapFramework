@@ -35,15 +35,7 @@ public class StringMenuPattern implements MenuPattern {
     }
 
     public StringMenuPattern(String... patterns) {
-        this(stringFromMassive(patterns));
-    }
-
-    private static String stringFromMassive(String[] patterns) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String pattern : patterns) {
-            stringBuilder.append(pattern);
-        }
-        return stringBuilder.toString();
+        this(String.join("", patterns));
     }
 
     public static Builder builder() {
