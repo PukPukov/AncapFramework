@@ -20,51 +20,42 @@ public class MenuFactory {
     public static void initialize(JavaPlugin plugin) {
         holderPlugin = plugin;
     }
-
+    
     @UtilityClass
     public static class Pageable {
-
+        
         public static final char PREVIOUS_BUTTON_SYMBOL = '<';
         public static final char NEXT_BUTTON_SYMBOL = '>';
         public static final char SLOT_FOR_PAGEABLE_ITEMS_SYMBOL = 'S';
-
+        
         public static ChestMenu of(
-                String name,
-                MenuPattern pattern,
-                Map<Character, MenuItem> buttons,
-                List<MenuItem> pageableItems,
-                ItemStack previousButton,
-                ItemStack nextButton
+            String name,
+            MenuPattern pattern,
+            Map<Character, MenuItem> buttons,
+            List<MenuItem> pageableItems,
+            ItemStack previousButton,
+            ItemStack nextButton
         ) {
             PageableChestMenu chestMenu = SealMenus.createPageableChestMenu(
-                    name,
-                    pattern.rows(),
-                    pattern.slotsOf(SLOT_FOR_PAGEABLE_ITEMS_SYMBOL),
-                    holderPlugin
+                name,
+                pattern.rows(),
+                pattern.slotsOf(SLOT_FOR_PAGEABLE_ITEMS_SYMBOL),
+                holderPlugin
             );
-            for (Character knownChar : buttons.keySet()) {
-                for (int slot : pattern.slotsOf(knownChar)) {
-                    chestMenu.addItem(buttons.get(knownChar), slot);
-                }
+            for (Character knownChar : buttons.keySet()) for (int slot : pattern.slotsOf(knownChar)) {
+                chestMenu.addItem(buttons.get(knownChar), slot);
             }
             chestMenu.setPageableItems(pageableItems);
             chestMenu.setPreviousPageItem(previousButton, pattern.slotOf(PREVIOUS_BUTTON_SYMBOL));
             chestMenu.setNextPageItem(nextButton, pattern.slotOf(NEXT_BUTTON_SYMBOL));
             return chestMenu;
         }
-
+        
         public static ChestMenu of(String name, MenuPattern pattern, Map<Character, MenuItem> buttons, List<MenuItem> pageableItems) {
             ItemStack arrow = new ItemStack(Material.ARROW);
-            return Pageable.of(
-                    name,
-                    pattern,
-                    buttons,
-                    pageableItems,
-                    arrow,
-                    arrow
-            );
+            return Pageable.of(name, pattern, buttons, pageableItems, arrow, arrow);
         }
-
+        
     }
-
+    
 }
