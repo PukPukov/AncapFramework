@@ -13,10 +13,12 @@ import org.apache.commons.lang.Validate;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.function.Supplier;
 
 @UtilityClass
 public class MenuFactory {
@@ -56,10 +58,12 @@ public class MenuFactory {
                 .pageableItems(pageableItems).build();
         }
         
-        public interface ButtonProvider {
+        public interface ButtonProvider extends Iterable<ButtonProvider.Entry> {
             
-            Set<Character> all();
-            MenuItem itemFor(Character character);
+            interface Entry {
+                char key();
+                MenuItem item();
+            }
             
         }
         
@@ -68,14 +72,29 @@ public class MenuFactory {
             
             private final Map<Character, MenuItem> map;
             
+            @NotNull
             @Override
-            public Set<Character> all() {
-                return this.map.keySet();
+            public Iterator<Entry> iterator() {
+                return this.map.entrySet().stream().map(mapEntry -> (Entry) new Entry() {
+                    @Override public char     key()  { return mapEntry.getKey();   }
+                    @Override public MenuItem item() { return mapEntry.getValue(); }
+                }).iterator();
             }
             
+        }
+        
+        @RequiredArgsConstructor
+        public static class LazyButtonProvider implements ButtonProvider {
+            
+            private final Map<Character, Supplier<MenuItem>> map;
+            
+            @NotNull
             @Override
-            public MenuItem itemFor(Character character) {
-                return this.map.get(character);
+            public Iterator<Entry> iterator() {
+                return this.map.entrySet().stream().map(mapEntry -> (Entry) new Entry() {
+                    @Override public char     key()  { return mapEntry.getKey();   }
+                    @Override public MenuItem item() { return mapEntry.getValue().get(); }
+                }).iterator();
             }
             
         }
@@ -92,7 +111,7 @@ public class MenuFactory {
         private MenuPattern pattern;
         private Pageable.ButtonProvider buttonsProvider;
         private List<MenuItem> pageableItems;
-                                          private static ItemStack arrow = new ItemStack(Material.ARROW);
+        private static ItemStack arrow = new ItemStack(Material.ARROW);
         private ItemStack nextButton;     private static ItemStack nextButtonDefault = arrow;
         private ItemStack previousButton; private static ItemStack previousButtonDefault = arrow;
         
@@ -113,8 +132,8 @@ public class MenuFactory {
                 this.pattern.slotsOf(Pageable.SLOT_FOR_PAGEABLE_ITEMS_SYMBOL),
                 holderPlugin
             );
-            for (Character knownChar : this.buttonsProvider.all()) for (int slot : this.pattern.slotsOf(knownChar)) {
-                chestMenu.addItem(this.buttonsProvider.itemFor(knownChar), slot);
+            for (Pageable.ButtonProvider.Entry buttonProviderEntry : this.buttonsProvider) for (int slot : this.pattern.slotsOf(buttonProviderEntry.key())) {
+                chestMenu.addItem(buttonProviderEntry.item(), slot);
             }
             chestMenu.setPageableItems(this.pageableItems);
             chestMenu.setPreviousPageItem(this.previousButton, this.pattern.slotOf(Pageable.PREVIOUS_BUTTON_SYMBOL));
