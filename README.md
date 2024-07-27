@@ -30,7 +30,8 @@ We believe that proper community orientation can not only make people happy, but
 
 We also have discord server: https://discord.gg/jCcT9vdcpE
 
-# Development status and Backward compatibility
+# Development status and Internal compatibility status
+
 TL;DR: We will break backward compatibility in the future, but this is not a big deal.
 
 Current development cycle is `1.7-pre`. You can think about is as something between 1.6 and 1.7.
@@ -43,12 +44,35 @@ Although it might seem that AncapFramework is not suitable for production develo
 
 Version 1.7 is simply a major enhancement that will greatly improve performance and usage convenience by the cost of a bit of pain. The expected migration effort can be compared to migrating a fabric mod from Minecraft 1.20.1 to Minecraft 1.20.2, or even less.
 
-We will make exhausting migration guide. 
+We will make exhausting migration guide.
+
+# External compatibility status
+
+Currently supported environments: Bukkit 1.8.9-1.12.2; 1.20.2+
+
+Planned support is Bukkit 1.8.9+. 1.13-1.20.1 are not supported currently due to issue with Java support by server core. If you wondering, whats the issue: these cores are using ASM library that is using Java internals that are not supporting backward compatibility, so ASM case is case when Java does not provide backward compatibility, so if you want newer Java, you need to update ASM. Paper refused to change one number to help us or even accept PR that will change it for them. 
+
+This is not a policy of AncapFramework and Artifex was specifically supporting MC 1.8.9+, including MC 1.16.5 prior to update to JDK 21, and with AF 1.7 release [Mojalemi](https://github.com/ancap-dev/Mojalemi) project will also be released, that is aimed to bring support of modern Java to MC 1.13-1.20.1 (MC 1.16.5 firstly).
+
+Probably, 1.7.10 support could be achieved easily by downgrading bukkit dependency version, but now this have low priority. Although PRs are appreciated.
+
+Even older minecraft versions (like beta 1.7.3) can't be supported easily because
+
+- packetevents and kyori adventure does not support versions older then 1.7
+
+- Of increasing difficulty of even older versions supporting due to lack of forward compatibility in bukkit that forces usage of the most old api that is wanted to support
+
+But this is theoretically possible by moving AncapFramework to new API that is designed to maintain forward compatibility, so the priority is "never, but what an idea!". Sponge, fabric, forge, neoforge, quilt, etc support is also could be achieved by rebuilding on top of that hypothetical API.
 
 # Usage (Server owner)
-Just install Artifex plugin on your server. If you experience any bugs, you can check if everything works correctly specifically in your environment with /artifex status.
+Required environment:
 
-Due to lack of support of modern Java on some older server versions because of old ASM version used by server Artifex will not work on Spigot/Paper prior to versions that started supporting Java 21 and after versions that added ASM. As far as I understand, this should limit working versions to MC 1.8.9-1.12.2 and 1.20.2+. This is not a policy of AncapFramework and Artifex was specifically supporting MC 1.8 till latest version, including MC 1.16.5 prior to update to JDK 21, and with AF 1.7 release [Mojalemi](https://github.com/ancap-dev/Mojalemi) project will be released, that is aimed to bring support of modern Java to MC 1.13-1.20.1 (MC 1.16.5 firstly).
+- `Spigot API supporting platform` (Spigot, Paper or other forks, maybe mohist or magma)
+- `MC 1.8.9-1.12.2; 1.20.2+` (*why no 1.12.2-1.20.1 and when it will be check in "External compatibility status" section*)
+- `JDK 21+` installed
+- `packetevents` plugin installed
+
+Just install Artifex plugin on your server and make sure it matches required environment. If you experience any bugs, you can check if everything works correctly specifically in your environment with `/artifex status`.
 
 # Usage (Plugin developer)
 ![Release](https://jitpack.io/v/ancap-dev/AncapFramework.svg?style=flat-square)
