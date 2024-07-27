@@ -45,7 +45,12 @@ Version 1.7 is simply a major enhancement that will greatly improve performance 
 
 We will make exhausting migration guide. 
 
-# Usage
+# Usage (Server owner)
+Just install Artifex plugin on your server. If you experience any bugs, you can check if everything works correctly specifically in your environment with /artifex status.
+
+Due to lack of support of modern Java on some older server versions because of old ASM version used by server Artifex will not work on Spigot/Paper prior to versions that started supporting Java 21 and after versions that added ASM. As far as I understand, this should limit working versions to MC 1.8.9-1.12.2 and 1.20.2+. This is not a policy of AncapFramework and Artifex was specifically supporting MC 1.8 till latest version, including MC 1.16.5 prior to update to JDK 21, and with AF 1.7 release [Mojalemi](https://github.com/ancap-dev/Mojalemi) project will be released, that is aimed to bring support of modern Java to MC 1.13-1.20.1 (MC 1.16.5 firstly).
+
+# Usage (Plugin developer)
 ![Release](https://jitpack.io/v/ancap-dev/AncapFramework.svg?style=flat-square)
 
 Use everything at once:
