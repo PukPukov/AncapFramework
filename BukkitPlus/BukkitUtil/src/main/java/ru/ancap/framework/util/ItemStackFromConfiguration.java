@@ -13,7 +13,7 @@ public class ItemStackFromConfiguration {
     public static ItemStack read(ConfigurationSection section) {
         ItemStack itemStack = new ItemStack(
             Material.valueOf(section.getString("material").toUpperCase()),
-            section.getInt("amount")
+            section.getInt("amount", 1)
         );
         @Nullable ItemMeta meta = itemStack.getItemMeta();
         if (meta == null) return itemStack;
