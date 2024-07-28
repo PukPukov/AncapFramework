@@ -1,5 +1,6 @@
 package ru.ancap.framework.util;
 
+import lombok.NonNull;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -10,9 +11,10 @@ import java.util.List;
 
 public class ItemStackFromConfiguration {
     
-    public static ItemStack read(ConfigurationSection section) {
+    public static ItemStack read(@NonNull ConfigurationSection section) {
+        String material = section.getString("material"); assert material != null;
         ItemStack itemStack = new ItemStack(
-            Material.valueOf(section.getString("material").toUpperCase()),
+            Material.valueOf(material.toUpperCase()),
             section.getInt("amount", 1)
         );
         @Nullable ItemMeta meta = itemStack.getItemMeta();
