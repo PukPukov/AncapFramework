@@ -22,7 +22,7 @@ public class ItemStackFromConfiguration {
         @Nullable String name = section.getString("name");
         if (name != null) meta.setDisplayName(name);
         List<String> lore = section.getStringList("lore").stream()
-            .map(lorum -> "&r"+lorum)
+            .map(lorum -> "§r§f"+lorum)
             .toList();
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
