@@ -19,8 +19,8 @@ public class PacketEventsTabCatcher implements PacketListener {
     public void onPacketReceive(PacketReceiveEvent event) {
         Player player = (Player) event.getPlayer();
         if (event.getPacketType() != PacketType.Play.Client.TAB_COMPLETE) return;
-        var packet = new WrapperPlayClientTabComplete(event);
         if (event.isCancelled()) return;
+        var packet = new WrapperPlayClientTabComplete(event);
         
         //noinspection Convert2MethodRef to save unified lambda style
         this.commonTabCatcher.handle(player,
