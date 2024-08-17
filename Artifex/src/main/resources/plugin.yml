@@ -3,7 +3,6 @@ description: "Runtime part of AncapFramework"
 authors: [ PukPukov ]
 
 depend:
-  - ProtocolLib
   - packetevents
 
 softdepend:
