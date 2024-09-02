@@ -71,7 +71,7 @@ public class AncapBukkit {
 
     @SneakyThrows
     public static void syncCommands() {
-        Class<?> server = Class.forName(PaperShitCounteractions.craftBukkitPackage()+".CraftServer");
+        Class<?> server = Class.forName(PaperShitWorkarounds.craftBukkitPackage()+".CraftServer");
         Method syncCommands = server.getDeclaredMethod("syncCommands");
         syncCommands.setAccessible(true);
         syncCommands.invoke(Bukkit.getServer());
