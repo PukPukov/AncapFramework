@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <artifactId>Artifex</artifactId>
-    <version>1.7-pre.7-SNAPSHOT</version>
+    <version>1.7-pre.7</version>
 
     <name>Artifex</name>
 
