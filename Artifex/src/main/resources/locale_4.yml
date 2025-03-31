@@ -1,11 +1,137 @@
 language: fr
-version: 1
+version: 21
 
 ru:
   ancap:
+    types:
+      java:
+        lang:
+          Long: "valeur entière"
+          Double: "nombre rationnel"
+          Boolean: "valeur booléenne"
+          Character: "caractère"
+          String: "chaîne de caractères"
+    
     framework:
       artifex:
+        in-dev: "<red>Cette fonctionnalité est en cours de développement.</red>"
+        dependent-plugins:
+          main-form:
+            - "Plugins dépendants de %PLUGIN% :"
+            - "%DEPENDENT_PLUGINS%"
+          ancap-plugin-form: "  - <#5100ff>%PLUGIN%</#5100ff>"
+          simple-plugin-form: "  - %PLUGIN%"
+        yes-no: "{YES:<green><u>[OUI]</u></green>} {NO:<red><u>[NON]</u></red>}"
+        click-to-select: "Cliquez pour sélectionner"
+        sent-to-console: "<green>Message envoyé à la console</green>"
+        test:
+          error-output-form:
+            - "  <dark_red>-</dark_red> Exception : %EXCEPTION%"
+            - "  <dark_red>-</dark_red> Message : %MESSAGE%"
+            - "{STACK_TRACE:  <dark_gray>-</dark_gray> %STACK_TRACE_ELEMENT%}"
+          hand-test-failure: "Le testeur a répondu négativement à la question \"%FAILED_CHECK_MESSAGE%\"."
+          base:
+            interact: "Veuillez %ACTION%. Résultat attendu : %EXPECTED%. Tout fonctionne correctement ?"
+            inspect: "%EXPECTED%. Tout fonctionne correctement ?"
+          checks:
+            action:
+              tab-complete: "saisissez, mais n'envoyez pas la commande <u>/%COMMAND%</u>"
+              command: "envoyez la commande <u>/%COMMAND%</u>"
+            expected:
+              interact:
+                gradient-tab-complete: "obtention de deux complétions d'onglet, dont l'une doit avoir l'indice de dégradé suivant : \"%GRADIENT%\""
+                ok: "réponse \"<u>OK [%IDENTITY%]</u>\" du système"
+                unknown: "message indiquant que cette commande n'existe pas"
+              inspect:
+                ok: "Vous auriez dû recevoir le message \"<u>OK [%IDENTITY%]</u>\""
+          ok-response: "<green>OK [%IDENTITY%]</green>"
+        modules:
+          configuration-database:
+            name: "Module ConfigurationDatabase"
+          command-center:
+            name: "Centre de commandes"
+          command-api:
+            name: "API des commandes"
+          lapi:
+            name: "API d'internationalisation"
+          configuration:
+            name: "Module de configuration"
+          main-listener-autoregister:
+            name: "Auto-enregistrement des plugins d'écoute"
+        status:
+          top: "<blue>Statut des modules et services de %SYSTEM_NAME%</blue>"
+          working: "<green>fonctionne</green>"
+          test-skipped: "<gray>non testé</gray>"
+          down: "<dark_red><u>hors service</u></dark_red>"
+          press-to-print-description: "Cliquez pour afficher la description du problème"
+          test-form: "%MODULE_NAME% : %STATUS%"
+          skip:
+            not-that-tester: "Type de testeur invalide. Le test doit être effectué par un testeur de type \"<u>%REQUIRED%</u>\"."
+            hand-test-refusal: "Le lanceur de test a refusé d'exécuter les tests manuels."
+            tester-types:
+              player: "Joueur"
+              console: "Console"
+              command-block: "Bloc de commande"
+        
         command:
+          tps: "<green>TPS du serveur : %TPS%</green>"
+          api:
+            info:
+              injecting: "Artifex effectue l'injection de bytecode dans CraftServer"
+              issued-server-command: "%SOURCE% a envoyé la commande \"%COMMAND%\" au serveur."
+              command-was-overridden: "<red>La commande {COMMAND} a été remplacée. Probablement un bug. Classe de l'ancien exécuteur : <u>{OLD_EXECUTOR}</u>, nouveau : <u>{NEW_EXECUTOR}</u>.</red>"
+            error:
+              internal: "<red>Une erreur interne inattendue s'est produite lors de l'exécution de la commande.</red>"
+              operate-is-impossible:
+                - "<red>La commande saisie ne peut pas être traitée.</red>"
+                - "%DESCRIPTION%"
+              not-enough-arguments: "<red>Arguments insuffisants. %COUNT% arguments supplémentaires sont requis.</red>"
+              unknown: "<red>La commande \"<u>%COMMAND%</u>\" n'existe pas.</red>"
+              not-enough-permissions: "<red>Permissions insuffisantes.</red>"
+              cannot-transform-argument: "<red>\"<u>%ARGUMENT%</u>\" n'est pas un <u>%TYPE%</u>.</red>"
           language:
+            enter-language: "La commande <u>/language</u> permet de choisir la langue du serveur. Utilisez-la comme suit : <u>/language set <code de langue></u>, où le code de langue peut être n'importe lequel de la norme ISO 639-1."
+            setup: "Votre langue a été définie sur le français."
             list:
+              header: "<blue>Liste des langues disponibles :</blue>"
               self-name: "Français"
+              entry: "  - %SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
+              select: "[SÉLECTIONNER]"
+            compare:
+              header: "<blue>Entrées existantes uniquement pour le code langue <u>%CODE%</u> :</blue>"
+            view:
+              header: "<blue>Entrées pour le code langue <u>%CODE%</u> :</blue>"
+          plugins:
+            base-message:
+              - "Liste des plugins sur <#f70000>AncapFramework</#f70000> :"
+              - "%PLUGINS%"
+            plugin-form: "  - <#5100ff>%NAME%</#5100ff> v%VERSION% par <#5100ff>%AUTHORS%</#5100ff>"
+        plugin-info:
+          - "%PLUGIN% v%VERSION%."
+          - "Auteurs : %AUTHORS%. "
+        console:
+          notify:
+            task:
+              status:
+                start: "%PLUGIN% commence le chargement de %TASK%."
+                end: "%PLUGIN% a terminé le chargement de %TASK%. Temps écoulé : %TIME% millisecondes."
+              names:
+                ancap: "le cœur du framework"
+          scheduler-api:
+            task-cannot-be-loaded:
+              - "Impossible de charger la classe de tâche %TASK_CLASS%, créée par le plugin %PLUGIN%. Il semble que vous ayez supprimé le plugin qui a créé cette tâche, ou qu'il n'ait pas pu se charger."
+              - "Voulez-vous continuer ? Choisissez une action :"
+              - "  (1) - Continuer le chargement et supprimer la tâche"
+              - "  (2) - Masquer la tâche - le message n'apparaîtra plus, mais la tâche reprendra si le plugin est réinstallé"
+              - "  (3) - Charger sans supprimer ni masquer la tâche"
+              - "  (4) - Arrêter le serveur"
+            incorrect-task: "Numéro de tâche invalide : %NUMBER%. Veuillez saisir un numéro valide."
+            executing-chosen-task: "Exécution de l'action %NUMBER%."
+            chosen-task-executed: "Action sélectionnée appliquée avec succès."
+        reload:
+          locales-successfully-reloaded: "Les fichiers de langue ont été rechargés avec succès."
+        nobody: "personne"
+        api:
+          command:
+            description:
+              default: "description manquante"

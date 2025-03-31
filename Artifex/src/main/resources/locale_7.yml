@@ -1,11 +1,137 @@
 language: zh
-version: 1
+version: 21
 
 ru:
   ancap:
+    types:
+      java:
+        lang:
+          Long: "整数值"
+          Double: "浮点数"
+          Boolean: "布尔值"
+          Character: "字符"
+          String: "字符串"
+    
     framework:
       artifex:
+        in-dev: "<red>此功能正在开发中</red>"
+        dependent-plugins:
+          main-form:
+            - "依赖于 %PLUGIN% 的插件："
+            - "%DEPENDENT_PLUGINS%"
+          ancap-plugin-form: "  - <#5100ff>%PLUGIN%</#5100ff>"
+          simple-plugin-form: "  - %PLUGIN%"
+        yes-no: "{YES:<green><u>[是]</u></green>} {NO:<red><u>[否]</u></red>}"
+        click-to-select: "点击以选择"
+        sent-to-console: "<green>消息已发送至控制台</green>"
+        test:
+          error-output-form:
+            - "  <dark_red>-</dark_red> 异常: %EXCEPTION%"
+            - "  <dark_red>-</dark_red> 消息: %MESSAGE%"
+            - "{STACK_TRACE:  <dark_gray>-</dark_gray> %STACK_TRACE_ELEMENT%}"
+          hand-test-failure: "测试者对检查项 \"%FAILED_CHECK_MESSAGE%\" 返回了否定结果"
+          base:
+            interact: "请执行操作: %ACTION%。预期结果应为 %EXPECTED%。是否正常工作？"
+            inspect: "应满足: %EXPECTED%。是否正常工作？"
+          checks:
+            action:
+              tab-complete: "输入但不发送命令 <u>/%COMMAND%</u>"
+              command: "发送命令 <u>/%COMMAND%</u>"
+            expected:
+              interact:
+                gradient-tab-complete: "获得两个Tab补全提示，其中一条应包含渐变色提示: \"%GRADIENT%\""
+                ok: "系统返回 \"<u>OK [%IDENTITY%]</u>\""
+                unknown: "显示未知命令提示"
+              inspect:
+                ok: "您应收到消息 \"<u>OK [%IDENTITY%]</u>\""
+          ok-response: "<green>OK [%IDENTITY%]</green>"
+        modules:
+          configuration-database:
+            name: "配置数据库模块"
+          command-center:
+            name: "命令中心"
+          command-api:
+            name: "命令API"
+          lapi:
+            name: "国际化API"
+          configuration:
+            name: "配置模块"
+          main-listener-autoregister:
+            name: "监听插件自动注册"
+        status:
+          top: "<blue>%SYSTEM_NAME% 模块与服务状态</blue>"
+          working: "<green>运行中</green>"
+          test-skipped: "<gray>未测试</gray>"
+          down: "<dark_red><u>已宕机</u></dark_red>"
+          press-to-print-description: "点击查看问题描述"
+          test-form: "%MODULE_NAME%：%STATUS%"
+          skip:
+            not-that-tester: "测试者类型无效。需要 <u>%REQUIRED%</u> 类型的测试者执行测试"
+            hand-test-refusal: "测试发起者拒绝执行手动测试"
+            tester-types:
+              player: "玩家"
+              console: "控制台"
+              command-block: "命令方块"
+        
         command:
+          tps: "<green>服务器TPS: %TPS%</green>"
+          api:
+            info:
+              injecting: "Artifex 正在向 CraftServer 注入字节码"
+              issued-server-command: "%SOURCE% 向服务器发送了命令 \"%COMMAND%\""
+              command-was-overridden: "<red>命令 {COMMAND} 被覆盖。疑似错误。原执行器类: <u>{OLD_EXECUTOR}</u>，新执行器类: <u>{NEW_EXECUTOR}</u>"
+            error:
+              internal: "<red>命令执行时发生意外内部错误</red>"
+              operate-is-impossible:
+                - "<red>无法处理输入的命令</red>"
+                - "%DESCRIPTION%"
+              not-enough-arguments: "<red>参数不足。还需要 <u>%COUNT%</u> 个参数以继续</red>"
+              unknown: "<red>未知命令 \"<u>%COMMAND%</u>\"</red>"
+              not-enough-permissions: "<red>权限不足</red>"
+              cannot-transform-argument: "<red>\"<u>%ARGUMENT%</u>\" 不是有效的 <u>%TYPE%</u></red>"
           language:
+            enter-language: "命令 <u>/language</u> 用于设置服务器语言。用法: <u>/language set <语言代码></u>，语言代码应符合 ISO 639-1 标准"
+            setup: "你的语言已设置为中文"
             list:
+              header: "<blue>可用语言列表:</blue>"
               self-name: "简体中文"
+              entry: "  - %SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
+              select: "[选择]"
+            compare:
+              header: "<blue>仅在 <u>%CODE%</u> 语言代码下存在的条目:</blue>"
+            view:
+              header: "<blue><u>%CODE%</u> 语言代码下的条目:</blue>"
+          plugins:
+            base-message:
+              - "<#f70000>AncapFramework</#f70000> 上的插件列表:"
+              - "%PLUGINS%"
+            plugin-form: "  - <#5100ff>%NAME%</#5100ff> v%VERSION% 作者: <#5100ff>%AUTHORS%</#5100ff>"
+        plugin-info:
+          - "%PLUGIN% v%VERSION%"
+          - "作者: %AUTHORS%"
+        console:
+          notify:
+            task:
+              status:
+                start: "%PLUGIN% 开始加载 %TASK%"
+                end: "%PLUGIN% 完成加载 %TASK%，耗时 %TIME% 毫秒"
+              names:
+                ancap: "框架核心"
+          scheduler-api:
+            task-cannot-be-loaded:
+              - "无法加载由插件 %PLUGIN% 创建的任务类 %TASK_CLASS%。可能该插件已被移除或加载失败"
+              - "是否继续？请输入对应数字选择操作:"
+              - "  (1) - 继续加载服务器并删除任务"
+              - "  (2) - 隐藏任务 - 不再提示，当创建该任务的插件重新加载后任务将恢复"
+              - "  (3) - 继续加载但保留任务"
+              - "  (4) - 停止服务器"
+            incorrect-task: "无效的任务编号 %NUMBER%。请在控制台输入数字选择操作"
+            executing-chosen-task: "正在执行选项 %NUMBER%"
+            chosen-task-executed: "所选操作已成功应用"
+        reload:
+          locales-successfully-reloaded: "本地化文件重载成功"
+        nobody: "无"
+        api:
+          command:
+            description:
+              default: "暂无描述"

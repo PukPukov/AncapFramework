@@ -1,11 +1,137 @@
 language: es
-version: 1
+version: 21
 
 ru:
   ancap:
+    types:
+      java:
+        lang:
+          Long: "valor entero"
+          Double: "número racional"
+          Boolean: "valor lógico"
+          Character: "carácter"
+          String: "cadena"
+    
     framework:
       artifex:
+        in-dev: "<red>Esta función está en desarrollo."
+        dependent-plugins:
+          main-form:
+            - "Plugins dependientes de %PLUGIN%:"
+            - "%DEPENDENT_PLUGINS%"
+          ancap-plugin-form: "  - <#5100ff>%PLUGIN%</#5100ff>"
+          simple-plugin-form: "  - %PLUGIN%"
+        yes-no: "{YES:<green><u>[SÍ]</u></green>} {NO:<red><u>[NO]</u></red>}"
+        click-to-select: "Haz clic para seleccionar"
+        sent-to-console: "<green>Mensaje enviado a la consola</green>"
+        test:
+          error-output-form:
+            - "  <dark_red>-</dark_red> Excepción: %EXCEPTION%"
+            - "  <dark_red>-</dark_red> Mensaje: %MESSAGE%"
+            - "{STACK_TRACE:  <dark_gray>-</dark_gray> %STACK_TRACE_ELEMENT%}"
+          hand-test-failure: "El tester respondió negativamente a la pregunta \"%FAILED_CHECK_MESSAGE%\"."
+          base:
+            interact: "Por favor, %ACTION%. El resultado esperado es %EXPECTED%. ¿Funciona correctamente?"
+            inspect: "%EXPECTED%. ¿Funciona correctamente?"
+          checks:
+            action:
+              tab-complete: "escribe pero no envíes el comando <u>/%COMMAND%</u>"
+              command: "envía el comando <u>/%COMMAND%</u>"
+            expected:
+              interact:
+                gradient-tab-complete: "obtener dos tabcompletados, uno debe tener la siguiente sugerencia en gradiente: \"%GRADIENT%\""
+                ok: "respuesta \"<u>OK [%IDENTITY%]</u>\" del sistema"
+                unknown: "mensaje indicando que el comando no existe"
+              inspect:
+                ok: "Deberías haber recibido el mensaje \"<u>OK [%IDENTITY%]</u>\""
+          ok-response: "<green>OK [%IDENTITY%]</green>"
+        modules:
+          configuration-database:
+            name: "Módulo ConfigurationDatabase"
+          command-center:
+            name: "Centro de comandos"
+          command-api:
+            name: "API de comandos"
+          lapi:
+            name: "API de internacionalización"
+          configuration:
+            name: "Módulo de configuración"
+          main-listener-autoregister:
+            name: "Auto-registro de plugins oyentes"
+        status:
+          top: "<blue>Estado de módulos y servicios de %SYSTEM_NAME%</blue>"
+          working: "<green>funcionando</green>"
+          test-skipped: "<gray>no testeado</gray>"
+          down: "<dark_red><u>inactivo</u></dark_red>"
+          press-to-print-description: "Haz clic para mostrar la descripción del problema"
+          test-form: "%MODULE_NAME%: %STATUS%"
+          skip:
+            not-that-tester: "Tipo de tester inválido. El test debe ser ejecutado por un tester de tipo \"<u>%REQUIRED%</u>\"."
+            hand-test-refusal: "El iniciador del test rechazó ejecutar tests manuales."
+            tester-types:
+              player: "Jugador"
+              console: "Consola"
+              command-block: "Bloque de comandos"
+        
         command:
+          tps: "<green>TPS del servidor: %TPS%</green>"
+          api:
+            info:
+              injecting: "Artifex está inyectando bytecode en CraftServer"
+              issued-server-command: "%SOURCE% envió al servidor el comando \"%COMMAND%\"."
+              command-was-overridden: "<red>El comando {COMMAND} fue reemplazado. Probablemente es un error. Clase del ejecutor anterior - <u>{OLD_EXECUTOR}</u>, nuevo - <u>{NEW_EXECUTOR}</u>."
+            error:
+              internal: "<red>Ocurrió un error interno inesperado durante la ejecución del comando.</red>"
+              operate-is-impossible:
+                - "<red>El comando ingresado no puede ser procesado.</red>"
+                - "%DESCRIPTION%"
+              not-enough-arguments: "<red>Argumentos insuficientes. Se necesitan <u>%COUNT%</u> más para continuar.</red>"
+              unknown: "<red>El comando \"<u>%COMMAND%</u>\" no existe.</red>"
+              not-enough-permissions: "<red>No tienes permisos suficientes.</red>"
+              cannot-transform-argument: "<red>\"<u>%ARGUMENT%</u>\" - no es <u>%TYPE%</u>.</red>"
           language:
+            enter-language: "El comando <u>/language</u> sirve para seleccionar el idioma del servidor. Úsalo así: <u>/language set <código de idioma></u>, donde el código debe ser del estándar ISO 639-1."
+            setup: "Tu idioma ha sido cambiado a español."
             list:
+              header: "<blue>Lista de localizaciones disponibles:</blue>"
               self-name: "Español"
+              entry: "  - %SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
+              select: "[SELECCIONAR]"
+            compare:
+              header: "<blue>Entradas existentes solo bajo el código de idioma <u>%CODE%</u>:</blue>"
+            view:
+              header: "<blue>Entradas bajo el código de idioma <u>%CODE%</u>:</blue>"
+          plugins:
+            base-message:
+              - "Lista de plugins en <#f70000>AncapFramework</#f70000>:"
+              - "%PLUGINS%"
+            plugin-form: "  - <#5100ff>%NAME%</#5100ff> v%VERSION% por <#5100ff>%AUTHORS%</#5100ff>"
+        plugin-info:
+          - "%PLUGIN% v%VERSION%."
+          - "Autores: %AUTHORS%. "
+        console:
+          notify:
+            task:
+              status:
+                start: "%PLUGIN% inició la carga de %TASK%."
+                end: "%PLUGIN% completó la carga de %TASK%. Tiempo requerido: %TIME% milisegundos."
+              names:
+                ancap: "núcleo del framework"
+          scheduler-api:
+            task-cannot-be-loaded:
+              - "No se pudo cargar la tarea %TASK_CLASS% creada por el plugin %PLUGIN%. Posiblemente eliminaste el plugin que la creó o falló al cargarse."
+              - "¿Deseas continuar? Presiona el número correspondiente:"
+              - "  (1) - Continuar y eliminar la tarea"
+              - "  (2) - Ocultar tarea - no mostrar más este mensaje"
+              - "  (3) - Cargar sin eliminar/ocultar la tarea"
+              - "  (4) - Apagar"
+            incorrect-task: "Número de tarea inválido %NUMBER%. Escribe en la consola un número válido."
+            executing-chosen-task: "Ejecutando acción %NUMBER%."
+            chosen-task-executed: "Acciones seleccionadas aplicadas exitosamente."
+        reload:
+          locales-successfully-reloaded: "Archivos de localización recargados exitosamente."
+        nobody: "nadie"
+        api:
+          command:
+            description:
+              default: "sin descripción"

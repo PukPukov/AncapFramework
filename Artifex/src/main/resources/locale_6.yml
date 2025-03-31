@@ -1,11 +1,137 @@
 language: de
-version: 1
+version: 21
 
 ru:
   ancap:
+    types:
+      java:
+        lang:
+          Long: "Ganzzahlwert"
+          Double: "Gleitkommazahl"
+          Boolean: "Boolescher Wert"
+          Character: "Zeichen"
+          String: "Zeichenkette"
+    
     framework:
       artifex:
+        in-dev: "<red>Diese Funktion befindet sich in der Entwicklung."
+        dependent-plugins:
+          main-form:
+            - "Plugins, die von %PLUGIN% abhängen:"
+            - "%DEPENDENT_PLUGINS%"
+          ancap-plugin-form: "  - <#5100ff>%PLUGIN%</#5100ff>"
+          simple-plugin-form: "  - %PLUGIN%"
+        yes-no: "{YES:<green><u>[JA]</u></green>} {NO:<red><u>[NEIN]</u></red>}"
+        click-to-select: "Klicken zum Auswählen"
+        sent-to-console: "<green>Nachricht an die Konsole gesendet</green>"
+        test:
+          error-output-form:
+            - "  <dark_red>-</dark_red> Ausnahme: %EXCEPTION%"
+            - "  <dark_red>-</dark_red> Nachricht: %MESSAGE%"
+            - "{STACK_TRACE:  <dark_gray>-</dark_gray> %STACK_TRACE_ELEMENT%}"
+          hand-test-failure: "Der Tester hat negativ auf die Frage \"%FAILED_CHECK_MESSAGE%\" geantwortet."
+          base:
+            interact: "Bitte %ACTION%. Erwartetes Ergebnis — %EXPECTED%. Funktioniert alles korrekt?"
+            inspect: "%EXPECTED%. Funktioniert alles korrekt?"
+          checks:
+            action:
+              tab-complete: "tippe, aber sende nicht den Befehl <u>/%COMMAND%</u>"
+              command: "sende den Befehl <u>/%COMMAND%</u>"
+            expected:
+              interact:
+                gradient-tab-complete: "Erhalt von zwei Tab-Vervollständigungen, eine davon sollte folgenden Farbverlaufshinweis haben: \"%GRADIENT%\""
+                ok: "Antwort \"<u>OK [%IDENTITY%]</u>\" vom System"
+                unknown: "Hinweis, dass der Befehl nicht existiert"
+              inspect:
+                ok: "Sie sollten die Nachricht \"<u>OK [%IDENTITY%]</u>\" erhalten haben"
+          ok-response: "<green>OK [%IDENTITY%]</green>"
+        modules:
+          configuration-database:
+            name: "Modul ConfigurationDatabase"
+          command-center:
+            name: "Kommandozentrale"
+          command-api:
+            name: "Befehls-API"
+          lapi:
+            name: "Internationalisierungs-API"
+          configuration:
+            name: "Konfigurationsmodul"
+          main-listener-autoregister:
+            name: "Automatische Registrierung von Plugin-Listenern"
+        status:
+          top: "<blue>Status der Module und Dienste von %SYSTEM_NAME%</blue>"
+          working: "<green>funktioniert</green>"
+          test-skipped: "<gray>nicht getestet</gray>"
+          down: "<dark_red><u>nicht verfügbar</u></dark_red>"
+          press-to-print-description: "Klicken, um die Problembeschreibung anzuzeigen"
+          test-form: "%MODULE_NAME%: %STATUS%"
+          skip:
+            not-that-tester: "Ungültiger Tester-Typ. Der Test muss von einem Tester des Typs \"<u>%REQUIRED%</u>\" durchgeführt werden."
+            hand-test-refusal: "Der Testausführer hat manuelle Tests abgelehnt."
+            tester-types:
+              player: "Spieler"
+              console: "Konsole"
+              command-block: "Befehlsblock"
+        
         command:
+          tps: "<green>Server-TPS: %TPS%</green>"
+          api:
+            info:
+              injecting: "Artifex injiziert Bytecode in CraftServer"
+              issued-server-command: "%SOURCE% hat Serverbefehl \"%COMMAND%\" gesendet."
+              command-was-overridden: "<red>Befehl {COMMAND} wurde überschrieben. Wahrscheinlich ein Bug. Alte Executor-Klasse — <u>{OLD_EXECUTOR}</u>, neue — <u>{NEW_EXECUTOR}</u>."
+            error:
+              internal: "<red>Interner unerwarteter Fehler während der Befehlsausführung.</red>"
+              operate-is-impossible:
+                - "<red>Der eingegebene Befehl kann nicht verarbeitet werden.</red>"
+                - "%DESCRIPTION%"
+              not-enough-arguments: "<red>Zu wenige Argumente. <u>%COUNT%</u> mehr benötigt, um fortzufahren.</red>"
+              unknown: "<red>Befehl \"<u>%COMMAND%</u>\" existiert nicht.</red>"
+              not-enough-permissions: "<red>Unzureichende Berechtigungen.</red>"
+              cannot-transform-argument: "<red>\"<u>%ARGUMENT%</u>\" ist kein <u>%TYPE%</u>.</red>"
           language:
+            enter-language: "Der Befehl <u>/language</u> dient zur Auswahl der Server-Sprache. Verwende ihn so: <u>/language set <Sprachcode></u>, wobei der Sprachcode aus ISO 639-1 sein muss."
+            setup: "Deine Sprache wurde auf Deutsch geändert."
             list:
-              self-name: "Deutsch"
+              header: "<blue>Vorhandene Lokalisierungen:</blue>"
+              self-name: "Deutsche Sprache"
+              entry: "  - %SELF_NAME% <dark_gray>%CODE%</dark_gray> (%PERCENTAGE%%) <green>%SELECT_BUTTON%</green>"
+              select: "[AUSWÄHLEN]"
+            compare:
+              header: "<blue>Einträge, die nur unter Sprachcode <u>%CODE%</u> existieren:</blue>"
+            view:
+              header: "<blue>Einträge unter Sprachcode <u>%CODE%</u>:</blue>"
+          plugins:
+            base-message:
+              - "Plugins auf <#f70000>AncapFramework</#f70000>:"
+              - "%PLUGINS%"
+            plugin-form: "  - <#5100ff>%NAME%</#5100ff> v%VERSION% von <#5100ff>%AUTHORS%</#5100ff>"
+        plugin-info:
+          - "%PLUGIN% v%VERSION%."
+          - "Autoren: %AUTHORS%. "
+        console:
+          notify:
+            task:
+              status:
+                start: "%PLUGIN% beginnt mit dem Laden von %TASK%."
+                end: "%PLUGIN% hat das Laden von %TASK% abgeschlossen. Dauer: %TIME% Millisekunden."
+              names:
+                ancap: "Framework-Kern"
+          scheduler-api:
+            task-cannot-be-loaded:
+              - "Task-Klasse %TASK_CLASS% von Plugin %PLUGIN% konnte nicht geladen werden. Wahrscheinlich wurde das Plugin entfernt oder fehlgeladen."
+              - "Möchten Sie fortfahren? Wählen Sie eine Aktion:"
+              - "  (1) - Server laden und Task entfernen"
+              - "  (2) - Task verstecken (erneutes Erscheinen bei Plugin-Rückkehr)"
+              - "  (3) - Laden ohne Änderungen am Task"
+              - "  (4) - Server stoppen"
+            incorrect-task: "Ungültige Task-Nummer %NUMBER%. Bitte Zahl eingeben."
+            executing-chosen-task: "Führe Aktion %NUMBER% aus."
+            chosen-task-executed: "Aktion erfolgreich durchgeführt."
+        reload:
+          locales-successfully-reloaded: "Sprachdateien erfolgreich neu geladen."
+        nobody: "niemand"
+        api:
+          command:
+            description:
+              default: "Keine Beschreibung vorhanden"
