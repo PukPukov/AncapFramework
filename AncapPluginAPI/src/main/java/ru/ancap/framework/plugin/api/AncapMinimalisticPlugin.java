@@ -13,6 +13,8 @@ import ru.ancap.framework.resource.ResourcePreparator;
 public abstract class AncapMinimalisticPlugin extends JavaPlugin {
 
     private static Ancap ancap;
+    
+    protected final String localeVersionFieldName = "version";
 
     @MustBeInvokedByOverriders
     @Override
@@ -44,7 +46,7 @@ public abstract class AncapMinimalisticPlugin extends JavaPlugin {
     }
 
     public void loadLocale(String fileName) {
-        new YamlLocaleLoader(this.getDescription().getName(), new StreamConfig(this.getResource(fileName))).load();
+        YamlLocaleLoader.load(new StreamConfig(this.getResource(fileName)), this.getDescription().getName(), this.localeVersionFieldName);
     }
 
     public void registerEventsListener(Listener listener) {

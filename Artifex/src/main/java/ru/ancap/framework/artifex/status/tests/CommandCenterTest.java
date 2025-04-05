@@ -9,7 +9,6 @@ import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.command.api.commands.object.tab.Tab;
 import ru.ancap.framework.command.api.commands.object.tab.TabBundle;
 import ru.ancap.framework.command.api.commands.object.tab.TooltipTab;
-import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.communicate.communicator.util.CMMSerializer;
 import ru.ancap.framework.communicate.message.Message;
 import ru.ancap.framework.communicate.modifier.Placeholder;
@@ -32,14 +31,25 @@ public class CommandCenterTest extends PlayerTest implements HandTest {
     public CommandCenterTest(PluginCommandRegistrar registrar) {
         super(
             TestDomain.of(Artifex.class, "command-center"),
-            player -> {
-                Tester tester = new Tester(Communicator.of(player));
-                testRegisterUnregister (registrar, tester);
+            (player, tester) -> {
                 testProxy              (registrar, player, tester);
+                testRegisterUnregister (registrar, tester);
                 testTabCompletions     (registrar, tester);
+                testUnknownError       (registrar, tester);
                 return TestResult.SUCCESS;
             }
         );
+    }
+    
+    private static void testProxy(PluginCommandRegistrar registrar, Player player, Tester tester) {
+        String commandKey = "some-command-to-proxy";
+        byte identity = TestIdentity.get();
+        CommandOperator testOperator = baseResponse("test.ok-response", identity);
+        
+        try (var __ = TestCommandRegistration.register(registrar, commandKey, testOperator)) {
+            AncapBukkit.sendCommand(player, commandKey);
+            tester.askQuestion(commandQuestion("ok", "inspect", commandKey, identity));
+        }
     }
     
     private static void testTabCompletions(PluginCommandRegistrar registrar, Tester tester) {
@@ -79,15 +89,15 @@ public class CommandCenterTest extends PlayerTest implements HandTest {
         
         tester.askQuestion(commandQuestion("unknown", "interact", commandKey, identity));
     }
-
-    private static void testProxy(PluginCommandRegistrar registrar, Player player, Tester tester) {
-        String commandKey = "some-command-to-proxy";
-        byte identity = TestIdentity.get();
-        CommandOperator testOperator = baseResponse("test.ok-response", identity);
+    
+    private static void testUnknownError(PluginCommandRegistrar registrar, Tester tester) {
+        String commandKey = "unknown-error-command";
+        CommandOperator testOperator = dispatch -> {
+            throw new IllegalStateException("This is fine.");
+        };
         
         try (var __ = TestCommandRegistration.register(registrar, commandKey, testOperator)) {
-            AncapBukkit.sendCommand(player, commandKey);
-            tester.askQuestion(commandQuestion("ok", "inspect", commandKey, identity));
+            tester.askQuestion(commandQuestion("error", "interact", commandKey, (byte) -1));
         }
     }
 

@@ -19,7 +19,6 @@ import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule
 import ru.ancap.framework.command.api.commands.operator.exclusive.Exclusive;
 import ru.ancap.framework.command.api.commands.operator.exclusive.OP;
 import ru.ancap.framework.command.api.commands.operator.exclusive.Permission;
-import ru.ancap.framework.command.api.event.classic.NotEnoughArgumentsEvent;
 import ru.ancap.framework.communicate.message.CallableMessage;
 import ru.ancap.framework.communicate.message.Message;
 import ru.ancap.framework.communicate.modifier.Placeholder;
@@ -35,6 +34,8 @@ import ru.ancap.framework.status.test.Test;
 
 import java.util.*;
 import java.util.function.Supplier;
+
+import static ru.ancap.framework.plugin.api.commands.exception.CommandExceptions.*;
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
 public class ArtifexCommandExecutor extends CommandTarget {
@@ -77,11 +78,7 @@ public class ArtifexCommandExecutor extends CommandTarget {
                         
                         @Override
                         public void on(CommandDispatch dispatch) {
-                            if (dispatch.command().isRaw()) {
-                                Bukkit.getPluginManager().callEvent(new NotEnoughArgumentsEvent(dispatch.source().sender(), 1));
-                                return;
-                            }
-                            String requestedPluginName = dispatch.command().nextArgument();
+                            String requestedPluginName = dispatch.command().nextArgument(noArgument(() -> new LAPIMessage("arguments.requested-plugin")));
                             
                             if (requestedPluginName.equalsIgnoreCase(Artifex.PLUGIN().getName())) {
                                 dispatch.source().communicator().message(ArtifexCommandExecutor.artifexPluginsMessageSupplier.get());

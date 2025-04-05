@@ -2,9 +2,9 @@ package ru.ancap.framework.command.api.commands.object.dispatched;
 
 import lombok.*;
 import lombok.experimental.Accessors;
-import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNextArgumentException;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Accessors(fluent = true) @Getter
@@ -31,17 +31,13 @@ public class TextCommand implements LeveledCommand {
         return this.withArgs(this.args.subList(arguments, this.args.size()));
     }
 
+    @SneakyThrows
     @Override
-    public String nextArgument() throws NoNextArgumentException {
-        return this.nextArguments(1).getFirst();
-    }
-
-    @Override
-    public List<String> nextArguments(int arguments) {
+    public List<String> nextArguments(int arguments, Supplier<? extends Throwable> ifNo) {
         try {
-            return this.args.subList(0, arguments - 1 + 1);
+            return this.args.subList(0, arguments);
         } catch (IndexOutOfBoundsException e) {
-            throw new NoNextArgumentException();
+            throw ifNo.get();
         }
     }
 

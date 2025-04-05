@@ -33,6 +33,7 @@ public class LAPITest extends AbstractTest {
                 final String language = "test_lang";
                 final String localeId = "test-locale-id";
                 final String player = "govnoed";
+                final String versionFieldName = "version";
                 final String lapiSection = "test_"+ UUID.randomUUID(); // so it will not interfere with anything
                 
                 languageInstaller.prepareSpeaker(player, () -> language);
@@ -44,7 +45,7 @@ public class LAPITest extends AbstractTest {
                 // check basic retrieval
                 File file = new File(plugin.getDataFolder(), filename);
                 Files.copy(plugin.getResource(locale(localeForm, "0")), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                new YamlLocaleLoader(lapiSection, plugin.configuration(filename)).load();
+                YamlLocaleLoader.load(plugin.configuration(filename), lapiSection, versionFieldName);
                 assertEquals("foo", LAPI.localized(localeId, player));
                 
                 // check drop
@@ -53,13 +54,13 @@ public class LAPITest extends AbstractTest {
                 
                 // check that reload after drop changes everything correctly
                 Files.copy(plugin.getResource(locale(localeForm, "1")), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                new YamlLocaleLoader(lapiSection, plugin.configuration(filename)).load();
+                YamlLocaleLoader.load(plugin.configuration(filename), lapiSection, versionFieldName);
                 assertEquals("bar", LAPI.localized(localeId, player));
                 LAPI.drop(lapiSection); 
                 
                 // check fallback to targeted
                 Files.copy(plugin.getResource(locale(localeForm, "fallback-to-targeted")), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                new YamlLocaleLoader(lapiSection, plugin.configuration(filename)).load();
+                YamlLocaleLoader.load(plugin.configuration(filename), lapiSection, versionFieldName);
                 assertEquals("fell-to-targeted", LAPI.localized(localeId, player));
                 LAPI.drop(lapiSection);
                 
@@ -70,7 +71,7 @@ public class LAPITest extends AbstractTest {
                     "%DEFAULT%",
                     ArtifexConfig.loaded().defaultFallback().getFirst().code()
                 );
-                new YamlLocaleLoader(lapiSection, plugin.configuration(filename)).load();
+                YamlLocaleLoader.load(plugin.configuration(filename), lapiSection, versionFieldName);
                 assertEquals("fell-to-default", LAPI.localized(localeId, player));
                 LAPI.drop(lapiSection);
                 
@@ -79,7 +80,7 @@ public class LAPITest extends AbstractTest {
                     plugin.getResource(locale(localeForm, "fallback-to-native")), file, "%NATIVE%",
                     ArtifexConfig.loaded().nativeLanguage().code()
                 );
-                new YamlLocaleLoader(lapiSection, plugin.configuration(filename)).load();
+                YamlLocaleLoader.load(plugin.configuration(filename), lapiSection, versionFieldName);
                 assertEquals("fell-to-native", LAPI.localized(localeId, player));
                 LAPI.drop(lapiSection);
                 

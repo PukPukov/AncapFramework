@@ -5,6 +5,7 @@ import org.bukkit.util.Vector;
 
 public class FieldOfViewChecker {
     
+    // TODO split field of view to horizontal/vertical
     public static boolean isInFrontOf(Location viewer, Vector viewDirection, int fieldOfView, Location viewed) {
         Vector toDamager = viewed.toVector().subtract(viewer.toVector());
         toDamager.normalize();

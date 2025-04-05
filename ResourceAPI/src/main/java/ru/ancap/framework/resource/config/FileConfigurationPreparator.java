@@ -100,7 +100,6 @@ public class FileConfigurationPreparator implements ResourcePreparator<FileConfi
                 } break;
             default: throw new IllegalStateException("Unexpected value: " + this.resolveStateFrom(base, target));
         }
-        if (this.versionFieldName != null) finalConfig.set(this.versionFieldName, null);
         this.prepareFiles(target, finalConfig);
         return finalConfig;
     }

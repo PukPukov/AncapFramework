@@ -1,5 +1,5 @@
 language: su
-version: 18
+version: 19
 
 ru:
   ancap:
@@ -69,7 +69,10 @@ ru:
               issued-server-command: "Команда \"%COMMAND%\" отправлена серверу от %SOURCE%."
               command-was-overridden: "<red>Команда {COMMAND} была заменена. Возможно, это ошибка. Класс предыдущего исполнителя — <u>{OLD_EXECUTOR}</u>, нового — <u>{NEW_EXECUTOR}</u>."
             error:
-              internal: "<red>При выполнении команды произошла внутренняя ошибка.</red>"
+              internal:
+                - "<red>При выполнении команды произошла внутренняя непредвиденная ошибка.</red>"
+                - "<red>Исключение: <u>%EXCEPTION_NAME%</u>"
+                - "<red>Внутреннее описание: <u>%EXCEPTION_MESSAGE%</u>"
               operate-is-impossible:
                 - "<red>Данную команду обработать невозможно.</red>"
                 - "%DESCRIPTION%"

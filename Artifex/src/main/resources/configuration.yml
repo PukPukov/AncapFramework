@@ -1,5 +1,7 @@
 default-language: ru
 
+verbose-generic-error-message: true
+
 language:
   # Full localization. Fallback module's last hope.
   server-native: ru
@@ -56,7 +58,7 @@ database:
 # DONT CHANGE SECTION
 
 # Responsible for automatic updates and value transfers
-configuration-version: 7
+configuration-version: 8
 
 # Used to check if configuration works correctly 
 test:

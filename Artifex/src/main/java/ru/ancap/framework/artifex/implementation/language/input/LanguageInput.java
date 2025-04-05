@@ -1,6 +1,5 @@
 package ru.ancap.framework.artifex.implementation.language.input;
 
-import org.bukkit.Bukkit;
 import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.command.api.commands.CommandTarget;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
@@ -19,7 +18,6 @@ import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.Raw;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.SubCommand;
 import ru.ancap.framework.command.api.commands.operator.exclusive.Exclusive;
 import ru.ancap.framework.command.api.commands.operator.exclusive.OP;
-import ru.ancap.framework.command.api.event.classic.NotEnoughArgumentsEvent;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.communicate.message.ColoredMessage;
 import ru.ancap.framework.communicate.message.Message;
@@ -37,6 +35,8 @@ import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static ru.ancap.framework.plugin.api.commands.exception.CommandExceptions.noArgument;
 
 public class LanguageInput extends CommandTarget {
     
@@ -93,17 +93,10 @@ public class LanguageInput extends CommandTarget {
                     @Override
                     public void on(CommandDispatch dispatch) {
                         LeveledCommand parseState = dispatch.command();
-                        if (parseState.isRaw()) {
-                            Bukkit.getPluginManager().callEvent(new NotEnoughArgumentsEvent(dispatch.source().sender(), 2));
-                            return;
-                        }
-                        String languageOne = parseState.nextArgument();
+                        
+                        String languageOne = parseState.nextArgument(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.compared-language")));
                         parseState = parseState.withoutArgument();
-                        if (parseState.isRaw()) {
-                            Bukkit.getPluginManager().callEvent(new NotEnoughArgumentsEvent(dispatch.source().sender(), 1));
-                            return;
-                        }
-                        String languageTwo = parseState.nextArgument();
+                        String languageTwo = parseState.nextArgument(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.compared-language")));
 //                      parseState = parseState.withoutArgument();
                         
                         Set<String> keysOne = LAPI.allKeys(Language.of(languageOne));
@@ -139,12 +132,7 @@ public class LanguageInput extends CommandTarget {
                     
                     @Override
                     public void on(CommandDispatch dispatch) {
-                        LeveledCommand parseState = dispatch.command();
-                        if (parseState.isRaw()) {
-                            Bukkit.getPluginManager().callEvent(new NotEnoughArgumentsEvent(dispatch.source().sender(), 2));
-                            return;
-                        }
-                        String language = parseState.nextArgument();
+                        String language = dispatch.command().nextArgument(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.viewed-language")));
 //                      parseState = parseState.withoutArgument();
                         
                         Set<String> keys = LAPI.allKeys(Language.of(language));

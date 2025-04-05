@@ -44,4 +44,10 @@ public class CommonMessageDomains {
         
     }
     
+    public static class Error {
+        
+        public static String bukkitPermission;
+        public static String operateIsImpossible;
+    }
+    
 }

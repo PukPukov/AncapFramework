@@ -41,8 +41,12 @@ import ru.ancap.framework.artifex.implementation.timer.EveryDayTask;
 import ru.ancap.framework.artifex.implementation.timer.TimerExecutor;
 import ru.ancap.framework.artifex.implementation.timer.heartbeat.ArtifexHeartbeat;
 import ru.ancap.framework.artifex.status.tests.*;
+import ru.ancap.framework.command.api.commands.exception.lib.NoSpecificArgumentException;
+import ru.ancap.framework.command.api.commands.exception.lib.UnpermittedActionException;
+import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNextArgumentException;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.communicator.Communicator;
+import ru.ancap.framework.communicate.modifier.Placeholder;
 import ru.ancap.framework.database.sql.SQLDatabase;
 import ru.ancap.framework.database.sql.connection.reader.DatabaseFromConfig;
 import ru.ancap.framework.database.sql.registry.Registry;
@@ -50,10 +54,13 @@ import ru.ancap.framework.database.sql.registry.RegistryInitialization;
 import ru.ancap.framework.identifier.Identifier;
 import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.language.additional.LAPIDomain;
+import ru.ancap.framework.language.additional.LAPIMessage;
 import ru.ancap.framework.language.locale.BasicLocales;
 import ru.ancap.framework.plugin.api.AncapBukkit;
 import ru.ancap.framework.plugin.api.AncapPlugin;
 import ru.ancap.framework.plugin.api.PluginLoadTask;
+import ru.ancap.framework.plugin.api.commands.exception.MessageExceptionOperator;
+import ru.ancap.framework.plugin.util.CommandErrorMessage;
 import ru.ancap.framework.status.test.Test;
 import ru.ancap.framework.util.AudienceProvider;
 import ru.ancap.framework.util.player.StepbackMaster;
@@ -172,6 +179,7 @@ public final class Artifex extends AncapPlugin implements Listener {
         this.tests = List.of(
             new ConfigurationDatabaseTest(),
             new CommandCenterTest(this.commandRegistrar()),
+            new CommandAPITest(this.commandRegistrar()),
             new LAPITest(this, this.languageInstaller),
             new ConfigurationTest(this),
             new MainListenerAutoregisterTest(this)
@@ -233,12 +241,46 @@ public final class Artifex extends AncapPlugin implements Listener {
 
     private void loadCommandModule() {
         AncapPlugin.proxy = new CommandProxy();
-        this.asyncCommandCenter = new AsyncCommandCenter(AncapPlugin.proxy);
+        this.asyncCommandCenter = new AsyncCommandCenter(this.configuration().getBoolean("verbose-generic-error-message"), AncapPlugin.proxy);
         this.registerCommandCenter(this.asyncCommandCenter);
+        this.registerCommandExceptionCenter(this.asyncCommandCenter);
+        this.registerDefaultExceptionOperators();
         this.ancap.installGlobalCommandOperator(this, this.asyncCommandCenter, this.asyncCommandCenter);
         this.registerEventsListener(new PlayerCommandFallback());
     }
-
+    
+    private void registerDefaultExceptionOperators() {
+        this.commandExceptionCenter().register(
+            NoNextArgumentException.class,
+            new MessageExceptionOperator<>(new LAPIMessage(Artifex.class, "command.api.error.expected-argument"))
+        );
+        this.commandExceptionCenter().register(
+            NoSpecificArgumentException.class,
+            (exception, source, leveledCommand) -> {
+                CommandErrorMessage.send(source.sender(), new LAPIMessage(
+                    Artifex.class, "command.api.error.expected-typed-argument",
+                    new Placeholder("argument", exception.argumentDescription())
+                ));
+            }
+        );
+        this.commandExceptionCenter().register(
+            UnpermittedActionException.class,
+            (unpermittedException, source, leveledCommand) -> {
+                CommandErrorMessage.send(source.sender(), new LAPIMessage(
+                    Artifex.class, unpermittedException.requiredPermission() != null ?
+                    "error.not-enough-permissions.form.requirement" :
+                    "error.not-enough-permissions.form.simple",
+                    new Placeholder(
+                        "base", unpermittedException.actionDescription() != null ?
+                        unpermittedException.actionDescription() :
+                        new LAPIMessage(Artifex.class, "error.not-enough-permissions.default-action")
+                    ),
+                    new Placeholder("requirement", unpermittedException.requiredPermission())
+                ));
+            }
+        );
+    }
+    
     private void loadAncap() {
         AncapBukkit.CORE_PLUGIN = this;
         this.ancap = new ArtifexAncap(this.tpsCounter, this.stepbackMaster, this.debugIndicatorFile());

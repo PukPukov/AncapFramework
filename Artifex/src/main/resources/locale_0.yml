@@ -1,5 +1,5 @@
 language: ru
-version: 21
+version: 23
 
 ru:
   ancap:
@@ -14,6 +14,10 @@ ru:
           
     framework:
       artifex:
+        arguments:
+          viewed-language: "код языка, что вы хотите просмотреть"
+          compared-language: "код языка, что вы хотите сравнить"
+          requested-plugin: "запрошенный плагин"
         in-dev: "<red>Данная возможность находится в разработке."
         dependent-plugins:
           main-form:
@@ -41,6 +45,7 @@ ru:
               interact:
                 gradient-tab-complete: "получение двух табкомплитов, один из которых должен иметь следующую градиентную подсказку: \"%GRADIENT%\""
                 ok: "ответ \"<u>OK [%IDENTITY%]</u>\" от системы"
+                error: "сообщение об ошибке от системы"
                 unknown: "сообщение о том, что такой команды не существует"
               inspect:
                 ok: "Вы должны были получить сообщение \"<u>OK [%IDENTITY%]</u>\""
@@ -72,7 +77,31 @@ ru:
               player: "Игрок"
               console: "Консоль"
               command-block: "Командный блок"
-            
+        
+        error:
+          we-also-have-stack-trace: "<red><u>Данная ошибка произошла в результате Java-исключения. Нажми сюда чтобы отправить информацию в консоль."
+          not-enough-permission:
+            form:
+              requirement:
+                - "%BASE%"
+                - "%REQUIREMENT%"
+              simple:
+                - "%BASE%"
+            base: "<red>У тебя недостаточно прав для %ACTION%."
+            default-action: "выполнения этого действия"
+            op: "<red>Данное действие может выполнять только админ сервера."
+            bukkit-permission:
+              main:
+                - "<red>Для выполнения этого действия требуется серверное право %PERMISSION%."
+                - "%GROUPS_STATUS%"
+              groups-status:
+                only-op: "<red>На данный момент данным правом обладает только админ сервера."
+                following:
+                  main:
+                    - "<red>Данным правом обладают следующие группы:"
+                    - "%GROUPS%"
+                  entry: "- %PREFIX% (%NAME%)"
+        
         command:
           tps: "<green>TPS сервера: %TPS%</green>"
           api:
@@ -81,13 +110,17 @@ ru:
               issued-server-command: "%SOURCE% отправил серверу команду \"%COMMAND%\"."
               command-was-overridden: "<red>Команда {COMMAND} была переопределена. Вероятно, это баг. Класс прошлого исполнителя — <u>{OLD_EXECUTOR}</u>, нового — <u>{NEW_EXECUTOR}</u>."
             error:
-              internal: "<red>Во время выполнения команды произошла внутренняя непредвиденная ошибка.</red>"
+              internal:
+                - "<red>При выполнении команды произошла внутренняя непредвиденная ошибка.</red>"
+                - "<red>Исключение: <u>%EXCEPTION_NAME%</u>"
+                - "<red>Внутреннее описание: <u>%EXCEPTION_MESSAGE%</u>"
               operate-is-impossible:
                 - "<red>Введённая команда не может быть обработана.</red>"
                 - "%DESCRIPTION%"
               not-enough-arguments: "<red>Недостаточно аргументов. Необходимо на <u>%COUNT%</u> больше, чем введено, чтобы продолжить.</red>"
-              unknown: "<red>Команды \"<u>%COMMAND%</u>\" не существует.</red>"
-              not-enough-permissions: "<red>У тебя недостаточно прав.</red>"
+              expected-argument: "<red>Введено недостаточно информации для выполнения команды! Ожидалось, что команда будет содержать как минимум ещё один аргумент."
+              expected-typed-argument: "<red>Введено недостаточно информации для выполнения команды! Ожидалось, что команда будет содержать как минимум ещё %ARGUMENT%."
+              unknown: "<red>(Суб-)Команды \"<u>%COMMAND%</u>\" не существует.</red>"
               cannot-transform-argument: "<red>\"<u>%ARGUMENT%</u>\" - не <u>%TYPE%</u>.</red>"
           language:
             enter-language: "Команда <u>/language</u> предназначена для выбора серверного языка. Используйте её так: <u>/language set <код языка></u>, где код языка может быть любым из стандарта ISO 639-1."

@@ -40,6 +40,9 @@ public class ArtifexCommonMessageDomains {
         CommonMessageDomains.Test.root = this.domain("test");
         
         CommonMessageDomains.Reload.localesSuccessfullyReloaded = this.domain("reload.locales-successfully-reloaded");
+        
+        CommonMessageDomains.Error.bukkitPermission = this.domain("command.api.error.not-enough-permissions.bukkit-permission");
+        CommonMessageDomains.Error.operateIsImpossible = this.domain("command.api.error.operate-is-impossible");
     }
 
     private String domain(String domain) {

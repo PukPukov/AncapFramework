@@ -18,6 +18,7 @@ import ru.ancap.framework.communicate.message.Message;
 import ru.ancap.framework.configuration.AnnotationConfiguration;
 import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.plugin.api.commands.CommandCenter;
+import ru.ancap.framework.plugin.api.commands.exception.CommandExceptionCenter;
 import ru.ancap.framework.plugin.api.commands.PluginCommandRegistrar;
 import ru.ancap.framework.plugin.api.information.AncapPluginSettings;
 import ru.ancap.framework.plugin.api.information.RegisterStage;
@@ -40,6 +41,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     private static final Map<String, AncapPlugin> plugins = new HashMap<>();
     protected static CommandExecutor proxy;
     private static volatile CommandCenter commandCenter;
+    private static volatile CommandExceptionCenter commandExceptionCenter;
     private static Scheduler scheduler;
     private static ScheduleSupport scheduleSupport;
     private static TriFunction<JavaPlugin, CallableMessage, Runnable, PluginLoadTask> pluginLoadTaskProvider;
@@ -94,6 +96,11 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         AncapPlugin.commandCenter = commandCenter;
     }
     
+    public void registerCommandExceptionCenter(CommandExceptionCenter commandExceptionCenter) {
+        if (AncapPlugin.commandExceptionCenter != null) throw new IllegalStateException("Command center is already registered!");
+        AncapPlugin.commandExceptionCenter = commandExceptionCenter;
+    }
+    
     public void registerIntegrators() {
         this.registerListeners();
         this.registerCommandExecutors();
@@ -121,16 +128,18 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     }
     
     public void loadLocales() {
-        this.localeHandle = new LocaleLoader(
+        String versionFieldName = "version";
+        this.localeHandle = LocaleLoader.load(
             this.getLogger(),
             this.newResourceSource(FileConfigurationPreparator.resolveConflicts(
                 (version) -> this.valueTransferMap() != null ?
                     BuiltTransferMap.makeFor(this.valueTransferMap().getConfigurationSection("custom.LanguageAPI"), version) :
                     BuiltTransferMap.EMPTY,
-                "version"
+                versionFieldName
             )),
-            this.lapiSection()
-        ).load();
+            this.lapiSection(),
+            versionFieldName
+        );
     }
     
     public String lapiSection() {
@@ -149,8 +158,12 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
         plugins.remove(this.getName());
     }
     
-    private CommandCenter commandCenter() {
+    protected CommandCenter commandCenter() {
         return commandCenter;
+    }
+    
+    protected CommandExceptionCenter commandExceptionCenter() {
+        return commandExceptionCenter;
     }
     
     @Deprecated(forRemoval = true)
