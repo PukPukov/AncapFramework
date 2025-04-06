@@ -1,6 +1,7 @@
 name: Artifex
 description: "Runtime part of AncapFramework"
 authors: [ PukPukov ]
+api-version: 1.21.4
 
 depend:
   - packetevents

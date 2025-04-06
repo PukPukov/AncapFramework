@@ -78,7 +78,7 @@ public class ArtifexCommandExecutor extends CommandTarget {
                         
                         @Override
                         public void on(CommandDispatch dispatch) {
-                            String requestedPluginName = dispatch.command().nextArgument(noArgument(() -> new LAPIMessage("arguments.requested-plugin")));
+                            String requestedPluginName = dispatch.command().nextArgument(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.requested-plugin")));
                             
                             if (requestedPluginName.equalsIgnoreCase(Artifex.PLUGIN().getName())) {
                                 dispatch.source().communicator().message(ArtifexCommandExecutor.artifexPluginsMessageSupplier.get());

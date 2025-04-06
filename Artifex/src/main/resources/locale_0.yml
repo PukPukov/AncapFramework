@@ -17,6 +17,7 @@ ru:
         arguments:
           viewed-language: "код языка, что вы хотите просмотреть"
           compared-language: "код языка, что вы хотите сравнить"
+          new-language: "код нового языка"
           requested-plugin: "запрошенный плагин"
         in-dev: "<red>Данная возможность находится в разработке."
         dependent-plugins:
@@ -80,7 +81,7 @@ ru:
         
         error:
           we-also-have-stack-trace: "<red><u>Данная ошибка произошла в результате Java-исключения. Нажми сюда чтобы отправить информацию в консоль."
-          not-enough-permission:
+          not-enough-permissions:
             form:
               requirement:
                 - "%BASE%"

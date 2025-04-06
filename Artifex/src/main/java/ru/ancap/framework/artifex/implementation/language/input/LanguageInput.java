@@ -6,10 +6,6 @@ import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
-import ru.ancap.framework.command.api.commands.operator.arguments.Accept;
-import ru.ancap.framework.command.api.commands.operator.arguments.Argument;
-import ru.ancap.framework.command.api.commands.operator.arguments.Arguments;
-import ru.ancap.framework.command.api.commands.operator.arguments.extractor.basic.Self;
 import ru.ancap.framework.command.api.commands.operator.communicate.Advice;
 import ru.ancap.framework.command.api.commands.operator.communicate.ChatBook;
 import ru.ancap.framework.command.api.commands.operator.communicate.Reply;
@@ -45,13 +41,11 @@ public class LanguageInput extends CommandTarget {
     public LanguageInput(Language default_) {
         super(new Delegate(
             new Raw(new Advice(new LAPIMessage(Artifex.class, "command.language.enter-language"))),
-            new SubCommand("set", new Arguments(
-                new Accept(new Argument("language", new Self())),
-                dispatch -> {
-                    LAPI.updateLanguage(Identifier.of(dispatch.source().sender()), Language.of(dispatch.arguments().get("language", String.class)));
-                    Communicator.of(dispatch.source().sender()).message(new LAPIMessage(Artifex.class, "command.language.setup"));
-                })
-            ),
+            new SubCommand("set", dispatch -> {
+                String language = dispatch.command().nextArgument(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.new-language")));
+                LAPI.updateLanguage(Identifier.of(dispatch.source().sender()), Language.of(language));
+                Communicator.of(dispatch.source().sender()).message(new LAPIMessage(Artifex.class, "command.language.setup"));
+            }),
             new SubCommand("list", new Reply(() -> new MultilineMessage(
                 new LAPIMessage(Artifex.class, "command.language.list.header"),
                 new ChatBook<>(

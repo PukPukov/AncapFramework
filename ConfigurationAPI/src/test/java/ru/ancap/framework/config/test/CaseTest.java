@@ -1,9 +1,10 @@
 package ru.ancap.framework.config.test;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import ru.ancap.framework.configuration.Case;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 public class CaseTest {
     

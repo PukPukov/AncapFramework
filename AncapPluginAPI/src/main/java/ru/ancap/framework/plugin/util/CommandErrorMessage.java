@@ -24,7 +24,7 @@ public class CommandErrorMessage implements CallableMessage {
     
     public static void send(CommandSender sender, CallableMessage inner) {
         Communicator.of(sender).message(new CommandErrorMessage(inner));
-        if (sender instanceof Player player) player.playSound(player.getLocation(), Sound.ANVIL_LAND, 2, 0);
+        if (sender instanceof Player player) player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 2, 0);
     }
     
 }

@@ -21,7 +21,6 @@ import ru.ancap.framework.artifex.configuration.ArtifexConfig;
 import ru.ancap.framework.artifex.implementation.ancap.ArtifexAncap;
 import ru.ancap.framework.artifex.implementation.command.center.AsyncCommandCenter;
 import ru.ancap.framework.artifex.implementation.command.center.CommandProxy;
-import ru.ancap.framework.artifex.implementation.command.communicate.PlayerCommandFallback;
 import ru.ancap.framework.artifex.implementation.common.ArtifexCommonMessageDomains;
 import ru.ancap.framework.artifex.implementation.communicator.message.clickable.ActionProxy;
 import ru.ancap.framework.artifex.implementation.event.addition.BlockClickListener;
@@ -42,6 +41,7 @@ import ru.ancap.framework.artifex.implementation.timer.TimerExecutor;
 import ru.ancap.framework.artifex.implementation.timer.heartbeat.ArtifexHeartbeat;
 import ru.ancap.framework.artifex.status.tests.*;
 import ru.ancap.framework.command.api.commands.exception.lib.NoSpecificArgumentException;
+import ru.ancap.framework.command.api.commands.exception.lib.UnknownCommandException;
 import ru.ancap.framework.command.api.commands.exception.lib.UnpermittedActionException;
 import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNextArgumentException;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
@@ -67,6 +67,7 @@ import ru.ancap.framework.util.player.StepbackMaster;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -191,8 +192,6 @@ public final class Artifex extends AncapPlugin implements Listener {
     }
 
     private void loadEventAPI() {
-        if (getCurrentVersion()[1] < 16) return;
-        if (getCurrentVersion()[1] == 16 && getCurrentVersion()[2] < 5) return;
         this.eventApiListeners.forEach(this::registerEventsListener);
     }
     
@@ -246,7 +245,6 @@ public final class Artifex extends AncapPlugin implements Listener {
         this.registerCommandExceptionCenter(this.asyncCommandCenter);
         this.registerDefaultExceptionOperators();
         this.ancap.installGlobalCommandOperator(this, this.asyncCommandCenter, this.asyncCommandCenter);
-        this.registerEventsListener(new PlayerCommandFallback());
     }
     
     private void registerDefaultExceptionOperators() {
@@ -264,18 +262,33 @@ public final class Artifex extends AncapPlugin implements Listener {
             }
         );
         this.commandExceptionCenter().register(
+            UnknownCommandException.class,
+            (exception, source, leveledCommand) -> {
+                CommandErrorMessage.send(source.sender(), new LAPIMessage(
+                    Artifex.class, "command.api.error.unknown",
+                    new Placeholder("command", exception.unknown())
+                ));
+            }
+        );
+        this.commandExceptionCenter().register(
             UnpermittedActionException.class,
             (unpermittedException, source, leveledCommand) -> {
+                List<Placeholder> placeholders = new ArrayList<>(2);
+                placeholders.add(new Placeholder(
+                    "base", new LAPIMessage(
+                        Artifex.class, "error.not-enough-permissions.base", 
+                        new Placeholder("action", unpermittedException.actionDescription() != null ?
+                            unpermittedException.actionDescription() :
+                            new LAPIMessage(Artifex.class, "error.not-enough-permissions.default-action")
+                        )
+                    )
+                ));
+                if (unpermittedException.requiredPermission() != null) placeholders.add(new Placeholder("requirement", unpermittedException.requiredPermission()));
                 CommandErrorMessage.send(source.sender(), new LAPIMessage(
                     Artifex.class, unpermittedException.requiredPermission() != null ?
                     "error.not-enough-permissions.form.requirement" :
                     "error.not-enough-permissions.form.simple",
-                    new Placeholder(
-                        "base", unpermittedException.actionDescription() != null ?
-                        unpermittedException.actionDescription() :
-                        new LAPIMessage(Artifex.class, "error.not-enough-permissions.default-action")
-                    ),
-                    new Placeholder("requirement", unpermittedException.requiredPermission())
+                    placeholders.toArray(new Placeholder[0])
                 ));
             }
         );
