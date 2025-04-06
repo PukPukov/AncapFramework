@@ -12,12 +12,14 @@ import java.util.function.Supplier;
 @ToString @EqualsAndHashCode
 public class TextCommand implements LeveledCommand {
 
+    private final String original;
     private final List<Part> completedParts;
     private final Optional<Part> hotPart;
     @With private final int currentPartIndex;
     
-    public TextCommand(List<Part> completedParts, Optional<Part> hotPart) {
+    public TextCommand(String original, List<Part> completedParts, Optional<Part> hotPart) {
         if (completedParts.isEmpty()) throw new IllegalStateException("Command parts cant be empty");
+        this.original = original;
         this.completedParts = completedParts;
         this.hotPart = hotPart;
         this.currentPartIndex = 0;

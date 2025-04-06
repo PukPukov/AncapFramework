@@ -150,7 +150,6 @@ public class AsyncCommandCenter implements CommandExceptionCenter, CommandCenter
                     rule
                 ));
             } catch (Throwable throwable) {
-                throwable.printStackTrace();
                 var target = (CommandExceptionOperator<Throwable>) this.exceptionData.get(throwable.getClass());
                 if (target != null) target.on(throwable, source, command);
                 else {

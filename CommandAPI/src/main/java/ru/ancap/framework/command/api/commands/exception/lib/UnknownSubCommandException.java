@@ -9,9 +9,9 @@ import lombok.experimental.Accessors;
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
 @RequiredArgsConstructor
 @Accessors(fluent = true) @Getter
-public class UnknownCommandException extends RuntimeException {
+public class UnknownSubCommandException extends RuntimeException {
     
-    private final String unknown;
-    private final boolean raw;
+    private final String unknownSubCommand;
+    private final int lastIndex;
     
 }

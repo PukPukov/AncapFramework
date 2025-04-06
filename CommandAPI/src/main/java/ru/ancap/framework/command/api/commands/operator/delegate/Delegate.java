@@ -44,7 +44,7 @@ public class Delegate implements CommandOperator {
         pattern.delegated().on(
             new CommandDispatch(
                 dispatch.source(),
-                dispatch.command()
+                pattern.convert(dispatch.command())
             )
         );
     }
@@ -57,15 +57,13 @@ public class Delegate implements CommandOperator {
             return;
         }
         CommandProvidePattern pattern = this.ruleFor(command);
-        pattern.delegated().on(new CommandWrite(write.speaker(), command));
+        pattern.delegated().on(new CommandWrite(write.speaker(), pattern.convert(command)));
     }
 
-    private @NonNull CommandProvidePattern ruleFor(LeveledCommand command) {
+    private CommandProvidePattern ruleFor(LeveledCommand command) {
         for (CommandDelegateRule rule : this.rules) if (rule.isOperate(command)) {
-            System.out.println("returning target rule");
             return rule;
         }
-        System.out.println("returning default rule");
         return this.defaultRule;
     }
 

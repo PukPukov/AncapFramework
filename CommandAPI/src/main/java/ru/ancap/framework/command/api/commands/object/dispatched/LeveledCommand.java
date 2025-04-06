@@ -18,7 +18,7 @@ import java.util.function.Supplier;
  */
 public interface LeveledCommand {
     
-    
+    String original();
     List<Part> parts();
     int currentPartIndex();
     

@@ -41,8 +41,10 @@ import ru.ancap.framework.artifex.implementation.timer.TimerExecutor;
 import ru.ancap.framework.artifex.implementation.timer.heartbeat.ArtifexHeartbeat;
 import ru.ancap.framework.artifex.status.tests.*;
 import ru.ancap.framework.command.api.commands.exception.lib.NoSpecificArgumentException;
-import ru.ancap.framework.command.api.commands.exception.lib.UnknownCommandException;
+import ru.ancap.framework.command.api.commands.exception.lib.UnawaitedRawCommandException;
+import ru.ancap.framework.command.api.commands.exception.lib.UnknownSubCommandException;
 import ru.ancap.framework.command.api.commands.exception.lib.UnpermittedActionException;
+import ru.ancap.framework.command.api.commands.object.dispatched.Part;
 import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNextArgumentException;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.communicator.Communicator;
@@ -262,19 +264,23 @@ public final class Artifex extends AncapPlugin implements Listener {
             }
         );
         this.commandExceptionCenter().register(
-            UnknownCommandException.class,
+            UnknownSubCommandException.class,
             (exception, source, leveledCommand) -> {
-                CommandErrorMessage.send(source.sender(), exception.raw() ?
-                    new LAPIMessage(
-                        Artifex.class, "command.api.error.unknown.raw",
-                        new Placeholder("command", leveledCommand)
-                    ) : 
-                    new LAPIMessage(
-                        Artifex.class, "command.api.error.unknown.no-subcommand",
-                        new Placeholder("command", exception.unknown()),
-                        new Placeholder("sub", exception.unknown())
-                    )
-                );
+                CommandErrorMessage.send(source.sender(), new LAPIMessage(
+                    Artifex.class, "command.api.error.unknown.no-subcommand",
+                    new Placeholder("command", "/"+ String.join(" ", leveledCommand.parts().subList(0, exception.lastIndex() + 1).stream()
+                        .map(Part::original).toList())),
+                    new Placeholder("sub", exception.unknownSubCommand())
+                ));
+            }
+        );
+        this.commandExceptionCenter().register(
+            UnawaitedRawCommandException.class,
+            (exception, source, leveledCommand) -> {
+                CommandErrorMessage.send(source.sender(), new LAPIMessage(
+                    Artifex.class, "command.api.error.unknown.raw",
+                    new Placeholder("command", "/"+leveledCommand.original())
+                ));
             }
         );
         this.commandExceptionCenter().register(

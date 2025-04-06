@@ -2,7 +2,8 @@ package ru.ancap.framework.command.api.commands.operator.delegate.settings;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.ancap.framework.command.api.commands.exception.lib.UnknownCommandException;
+import ru.ancap.framework.command.api.commands.exception.lib.UnawaitedRawCommandException;
+import ru.ancap.framework.command.api.commands.exception.lib.UnknownSubCommandException;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.provide.CommandProvidePattern;
@@ -12,7 +13,11 @@ public class ClassicDelegatorSettings implements DelegatorSettings {
 
     private final CommandOperator unknown = dispatch -> {
         boolean raw = dispatch.command().isRaw();
-        throw new UnknownCommandException(raw ? "" : dispatch.command().currentPart().main(), raw); // TODO
+        if (raw) throw new UnawaitedRawCommandException();
+        else throw new UnknownSubCommandException(
+            dispatch.command().nextPart().main(),
+            dispatch.command().currentPartIndex()
+        );
     };
     
     public CommandOperator unknown() {

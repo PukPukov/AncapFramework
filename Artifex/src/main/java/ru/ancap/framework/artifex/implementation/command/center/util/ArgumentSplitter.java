@@ -70,16 +70,15 @@ public class ArgumentSplitter {
         }
         
         boolean heat = inQuotes || escapingBuffer.isEscapeNext() || lastCharWasPlainLetter;
-        var results = new SplitResult(parts, heat);
-        return results;
+        return new SplitResult(command, parts, heat);
     }
 
     
-    public record SplitResult(List<Part> parts, boolean hot) {
+    public record SplitResult(String original, List<Part> parts, boolean hot) {
         
         public TextCommand toTextCommand(boolean cold) {
-            if (!this.hot || cold) return new TextCommand(this.parts, Optional.empty());
-            else return new TextCommand(this.parts.subList(0, this.parts.size() - 1), Optional.of(this.parts.getLast()));
+            if (!this.hot || cold) return new TextCommand(this.original, this.parts, Optional.empty());
+            else return new TextCommand(this.original, this.parts.subList(0, this.parts.size() - 1), Optional.of(this.parts.getLast()));
         }
         
     }
