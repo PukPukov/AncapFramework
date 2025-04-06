@@ -28,7 +28,6 @@ import ru.ancap.framework.communicate.modifier.Placeholder;
 import ru.ancap.framework.language.additional.LAPIMessage;
 import ru.ancap.framework.plugin.api.Ancap;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 @ToString @EqualsAndHashCode
@@ -110,11 +109,11 @@ public class DispatchCatcher implements Listener {
     }
     
     private TextCommand from(Form form) {
-        return new TextCommand(form.arguments);
+        return new TextCommand(null, null); // TODO
     }
     
     private record RawForm(CommandSource source, String command) { }
-    private record Form(CommandSource source, List<String> arguments) { }
+    private record Form(CommandSource source, ArgumentSplitter.SplitResult parts) { }
     private record InterceptableCommandForm(Interceptable interceptable, CommandSource source, LeveledCommand command) { }
     
     public interface Interceptable {

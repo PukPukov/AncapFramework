@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Accessors(fluent = true) @Getter
+@ToString @EqualsAndHashCode
 public class TextCommand implements LeveledCommand {
 
     private final List<String> parts;
