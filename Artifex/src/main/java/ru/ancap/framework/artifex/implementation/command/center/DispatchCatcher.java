@@ -109,7 +109,7 @@ public class DispatchCatcher implements Listener {
     }
     
     private TextCommand from(Form form) {
-        return new TextCommand(null, null); // TODO
+        return form.parts().toTextCommand(true);
     }
     
     private record RawForm(CommandSource source, String command) { }

@@ -81,7 +81,7 @@ public class ArtifexCommandExecutor extends CommandTarget {
                         public void on(CommandDispatch dispatch) {
                             LCParseState onRequestedPlugin = dispatch.command().step(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.requested-plugin")));
                             
-                            if (onRequestedPlugin.part().equalsIgnoreCase(Artifex.PLUGIN().getName())) {
+                            if (onRequestedPlugin.part().main().equalsIgnoreCase(Artifex.PLUGIN().getName())) {
                                 dispatch.source().communicator().message(ArtifexCommandExecutor.artifexPluginsMessageSupplier.get());
                                 return;
                             }
@@ -96,11 +96,11 @@ public class ArtifexCommandExecutor extends CommandTarget {
                             
                             dispatch.source().communicator().message(new LAPIMessage(
                                 Artifex.class, "dependent-plugins.main-form",
-                                new Placeholder("plugin", onRequestedPlugin.part()),
+                                new Placeholder("plugin", onRequestedPlugin.part().main()),
                                 new Placeholder(
                                     "dependent plugins",
                                     new ChatBook<>(
-                                        children.get(onRequestedPlugin.part()),
+                                        children.get(onRequestedPlugin.part().main()),
                                         plugin -> new LAPIMessage(
                                             Artifex.class, "dependent-plugins." + (plugin instanceof AncapMinimalisticPlugin ? "ancap" : "simple") + "-plugin-form",
                                             new Placeholder("plugin", plugin.getName())

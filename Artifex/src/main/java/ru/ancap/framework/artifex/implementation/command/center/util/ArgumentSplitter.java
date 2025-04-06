@@ -1,7 +1,11 @@
 package ru.ancap.framework.artifex.implementation.command.center.util;
 
+import ru.ancap.framework.command.api.commands.object.dispatched.Part;
+import ru.ancap.framework.command.api.commands.object.dispatched.TextCommand;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ArgumentSplitter {
     
@@ -65,15 +69,19 @@ public class ArgumentSplitter {
             parts.add(new Part(main, original, currentStartIndex, endIndex));
         }
         
-        System.out.println("inQuotes "+inQuotes);
-        System.out.println("isEscapeNext "+escapingBuffer.isEscapeNext());
-        System.out.println("lastCharWasPlainLetter "+lastCharWasPlainLetter);
         boolean heat = inQuotes || escapingBuffer.isEscapeNext() || lastCharWasPlainLetter;
-        return new SplitResult(parts, heat);
+        var results = new SplitResult(parts, heat);
+        return results;
     }
 
     
-    public record SplitResult(List<Part> parts, boolean hot) {}
-    public record Part(String main, String original, int beginIndexInclusive, int endIndexInclusive) {}
+    public record SplitResult(List<Part> parts, boolean hot) {
+        
+        public TextCommand toTextCommand(boolean cold) {
+            if (!this.hot || cold) return new TextCommand(this.parts, Optional.empty());
+            else return new TextCommand(this.parts.subList(0, this.parts.size() - 1), Optional.of(this.parts.getLast()));
+        }
+        
+    }
     
 }

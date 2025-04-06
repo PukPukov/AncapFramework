@@ -131,17 +131,19 @@ public class AsyncCommandCenter implements CommandExceptionCenter, CommandCenter
         this.operate(
             write.speaker().source(),
             write.line(),
-            commandForm -> commandForm.commandOperator.on(new CommandWrite(
-                write.speaker(),
-                commandForm.command
-            ))
+            commandForm -> {
+                commandForm.commandOperator.on(new CommandWrite(
+                    write.speaker(),
+                    commandForm.command
+                ));
+            }
         );
     }
 
     private void operate(CommandSource source, LeveledCommand command, Consumer<CommandForm> commandFormConsumer) {
         Thread.ofVirtual().start(() -> {
             try {
-                String id = this.redirectMap.get(command.currentPart());
+                String id = this.redirectMap.get(command.currentPart().main());
                 CommandOperator rule = this.commandData.get(id).handleState().operator();
                 commandFormConsumer.accept(new CommandForm(
                     command,
@@ -166,8 +168,7 @@ public class AsyncCommandCenter implements CommandExceptionCenter, CommandCenter
 
     @Override
     public boolean isOperate(LeveledCommand command) {
-        if (command.isRaw()) return false;
-        return this.redirectMap.containsKey(command.nextPart());
+        return this.redirectMap.containsKey(command.currentPart().main());
     }
     
     private record CommandForm(LeveledCommand command, CommandOperator commandOperator) {}

@@ -2,6 +2,7 @@ package ru.ancap.framework.status;
 
 import org.bukkit.Bukkit;
 import ru.ancap.framework.command.api.commands.CommandTarget;
+import ru.ancap.framework.command.api.commands.object.dispatched.Part;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
@@ -14,9 +15,9 @@ import ru.ancap.framework.language.additional.LAPIMessage;
 import ru.ancap.framework.speak.common.CommonMessageDomains;
 import ru.ancap.framework.status.test.Test;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class StatusOutput extends CommandTarget {
     
@@ -37,7 +38,8 @@ public class StatusOutput extends CommandTarget {
                             CommonMessageDomains.Status.testForm,
                             new Placeholder("module name", test.name()),
                             new Placeholder("status", identifier -> {
-                                Set<String> args = new HashSet<>(dispatch.command().allNextParts());
+                                Set<String> args = dispatch.command().allNextParts().stream()
+                                    .map(Part::main).collect(Collectors.toSet());
                                 
                                 Test.TestResult result = test.makeTestFor(
                                     identifier,

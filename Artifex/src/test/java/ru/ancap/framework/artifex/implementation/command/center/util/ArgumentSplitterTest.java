@@ -1,6 +1,7 @@
 package ru.ancap.framework.artifex.implementation.command.center.util;
 
 import org.junit.jupiter.api.Test;
+import ru.ancap.framework.command.api.commands.object.dispatched.Part;
 
 import java.util.Arrays;
 import java.util.List;
@@ -201,8 +202,7 @@ class ArgumentSplitterTest {
     // UTIL
     
     private void compareParts(List<String> expectedParts, ArgumentSplitter.SplitResult results) {
-        List<String> actualParts = results.parts().stream().map(ArgumentSplitter.Part::main).toList();
-        System.out.println("parts "+expectedParts.size()+" "+actualParts.size());
+        List<String> actualParts = results.parts().stream().map(Part::main).toList();
         assertEquals(expectedParts, actualParts);
     }
     

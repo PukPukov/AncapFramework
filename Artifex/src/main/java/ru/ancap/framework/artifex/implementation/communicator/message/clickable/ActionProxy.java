@@ -41,8 +41,8 @@ public class ActionProxy implements CommandOperator, ActionMessageProvider {
     @Override
     public void on(CommandDispatch dispatch) {
         LCParseState onActionID = dispatch.command().step();
-        this.proxyMap.get(onActionID.part()).accept(new Click(dispatch.source().sender()));
-        this.proxyMap.remove(onActionID.part());
+        this.proxyMap.get(onActionID.part().main()).accept(new Click(dispatch.source().sender()));
+        this.proxyMap.remove(onActionID.part().main());
     }
 
     private long actionCounter = 0;

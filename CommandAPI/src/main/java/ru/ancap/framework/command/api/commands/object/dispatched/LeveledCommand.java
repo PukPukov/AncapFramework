@@ -19,8 +19,7 @@ import java.util.function.Supplier;
 public interface LeveledCommand {
     
     
-    List<String> parts();
-    List<String> originalParts();
+    List<Part> parts();
     int currentPartIndex();
     
     LCParseState step(Supplier<? extends Throwable> ifNo);
@@ -30,18 +29,18 @@ public interface LeveledCommand {
         return this.currentPartIndex()+1 == this.parts().size();
     }
     
-    default String currentPart() {
+    default Part currentPart() {
         return this.parts().get(this.currentPartIndex());
     }
     
     /**
      * Obtains next argument directly and unsafe.
      */
-    default String nextPart() {
+    default Part nextPart() {
         return this.parts().get(currentPartIndex()+1);
     }
     
-    default List<String> allNextParts() {
+    default List<Part> allNextParts() {
         return this.isRaw() ? List.of() : this.parts().subList(this.currentPartIndex()+1, this.parts().size());
     }
     

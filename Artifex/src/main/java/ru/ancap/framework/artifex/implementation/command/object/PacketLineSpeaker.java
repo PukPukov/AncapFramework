@@ -9,7 +9,8 @@ import org.apiguardian.api.API;
 import org.bukkit.entity.Player;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandLineSpeaker;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandSource;
-import ru.ancap.framework.command.api.commands.object.dispatched.InlineTextCommand;
+import ru.ancap.framework.command.api.commands.object.dispatched.Part;
+import ru.ancap.framework.command.api.commands.object.dispatched.TextCommand;
 import ru.ancap.framework.command.api.commands.object.tab.TabBundle;
 
 import java.util.List;
@@ -19,10 +20,20 @@ import java.util.stream.Collectors;
 public class PacketLineSpeaker implements CommandLineSpeaker {
     
     @API(status = API.Status.STABLE)
-    public static void sendTabPacket(Player player, int transactionID, InlineTextCommand command, TabBundle tab) {
+    public static void sendTabPacket(Player player, int transactionID, TextCommand command, TabBundle tab) {
+        int start;
+        int end;
+        var hotPart = command.hotPart();
+        if (hotPart.isPresent()) {
+            start = hotPart.get().beginIndexInclusive()+1;
+            end = hotPart.get().endIndexInclusive()+2;
+        } else {
+            start = command.parts().getLast().endIndexInclusive()+3;
+            end = start+1;
+        }
         WrapperPlayServerTabComplete.CommandRange commandRange = new WrapperPlayServerTabComplete.CommandRange(
-            command.argumentStart(tab.argumentsToReplace()) + 1,
-            command.argumentsEnd() + 1
+            start,
+            end
         );
         
         List<WrapperPlayServerTabComplete.CommandMatch> commandMatches = tab.tabCompletions().stream()
@@ -39,9 +50,9 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
     private final int transactionID;
     private final CommandSource source;
     private final Player player;
-    private final InlineTextCommand command;
+    private final TextCommand command;
     
-    public PacketLineSpeaker(int transactionID, InlineTextCommand command, Player player) {
+    public PacketLineSpeaker(int transactionID, TextCommand command, Player player) {
         this.transactionID = transactionID;
         this.player = player;
         this.source = new SenderSource(player);
@@ -51,7 +62,7 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
     @Override
     public void sendTab(@NonNull TabBundle tab) {
         if (tab.filter()) tab = tab.withTabCompletions(tab.tabCompletions().stream()
-            .filter(s -> s.completion().startsWith(this.command.getHotArgument()))
+            .filter(s -> s.completion().startsWith(this.command.hotPart().map(Part::main).orElse("")))
             .collect(Collectors.toList())
         );
         

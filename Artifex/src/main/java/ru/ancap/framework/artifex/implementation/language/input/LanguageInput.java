@@ -43,7 +43,7 @@ public class LanguageInput extends CommandTarget {
             new Raw(new Advice(new LAPIMessage(Artifex.class, "command.language.enter-language"))),
             new SubCommand("set", dispatch -> {
                 LCParseState onLanguage = dispatch.command().step(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.new-language")));
-                LAPI.updateLanguage(Identifier.of(dispatch.source().sender()), Language.of(onLanguage.part()));
+                LAPI.updateLanguage(Identifier.of(dispatch.source().sender()), Language.of(onLanguage.part().main()));
                 Communicator.of(dispatch.source().sender()).message(new LAPIMessage(Artifex.class, "command.language.setup"));
             }),
             new SubCommand("list", new Reply(() -> new MultilineMessage(
@@ -89,8 +89,8 @@ public class LanguageInput extends CommandTarget {
                         LCParseState onLanguageOne = dispatch.command().step(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.compared-language")));
                         LCParseState onLanguageTwo = onLanguageOne.command().step(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.compared-language")));
                         
-                        Set<String> keysOne = LAPI.allKeys(Language.of(onLanguageOne.part()));
-                        Set<String> keysTwo = LAPI.allKeys(Language.of(onLanguageTwo.part()));
+                        Set<String> keysOne = LAPI.allKeys(Language.of(onLanguageOne.part().main()));
+                        Set<String> keysTwo = LAPI.allKeys(Language.of(onLanguageTwo.part().main()));
                         Set<String> onlyInOne = keysOne.stream()
                             .filter(key -> !keysTwo.contains(key))
                             .collect(Collectors.toSet());
@@ -100,12 +100,12 @@ public class LanguageInput extends CommandTarget {
                         dispatch.source().communicator().message(new MultilineMessage(
                             new LAPIMessage(
                                 Artifex.class, "command.language.compare.header",
-                                new Placeholder("code", onLanguageOne.part())
+                                new Placeholder("code", onLanguageOne.part().main())
                             ),
                             new ChatBook<>(onlyInOne, Message::new),
                             new LAPIMessage(
                                 Artifex.class, "command.language.compare.header",
-                                new Placeholder("code", onLanguageTwo.part())
+                                new Placeholder("code", onLanguageTwo.part().main())
                             ),
                             new ChatBook<>(onlyInTwo, Message::new)
                         ));
@@ -124,11 +124,11 @@ public class LanguageInput extends CommandTarget {
                     public void on(CommandDispatch dispatch) {
                         LCParseState onLanguage = dispatch.command().step(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.viewed-language")));
                         
-                        Set<String> keys = LAPI.allKeys(Language.of(onLanguage.part()));
+                        Set<String> keys = LAPI.allKeys(Language.of(onLanguage.part().main()));
                         dispatch.source().communicator().message(new MultilineMessage(
                             new LAPIMessage(
                                 Artifex.class, "command.language.view.header",
-                                new Placeholder("code", onLanguage.part())
+                                new Placeholder("code", onLanguage.part().main())
                             ),
                             new ChatBook<>(keys, Message::new)
                         ));

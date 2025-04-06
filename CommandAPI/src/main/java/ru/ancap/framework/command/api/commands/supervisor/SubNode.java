@@ -19,7 +19,12 @@ public class SubNode implements SupervisedRule {
     public CommandOperator delegated() {
         return null;
     }
-
+    
+    @Override
+    public LeveledCommand convert(LeveledCommand command) {
+        return null;
+    }
+    
     @Override
     public String readableNameId() {
         return null;

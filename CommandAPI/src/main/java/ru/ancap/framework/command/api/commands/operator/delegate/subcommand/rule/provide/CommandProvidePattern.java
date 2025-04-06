@@ -6,9 +6,6 @@ import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 public interface CommandProvidePattern {
 
     CommandOperator delegated();
-
-    default LeveledCommand convert(LeveledCommand command) {
-        return command;
-    }
+    LeveledCommand convert(LeveledCommand command);
 
 }
