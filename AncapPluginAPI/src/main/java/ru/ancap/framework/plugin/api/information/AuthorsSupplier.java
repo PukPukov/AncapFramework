@@ -25,6 +25,7 @@ public class AuthorsSupplier implements CommandOperator {
     public void on(CommandDispatch dispatch) {
         Communicator.of(dispatch.source().sender()).message(new LAPIMessage(
                 this.domain,
+                new Placeholder("plugin", this.plugin.getName()),
                 new Placeholder("version", new Message(this.plugin.getDescription().getVersion())),
                 new Placeholder("authors", this.plugin.getDescription().getAuthors().stream().reduce((s1, s2) -> s1+", "+s2)
                         .map(authors -> (CallableMessage) new Message(authors))
