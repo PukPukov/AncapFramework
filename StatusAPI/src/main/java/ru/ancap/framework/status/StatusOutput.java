@@ -2,7 +2,6 @@ package ru.ancap.framework.status;
 
 import org.bukkit.Bukkit;
 import ru.ancap.framework.command.api.commands.CommandTarget;
-import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
@@ -21,6 +20,8 @@ import java.util.Set;
 
 public class StatusOutput extends CommandTarget {
     
+    public static final String SKIP_HAND_TESTS_ARG = "--skip-hand-tests";
+    
     public StatusOutput(CallableMessage systemName, Iterable<Test> tests) {
         super(new CommandOperator() {
             @Override
@@ -36,17 +37,12 @@ public class StatusOutput extends CommandTarget {
                             CommonMessageDomains.Status.testForm,
                             new Placeholder("module name", test.name()),
                             new Placeholder("status", identifier -> {
-                                Set<String> args = new HashSet<>();
-                                LeveledCommand parseState = dispatch.command();
-                                while (!parseState.isRaw()) {
-                                    args.add(parseState.nextArgument());
-                                    parseState = parseState.withoutArgument();
-                                }
+                                Set<String> args = new HashSet<>(dispatch.command().allNextParts());
                                 
                                 Test.TestResult result = test.makeTestFor(
                                     identifier,
                                     new Test.TestingParameters(
-                                        args.contains("--skip-hand-tests")
+                                        args.contains(SKIP_HAND_TESTS_ARG)
                                     )
                                 );
                                 CallableMessage represent = switch (result.status()) {
@@ -62,12 +58,12 @@ public class StatusOutput extends CommandTarget {
             }
             @Override
             public void on(CommandWrite write) {
-                write.speaker().sendTab(List.of("--skip-hand-tests"));
+                write.speaker().sendTab(List.of(SKIP_HAND_TESTS_ARG));
             }
         });
     }
     
-    private static class BadTestMessage extends CacheMessage {
+    private static class BadTestMessage extends WrapperMessage {
         
         public BadTestMessage(String mainMessageDomain, CallableMessage description) {
             super(new ClickableMessage(

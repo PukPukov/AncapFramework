@@ -4,7 +4,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
-import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNextArgumentException;
 
 @ToString @EqualsAndHashCode
 public class ArgumentsOperateRule implements OperateRule {
@@ -23,11 +22,8 @@ public class ArgumentsOperateRule implements OperateRule {
     private record ArgumentsOperatedCommand(LeveledCommand command) {
         
         boolean hasArgument(String key) {
-            try {
-                return this.command.nextArgument().equalsIgnoreCase(key);
-            } catch (NoNextArgumentException e) {
-                return false;
-            }
+            if (this.command.isRaw()) return false;
+            return this.command.nextPart().equalsIgnoreCase(key);
         }
     
     }

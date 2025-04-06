@@ -7,6 +7,7 @@ import org.bukkit.plugin.Plugin;
 import ru.ancap.commons.list.merge.MergeList;
 import ru.ancap.commons.map.SafeMap;
 import ru.ancap.framework.command.api.commands.CommandTarget;
+import ru.ancap.framework.command.api.commands.object.dispatched.LCParseState;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
@@ -35,7 +36,7 @@ import ru.ancap.framework.status.test.Test;
 import java.util.*;
 import java.util.function.Supplier;
 
-import static ru.ancap.framework.plugin.api.commands.exception.CommandExceptions.*;
+import static ru.ancap.framework.plugin.api.commands.exception.CommandExceptions.noArgument;
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
 public class ArtifexCommandExecutor extends CommandTarget {
@@ -78,9 +79,9 @@ public class ArtifexCommandExecutor extends CommandTarget {
                         
                         @Override
                         public void on(CommandDispatch dispatch) {
-                            String requestedPluginName = dispatch.command().nextArgument(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.requested-plugin")));
+                            LCParseState onRequestedPlugin = dispatch.command().step(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.requested-plugin")));
                             
-                            if (requestedPluginName.equalsIgnoreCase(Artifex.PLUGIN().getName())) {
+                            if (onRequestedPlugin.part().equalsIgnoreCase(Artifex.PLUGIN().getName())) {
                                 dispatch.source().communicator().message(ArtifexCommandExecutor.artifexPluginsMessageSupplier.get());
                                 return;
                             }
@@ -95,11 +96,11 @@ public class ArtifexCommandExecutor extends CommandTarget {
                             
                             dispatch.source().communicator().message(new LAPIMessage(
                                 Artifex.class, "dependent-plugins.main-form",
-                                new Placeholder("plugin", requestedPluginName),
+                                new Placeholder("plugin", onRequestedPlugin.part()),
                                 new Placeholder(
                                     "dependent plugins",
                                     new ChatBook<>(
-                                        children.get(requestedPluginName),
+                                        children.get(onRequestedPlugin.part()),
                                         plugin -> new LAPIMessage(
                                             Artifex.class, "dependent-plugins." + (plugin instanceof AncapMinimalisticPlugin ? "ancap" : "simple") + "-plugin-form",
                                             new Placeholder("plugin", plugin.getName())

@@ -2,6 +2,7 @@ package ru.ancap.framework.artifex.implementation.communicator.message.clickable
 
 import lombok.RequiredArgsConstructor;
 import ru.ancap.commons.map.GuaranteedMap;
+import ru.ancap.framework.command.api.commands.object.dispatched.LCParseState;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.message.CallableMessage;
@@ -39,9 +40,9 @@ public class ActionProxy implements CommandOperator, ActionMessageProvider {
 
     @Override
     public void on(CommandDispatch dispatch) {
-        String actionID = dispatch.command().nextArgument();
-        this.proxyMap.get(actionID).accept(new Click(dispatch.source().sender()));
-        this.proxyMap.remove(actionID);
+        LCParseState onActionID = dispatch.command().step();
+        this.proxyMap.get(onActionID.part()).accept(new Click(dispatch.source().sender()));
+        this.proxyMap.remove(onActionID.part());
     }
 
     private long actionCounter = 0;

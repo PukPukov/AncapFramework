@@ -139,17 +139,16 @@ public class AsyncCommandCenter implements CommandExceptionCenter, CommandCenter
     }
 
     private void operate(CommandSource source, LeveledCommand command, Consumer<CommandForm> commandFormConsumer) {
-        String key = command.nextArgument();
-        LeveledCommand finalCommand = command.withoutArgument();
-        new Thread(() -> {
+        Thread.ofVirtual().start(() -> {
             try {
-                String id = this.redirectMap.get(key);
+                String id = this.redirectMap.get(command.currentPart());
                 CommandOperator rule = this.commandData.get(id).handleState().operator();
                 commandFormConsumer.accept(new CommandForm(
-                    finalCommand,
+                    command,
                     rule
                 ));
             } catch (Throwable throwable) {
+                throwable.printStackTrace();
                 var target = (CommandExceptionOperator<Throwable>) this.exceptionData.get(throwable.getClass());
                 if (target != null) target.on(throwable, source, command);
                 else {
@@ -161,14 +160,14 @@ public class AsyncCommandCenter implements CommandExceptionCenter, CommandCenter
                     throwable.printStackTrace();
                 }
             }
-        }).start();
+        });
 
     }
 
     @Override
     public boolean isOperate(LeveledCommand command) {
         if (command.isRaw()) return false;
-        return this.redirectMap.containsKey(command.nextArgument());
+        return this.redirectMap.containsKey(command.nextPart());
     }
     
     private record CommandForm(LeveledCommand command, CommandOperator commandOperator) {}

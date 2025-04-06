@@ -12,5 +12,6 @@ import lombok.experimental.Accessors;
 public class UnknownCommandException extends RuntimeException {
     
     private final String unknown;
+    private final boolean raw;
     
 }

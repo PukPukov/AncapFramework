@@ -10,57 +10,24 @@ import java.util.function.Supplier;
 @Accessors(fluent = true) @Getter
 public class TextCommand implements LeveledCommand {
 
-    @With private final List<String> args;
-    @With private final TextCommand full;
-    private final TextCommand original;
-
-    public TextCommand(List<String> args) {
-        this.args = List.copyOf(args);
-        this.original = this;
-        this.full = this;
+    private final List<String> parts;
+    private final List<String> originalParts;
+    @With private final int currentPartIndex;
+    
+    public TextCommand(List<String> parts, List<String> originalParts) {
+        if (parts.isEmpty()) throw new IllegalStateException("Command parts cant be empty");
+        this.parts = parts;
+        this.originalParts = originalParts;
+        this.currentPartIndex = 0;
     }
-
+    
     @Override
-    public TextCommand withoutArgument() {
-        return this.withoutArguments(1);
-    }
-
-    @Override
-    public TextCommand withoutArguments(int arguments) {
-        this.nextArguments(arguments);
-        return this.withArgs(this.args.subList(arguments, this.args.size()));
-    }
-
     @SneakyThrows
-    @Override
-    public List<String> nextArguments(int arguments, Supplier<? extends Throwable> ifNo) {
-        try {
-            return this.args.subList(0, arguments);
-        } catch (IndexOutOfBoundsException e) {
-            throw ifNo.get();
-        }
-    }
-
-    public boolean isRaw() {
-        return this.args.isEmpty();
-    }
-
-    @Override
-    public List<String> arguments() {
-        return this.args;
-    }
-
-    public String getFlattenedArgs() {
-        return String.join(" ", this.args);
-    }
-
-    @Override
-    public String toString() {
-        return "TextCommand{" +
-                "args=" + this.args +
-                "original_args=" + this.original.args +
-                "full_args=" + this.full.args +
-                '}';
+    public LCParseState step(Supplier<? extends Throwable> ifNo) {
+        int nextPartIndex = this.currentPartIndex+1;
+        if (nextPartIndex == this.parts.size()) throw ifNo.get();
+        TextCommand nextCommand = this.withCurrentPartIndex(nextPartIndex);
+        return new LCParseState(this.parts.get(nextPartIndex), nextCommand);
     }
     
 }

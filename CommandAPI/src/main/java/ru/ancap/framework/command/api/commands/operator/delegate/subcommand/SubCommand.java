@@ -40,7 +40,7 @@ public class SubCommand implements CommandDelegateRule {
 
     @Override
     public LeveledCommand convert(LeveledCommand command) {
-        return command.withoutArgument();
+        return command.step(IllegalStateException::new).command();
     }
 
     @Override

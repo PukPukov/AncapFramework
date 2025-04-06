@@ -5,27 +5,52 @@ import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNex
 import java.util.List;
 import java.util.function.Supplier;
 
+/**
+ * <h1>Контракт</h1>
+ * <h3>Части и нумерация частей</h3>
+ * <code>parts()</code> представляет из себя упорядоченные части включая первичную часть. Таким образом в <code>/foo bar baz</code> 3 части, [foo, bar, baz].
+ * <h3>Обход</h3>
+ * LeveledCommand содержит в себе "счётчик обхода" — произвольно созданные данные для упрощения парсинга команды. Созданная внешним образом LeveledCommand всегда
+ * начинает с нулевым счётчиком указывающим на первую часть.<br>
+ * Можно шагнуть вперёд, увеличив счётчик на один с помощью метода <code>step()</code>.<br>
+ * Возвращаемый <code>ParseState</code> содержит часть, на которую будет указывать счётчик <i>после</i> шага, а также соответствующий этой части LeveledCommand
+ * с соответствующим номером счётчика.
+ */
 public interface LeveledCommand {
-
-    boolean isRaw();
     
-    List<String> arguments();
     
-    default String nextArgument() {
-        return nextArgument(NoNextArgumentException::new);
+    List<String> parts();
+    List<String> originalParts();
+    int currentPartIndex();
+    
+    LCParseState step(Supplier<? extends Throwable> ifNo);
+    
+    // UTIL
+    default boolean isRaw() {
+        return this.currentPartIndex()+1 == this.parts().size();
     }
     
-    default String nextArgument(Supplier<? extends Throwable> ifNo) {
-        return nextArguments(1, ifNo).getFirst();
+    default String currentPart() {
+        return this.parts().get(this.currentPartIndex());
     }
     
-    default List<String> nextArguments(int arguments) {
-        return nextArguments(arguments, NoNextArgumentException::new);
+    /**
+     * Obtains next argument directly and unsafe.
+     */
+    default String nextPart() {
+        return this.parts().get(currentPartIndex()+1);
     }
     
-    List<String> nextArguments(int arguments, Supplier<? extends Throwable> ifNo);
+    default List<String> allNextParts() {
+        return this.isRaw() ? List.of() : this.parts().subList(this.currentPartIndex()+1, this.parts().size());
+    }
     
-    LeveledCommand withoutArgument();
-    LeveledCommand withoutArguments(int arguments);
-
+    default LCParseState asParseState() {
+        return new LCParseState(this.currentPart(), this);
+    }
+    
+    // CONVENIENCE
+    default LCParseState step() {
+        return step(NoNextArgumentException::new);
+    }
 }

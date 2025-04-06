@@ -23,7 +23,7 @@ public final class InlineTextCommand implements LeveledCommand {
     }
 
     @Delegate
-    public TextCommand getCompletedCommand() {
+    public TextCommand completedCommand() {
         if (this.completedCommand == null) {
             List<ParseLexem> lexems = new ArrayList<>(this.parsed());
             int lastIndex = lexems.size() - 1;

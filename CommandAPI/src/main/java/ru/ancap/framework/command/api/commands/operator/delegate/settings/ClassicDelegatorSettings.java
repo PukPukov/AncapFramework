@@ -11,7 +11,8 @@ public class ClassicDelegatorSettings implements DelegatorSettings {
 
     private final CommandProvidePattern spareRule;
     private final CommandOperator unknown = dispatch -> {
-        throw new UnknownCommandException(dispatch.command().nextArgument());
+        boolean raw = dispatch.command().isRaw();
+        throw new UnknownCommandException(raw ? "" : dispatch.command().nextPart(), raw);
     };
     
     public CommandProvidePattern spareRule() {

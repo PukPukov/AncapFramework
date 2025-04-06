@@ -250,24 +250,31 @@ public final class Artifex extends AncapPlugin implements Listener {
     private void registerDefaultExceptionOperators() {
         this.commandExceptionCenter().register(
             NoNextArgumentException.class,
-            new MessageExceptionOperator<>(new LAPIMessage(Artifex.class, "command.api.error.expected-argument"))
+            new MessageExceptionOperator<>(new LAPIMessage(Artifex.class, "command.api.error.expected-part"))
         );
         this.commandExceptionCenter().register(
             NoSpecificArgumentException.class,
             (exception, source, leveledCommand) -> {
                 CommandErrorMessage.send(source.sender(), new LAPIMessage(
-                    Artifex.class, "command.api.error.expected-typed-argument",
-                    new Placeholder("argument", exception.argumentDescription())
+                    Artifex.class, "command.api.error.expected-typed-part",
+                    new Placeholder("part", exception.argumentDescription())
                 ));
             }
         );
         this.commandExceptionCenter().register(
             UnknownCommandException.class,
             (exception, source, leveledCommand) -> {
-                CommandErrorMessage.send(source.sender(), new LAPIMessage(
-                    Artifex.class, "command.api.error.unknown",
-                    new Placeholder("command", exception.unknown())
-                ));
+                CommandErrorMessage.send(source.sender(), exception.raw() ?
+                    new LAPIMessage(
+                        Artifex.class, "command.api.error.unknown.raw",
+                        new Placeholder("command", leveledCommand)
+                    ) : 
+                    new LAPIMessage(
+                        Artifex.class, "command.api.error.unknown.no-subcommand",
+                        new Placeholder("command", exception.unknown()),
+                        new Placeholder("sub", exception.unknown())
+                    )
+                );
             }
         );
         this.commandExceptionCenter().register(
