@@ -6,13 +6,11 @@ import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule
 
 import java.util.List;
 
-import static ru.ancap.commons.debug.AncapDebug.*;
-
 public record Raw(CommandOperator delegated) implements CommandDelegateRule {
 
     @Override
     public boolean isOperate(LeveledCommand command) {
-        return debugThrough(command.isRaw());
+        return command.isRaw();
     }
 
     @Override

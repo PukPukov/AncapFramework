@@ -1,7 +1,6 @@
 package ru.ancap.framework.artifex.status.tests;
 
 import org.bukkit.entity.Player;
-import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.artifex.status.tests.util.TestCommandRegistration;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
@@ -9,15 +8,14 @@ import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.command.api.commands.object.tab.Tab;
 import ru.ancap.framework.command.api.commands.object.tab.TabBundle;
 import ru.ancap.framework.command.api.commands.object.tab.TooltipTab;
-import ru.ancap.framework.communicate.communicator.util.CMMSerializer;
-import ru.ancap.framework.communicate.message.Message;
+import ru.ancap.framework.communicate.message.Text;
 import ru.ancap.framework.communicate.modifier.Placeholder;
+import ru.ancap.framework.communicate.util.CMMSerializer;
 import ru.ancap.framework.plugin.api.AncapBukkit;
 import ru.ancap.framework.plugin.api.commands.PluginCommandRegistrar;
 import ru.ancap.framework.status.InteractionRequest;
 import ru.ancap.framework.status.test.HandTest;
 import ru.ancap.framework.status.test.PlayerTest;
-import ru.ancap.framework.status.util.TestDomain;
 import ru.ancap.framework.status.util.TestIdentity;
 import ru.ancap.framework.status.util.Tester;
 
@@ -30,7 +28,7 @@ public class CommandCenterTest extends PlayerTest implements HandTest {
     
     public CommandCenterTest(PluginCommandRegistrar registrar) {
         super(
-            TestDomain.of(Artifex.class, "command-center"),
+            "command-center",
             (player, tester) -> {
                 testProxy              (registrar, player, tester);
                 testRegisterUnregister (registrar, tester);
@@ -73,7 +71,7 @@ public class CommandCenterTest extends PlayerTest implements HandTest {
         try (var __ = TestCommandRegistration.register(registrar, commandKey, testOperator)) {
             tester.askQuestion(new InteractionRequest(
                 "tab-complete", List.of(new Placeholder("command", commandKey)),
-                "gradient-tab-complete", List.of(new Placeholder("gradient", new Message(gradientMinimessage)))
+                "gradient-tab-complete", List.of(new Placeholder("gradient", new Text(gradientMinimessage)))
             ));
         }
     }

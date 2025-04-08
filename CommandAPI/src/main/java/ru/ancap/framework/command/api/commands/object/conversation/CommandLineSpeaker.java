@@ -1,14 +1,15 @@
 package ru.ancap.framework.command.api.commands.object.conversation;
 
 import net.kyori.adventure.text.Component;
+import org.jetbrains.annotations.ApiStatus;
 import ru.ancap.framework.command.api.commands.object.tab.TabBundle;
 
 import java.util.List;
 
 public interface CommandLineSpeaker {
-
-    CommandSource source();
-
+    
+    @ApiStatus.Internal
+    int transactionId();
     void sendTab(TabBundle tab);
     
     default void sendTab(List<String> tabs) {

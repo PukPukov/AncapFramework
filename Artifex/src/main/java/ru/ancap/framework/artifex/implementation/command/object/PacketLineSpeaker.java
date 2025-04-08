@@ -8,16 +8,16 @@ import lombok.ToString;
 import org.apiguardian.api.API;
 import org.bukkit.entity.Player;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandLineSpeaker;
-import ru.ancap.framework.command.api.commands.object.conversation.CommandSource;
 import ru.ancap.framework.command.api.commands.object.dispatched.Part;
 import ru.ancap.framework.command.api.commands.object.dispatched.TextCommand;
 import ru.ancap.framework.command.api.commands.object.tab.TabBundle;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @ToString @EqualsAndHashCode
 public class PacketLineSpeaker implements CommandLineSpeaker {
+    
+    public static final int MAX_TAB_COMPLETIONS = 25;
     
     @API(status = API.Status.STABLE)
     public static void sendTabPacket(Player player, int transactionID, TextCommand command, TabBundle tab) {
@@ -48,30 +48,27 @@ public class PacketLineSpeaker implements CommandLineSpeaker {
     }
     
     private final int transactionID;
-    private final CommandSource source;
     private final Player player;
     private final TextCommand command;
     
     public PacketLineSpeaker(int transactionID, TextCommand command, Player player) {
         this.transactionID = transactionID;
         this.player = player;
-        this.source = new SenderSource(player);
         this.command = command;
     }
     
     @Override
-    public void sendTab(@NonNull TabBundle tab) {
-        if (tab.filter()) tab = tab.withTabCompletions(tab.tabCompletions().stream()
-            .filter(s -> s.completion().startsWith(this.command.hotPart().map(Part::main).orElse("")))
-            .collect(Collectors.toList())
-        );
-        
-        PacketLineSpeaker.sendTabPacket(this.player, this.transactionID, this.command, tab);
+    public int transactionId() {
+        return this.transactionID;
     }
     
     @Override
-    public CommandSource source() {
-        return this.source;
+    public void sendTab(@NonNull TabBundle tab) {
+        var tabCompletionsStream = tab.tabCompletions().stream();
+        if (tab.filter()) tabCompletionsStream = tabCompletionsStream.filter(s -> s.completion().startsWith(this.command.hotPart().map(Part::main).orElse("")));
+        tabCompletionsStream = tabCompletionsStream.limit(MAX_TAB_COMPLETIONS);
+        
+        PacketLineSpeaker.sendTabPacket(this.player, this.transactionID, this.command, tab.withTabCompletions(tabCompletionsStream.toList()));
     }
     
 }

@@ -3,7 +3,7 @@ package ru.ancap.framework.command.api.commands.operator.exclusive;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import ru.ancap.framework.command.api.commands.CommandTarget;
-import ru.ancap.framework.command.api.commands.exception.lib.UnpermittedActionException;
+import ru.ancap.framework.command.api.commands.exception.exception.UnpermittedActionException;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
@@ -24,7 +24,7 @@ public class Exclusive extends CommandTarget {
             
             @Override
             public void on(CommandWrite write) {
-                if (!pass.allows(write.speaker().source().sender())) return;
+                if (!pass.allows(write.source().sender())) return;
                 delegate.on(write);
             }
             

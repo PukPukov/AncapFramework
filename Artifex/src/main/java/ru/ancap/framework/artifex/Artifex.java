@@ -18,6 +18,7 @@ import ru.ancap.commons.instructor.SimpleEventBus;
 import ru.ancap.commons.map.MapGC;
 import ru.ancap.commons.time.Day;
 import ru.ancap.framework.artifex.configuration.ArtifexConfig;
+import ru.ancap.framework.artifex.exception.operator.*;
 import ru.ancap.framework.artifex.implementation.ancap.ArtifexAncap;
 import ru.ancap.framework.artifex.implementation.command.center.AsyncCommandCenter;
 import ru.ancap.framework.artifex.implementation.command.center.CommandProxy;
@@ -40,15 +41,14 @@ import ru.ancap.framework.artifex.implementation.timer.EveryDayTask;
 import ru.ancap.framework.artifex.implementation.timer.TimerExecutor;
 import ru.ancap.framework.artifex.implementation.timer.heartbeat.ArtifexHeartbeat;
 import ru.ancap.framework.artifex.status.tests.*;
-import ru.ancap.framework.command.api.commands.exception.lib.NoSpecificArgumentException;
-import ru.ancap.framework.command.api.commands.exception.lib.UnawaitedRawCommandException;
-import ru.ancap.framework.command.api.commands.exception.lib.UnknownSubCommandException;
-import ru.ancap.framework.command.api.commands.exception.lib.UnpermittedActionException;
-import ru.ancap.framework.command.api.commands.object.dispatched.Part;
+import ru.ancap.framework.command.api.commands.exception.exception.UnawaitedRawCommandException;
+import ru.ancap.framework.command.api.commands.exception.exception.UnknownSubCommandException;
+import ru.ancap.framework.command.api.commands.exception.exception.UnpermittedActionException;
+import ru.ancap.framework.command.api.commands.flag.exception.FlagDataNotProvidedException;
+import ru.ancap.framework.command.api.commands.flag.exception.NotAFlagException;
 import ru.ancap.framework.command.api.commands.object.dispatched.exception.NoNextArgumentException;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.communicator.Communicator;
-import ru.ancap.framework.communicate.modifier.Placeholder;
 import ru.ancap.framework.database.sql.SQLDatabase;
 import ru.ancap.framework.database.sql.connection.reader.DatabaseFromConfig;
 import ru.ancap.framework.database.sql.registry.Registry;
@@ -56,20 +56,16 @@ import ru.ancap.framework.database.sql.registry.RegistryInitialization;
 import ru.ancap.framework.identifier.Identifier;
 import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.language.additional.LAPIDomain;
-import ru.ancap.framework.language.additional.LAPIMessage;
 import ru.ancap.framework.language.locale.BasicLocales;
 import ru.ancap.framework.plugin.api.AncapBukkit;
 import ru.ancap.framework.plugin.api.AncapPlugin;
 import ru.ancap.framework.plugin.api.PluginLoadTask;
-import ru.ancap.framework.plugin.api.commands.exception.MessageExceptionOperator;
-import ru.ancap.framework.plugin.util.CommandErrorMessage;
 import ru.ancap.framework.status.test.Test;
 import ru.ancap.framework.util.AudienceProvider;
 import ru.ancap.framework.util.player.StepbackMaster;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -250,61 +246,12 @@ public final class Artifex extends AncapPlugin implements Listener {
     }
     
     private void registerDefaultExceptionOperators() {
-        this.commandExceptionCenter().register(
-            NoNextArgumentException.class,
-            new MessageExceptionOperator<>(new LAPIMessage(Artifex.class, "command.api.error.expected-part"))
-        );
-        this.commandExceptionCenter().register(
-            NoSpecificArgumentException.class,
-            (exception, source, leveledCommand) -> {
-                CommandErrorMessage.send(source.sender(), new LAPIMessage(
-                    Artifex.class, "command.api.error.expected-typed-part",
-                    new Placeholder("part", exception.argumentDescription())
-                ));
-            }
-        );
-        this.commandExceptionCenter().register(
-            UnknownSubCommandException.class,
-            (exception, source, leveledCommand) -> {
-                CommandErrorMessage.send(source.sender(), new LAPIMessage(
-                    Artifex.class, "command.api.error.unknown.no-subcommand",
-                    new Placeholder("command", "/"+ String.join(" ", leveledCommand.parts().subList(0, exception.lastIndex() + 1).stream()
-                        .map(Part::original).toList())),
-                    new Placeholder("sub", exception.unknownSubCommand())
-                ));
-            }
-        );
-        this.commandExceptionCenter().register(
-            UnawaitedRawCommandException.class,
-            (exception, source, leveledCommand) -> {
-                CommandErrorMessage.send(source.sender(), new LAPIMessage(
-                    Artifex.class, "command.api.error.unknown.raw",
-                    new Placeholder("command", "/"+leveledCommand.original())
-                ));
-            }
-        );
-        this.commandExceptionCenter().register(
-            UnpermittedActionException.class,
-            (unpermittedException, source, leveledCommand) -> {
-                List<Placeholder> placeholders = new ArrayList<>(2);
-                placeholders.add(new Placeholder(
-                    "base", new LAPIMessage(
-                        Artifex.class, "error.not-enough-permissions.base", 
-                        new Placeholder("action", unpermittedException.actionDescription() != null ?
-                            unpermittedException.actionDescription() :
-                            new LAPIMessage(Artifex.class, "error.not-enough-permissions.default-action")
-                        )
-                    )
-                ));
-                if (unpermittedException.requiredPermission() != null) placeholders.add(new Placeholder("requirement", unpermittedException.requiredPermission()));
-                CommandErrorMessage.send(source.sender(), new LAPIMessage(
-                    Artifex.class, unpermittedException.requiredPermission() != null ?
-                    "error.not-enough-permissions.form.requirement" :
-                    "error.not-enough-permissions.form.simple",
-                    placeholders.toArray(new Placeholder[0])
-                ));
-            }
-        );
+        this.commandExceptionCenter().register(NoNextArgumentException.class,              new NoNextArgumentExceptionOperator());
+        this.commandExceptionCenter().register(UnknownSubCommandException.class,           new NoSubCommandExceptionOperator());
+        this.commandExceptionCenter().register(UnawaitedRawCommandException.class,         new UnawaitedRawCommandExceptionOperator());
+        this.commandExceptionCenter().register(UnpermittedActionException.class,           new UnpermittedActionExceptionOperator());
+        this.commandExceptionCenter().register(FlagDataNotProvidedException.class,         new FlagDataNotProvidedExceptionOperator());
+        this.commandExceptionCenter().register(NotAFlagException.class,                    new NotAFlagExceptionOperator());
     }
     
     private void loadAncap() {

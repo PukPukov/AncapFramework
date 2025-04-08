@@ -2,8 +2,8 @@ package ru.ancap.framework.command.api.commands.operator.delegate.settings;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import ru.ancap.framework.command.api.commands.exception.lib.UnawaitedRawCommandException;
-import ru.ancap.framework.command.api.commands.exception.lib.UnknownSubCommandException;
+import ru.ancap.framework.command.api.commands.exception.exception.UnawaitedRawCommandException;
+import ru.ancap.framework.command.api.commands.exception.exception.UnknownSubCommandException;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.provide.CommandProvidePattern;

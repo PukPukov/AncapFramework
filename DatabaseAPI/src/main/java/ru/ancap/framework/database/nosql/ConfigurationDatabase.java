@@ -242,7 +242,7 @@ public class ConfigurationDatabase implements PathDatabase, AutoCloseable {
         try {
             dataType = Class.forName(fullDataInArray[0]);
         } catch (ClassNotFoundException exception) { 
-            throw new UnknownDatatypeException(fullDataInArray[0]); 
+            throw new UnknownDatatypeException(path, fullDataInArray[0]); 
         }
         
         if (dataType != serializeWorker.dataType()) throw new DifferentDatatypeException(path, serializeWorker.dataType(), dataType);

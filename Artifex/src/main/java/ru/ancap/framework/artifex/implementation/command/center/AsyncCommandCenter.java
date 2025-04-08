@@ -3,10 +3,12 @@ package ru.ancap.framework.artifex.implementation.command.center;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.jetbrains.annotations.Nullable;
 import ru.ancap.commons.map.GuaranteedMap;
 import ru.ancap.framework.artifex.Artifex;
+import ru.ancap.framework.command.api.commands.exception.CommandErrorText;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandSource;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
@@ -14,8 +16,9 @@ import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
 import ru.ancap.framework.command.api.commands.object.executor.CommandExceptionOperator;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate.OperateRule;
+import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.communicate.modifier.Placeholder;
-import ru.ancap.framework.language.additional.LAPIMessage;
+import ru.ancap.framework.language.additional.LAPIText;
 import ru.ancap.framework.plugin.api.AncapBukkit;
 import ru.ancap.framework.plugin.api.AncapPlugin;
 import ru.ancap.framework.plugin.api.commands.CommandCenter;
@@ -24,7 +27,7 @@ import ru.ancap.framework.plugin.api.commands.CommandHandleState;
 import ru.ancap.framework.plugin.api.commands.exception.CommandExceptionCenter;
 import ru.ancap.framework.plugin.api.exception.CommandAlreadyRegisteredException;
 import ru.ancap.framework.plugin.api.exception.CommandNotRegisteredException;
-import ru.ancap.framework.plugin.util.CommandErrorMessage;
+import ru.ancap.framework.status.util.ExceptionText;
 
 import java.util.List;
 import java.util.Map;
@@ -129,11 +132,12 @@ public class AsyncCommandCenter implements CommandExceptionCenter, CommandCenter
     @Override
     public void on(CommandWrite write) {
         this.operate(
-            write.speaker().source(),
+            write.source(),
             write.line(),
             commandForm -> {
                 commandForm.commandOperator.on(new CommandWrite(
                     write.speaker(),
+                    write.source(),
                     commandForm.command
                 ));
             }
@@ -153,12 +157,12 @@ public class AsyncCommandCenter implements CommandExceptionCenter, CommandCenter
                 var target = (CommandExceptionOperator<Throwable>) this.exceptionData.get(throwable.getClass());
                 if (target != null) target.on(throwable, source, command);
                 else {
-                    CommandErrorMessage.send(source.sender(), this.verboseGenericErrorMessage ? new LAPIMessage(
+                    CommandErrorText.send(source.sender(), this.verboseGenericErrorMessage ? new LAPIText(
                         Artifex.class, "command.api.error.internal",
                         new Placeholder("exception name", throwable.getClass().getName()),
                         new Placeholder("exception message", throwable.getMessage())
-                    ) : new LAPIMessage(Artifex.class, "command.api.error.internal"));
-                    throwable.printStackTrace();
+                    ) : new LAPIText(Artifex.class, "command.api.error.internal"));
+                    Communicator.of(Bukkit.getConsoleSender()).message(new ExceptionText(throwable));
                 }
             }
         });

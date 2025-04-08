@@ -2,19 +2,16 @@ package ru.ancap.framework.status.test;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import ru.ancap.framework.command.api.commands.operator.communicate.ChatBook;
-import ru.ancap.framework.communicate.message.CallableMessage;
-import ru.ancap.framework.communicate.message.Message;
-import ru.ancap.framework.communicate.modifier.ArgumentPlaceholder;
-import ru.ancap.framework.communicate.modifier.Placeholder;
-import ru.ancap.framework.language.additional.LAPIMessage;
-import ru.ancap.framework.speak.common.CommonMessageDomains;
+import ru.ancap.framework.communicate.message.CallableText;
+import ru.ancap.framework.status.util.ExceptionText;
 
-import java.util.Arrays;
+import java.util.Optional;
+import java.util.Set;
 
 public interface Test {
     
-    CallableMessage name();
+    String id();
+    CallableText name();
     TestResult makeTestFor(String testerIdentifier, TestingParameters testingParameters);
 
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -25,40 +22,23 @@ public interface Test {
         public static TestResult error(Throwable throwable) {
             return new TestResult(
                 TestStatus.FAILURE,
-                new LAPIMessage(
-                    CommonMessageDomains.Test.errorOutputForm,
-                    new Placeholder("exception", throwable.getClass().getName()),
-                    throwable instanceof CAPIDescribedException capiDescribedException ?
-                        new Placeholder("message", capiDescribedException.message()) :
-                        new Placeholder("message", throwable.getMessage()),
-                    new ArgumentPlaceholder("stack trace", prefix -> new ChatBook<>(
-                        Arrays.asList(throwable.getStackTrace()),
-                        element -> new Message(
-                            prefix,
-                            new Placeholder(
-                                "stack trace element",
-                                element.getClassName() + "." + element.getMethodName() + ":" + element.getLineNumber()
-                                    + "(" + element.getModuleName() +":"+element.getModuleVersion()+"<"+element.getClassLoaderName()+")"
-                            )
-                        )
-                    ))
-                )
+                new ExceptionText(throwable)
             );
         }
 
-        public static TestResult skip(CallableMessage reason) {
+        public static TestResult skip(CallableText reason) {
             return new TestResult(TestStatus.SKIPPED, reason);
         }
 
-        public static TestResult error(CallableMessage description) {
+        public static TestResult error(CallableText description) {
             return new TestResult(TestStatus.FAILURE, description);
         }
         
         TestStatus status;
-        CallableMessage description;
+        CallableText description;
 
         public TestStatus status() { return this.status; }
-        public CallableMessage description() { return this.description; }
+        public CallableText description() { return this.description; }
 
         public enum TestStatus {
             
@@ -71,6 +51,8 @@ public interface Test {
     @AllArgsConstructor
     class TestingParameters {
         
+        Optional<Set<String>> toRun;
+        Set<String> skipped;
         boolean skipHandTests;
         
     }

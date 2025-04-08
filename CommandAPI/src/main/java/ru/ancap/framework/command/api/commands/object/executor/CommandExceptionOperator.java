@@ -7,14 +7,14 @@ import ru.ancap.framework.command.api.commands.object.event.CommandWrite;
 
 public interface CommandExceptionOperator<T extends Throwable> {
     
-    void on(T throwable, CommandSource source, LeveledCommand leveledCommand);
+    void on(T exception, CommandSource source, LeveledCommand leveledCommand);
     
-    default void on(T throwable, CommandDispatch dispatch) {
-        this.on(throwable, dispatch.source(), dispatch.command());
+    default void on(T exception, CommandDispatch dispatch) {
+        this.on(exception, dispatch.source(), dispatch.command());
     }
     
-    default void on(T throwable, CommandWrite write) {
-        this.on(throwable, write.speaker().source(), write.line());
+    default void on(T exception, CommandWrite write) {
+        this.on(exception, write.source(), write.line());
     }
     
 }

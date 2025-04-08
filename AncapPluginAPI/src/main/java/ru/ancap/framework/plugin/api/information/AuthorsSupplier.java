@@ -5,10 +5,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.communicator.Communicator;
-import ru.ancap.framework.communicate.message.CallableMessage;
-import ru.ancap.framework.communicate.message.Message;
+import ru.ancap.framework.communicate.message.CallableText;
+import ru.ancap.framework.communicate.message.Text;
 import ru.ancap.framework.communicate.modifier.Placeholder;
-import ru.ancap.framework.language.additional.LAPIMessage;
+import ru.ancap.framework.language.additional.LAPIText;
 import ru.ancap.framework.speak.common.CommonMessageDomains;
 
 @AllArgsConstructor
@@ -23,13 +23,13 @@ public class AuthorsSupplier implements CommandOperator {
 
     @Override
     public void on(CommandDispatch dispatch) {
-        Communicator.of(dispatch.source().sender()).message(new LAPIMessage(
+        Communicator.of(dispatch.source().sender()).message(new LAPIText(
                 this.domain,
                 new Placeholder("plugin", this.plugin.getName()),
-                new Placeholder("version", new Message(this.plugin.getDescription().getVersion())),
+                new Placeholder("version", new Text(this.plugin.getDescription().getVersion())),
                 new Placeholder("authors", this.plugin.getDescription().getAuthors().stream().reduce((s1, s2) -> s1+", "+s2)
-                        .map(authors -> (CallableMessage) new Message(authors))
-                        .orElse(new LAPIMessage("literals.nobody"))
+                        .map(authors -> (CallableText) new Text(authors))
+                        .orElse(new LAPIText("literals.nobody"))
                 )
         ));
     }

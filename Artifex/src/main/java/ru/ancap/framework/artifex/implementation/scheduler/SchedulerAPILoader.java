@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.communicate.modifier.Placeholder;
-import ru.ancap.framework.language.additional.LAPIMessage;
+import ru.ancap.framework.language.additional.LAPIText;
 import ru.ancap.framework.database.sql.SQLDatabase;
 import ru.ancap.framework.database.sql.connection.data.DatabaseLocation;
 import ru.ancap.framework.artifex.Artifex;
@@ -46,19 +46,19 @@ public class SchedulerAPILoader implements Runnable {
         scheduler.load((uuid, class_) -> {
             if (this.schedulerSilencer.isSilenced(uuid)) return;
             
-            this.uiOutput.message(new LAPIMessage(
+            this.uiOutput.message(new LAPIText(
                     Artifex.class, "console.scheduler-api.task-cannot-be-loaded",
                     new Placeholder("task class", class_),
                     new Placeholder("plugin", "undefined")
             ));
             int code = this.scanCode();
             
-            this.uiOutput.message(new LAPIMessage(Artifex.class, "console.scheduler-api.executing-chosen-task", new Placeholder("number", code)));
+            this.uiOutput.message(new LAPIText(Artifex.class, "console.scheduler-api.executing-chosen-task", new Placeholder("number", code)));
             if (code == 1) scheduler.cancel(uuid);
             if (code == 2) this.schedulerSilencer.upsert(new SilencedTask(uuid, true, this.owner.getName()));
             if (code == 3) /* nothing */ ;
             if (code == 4) Bukkit.shutdown();
-            this.uiOutput.message(new LAPIMessage(Artifex.class, "console.scheduler-api.chosen-task-executed"));
+            this.uiOutput.message(new LAPIText(Artifex.class, "console.scheduler-api.chosen-task-executed"));
         });
         
         ScheduleSupport scheduleSupport = new StableScheduleSupport(this.database.dataSource()).load();
@@ -69,7 +69,7 @@ public class SchedulerAPILoader implements Runnable {
     private int scanCode() {
         int code = this.uiInput.nextInt();
         if (code != 1 && code != 2 && code != 3 && code != 4) {
-            this.uiOutput.message(new LAPIMessage(Artifex.class, "console.scheduler-api.incorrect-task", new Placeholder("number", code)));
+            this.uiOutput.message(new LAPIText(Artifex.class, "console.scheduler-api.incorrect-task", new Placeholder("number", code)));
             return this.scanCode();
         }
         return code;

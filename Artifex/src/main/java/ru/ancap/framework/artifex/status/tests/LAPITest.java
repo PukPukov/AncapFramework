@@ -2,7 +2,6 @@ package ru.ancap.framework.artifex.status.tests;
 
 import lombok.SneakyThrows;
 import ru.ancap.commons.exception.uewrapper.USupplier;
-import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.artifex.configuration.ArtifexConfig;
 import ru.ancap.framework.artifex.implementation.language.input.LAPIInitialLanguageInstaller;
 import ru.ancap.framework.language.LAPI;
@@ -10,7 +9,6 @@ import ru.ancap.framework.language.language.Language;
 import ru.ancap.framework.language.loader.YamlLocaleLoader;
 import ru.ancap.framework.plugin.api.AncapPlugin;
 import ru.ancap.framework.status.test.AbstractTest;
-import ru.ancap.framework.status.util.TestDomain;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -26,7 +24,7 @@ public class LAPITest extends AbstractTest {
     
     public LAPITest(AncapPlugin plugin, LAPIInitialLanguageInstaller languageInstaller) {
         super(
-            TestDomain.of(Artifex.class, "lapi"),
+            "lapi",
             new USupplier<>(() -> {
                 final String localeForm = "test-locale-%NAME%.yml";
                 final String filename = "test-file.yml";

@@ -2,6 +2,8 @@ package ru.ancap.framework.speak.common;
 
 import ru.ancap.commons.ImplementationRequired;
 
+import java.util.function.Function;
+
 @ImplementationRequired
 public class CommonMessageDomains {
     
@@ -19,12 +21,17 @@ public class CommonMessageDomains {
         public static String down;
         public static String pressToPrintDescription;
         public static String top;
-
+        public static String includeTestId;
+        public static String excludeTestId;
+        public static Function<String, String> moduleName;
+        
         public static class Skip {
 
             public static String notThatTester;
             public static String handTestRefusal;
             public static String testerTypes;
+            public static String notExplicitlyIncluded;
+            public static String excluded;
             
         }
         

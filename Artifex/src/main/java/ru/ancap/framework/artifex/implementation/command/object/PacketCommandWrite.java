@@ -16,6 +16,7 @@ public class PacketCommandWrite extends CommandWrite {
                 inlineCommand,
                 player
             ),
+            new SenderSource(player),
             inlineCommand
         );
     }

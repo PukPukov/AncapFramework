@@ -3,10 +3,10 @@ package ru.ancap.framework.communicate.message;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class ColoredMessage implements CallableMessage {
+public class ColoredText implements CallableText {
     
-    private final CallableMessage base;
-    private final CallableMessage color;
+    private final CallableText base;
+    private final CallableText color;
 
     @Override
     public String call(String identifier) {

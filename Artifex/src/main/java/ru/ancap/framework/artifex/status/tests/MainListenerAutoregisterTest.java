@@ -5,7 +5,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import ru.ancap.commons.exception.uewrapper.USupplier;
 import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.status.test.AbstractTest;
-import ru.ancap.framework.status.util.TestDomain;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -15,7 +14,7 @@ public class MainListenerAutoregisterTest extends AbstractTest {
     
     public MainListenerAutoregisterTest(JavaPlugin runner) {
         super(
-            TestDomain.of(Artifex.class, "main-listener-autoregister"),
+            "main-listener-autoregister",
             new USupplier<>(() -> {
                 var testEvent = new Artifex.MainListenerAutoregisterTestEvent();
                 var blocker = new CountDownLatch(1);

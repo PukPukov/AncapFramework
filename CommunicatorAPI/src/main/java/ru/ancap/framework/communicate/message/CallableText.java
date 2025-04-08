@@ -2,10 +2,10 @@ package ru.ancap.framework.communicate.message;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
-import ru.ancap.framework.communicate.communicator.util.CMMSerializer;
+import ru.ancap.framework.communicate.util.CMMSerializer;
 import ru.ancap.framework.identifier.Identifier;
 
-public interface CallableMessage {
+public interface CallableText {
 
     /**
      * @return String in minimessage format.

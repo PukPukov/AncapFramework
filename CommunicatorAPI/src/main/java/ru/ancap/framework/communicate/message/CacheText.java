@@ -14,9 +14,9 @@ import ru.ancap.commons.cache.CacheMap;
 @ToString @EqualsAndHashCode
 @Deprecated
 @ApiStatus.ScheduledForRemoval(inVersion = "1.7")
-public class CacheMessage implements CallableMessage {
+public class CacheText implements CallableText {
     
-    private final CallableMessage delegate;
+    private final CallableText delegate;
     private final CacheMap<String, String> cache = new CacheMap<>();
 
     @Override

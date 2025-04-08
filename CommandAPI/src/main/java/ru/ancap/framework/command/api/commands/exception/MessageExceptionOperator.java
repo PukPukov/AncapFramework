@@ -1,20 +1,19 @@
-package ru.ancap.framework.plugin.api.commands.exception;
+package ru.ancap.framework.command.api.commands.exception;
 
 import lombok.RequiredArgsConstructor;
 import ru.ancap.framework.command.api.commands.object.conversation.CommandSource;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.executor.CommandExceptionOperator;
-import ru.ancap.framework.communicate.message.CallableMessage;
-import ru.ancap.framework.plugin.util.CommandErrorMessage;
+import ru.ancap.framework.communicate.message.CallableText;
 
 @RequiredArgsConstructor
 public class MessageExceptionOperator<T extends Throwable> implements CommandExceptionOperator<T> {
     
-    private final CallableMessage message;
+    private final CallableText message;
     
     @Override
     public void on(T throwable, CommandSource source, LeveledCommand command) {
-        CommandErrorMessage.send(source.sender(), this.message);
+        CommandErrorText.send(source.sender(), this.message);
     }
     
 }

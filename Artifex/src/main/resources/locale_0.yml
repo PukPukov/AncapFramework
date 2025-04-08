@@ -1,5 +1,5 @@
 language: ru
-version: 23
+version: 25
 
 ru:
   ancap:
@@ -19,6 +19,8 @@ ru:
           compared-language: "код языка, что вы хотите сравнить"
           new-language: "код нового языка"
           requested-plugin: "запрошенный плагин"
+          include-test-id: "id включённого теста"
+          exclude-test-id: "id исключённого теста"
         in-dev: "<red>Данная возможность находится в разработке."
         dependent-plugins:
           main-form:
@@ -32,8 +34,10 @@ ru:
         test:
           error-output-form:
             - "  <dark_red>-</dark_red> Исключение: %EXCEPTION%"
+            - "  <dark_red>-</dark_red> Данные исключения: %EXCEPTION_DATA%"
             - "  <dark_red>-</dark_red> Сообщение: %MESSAGE%"
-            - "{STACK_TRACE:  <dark_gray>-</dark_gray> %STACK_TRACE_ELEMENT%}"
+            - "  <dark_red>-</dark_red> Стек:"
+            - "{STACK_TRACE:  <dark_gray>-</dark_gray> %CLASS_NAME%.<blue>%METHOD_NAME%</blue>:<green>%LINE_NUMBER%</green> (%MODULE_NAME%:%MODULE_VERSION%) <<gold>%CLASS_LOADER_NAME%</gold>>}"
           hand-test-failure: "Тестер ответил отрицательно на вопрос \"%FAILED_CHECK_MESSAGE%\"."
           base:
             interact: "Пожалуйста, %ACTION%. Ожидаемый результат — %EXPECTED%. Всё работает верно?"
@@ -78,6 +82,8 @@ ru:
               player: "Игрок"
               console: "Консоль"
               command-block: "Командный блок"
+            not-explicitly-included: "Данный тест не был включён в набор запускаемых тестов."
+            excluded: "Данный тест был исключён из запуска."
         
         error:
           we-also-have-stack-trace: "<red><u>Данная ошибка произошла в результате Java-исключения. Нажми сюда чтобы отправить информацию в консоль."
@@ -125,6 +131,9 @@ ru:
                 no-subcommand: "<red>У команды \"<u>%COMMAND%</u>\" не существует субкоманды \"<u>%SUB%</u>\"."
                 raw: "<red>Команда \"<u>%COMMAND%</u>\" не обрабатывает прямые вызовы. Возможно, ты забыл субкоманду?"
               cannot-transform-argument: "<red>\"<u>%ARGUMENT%</u>\" - не <u>%TYPE%</u>.</red>"
+              flag-data-not-provided: "<red>Введено недостаточно информации для выполнения команды! Ожидалось, что флаг \"<u>%FLAG%</u>\" будет содержать данные."
+              flag-data-not-provided-explained: "<red>Введено недостаточно информации для выполнения команды! Ожидалось, что флаг \"<u>%FLAG%</u>\" будет содержать %DATA%."
+              not-a-flag: "<red>Ожидались флаги, но \"<u>%TEXT%</u>\" — не флаг."
           language:
             enter-language: "Команда <u>/language</u> предназначена для выбора серверного языка. Используйте её так: <u>/language set <код языка></u>, где код языка может быть любым из стандарта ISO 639-1."
             setup: "Твой язык изменён на русский."

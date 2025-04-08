@@ -30,10 +30,15 @@ public class ArtifexCommonMessageDomains {
         CommonMessageDomains.Status.down = this.domain("status.down");
         CommonMessageDomains.Status.pressToPrintDescription = this.domain("status.press-to-print-description");
         CommonMessageDomains.Status.top = this.domain("status.top");
+        CommonMessageDomains.Status.includeTestId = this.domain("arguments.include-test-id");
+        CommonMessageDomains.Status.excludeTestId = this.domain("arguments.exclude-test-id");
+        CommonMessageDomains.Status.moduleName = (module) -> this.domain("modules."+module+".name");
         
         CommonMessageDomains.Status.Skip.notThatTester = this.domain("status.skip.not-that-tester");
         CommonMessageDomains.Status.Skip.handTestRefusal = this.domain("status.skip.hand-test-refusal");
         CommonMessageDomains.Status.Skip.testerTypes = this.domain("status.skip.tester-types");
+        CommonMessageDomains.Status.Skip.notExplicitlyIncluded = this.domain("status.skip.not-explicitly-included");
+        CommonMessageDomains.Status.Skip.excluded = this.domain("status.skip.excluded");
         
         CommonMessageDomains.Test.errorOutputForm = this.domain("test.error-output-form");
         CommonMessageDomains.Test.handTestFailure = this.domain("test.hand-test-failure");

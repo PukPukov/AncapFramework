@@ -1,10 +1,10 @@
 package ru.ancap.framework.communicate.message;
 
-public class AtNextLine extends WrapperMessage {
+public class AtNextLine extends WrapperText {
     
-    public AtNextLine(CallableMessage message) {
-        super(new MultilineMessage(
-            Message.EMPTY,
+    public AtNextLine(CallableText message) {
+        super(new MultilineText(
+            Text.EMPTY,
             message
         ));
     }

@@ -13,8 +13,8 @@ import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import ru.ancap.commons.TriFunction;
 import ru.ancap.commons.cache.Cache;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
-import ru.ancap.framework.communicate.message.CallableMessage;
-import ru.ancap.framework.communicate.message.Message;
+import ru.ancap.framework.communicate.message.CallableText;
+import ru.ancap.framework.communicate.message.Text;
 import ru.ancap.framework.configuration.AnnotationConfiguration;
 import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.plugin.api.commands.CommandCenter;
@@ -44,7 +44,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     private static volatile CommandExceptionCenter commandExceptionCenter;
     private static Scheduler scheduler;
     private static ScheduleSupport scheduleSupport;
-    private static TriFunction<JavaPlugin, CallableMessage, Runnable, PluginLoadTask> pluginLoadTaskProvider;
+    private static TriFunction<JavaPlugin, CallableText, Runnable, PluginLoadTask> pluginLoadTaskProvider;
     private AncapPluginSettings settings;
     private PluginCommandRegistrar commandRegistrar;
     private LocaleHandle localeHandle;
@@ -53,8 +53,8 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     public static void scheduler(Scheduler scheduler) { AncapPlugin.scheduler = scheduler; }
     public static ScheduleSupport scheduleSupport() { return AncapPlugin.scheduleSupport; }
     public static void scheduleSupport(ScheduleSupport scheduleSupport) { AncapPlugin.scheduleSupport = scheduleSupport; }
-    public static TriFunction<JavaPlugin, CallableMessage, Runnable, PluginLoadTask> pluginLoadTaskProvider() { return AncapPlugin.pluginLoadTaskProvider; }
-    public static void pluginLoadTaskProvider(TriFunction<JavaPlugin, CallableMessage, Runnable, PluginLoadTask> pluginLoadTaskProvider) { AncapPlugin.pluginLoadTaskProvider = pluginLoadTaskProvider; }
+    public static TriFunction<JavaPlugin, CallableText, Runnable, PluginLoadTask> pluginLoadTaskProvider() { return AncapPlugin.pluginLoadTaskProvider; }
+    public static void pluginLoadTaskProvider(TriFunction<JavaPlugin, CallableText, Runnable, PluginLoadTask> pluginLoadTaskProvider) { AncapPlugin.pluginLoadTaskProvider = pluginLoadTaskProvider; }
 
     @MustBeInvokedByOverriders
     @Override
@@ -219,7 +219,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
     /**
      * Start executing of the metered task. 
      */
-    public void task(CallableMessage taskName, Runnable task) {
+    public void task(CallableText taskName, Runnable task) {
         AncapPlugin.pluginLoadTaskProvider().apply(this, taskName, task).run();
     }
 
@@ -227,7 +227,7 @@ public abstract class AncapPlugin extends AncapMinimalisticPlugin {
      * Start executing of metered task. 
      */
     public void task(String taskName, Runnable task) {
-        this.task(new Message(taskName), task);
+        this.task(new Text(taskName), task);
     }
     
     public Logger newInternalLogger(String name) {

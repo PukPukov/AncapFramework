@@ -1,17 +1,17 @@
 package ru.ancap.framework.command.api.commands.operator.communicate;
 
 import lombok.AllArgsConstructor;
-import ru.ancap.framework.communicate.message.CallableMessage;
+import ru.ancap.framework.communicate.message.CallableText;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 @AllArgsConstructor
-public class ChatBook<LISTED> implements CallableMessage {
+public class ChatBook<LISTED> implements CallableText {
     
     private final Iterable<LISTED> content;
-    private final Function<LISTED, CallableMessage> provider;
+    private final Function<LISTED, CallableText> provider;
 
     @Override
     public String call(String identifier) {

@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.communicator.Communicator;
-import ru.ancap.framework.communicate.message.CallableMessage;
+import ru.ancap.framework.communicate.message.CallableText;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -16,9 +16,9 @@ import java.util.function.Supplier;
 @ToString @EqualsAndHashCode
 public class Reply implements CommandOperator {
     
-    private final Function<CommandSender, CallableMessage> messageFunction;
+    private final Function<CommandSender, CallableText> messageFunction;
     
-    public Reply(Supplier<CallableMessage> messageSupplier) {
+    public Reply(Supplier<CallableText> messageSupplier) {
         this.messageFunction = (ignored) -> messageSupplier.get();
     }
 

@@ -2,18 +2,18 @@ package ru.ancap.framework.communicate.modifier;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import ru.ancap.framework.communicate.message.Message;
+import ru.ancap.framework.communicate.message.Text;
 
 public class ArgumentPlaceholderTest {
     
     @Test
     public void test() {
         Modifier isOne = new ArgumentPlaceholder("is one", argument -> {
-            if (argument.equals("1")) return new Message("true");
-            else return new Message("false");
+            if (argument.equals("1")) return new Text("true");
+            else return new Text("false");
         });
         
-        Modifier simple = new ArgumentPlaceholder("simple", Message::new);
+        Modifier simple = new ArgumentPlaceholder("simple", Text::new);
         
         Assertions.assertEquals("true",  isOne.apply("{IS_ONE:1}", ""));
         Assertions.assertEquals("false", isOne.apply("{IS_ONE:0}", ""));

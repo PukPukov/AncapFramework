@@ -3,10 +3,9 @@ package ru.ancap.framework.artifex.status.tests;
 import org.junit.jupiter.api.Assertions;
 import ru.ancap.framework.artifex.Artifex;
 import ru.ancap.framework.database.nosql.ConfigurationDatabase;
-import ru.ancap.framework.database.nosql.exception.DifferentDatatypeException;
 import ru.ancap.framework.database.nosql.PathDatabase;
+import ru.ancap.framework.database.nosql.exception.DifferentDatatypeException;
 import ru.ancap.framework.status.test.AbstractTest;
-import ru.ancap.framework.status.util.TestDomain;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +15,7 @@ public class ConfigurationDatabaseTest extends AbstractTest {
     
     public ConfigurationDatabaseTest() {
         super(
-            TestDomain.of(Artifex.class, "configuration-database"),
+            "configuration-database",
             () -> {
                 File temp = new File(Artifex.PLUGIN().getDataFolder(), "temp"+System.currentTimeMillis()+".yml");
                 try { temp.createNewFile(); } catch (IOException exception) { throw new RuntimeException(exception); }

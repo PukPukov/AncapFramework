@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.experimental.Delegate;
-import ru.ancap.framework.communicate.message.CallableMessage;
+import ru.ancap.framework.communicate.message.CallableText;
 
 @AllArgsConstructor
 @ToString @EqualsAndHashCode
@@ -13,8 +13,8 @@ public class Placeholder implements Modifier {
     @Delegate
     private final Modifier delegate;
 
-    public Placeholder(String base, CallableMessage callableMessage) {
-        this(new Replacement(Placeholder.placeholderFromBase(base), callableMessage));
+    public Placeholder(String base, CallableText callableText) {
+        this(new Replacement(Placeholder.placeholderFromBase(base), callableText));
     }
     
     public Placeholder(String base, Object object) {
@@ -30,4 +30,3 @@ public class Placeholder implements Modifier {
     }
     
 }
-

@@ -20,10 +20,10 @@ import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule
 import ru.ancap.framework.command.api.commands.operator.exclusive.Exclusive;
 import ru.ancap.framework.command.api.commands.operator.exclusive.OP;
 import ru.ancap.framework.command.api.commands.operator.exclusive.Permission;
-import ru.ancap.framework.communicate.message.CallableMessage;
-import ru.ancap.framework.communicate.message.Message;
+import ru.ancap.framework.communicate.message.CallableText;
+import ru.ancap.framework.communicate.message.Text;
 import ru.ancap.framework.communicate.modifier.Placeholder;
-import ru.ancap.framework.language.additional.LAPIMessage;
+import ru.ancap.framework.language.additional.LAPIText;
 import ru.ancap.framework.plugin.api.Ancap;
 import ru.ancap.framework.plugin.api.AncapMinimalisticPlugin;
 import ru.ancap.framework.plugin.api.information.AuthorsSupplier;
@@ -36,7 +36,7 @@ import ru.ancap.framework.status.test.Test;
 import java.util.*;
 import java.util.function.Supplier;
 
-import static ru.ancap.framework.plugin.api.commands.exception.CommandExceptions.noArgument;
+import static ru.ancap.framework.command.api.commands.exception.CommandExceptions.noArgument;
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
 public class ArtifexCommandExecutor extends CommandTarget {
@@ -46,7 +46,7 @@ public class ArtifexCommandExecutor extends CommandTarget {
             new Raw(new AuthorsSupplier(Artifex.PLUGIN())),
             new SubCommand(
                 new StringDelegatePattern("tps"),
-                new Reply(() -> new LAPIMessage(
+                new Reply(() -> new LAPIText(
                     Artifex.class, "command.tps",
                     new Placeholder("tps", ancap.getServerTPS())
                 ))
@@ -79,7 +79,7 @@ public class ArtifexCommandExecutor extends CommandTarget {
                         
                         @Override
                         public void on(CommandDispatch dispatch) {
-                            LCParseState onRequestedPlugin = dispatch.command().step(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.requested-plugin")));
+                            LCParseState onRequestedPlugin = dispatch.command().step(noArgument(() -> new LAPIText(Artifex.class, "arguments.requested-plugin")));
                             
                             if (onRequestedPlugin.part().main().equalsIgnoreCase(Artifex.PLUGIN().getName())) {
                                 dispatch.source().communicator().message(ArtifexCommandExecutor.artifexPluginsMessageSupplier.get());
@@ -94,14 +94,14 @@ public class ArtifexCommandExecutor extends CommandTarget {
                                 children.get(dependency.getName()).add(plugin);
                             }
                             
-                            dispatch.source().communicator().message(new LAPIMessage(
+                            dispatch.source().communicator().message(new LAPIText(
                                 Artifex.class, "dependent-plugins.main-form",
                                 new Placeholder("plugin", onRequestedPlugin.part().main()),
                                 new Placeholder(
                                     "dependent plugins",
                                     new ChatBook<>(
                                         children.get(onRequestedPlugin.part().main()),
-                                        plugin -> new LAPIMessage(
+                                        plugin -> new LAPIText(
                                             Artifex.class, "dependent-plugins." + (plugin instanceof AncapMinimalisticPlugin ? "ancap" : "simple") + "-plugin-form",
                                             new Placeholder("plugin", plugin.getName())
                                         )
@@ -143,7 +143,7 @@ public class ArtifexCommandExecutor extends CommandTarget {
                 new StringDelegatePattern("status"),
                 new Exclusive(
                     new OP(),
-                    new StatusOutput(new Message("<color:#e51e1e>AncapFramework</color:#e51e1e>"), tests)
+                    new StatusOutput(new Text("<color:#e51e1e>AncapFramework</color:#e51e1e>"), tests)
                 )
             ),
             new SubCommand(
@@ -165,9 +165,9 @@ public class ArtifexCommandExecutor extends CommandTarget {
         ));
     }
     
-    private static final Supplier<CallableMessage> artifexPluginsMessageSupplier = () -> new LAPIMessage(
+    private static final Supplier<CallableText> artifexPluginsMessageSupplier = () -> new LAPIText(
         Artifex.class, "command.plugins.base-message",
-        new Placeholder("plugins", new ChatBook<>(Artifex.PLUGIN().ancapPlugins(), plugin -> new LAPIMessage(
+        new Placeholder("plugins", new ChatBook<>(Artifex.PLUGIN().ancapPlugins(), plugin -> new LAPIText(
             Artifex.class, "command.plugins.plugin-form",
             new Placeholder("name", plugin.getName()),
             new Placeholder("version", plugin.getDescription().getVersion()),

@@ -9,9 +9,9 @@ import java.util.Map;
 import java.util.function.BiFunction;
 
 @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
-public class EnumerationMessage<T> extends CacheMessage {
+public class EnumerationText<T> extends CacheText {
     
-    public EnumerationMessage(Map<String, T> data, BiFunction<String, T, CallableMessage> mapper) {
+    public EnumerationText(Map<String, T> data, BiFunction<String, T, CallableText> mapper) {
         super(name -> {
             List<String> result = new ArrayList<>();
             for (Map.Entry<String, T> entry : data.entrySet()) {

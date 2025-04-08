@@ -9,11 +9,11 @@ import java.util.stream.Collectors;
 
 @EqualsAndHashCode @ToString
 @RequiredArgsConstructor
-public class MultilineMessage implements CallableMessage {
+public class MultilineText implements CallableText {
     
-    private final List<CallableMessage> toMerge;
+    private final List<CallableText> toMerge;
     
-    public MultilineMessage(CallableMessage... messages) {
+    public MultilineText(CallableText... messages) {
         this(List.of(messages));
     }
 

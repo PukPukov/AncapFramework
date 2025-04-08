@@ -1,4 +1,4 @@
-package ru.ancap.framework.communicate.communicator.util;
+package ru.ancap.framework.communicate.util;
 
 import lombok.experimental.UtilityClass;
 import net.kyori.adventure.text.Component;

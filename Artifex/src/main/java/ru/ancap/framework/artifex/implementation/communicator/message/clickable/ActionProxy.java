@@ -5,11 +5,11 @@ import ru.ancap.commons.map.GuaranteedMap;
 import ru.ancap.framework.command.api.commands.object.dispatched.LCParseState;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
-import ru.ancap.framework.communicate.message.CallableMessage;
-import ru.ancap.framework.communicate.message.Message;
+import ru.ancap.framework.communicate.message.CallableText;
+import ru.ancap.framework.communicate.message.Text;
 import ru.ancap.framework.communicate.message.clickable.ActionMessageProvider;
 import ru.ancap.framework.communicate.message.clickable.Click;
-import ru.ancap.framework.communicate.message.clickable.ClickableMessage;
+import ru.ancap.framework.communicate.message.clickable.ClickableText;
 import ru.ancap.framework.communicate.modifier.Placeholder;
 import ru.ancap.framework.plugin.api.commands.PluginCommandRegistrar;
 
@@ -24,15 +24,15 @@ public class ActionProxy implements CommandOperator, ActionMessageProvider {
     private final String commandName;
 
     public void setup(PluginCommandRegistrar registrar) {
-        ClickableMessage.provider = this;
+        ClickableText.provider = this;
         registrar.register(this.commandName, List.of(), this);
     }
     
     @Override
-    public CallableMessage to(CallableMessage base, Consumer<Click> clickConsumer) {
+    public CallableText to(CallableText base, Consumer<Click> clickConsumer) {
         String actionId = generateActionID();
         this.proxyMap.put(actionId, clickConsumer);
-        return new Message(
+        return new Text(
             "<click:run_command:/"+this.commandName+" "+actionId+">%AP_TEXT%</click>",
             new Placeholder("ap text", base)
         );

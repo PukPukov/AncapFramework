@@ -5,7 +5,7 @@ import lombok.ToString;
 import org.apache.commons.lang3.tuple.Triple;
 import ru.ancap.commons.cache.CacheMap;
 import ru.ancap.commons.parse.EscapingBuffer;
-import ru.ancap.framework.communicate.message.CallableMessage;
+import ru.ancap.framework.communicate.message.CallableText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +17,9 @@ public class ArgumentPlaceholder implements Modifier {
     private static final PlaceholderFinder finder = new PlaceholderFinder();
     
     private final String name;
-    private final Function<String, CallableMessage> to;
+    private final Function<String, CallableText> to;
     
-    public ArgumentPlaceholder(String name, Function<String, CallableMessage> to) {
+    public ArgumentPlaceholder(String name, Function<String, CallableText> to) {
         this.name = ArgumentPlaceholder.formalName(name);
         this.to = to;
     }

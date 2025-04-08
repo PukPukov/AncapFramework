@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.Delegate;
 
 @AllArgsConstructor
-public class WrapperMessage implements CallableMessage {
+public class WrapperText implements CallableText {
     
     @Delegate
-    private final CallableMessage delegate;
+    private final CallableText delegate;
     
 }

@@ -15,15 +15,15 @@ import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.SubC
 import ru.ancap.framework.command.api.commands.operator.exclusive.Exclusive;
 import ru.ancap.framework.command.api.commands.operator.exclusive.OP;
 import ru.ancap.framework.communicate.communicator.Communicator;
-import ru.ancap.framework.communicate.message.ColoredMessage;
-import ru.ancap.framework.communicate.message.Message;
-import ru.ancap.framework.communicate.message.MultilineMessage;
-import ru.ancap.framework.communicate.message.clickable.ClickableMessage;
+import ru.ancap.framework.communicate.message.ColoredText;
+import ru.ancap.framework.communicate.message.Text;
+import ru.ancap.framework.communicate.message.MultilineText;
+import ru.ancap.framework.communicate.message.clickable.ClickableText;
 import ru.ancap.framework.communicate.modifier.Placeholder;
 import ru.ancap.framework.identifier.Identifier;
 import ru.ancap.framework.language.LAPI;
 import ru.ancap.framework.language.additional.LAPIDomain;
-import ru.ancap.framework.language.additional.LAPIMessage;
+import ru.ancap.framework.language.additional.LAPIText;
 import ru.ancap.framework.language.language.Language;
 import ru.ancap.framework.plugin.api.AncapBukkit;
 
@@ -32,7 +32,7 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static ru.ancap.framework.plugin.api.commands.exception.CommandExceptions.noArgument;
+import static ru.ancap.framework.command.api.commands.exception.CommandExceptions.noArgument;
 
 public class LanguageInput extends CommandTarget {
     
@@ -40,21 +40,21 @@ public class LanguageInput extends CommandTarget {
 
     public LanguageInput(Language default_) {
         super(new Delegate(
-            new Raw(new Advice(new LAPIMessage(Artifex.class, "command.language.enter-language"))),
+            new Raw(new Advice(new LAPIText(Artifex.class, "command.language.enter-language"))),
             new SubCommand("set", dispatch -> {
-                LCParseState onLanguage = dispatch.command().step(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.new-language")));
+                LCParseState onLanguage = dispatch.command().step(noArgument(() -> new LAPIText(Artifex.class, "arguments.new-language")));
                 LAPI.updateLanguage(Identifier.of(dispatch.source().sender()), Language.of(onLanguage.part().main()));
-                Communicator.of(dispatch.source().sender()).message(new LAPIMessage(Artifex.class, "command.language.setup"));
+                Communicator.of(dispatch.source().sender()).message(new LAPIText(Artifex.class, "command.language.setup"));
             }),
-            new SubCommand("list", new Reply(() -> new MultilineMessage(
-                new LAPIMessage(Artifex.class, "command.language.list.header"),
+            new SubCommand("list", new Reply(() -> new MultilineText(
+                new LAPIText(Artifex.class, "command.language.list.header"),
                 new ChatBook<>(
                     LAPI.allLanguages().stream()
                         .sorted((Comparator.<Language>comparingInt(language -> LAPI.statistic(language).localisedLines()).reversed()))
                         .toList(),
-                    language -> new LAPIMessage(
+                    language -> new LAPIText(
                         Artifex.class, "command.language.list.entry", 
-                        new Placeholder("self name", new Message(LAPI.localized(LAPIDomain.of(Artifex.class, "command.language.list.self-name"), language))), 
+                        new Placeholder("self name", new Text(LAPI.localized(LAPIDomain.of(Artifex.class, "command.language.list.self-name"), language))), 
                         new Placeholder("code", language.code()), 
                         new Placeholder("percentage", identifier -> {
                             double percentage = ((double) LAPI.statistic(language).localisedLines() / (double) LAPI.statistic(default_).localisedLines()) * 100;
@@ -65,13 +65,13 @@ public class LanguageInput extends CommandTarget {
                             else if (percentage < 80)  color = "#83b300";
                             else if (percentage < 100) color = "#44b300";
                             else                       color = "#12d600";
-                            return new ColoredMessage(
-                                new Message(decimalFormat.format(percentage)), 
-                                new Message(color)
+                            return new ColoredText(
+                                new Text(decimalFormat.format(percentage)), 
+                                new Text(color)
                             ).call(identifier);
                         }), 
-                        new Placeholder("select button", new ClickableMessage(
-                            new Message(LAPI.localized(LAPIDomain.of(Artifex.class, "command.language.list.select"), language)), 
+                        new Placeholder("select button", new ClickableText(
+                            new Text(LAPI.localized(LAPIDomain.of(Artifex.class, "command.language.list.select"), language)), 
                             click -> AncapBukkit.sendCommand(click.clicker(), "language set "+language.code())
                         ))
                 ))
@@ -86,8 +86,8 @@ public class LanguageInput extends CommandTarget {
                     
                     @Override
                     public void on(CommandDispatch dispatch) {
-                        LCParseState onLanguageOne = dispatch.command().step(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.compared-language")));
-                        LCParseState onLanguageTwo = onLanguageOne.command().step(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.compared-language")));
+                        LCParseState onLanguageOne = dispatch.command().step(noArgument(() -> new LAPIText(Artifex.class, "arguments.compared-language")));
+                        LCParseState onLanguageTwo = onLanguageOne.command().step(noArgument(() -> new LAPIText(Artifex.class, "arguments.compared-language")));
                         
                         Set<String> keysOne = LAPI.allKeys(Language.of(onLanguageOne.part().main()));
                         Set<String> keysTwo = LAPI.allKeys(Language.of(onLanguageTwo.part().main()));
@@ -97,17 +97,17 @@ public class LanguageInput extends CommandTarget {
                         Set<String> onlyInTwo = keysTwo.stream()
                             .filter(key -> !keysOne.contains(key))
                             .collect(Collectors.toSet());
-                        dispatch.source().communicator().message(new MultilineMessage(
-                            new LAPIMessage(
+                        dispatch.source().communicator().message(new MultilineText(
+                            new LAPIText(
                                 Artifex.class, "command.language.compare.header",
                                 new Placeholder("code", onLanguageOne.part().main())
                             ),
-                            new ChatBook<>(onlyInOne, Message::new),
-                            new LAPIMessage(
+                            new ChatBook<>(onlyInOne, Text::new),
+                            new LAPIText(
                                 Artifex.class, "command.language.compare.header",
                                 new Placeholder("code", onLanguageTwo.part().main())
                             ),
-                            new ChatBook<>(onlyInTwo, Message::new)
+                            new ChatBook<>(onlyInTwo, Text::new)
                         ));
                     }
                 }
@@ -122,15 +122,15 @@ public class LanguageInput extends CommandTarget {
                     
                     @Override
                     public void on(CommandDispatch dispatch) {
-                        LCParseState onLanguage = dispatch.command().step(noArgument(() -> new LAPIMessage(Artifex.class, "arguments.viewed-language")));
+                        LCParseState onLanguage = dispatch.command().step(noArgument(() -> new LAPIText(Artifex.class, "arguments.viewed-language")));
                         
                         Set<String> keys = LAPI.allKeys(Language.of(onLanguage.part().main()));
-                        dispatch.source().communicator().message(new MultilineMessage(
-                            new LAPIMessage(
+                        dispatch.source().communicator().message(new MultilineText(
+                            new LAPIText(
                                 Artifex.class, "command.language.view.header",
                                 new Placeholder("code", onLanguage.part().main())
                             ),
-                            new ChatBook<>(keys, Message::new)
+                            new ChatBook<>(keys, Text::new)
                         ));
                     }
                 }

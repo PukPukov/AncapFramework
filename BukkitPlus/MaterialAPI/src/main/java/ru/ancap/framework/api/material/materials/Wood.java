@@ -1,8 +1,8 @@
 package ru.ancap.framework.api.material.materials;
 
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.bukkit.TreeType;
-
-import static org.bukkit.Material.CRIMSON_HYPHAE;
 
 public interface Wood {
 
@@ -28,8 +28,11 @@ public interface Wood {
         DARK_OAK,
         MANGROVE
     }
-
+    
+    
+    @ToString(callSuper = true) @EqualsAndHashCode(callSuper = true)
     class NotAWoodException extends Exception {
         
     }
+    
 }

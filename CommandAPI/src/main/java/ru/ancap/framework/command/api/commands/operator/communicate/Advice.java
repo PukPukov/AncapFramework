@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import ru.ancap.framework.communicate.communicator.Communicator;
-import ru.ancap.framework.communicate.message.CallableMessage;
+import ru.ancap.framework.communicate.message.CallableText;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
 import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 
@@ -12,7 +12,7 @@ import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 @ToString @EqualsAndHashCode
 public class Advice implements CommandOperator {
 
-    private CallableMessage message;
+    private CallableText message;
 
     @Override
     public void on(CommandDispatch dispatch) {

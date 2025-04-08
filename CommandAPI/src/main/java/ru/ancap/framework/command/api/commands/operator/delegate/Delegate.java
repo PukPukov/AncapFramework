@@ -1,7 +1,6 @@
 package ru.ancap.framework.command.api.commands.operator.delegate;
 
 import lombok.EqualsAndHashCode;
-import lombok.NonNull;
 import lombok.ToString;
 import ru.ancap.framework.command.api.commands.object.dispatched.LeveledCommand;
 import ru.ancap.framework.command.api.commands.object.event.CommandDispatch;
@@ -57,7 +56,7 @@ public class Delegate implements CommandOperator {
             return;
         }
         CommandProvidePattern pattern = this.ruleFor(command);
-        pattern.delegated().on(new CommandWrite(write.speaker(), pattern.convert(command)));
+        pattern.delegated().on(new CommandWrite(write.speaker(), write.source(), pattern.convert(command)));
     }
 
     private CommandProvidePattern ruleFor(LeveledCommand command) {

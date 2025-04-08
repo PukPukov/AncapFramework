@@ -1,9 +1,6 @@
 package ru.ancap.framework.artifex.implementation.command.center;
 
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.Accessors;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -25,24 +22,19 @@ import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.command.api.commands.operator.delegate.subcommand.rule.delegate.operate.OperateRule;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.communicate.modifier.Placeholder;
-import ru.ancap.framework.language.additional.LAPIMessage;
+import ru.ancap.framework.language.additional.LAPIText;
 import ru.ancap.framework.plugin.api.Ancap;
 
 import java.util.function.Consumer;
 
 @ToString @EqualsAndHashCode
 @Accessors(fluent = true) @Getter(AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class DispatchCatcher implements Listener {
     
     private final Ancap ancap;
     private final CommandOperator global;
     private final OperateRule scope;
-    
-    DispatchCatcher(Ancap ancap, CommandOperator global, OperateRule scope) {
-        this.ancap = ancap;
-        this.global = global;
-        this.scope = scope;
-    }
     
     @EventHandler
     public void on(PlayerCommandPreprocessEvent event) {
@@ -80,7 +72,7 @@ public class DispatchCatcher implements Listener {
     }
     
     private void notifyAboutServerCommand(CommandSender sender, String command) {
-        Communicator.of(Bukkit.getConsoleSender()).message(new LAPIMessage(
+        Communicator.of(Bukkit.getConsoleSender()).message(new LAPIText(
             Artifex.class, "command.api.info.issued-server-command",
             new Placeholder("source", sender.getName()),
             new Placeholder("command", command)
