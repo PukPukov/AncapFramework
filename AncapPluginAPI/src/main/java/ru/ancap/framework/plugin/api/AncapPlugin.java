@@ -37,6 +37,8 @@ import java.util.logging.Logger;
 
 @Accessors(fluent = true) @Getter
 public abstract class AncapPlugin extends AncapMinimalisticPlugin {
+    
+    public static AncapPlugin CORE_IMPL;
 
     private static final Map<String, AncapPlugin> plugins = new HashMap<>();
     protected static CommandExecutor proxy;

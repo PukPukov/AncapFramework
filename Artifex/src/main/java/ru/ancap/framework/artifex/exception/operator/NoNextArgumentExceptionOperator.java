@@ -15,9 +15,9 @@ public class NoNextArgumentExceptionOperator implements CommandExceptionOperator
     @Override
     public void on(NoNextArgumentException exception, CommandSource source, LeveledCommand leveledCommand) {
         CallableText message;
-        if (exception.argumentDescription().isEmpty()) message = new LAPIText(Artifex.class, "command.api.error.expected-part");
+        if (exception.argumentDescription().isEmpty()) message = new LAPIText(Artifex.class, "command.api.error.expected-argument");
         else message = new LAPIText(
-            Artifex.class, "command.api.error.expected-typed-part",
+            Artifex.class, "command.api.error.expected-argument-part",
             new Placeholder("part", exception.argumentDescription())
         );
         CommandErrorText.send(source.sender(), message);

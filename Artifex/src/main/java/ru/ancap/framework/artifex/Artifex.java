@@ -207,6 +207,7 @@ public final class Artifex extends AncapPlugin implements Listener {
     }
 
     private void loadInstance() {
+        AncapPlugin.CORE_IMPL = this;
         Artifex.PLUGIN = this;
     }
 
