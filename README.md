@@ -1,10 +1,43 @@
-Спик рашн? [Смотри русское ридми!](README_RU.md)
+# Build
+## Requirements
+- `mvn` or `mvnd` installed
+- `JDK 21+` installed
+## Steps
+*mvn and mvnd can be used interchangeably*<br>
+AF supports daemon and parallel build
+- `mvnd clean install -pl Artifex -am` for Artifex build
+- `mvnd clean install` for full build (with driver pot; not needed in 99% cases)
+
+clean usage does not hit performance in any way on my tests; to be researched
+
+# Usage (Server owner)
+## Required environment:
+- `Paper API supporting platform`
+- `MC 1.21.4+`
+- `JDK 21+` installed
+- `packetevents` plugin installed
+## Installation
+Just make sure your server environment matches requirements and install Artifex plugin on it. You can obtain pre-built jars on github releases or build it yourself. 
+
+If you experience any bugs, you can check if everything works correctly specifically in your environment with `/artifex status`.
+
+# Usage (Plugin developer)
+AncapFramework is not published to repositories at the time. You need to build it yourself, its easy because build system is maven and then add local dependency on Artifex.
+
+```xml
+<dependency>
+    <groupId>ru.ancap</groupId>
+    <artifactId>Artifex</artifactId>
+    <version>current version</version>
+    <scope>provided</scope>
+</dependency>
+```
 
 # Overview
 
-Minecraft development framework, currently based on Bukkit.
+Minecraft development framework, currently based on Paper 1.21.4+. Yes, Paper is huge pile of toxic totalitarian shit, and modern minecraft versions are even bigger shit, but doing anything about it in the context of framework requires a lof of effort that I cant provide now.
 
-We have no strict goals, but simplicity, safety and inclusivity is that what we do and community orientation is how we do.
+There are no strict goals, but simplicity, safety, inclusivity and community orientation are "what" and deep reflection is "how".
 
 ## Simplicity
 
@@ -12,9 +45,9 @@ You don't need to worry about parsing arguments in commands, writing SQL queries
 
 ## Safety
 
-Finding bugs in runtime using System.out.println() — bad idea. Finding bugs at compile-time or even ide-time — much better idea.
+Finding bugs in runtime using System.out.println() can be frustrating. Much better if those bugs popup early or even totally prevented.
 
-The idea is to raise the errors as early as possible. With AncapFramework, heisenbugs will become early runtime error, and early runtime errors in much places will become type errors.
+With AncapFramework, heisenbugs will become early runtime error, and early runtime errors in much places will become type errors.
 
 We have integration test framework, StatusAPI. It solves one of the most painful tasks in minecraft development — testing. Usually you are going to manually test what is working if you need integration with minecraft, but now this is no longer a case.
 
@@ -26,90 +59,12 @@ AncapFramework have LanguageAPI module aimed to help in server internationalizat
 
 ## Community orientation
 
-We believe that proper community orientation can not only make people happy, but also help development processes. Make PRs, make issues, make plugins on AncapFramework and show us problems with your own use-case! It is very appreciated!
+I believe that proper community orientation can not only make people happy, but also help development processes. Make PRs, make issues, make plugins on AncapFramework and show us problems with your own use-case! It is very appreciated!
 
-We also have discord server: https://discord.gg/jCcT9vdcpE
+Yeah no one uses ancap framework except me (maybe i will change it atsp) but community orientation is one of deeply contemplated ideas that solve a lot of problems by-design, also if I am the 100% of community and AF is me-oriented it is 100% community oriented :D
 
-# Development status and Internal compatibility status
-
-TL;DR: We will break backward compatibility in the future, but this is not a big deal.
-
-Current development cycle is `1.7-pre`. You can think about is as something between 1.6 and 1.7.
-
-This is so because 1.7 version has been in development for a while and appeared to be much more hard to release then was expected. There are some scheduled backward compatibility breaks that will be introduced in 1.7 due to past development flaws. For convenience, all of them developed in the different branches and will be introduced atomically.
-
-Until then, and afterward, backward compatibility will be maintained. Version 1.8 will also include an officially supported method to shade some parts of AncapFramework as an additional measure against backward compatibility breaks.
-
-Although it might seem that AncapFramework is not suitable for production development and appears like a "beta" version, this is not the case. AncapFramework has been tested in production on many servers and `1.7-pre` cycle is fully suitable for production use. It is more stable then 1.6, less stable then 1.7.
-
-Version 1.7 is simply a major enhancement that will greatly improve performance and usage convenience by the cost of a bit of pain. The expected migration effort can be compared to migrating a fabric mod from Minecraft 1.20.1 to Minecraft 1.20.2, or even less.
-
-We will make exhausting migration guide.
-
-# External compatibility status
-
-Currently supported environments: Bukkit 1.8.9-1.12.2; 1.20.2+
-
-Planned support is Bukkit 1.8.9+. 1.13-1.20.1 are not supported currently due to issue with Java support by server core. If you wondering, whats the issue: these cores are using ASM library that is using Java internals that are not supporting backward compatibility, so ASM case is case when Java does not provide backward compatibility, so if you want newer Java, you need to update ASM. Paper refused to change one number to help us or even accept PR that will change it for them. 
-
-This is not a policy of AncapFramework and Artifex was specifically supporting MC 1.8.9+, including MC 1.16.5 prior to update to JDK 21, and with AF 1.7 release [Mojalemi](https://github.com/ancap-dev/Mojalemi) project will also be released, that is aimed to bring support of modern Java to MC 1.13-1.20.1 (MC 1.16.5 firstly).
-
-Probably, 1.7.10 support could be achieved easily by downgrading bukkit dependency version, but now this have low priority. Although PRs are appreciated.
-
-Even older minecraft versions (like beta 1.7.3) can't be supported easily because
-
-- packetevents and kyori adventure does not support versions older then 1.7
-
-- Of increasing difficulty of even older versions supporting due to lack of forward compatibility in bukkit that forces usage of the most old api that is wanted to support
-
-But this is theoretically possible by moving AncapFramework to new API that is designed to maintain forward compatibility, so the priority is "never, but what an idea!". Sponge, fabric, forge, neoforge, quilt, etc support is also could be achieved by rebuilding on top of that hypothetical API.
-
-# Usage (Server owner)
-Required environment:
-
-- `Spigot API supporting platform` (Spigot, Paper or other forks, maybe mohist or magma)
-- `MC 1.8.9-1.12.2; 1.20.2+` (*why no 1.12.2-1.20.1 and when it will be check in "External compatibility status" section*)
-- `JDK 21+` installed
-- `packetevents` plugin installed
-
-Just install Artifex plugin on your server and make sure it matches required environment. If you experience any bugs, you can check if everything works correctly specifically in your environment with `/artifex status`.
-
-# Usage (Plugin developer)
-![Release](https://jitpack.io/v/ancap-dev/AncapFramework.svg?style=flat-square)
-
-Use everything at once:
-
-```xml
-<repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-</repository>
-
-<dependency>
-    <groupId>com.github.ancap-dev</groupId>
-    <artifactId>AncapFramework</artifactId>
-    <version>look above</version>
-    <scope>provided</scope>
-</dependency>
-```
-
-Use modules:
-
-```xml
-<repository>
-    <id>jitpack.io</id>
-    <url>https://jitpack.io</url>
-</repository>
-
-<dependency>
-    <groupId>com.github.ancap-dev.AncapFramework</groupId>
-    <artifactId>AncapPluginAPI</artifactId>
-    <version>look above</version>
-    <scope>provided</scope>
-</dependency>
-```
-We recommend to use modules, AncapFramework by design is a modular project, but, no one enforces you to use it like that.
+There are also discord server: https://discord.gg/jCcT9vdcpE
 
 # Wiki
 
-There is a [wiki](https://github.com/ancap-dev/AncapFramework/wiki). It is not very up-to-date though.
+There is a [wiki](https://github.com/ancap-dev/AncapFramework/wiki). Its horribly outdated and basically useless because of that though.
