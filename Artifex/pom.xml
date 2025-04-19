@@ -7,20 +7,15 @@
     <parent>
         <artifactId>AncapFramework</artifactId>
         <groupId>ru.ancap</groupId>
-        <version>2.0</version>
+        <version>internal</version>
     </parent>
-
-    <packaging>jar</packaging>
+    <packaging>takari-jar</packaging>
 
     <artifactId>Artifex</artifactId>
-    <version>1.7-pre.12</version>
-
-    <name>Artifex</name>
-
-    <description>AncapAPI runtime part</description>
+    <version>${ancap-framework-version}</version>
 
     <build>
-        <finalName>artifex-v${version}</finalName>
+        <finalName>artifex-v${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -49,49 +44,43 @@
 
     <repositories>
         <repository>
-            <id>papermc-repo</id>
-            <url>https://papermc.io/repo/repository/maven-public/</url>
+            <id>jitpack-repo</id>
+            <url>https://jitpack.io/</url>
         </repository>
-
+        
         <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
-
         <repository>
-            <id>jitpack-repo</id>
-            <url>https://jitpack.io/</url>
+            <id>sonatype-oss-snapshots1</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
-
-        <repository>
-            <id>dmulloy2-repo</id>
-            <url>https://repo.dmulloy2.net/repository/public/</url>
-        </repository>
-
         <repository>
             <id>codemc-snapshots</id>
             <url>https://repo.codemc.io/repository/maven-snapshots/</url>
         </repository>
-
         <repository>
             <id>minecraft-libraries</id>
             <name>Minecraft Libraries</name>
             <url>https://libraries.minecraft.net</url>
         </repository>
-
         <repository>
-            <id>sonatype-oss-snapshots1</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+            <id>codemc-releases</id>
+            <url>https://repo.codemc.io/repository/maven-releases/</url>
         </repository>
-
+        
+        <repository>
+            <id>papermc-repo</id>
+            <url>https://papermc.io/repo/repository/maven-public/</url>
+        </repository>
         <repository>
             <id>viaversion-repo</id>
             <url>https://repo.viaversion.com</url>
         </repository>
-
         <repository>
-            <id>codemc-releases</id>
-            <url>https://repo.codemc.io/repository/maven-releases/</url>
+            <id>dmulloy2-repo</id>
+            <url>https://repo.dmulloy2.net/repository/public/</url>
         </repository>
     </repositories>
 
@@ -100,85 +89,85 @@
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>AncapPluginAPI</artifactId>
-            <version>3.4.5</version>
+            <version>${ancap-framework-version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>CommandAPI</artifactId>
-            <version>2.6.6</version>
+            <version>${ancap-framework-version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>BukkitUtil</artifactId>
-            <version>1.3</version>
+            <version>${ancap-framework-version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>DatabaseAPI</artifactId>
-            <version>1.4.1</version>
+            <version>${ancap-framework-version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>MenuAPI</artifactId>
-            <version>1.0</version>
+            <version>${ancap-framework-version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>LanguageAPI</artifactId>
-            <version>1.4.3</version>
+            <version>${ancap-framework-version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>MaterialAPI</artifactId>
-            <version>1.19-1.0</version>
+            <version>${ancap-framework-version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>WorldIteratorAPI</artifactId>
-            <version>1.0.1</version>
+            <version>${ancap-framework-version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>EventAPI</artifactId>
-            <version>1.6</version>
+            <version>${ancap-framework-version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>SpeakAPI</artifactId>
-            <version>1.0</version>
+            <version>${ancap-framework-version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>StatusAPI</artifactId>
-            <version>1.0</version>
+            <version>${ancap-framework-version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>ConfigurationAPI</artifactId>
-            <version>1.0.1</version>
+            <version>${ancap-framework-version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>CommunicatorAPI</artifactId>
-            <version>1.0</version>
+            <version>${ancap-framework-version}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>IdentifierAPI</artifactId>
-            <version>1.0</version>
+            <version>${ancap-framework-version}</version>
             <scope>compile</scope>
         </dependency>
         
@@ -220,32 +209,12 @@
             <version>${adventure-api.version}</version>
             <scope>compile</scope>
         </dependency>
-
-        <!-- COMMONS -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.12.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.4</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.11.0</version>
-            <scope>compile</scope>
-        </dependency>
         
         <!-- PARENT -->
         <dependency>
             <groupId>com.github.retrooper</groupId>
             <artifactId>packetevents-spigot</artifactId>
-            <version>2.4.0</version>
+            <version>2.7.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

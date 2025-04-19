@@ -3,18 +3,16 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    
     <parent>
         <groupId>ru.ancap</groupId>
         <artifactId>AncapFramework</artifactId>
-        <version>2.0</version>
+        <version>internal</version>
     </parent>
+    <packaging>takari-jar</packaging>
     
     <artifactId>StatusAPI</artifactId>
-    <version>1.0</version>
-    <packaging>jar</packaging>
-
-    <name>StatusAPI</name>
+    <version>${ancap-framework-version}</version>
 
     <repositories>
         <repository>
@@ -31,37 +29,31 @@
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>CommunicatorAPI</artifactId>
-            <version>1.0</version>
+            <version>${ancap-framework-version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>CommandAPI</artifactId>
-            <version>2.6.6</version>
+            <version>${ancap-framework-version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>LanguageAPI</artifactId>
-            <version>1.4.3</version>
+            <version>${ancap-framework-version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>IdentifierAPI</artifactId>
-            <version>1.0</version>
+            <version>${ancap-framework-version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>SpeakAPI</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.8.2</version>
+            <version>${ancap-framework-version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

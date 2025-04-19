@@ -7,13 +7,11 @@
     <parent>
         <groupId>ru.ancap</groupId>
         <artifactId>AncapFramework</artifactId>
-        <version>2.0</version>
+        <version>internal</version>
     </parent>
+    <packaging>takari-jar</packaging>
 
     <artifactId>IdentifierAPI</artifactId>
-    <version>1.0</version>
-    <packaging>jar</packaging>
-
-    <name>IdentifierAPI</name>
+    <version>${ancap-framework-version}</version>
     
 </project>

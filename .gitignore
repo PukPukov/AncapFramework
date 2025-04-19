@@ -1,6 +1,7 @@
 **/*.iml
-**/.idea
-**/.idea/
+.idea/*
+!.idea/runConfigurations/
+**/.vscode/
 **/target/
 **/dependency-reduced-pom.xml
 /.project

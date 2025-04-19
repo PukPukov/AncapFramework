@@ -1,14 +1,18 @@
 # Build
 ## Requirements
-- `mvn` or `mvnd` installed
+- `mvn` 3 and `mvnd` 1 installed
+- `just` installed
+- `nushell` installed
 - `JDK 21+` installed
 ## Steps
-*mvn and mvnd can be used interchangeably*<br>
-AF supports daemon and parallel build
-- `mvnd clean install -pl Artifex -am` for Artifex build
-- `mvnd clean install` for full build (with driver pot; not needed in 99% cases)
+AF builds with just over maven
+- `just shoot` for parallel incremental Artifex build
+- `just release` for full tested build and local repo installation
+- `just reload` try if you have daemon/cache related problems
 
-clean usage does not hit performance in any way on my tests; to be researched
+You also can use maven directly
+- `mvnd install` for full build (with driver pot; not needed in 99% cases)
+- `mvn clean install` to build without any bells, whistles and fart cannons that speeds up build
 
 # Usage (Server owner)
 ## Required environment:
@@ -22,12 +26,21 @@ Just make sure your server environment matches requirements and install Artifex 
 If you experience any bugs, you can check if everything works correctly specifically in your environment with `/artifex status`.
 
 # Usage (Plugin developer)
-AncapFramework is not published to repositories at the time. You need to build it yourself, its easy because build system is maven and then add local dependency on Artifex.
+AncapFramework is not published to repositories at the time. You need to build it yourself (its easy because build system is maven), and then add local dependency on Artifex:
 
 ```xml
 <dependency>
     <groupId>ru.ancap</groupId>
     <artifactId>Artifex</artifactId>
+    <version>current version</version>
+    <scope>provided</scope>
+</dependency>
+```
+or selected modules to not use internals accidentally:
+```xml
+<dependency>
+    <groupId>ru.ancap</groupId>
+    <artifactId>CommandAPI</artifactId>
     <version>current version</version>
     <scope>provided</scope>
 </dependency>

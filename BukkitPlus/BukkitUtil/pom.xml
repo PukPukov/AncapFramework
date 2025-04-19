@@ -7,14 +7,12 @@
     <parent>
         <groupId>ru.ancap</groupId>
         <artifactId>BukkitPlus</artifactId>
-        <version>1.0</version>
+        <version>internal</version>
     </parent>
+    <packaging>takari-jar</packaging>
     
     <artifactId>BukkitUtil</artifactId>
-    <version>1.3</version>
-    <packaging>jar</packaging>
-
-    <name>BukkitUtil</name>
+    <version>${ancap-framework-version}</version>
     
     <repositories>
         <repository>
@@ -31,7 +29,7 @@
         <dependency>
             <groupId>ru.ancap</groupId>
             <artifactId>IdentifierAPI</artifactId>
-            <version>1.0</version>
+            <version>${ancap-framework-version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

@@ -7,26 +7,22 @@
     <parent>
         <groupId>ru.ancap</groupId>
         <artifactId>BukkitPlus</artifactId>
-        <version>1.0</version>
+        <version>internal</version>
     </parent>
+    <packaging>takari-jar</packaging>
 
     <artifactId>MenuAPI</artifactId>
-    <version>1.0</version>
-    <packaging>jar</packaging>
-
-    <name>MenuAPI</name>
+    <version>${ancap-framework-version}</version>
 
     <repositories>
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
-
         <repository>
             <id>papermc-repo</id>
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
-
         <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
@@ -34,13 +30,12 @@
     </repositories>
 
     <dependencies>
-        
         <dependency>
             <groupId>com.github.seal-island.sealmenus</groupId>
             <artifactId>bukkit</artifactId>
             <version>1.0.9</version>
             <scope>compile</scope>
         </dependency>
-        
     </dependencies>
+    
 </project>

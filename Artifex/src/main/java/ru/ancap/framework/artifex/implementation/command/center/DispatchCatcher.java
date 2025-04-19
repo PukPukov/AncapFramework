@@ -46,7 +46,7 @@ public class DispatchCatcher implements Listener {
         );
     }
     
-    @EventHandler(priority = EventPriority.LOW, ignoreCancelled = false)
+    @EventHandler(priority = EventPriority.LOW)
     public void on(ServerCommandEvent event) {
         this.operateInterceptableDispatch(
             Interceptable.ofEvent(event),

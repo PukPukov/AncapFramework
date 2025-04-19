@@ -7,15 +7,14 @@
     <parent>
         <groupId>ru.ancap</groupId>
         <artifactId>AncapFramework</artifactId>
-        <version>2.0</version>
+        <version>internal</version>
     </parent>
+    <packaging>pom</packaging>
+    
+    <artifactId>Jigsaw</artifactId>
     
     <modules>
         <module>ArtifexDatabaseDrivers</module>
     </modules>
-
-    <artifactId>Jigsaw</artifactId>
-    <version>1.0</version>
-    <packaging>pom</packaging>
 
 </project>

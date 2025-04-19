@@ -72,7 +72,7 @@ public class AsyncCommandCenter implements CommandExceptionCenter, CommandCenter
         AncapPlugin owner = state.owner() != null ? state.owner() : Artifex.PLUGIN();
         this.pluginRegisters.get(owner).add(id);
         
-        AncapBukkit.registerCommandExecutor(id, owner, sources, this.proxy);
+        AncapBukkit.registerCommand(id, owner, sources, this.proxy);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class AsyncCommandCenter implements CommandExceptionCenter, CommandCenter
         if (data.handleState().owner() != null) this.pluginRegisters.get(data.handleState().owner()).remove(id);
         this.commandData.remove(id);
         
-        AncapBukkit.unregisterCommandExecutor(id);
+        AncapBukkit.unregisterCommand(id);
     }
     
     @Override
