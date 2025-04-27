@@ -32,14 +32,15 @@
         <java.version>21</java.version>
         <adventure-api.version>4.20.0</adventure-api.version>
         <adventure-platform.version>4.3.4</adventure-platform.version>
+        
         <encoding>UTF-8</encoding>
+        
+        <!-- CLI Args -->
+        <skip.enforcer>false</skip.enforcer>
         
         <!-- Some absolute garbonzo IDE everyone know needs this to correctly import internal language level with takari-lifecycle -->
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        
-        <!-- CLI Args -->
-        <skip.enforcer>false</skip.enforcer>
     </properties>
     
     <build>

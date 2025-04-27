@@ -1,10 +1,22 @@
+DISCLAIMER (if you somehow stumbled upon this repo):
+
+Framework is not considered for everyone/production ready anymore and in the foreseeable future. Basically it is just for me now. Say thanks to everything that happens with minecraft nowadays.
+
+Repository private status reverted because some folks still from time to time want to tinker with ANCAPMINE plugins all of which require framework.
+
 # Build
-## Requirements
+## One-time
+### Requirements
+- `JDK 21+` at JAVA_HOME (you can use https://github.com/PukPukov/truewrapper for convenience with multiple projects)
+### Steps
+- `./mvnw clean install` or `./mvnw21 clean install` if you are using truewrapper
+## Development mode
+### Requirements
 - `mvn` 3 and `mvnd` 1 installed
 - `just` installed
 - `nushell` installed
-- `JDK 21+` installed
-## Steps
+- `JDK 21` at JAVA_HOME (you can use https://github.com/PukPukov/truewrapper for convenience with multiple projects)
+### Steps
 AF builds with just over maven
 - `just shoot` for parallel incremental Artifex build
 - `just release` for full tested build and local repo installation
@@ -12,7 +24,6 @@ AF builds with just over maven
 
 You also can use maven directly
 - `mvnd install` for full build (with driver pot; not needed in 99% cases)
-- `mvn clean install` to build without any bells, whistles and fart cannons that speeds up build
 
 # Usage (Server owner)
 ## Required environment:
