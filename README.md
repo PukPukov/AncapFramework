@@ -6,16 +6,13 @@ Repository private status reverted because some folks still from time to time wa
 
 # Build
 ## One-time
-### Requirements
-- `JDK 21+` at JAVA_HOME (you can use https://github.com/PukPukov/truewrapper for convenience with multiple projects)
-### Steps
-- `./mvnw clean install` or `./mvnw21 clean install` if you are using truewrapper
+not implemented yet
 ## Development mode
 ### Requirements
 - `mvn` 3 and `mvnd` 1 installed
 - `just` installed
 - `nushell` installed
-- `JDK 21` at JAVA_HOME (you can use https://github.com/PukPukov/truewrapper for convenience with multiple projects)
+- `JDK 21` at JAVA_HOME
 ### Steps
 AF builds with just over maven
 - `just shoot` for parallel incremental Artifex build
