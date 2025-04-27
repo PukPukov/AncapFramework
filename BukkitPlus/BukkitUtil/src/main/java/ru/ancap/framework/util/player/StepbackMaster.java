@@ -24,6 +24,7 @@ public class StepbackMaster {
     private final JavaPlugin owner;
     private final int thinning;
     
+    // TODO make sure StepbackMaster is working and still needed and if not nuke it
     public StepbackMaster(JavaPlugin owner, MapGC<String> identifierMapGC, int thinning, int maxLocationsSaved) {
         this(
             SafeMap.<String, Queue<Location>>builder()
