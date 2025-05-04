@@ -5,27 +5,26 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.ToString;
 import ru.ancap.framework.artifex.implementation.language.data.model.SpeakerModel;
-import ru.ancap.framework.database.sql.registry.Registry;
+import ru.ancap.framework.database.sql.registry.Repository;
 import ru.ancap.framework.language.language.Language;
-import ru.ancap.framework.language.language.LanguageSettings;
+import ru.ancap.framework.language.language.LanguageController;
 
 @AllArgsConstructor
 @ToString @EqualsAndHashCode
-public class LanguageBase implements LanguageSettings {
+public class BaseLanguageController implements LanguageController {
 
-    private final Registry<String, SpeakerModel, SpeakerModel> speakerRegistry;
+    private final Repository<String, SpeakerModel, SpeakerModel> speakerRepository;
 
     @Override
     public Language getLanguage(@NonNull String playerName) {
-        return Language.of(this.speakerRegistry.read(playerName).orElseThrow().getLanguageCode());
+        return Language.of(this.speakerRepository.read(playerName).orElseThrow().getLanguageCode());
     }
     
     @Override
     public void updateLanguage(@NonNull String playerName, @NonNull Language language) {
-        var speakerOptional = this.speakerRegistry.read(playerName);
-        SpeakerModel speaker = speakerOptional.orElseThrow();
+        SpeakerModel speaker = this.speakerRepository.read(playerName).orElseThrow();
         speaker.setLanguageCode(language.code());
-        this.speakerRegistry.update(playerName, speaker);
+        this.speakerRepository.update(playerName, speaker);
     }
     
 }

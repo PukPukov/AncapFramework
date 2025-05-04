@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.ancap.framework.artifex.configuration.ArtifexConfig;
 import ru.ancap.framework.artifex.implementation.language.data.model.SpeakerModel;
-import ru.ancap.framework.database.sql.registry.Registry;
+import ru.ancap.framework.database.sql.registry.Repository;
 import ru.ancap.framework.identifier.Identifier;
 
 import java.util.concurrent.ExecutorService;
@@ -20,11 +20,11 @@ import java.util.function.Supplier;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class LAPIInitialLanguageInstaller implements Listener {
 
-    private final Registry<String, SpeakerModel, SpeakerModel> speakerRegistry;
+    private final Repository<String, SpeakerModel, SpeakerModel> speakerRepository;
     private final ExecutorService thread = Executors.newSingleThreadExecutor();
     
-    public static LAPIInitialLanguageInstaller initialize(Registry<String, SpeakerModel, SpeakerModel> speakerRegistry, JavaPlugin plugin) {
-        var installer = new LAPIInitialLanguageInstaller(speakerRegistry);
+    public static LAPIInitialLanguageInstaller initialize(Repository<String, SpeakerModel, SpeakerModel> speakerRepository, JavaPlugin plugin) {
+        var installer = new LAPIInitialLanguageInstaller(speakerRepository);
         Bukkit.getPluginManager().registerEvents(installer, plugin);
         installer.loadConsoleLanguage();
         return installer;
@@ -43,8 +43,8 @@ public class LAPIInitialLanguageInstaller implements Listener {
     }
     
     public void prepareSpeaker(String id, Supplier<String> localeSupplier) {
-        if (this.speakerRegistry.read(id).isPresent()) return;
-        this.speakerRegistry.save(id, new SpeakerModel(id, localeSupplier.get()));
+        if (this.speakerRepository.read(id).isPresent()) return;
+        this.speakerRepository.save(id, new SpeakerModel(id, localeSupplier.get()));
     }
 
     public static String localeFromMinecraftFormat(String minecraftFormat) {

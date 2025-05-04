@@ -4,7 +4,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Blocking;
 import ru.ancap.commons.ImplementationRequired;
 import ru.ancap.framework.language.language.Language;
-import ru.ancap.framework.language.language.LanguageSettings;
+import ru.ancap.framework.language.language.LanguageController;
 import ru.ancap.framework.language.language.LocalisationStatistic;
 import ru.ancap.framework.language.locale.Locales;
 
@@ -15,7 +15,7 @@ import java.util.Set;
 public class LAPI {
 
     private static Locales locales;
-    private static LanguageSettings settings;
+    private static LanguageController settings;
 
     private LAPI() {}
     
@@ -60,7 +60,7 @@ public class LAPI {
      * @param settings The LanguageSettings object that you created in the previous step.
      */
     @ApiStatus.Internal // since 1.7
-    public static void setup(Locales locales, LanguageSettings settings) {
+    public static void setup(Locales locales, LanguageController settings) {
         LAPI.locales = locales;
         LAPI.settings = settings;
     }

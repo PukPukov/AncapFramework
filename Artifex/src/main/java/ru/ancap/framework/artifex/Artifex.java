@@ -33,7 +33,7 @@ import ru.ancap.framework.artifex.implementation.language.data.model.SpeakerMode
 import ru.ancap.framework.artifex.implementation.language.flow.LanguageChangeListener;
 import ru.ancap.framework.artifex.implementation.language.input.LAPIInitialLanguageInstaller;
 import ru.ancap.framework.artifex.implementation.language.input.LanguageInput;
-import ru.ancap.framework.artifex.implementation.language.module.LanguageBase;
+import ru.ancap.framework.artifex.implementation.language.module.BaseLanguageController;
 import ru.ancap.framework.artifex.implementation.plugin.ServerTPSCounter;
 import ru.ancap.framework.artifex.implementation.scheduler.SchedulerAPILoader;
 import ru.ancap.framework.artifex.implementation.scheduler.SchedulerSilencer;
@@ -51,7 +51,7 @@ import ru.ancap.framework.command.api.commands.object.executor.CommandOperator;
 import ru.ancap.framework.communicate.communicator.Communicator;
 import ru.ancap.framework.database.sql.SQLDatabase;
 import ru.ancap.framework.database.sql.connection.reader.DatabaseFromConfig;
-import ru.ancap.framework.database.sql.registry.Registry;
+import ru.ancap.framework.database.sql.registry.Repository;
 import ru.ancap.framework.database.sql.registry.RegistryInitialization;
 import ru.ancap.framework.identifier.Identifier;
 import ru.ancap.framework.language.LAPI;
@@ -301,15 +301,15 @@ public final class Artifex extends AncapPlugin implements Listener {
 
     @SneakyThrows
     private void loadLAPI() {
-        Registry<String, SpeakerModel, SpeakerModel> speakerRegistry = new RegistryInitialization<>(this.database, SpeakerModel.class).run();
-        this.languageInstaller = LAPIInitialLanguageInstaller.initialize(speakerRegistry, this);
+        Repository<String, SpeakerModel, SpeakerModel> speakerRepository = new RegistryInitialization<>(this.database, SpeakerModel.class).run();
+        this.languageInstaller = LAPIInitialLanguageInstaller.initialize(speakerRepository, this);
         LAPI.setup(
             new BasicLocales(
                 ArtifexConfig.loaded().targetFallbackMap(),
                 ArtifexConfig.loaded().defaultFallback(),
                 ArtifexConfig.loaded().nativeLanguage()
             ), 
-            new LanguageBase(speakerRegistry)
+            new BaseLanguageController(speakerRepository)
         );
     }
 

@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @ApiStatus.Experimental // there is many questions how to implement/name this properly
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class Registry<ID, SQL extends JavaConvertable<ID, JAVA>, JAVA extends SQLConvertable<ID, SQL>> {
+public class Repository<ID, SQL extends JavaConvertable<ID, JAVA>, JAVA extends SQLConvertable<ID, SQL>> {
     
     private final Dao<SQL, ID> cold;
     private final Map<ID, JAVA> hot = new ConcurrentHashMap<>();
