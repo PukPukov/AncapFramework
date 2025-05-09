@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 
 public class DamageUtil {
     
-    public @Nullable Player semiDeepFindDamager(Entity damager) {
+    public static @Nullable Player semiDeepFindDamager(Entity damager) {
         if (damager instanceof Player player) return player;
         else if (damager instanceof Projectile projectile) {
             if (projectile.getShooter() instanceof Player player) return player;
