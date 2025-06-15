@@ -55,7 +55,7 @@ public abstract class AncapMinimalisticPlugin extends JavaPlugin {
     }
     
     public void permatask(Permatask permatask) {
-        if (permatask.async()) {
+        if (!permatask.async()) {
             Bukkit.getScheduler().runTaskTimer(this, permatask.runnable(), permatask.delay(), permatask.period());
         } else {
             Bukkit.getScheduler().runTaskTimerAsynchronously(this, permatask.runnable(), permatask.delay(), permatask.period());
