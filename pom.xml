@@ -30,8 +30,12 @@
         <ancap-framework-version>1.7-pre.15-SNAPSHOT</ancap-framework-version>
         
         <java.version>21</java.version>
-        <adventure-api.version>4.20.0</adventure-api.version>
-        <adventure-platform.version>4.3.4</adventure-platform.version>
+        <adventure-api.version>4.21.0</adventure-api.version>
+        <adventure-platform.version>4.4.0</adventure-platform.version>
+        <junit-jupiter.version>5.13.1</junit-jupiter.version>
+        <ancap-commons.version>1.9.17</ancap-commons.version>
+        <commons-io.version>2.19.0</commons-io.version>
+        <commons-collections4.version>4.5.0</commons-collections4.version>
         
         <encoding>UTF-8</encoding>
         
@@ -48,7 +52,7 @@
             <plugin>
                 <groupId>io.takari.maven.plugins</groupId>
                 <artifactId>takari-lifecycle-plugin</artifactId>
-                <version>2.3.0</version>
+                <version>2.3.1</version>
                 <extensions>true</extensions>
                 <configuration>
                     <source>${java.version}</source>
@@ -182,19 +186,19 @@
         <dependency>
             <groupId>com.github.PukPukov</groupId>
             <artifactId>AncapCommons</artifactId>
-            <version>1.9.17</version>
+            <version>${ancap-commons.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
-            <version>4.4</version>
+            <version>${commons-collections4.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.19.0</version>
+            <version>${commons-io.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -242,13 +246,13 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.17.0</version>
+            <version>5.18.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.12.2</version>
+            <version>${junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
 
