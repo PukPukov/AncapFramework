@@ -27,7 +27,7 @@
     </modules>
 
     <properties>
-        <ancap-framework-version>1.7-pre.14</ancap-framework-version>
+        <ancap-framework-version>1.7-pre.15-SNAPSHOT</ancap-framework-version>
         
         <java.version>21</java.version>
         <adventure-api.version>4.20.0</adventure-api.version>

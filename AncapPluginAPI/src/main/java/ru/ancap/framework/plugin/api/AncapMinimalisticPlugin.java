@@ -7,6 +7,7 @@ import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import ru.ancap.commons.resource.ResourceSource;
 import ru.ancap.framework.language.loader.YamlLocaleLoader;
 import ru.ancap.framework.plugin.api.configuration.StreamConfig;
+import ru.ancap.framework.plugin.util.scheduling.BukkitScheduledTaskData;
 import ru.ancap.framework.resource.PluginResourceSource;
 import ru.ancap.framework.resource.ResourcePreparator;
 
@@ -51,6 +52,26 @@ public abstract class AncapMinimalisticPlugin extends JavaPlugin {
 
     public void registerEventsListener(Listener listener) {
         Bukkit.getPluginManager().registerEvents(listener, this);
+    }
+    
+    public void schedule(BukkitScheduledTaskData scheduledTaskData) {
+        schedule(scheduledTaskData, 0);
+    }
+    
+    public void schedule(BukkitScheduledTaskData scheduledTaskData, int delay) {
+        if (scheduledTaskData.async()) {
+            if (scheduledTaskData.period().isPresent()) {
+                Bukkit.getScheduler().runTaskTimer(this, scheduledTaskData.runnable(), delay, scheduledTaskData.period().get());
+            } else {
+                Bukkit.getScheduler().runTaskLater(this, scheduledTaskData.runnable(), delay);
+            }
+        } else {
+            if (scheduledTaskData.period().isPresent()) {
+                Bukkit.getScheduler().runTaskTimerAsynchronously(this, scheduledTaskData.runnable(), delay, scheduledTaskData.period().get());
+            } else {
+                Bukkit.getScheduler().runTaskLaterAsynchronously(this, scheduledTaskData.runnable(), delay);
+            }
+        }
     }
 
     public <T> ResourceSource<T> newResourceSource(ResourcePreparator<T> resourcePreparator) {
