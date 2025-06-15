@@ -39,6 +39,44 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>add-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>../AncapPluginAPI/src/main/java</source>
+                                <source>../BukkitPlus/src/main/java</source>
+                                <source>../CommandAPI/src/main/java</source>
+                                <source>../CommunicatorAPI/src/main/java</source>
+                                <source>../ConfigurationAPI/src/main/java</source>
+                                <source>../BukkitUtil/src/main/java</source>
+                                <source>../EventAPI/src/main/java</source>
+                                <source>../MaterialAPI/src/main/java</source>
+                                <source>../MenuAPI/src/main/java</source>
+                                <source>../SpeakAPI/src/main/java</source>
+                                <source>../WorldIteratorAPI/src/main/java</source>
+                                <source>../CommandAPI/src/main/java</source>
+                                <source>../CommunicatorAPI/src/main/java</source>
+                                <source>../ConfigurationAPI/src/main/java</source>
+                                <source>../DatabaseAPI/src/main/java</source>
+                                <source>../IdentifierAPI/src/main/java</source>
+                                <source>../ArtifexDatabaseDrivers/src/main/java</source>
+                                <source>../LanguageAPI/src/main/java</source>
+                                <source>../ResourceAPI/src/main/java</source>
+                                <source>../StatusAPI/src/main/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

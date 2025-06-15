@@ -27,7 +27,7 @@
     </modules>
 
     <properties>
-        <ancap-framework-version>1.7-pre.14-SNAPSHOT</ancap-framework-version>
+        <ancap-framework-version>1.7-pre.14</ancap-framework-version>
         
         <java.version>21</java.version>
         <adventure-api.version>4.20.0</adventure-api.version>
@@ -122,6 +122,20 @@
                         <version>1.10.0</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
 
