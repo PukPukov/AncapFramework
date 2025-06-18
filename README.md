@@ -5,22 +5,24 @@ Framework is not considered for everyone/production ready anymore and in the for
 Repository private status reverted because some folks still from time to time want to tinker with ANCAPMINE plugins all of which require framework.
 
 # Build
-## One-time
-not implemented yet
-## Development mode
-### Requirements
-- `mvn` 3 and `mvnd` 1 installed
-- `just` installed
-- `nushell` installed
-- `JDK 21` at JAVA_HOME
-### Steps
-AF builds with just over maven
-- `just shoot` for parallel incremental Artifex build
+Building software is generally complicated, especially big software like AncapFramework, to combat this I tried to extract the complexity into external tools, so you need to install a bunch, but other than that it should be straightforward. 
+## Requirements
+- `mvn` 3 and `mvnd` 1 installed system-wide*
+- `just` installed system-wide*
+- `nushell` installed system-wide*
+- `JDK 21` installed and connected to `jselect`
+
+`*` system-wide installation requirement should be fine for all of these tools since neither of them break backward compatibility and you can install any last version and it should work, if issues will arise their support will be added to jselect
+
+`**` things may break on dying external repos until project-level mirror will be created, contact me with those issues
+## Steps
+AF builds with just with nushell over maven with jselect java
+- `just shoot` for parallel incremental Artifex jar build
 - `just release` for full tested build and local repo installation
 - `just reload` try if you have daemon/cache related problems
 
 You also can use maven directly
-- `mvnd install` for full build (with driver pot; not needed in 99% cases)
+- `jh21 mvnd install` for full build (with driver pot; not needed in 99% cases)
 
 # Usage (Server owner)
 ## Required environment:

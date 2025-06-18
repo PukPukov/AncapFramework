@@ -1,11 +1,11 @@
 set shell := ["nu", "-c"]
 
 shoot:
-    mvnd package -pl Artifex -am -Dmaven.test.skip=true -Dskip.enforcer=true
+    jh21 mvnd package -pl Artifex -am -Dmaven.test.skip=true -Dskip.enforcer=true
 
 release:
-    mvnd install -pl Artifex -am
+    jh21 mvnd install -pl Artifex -am
 
 reload:
-    mvn clean -T 1C
-    mvnd --stop
+    jh21 mvn clean -T 1C
+    jh21 mvnd --stop
